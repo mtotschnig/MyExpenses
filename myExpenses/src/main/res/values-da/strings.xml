@@ -57,8 +57,8 @@
     <string name="dialog_contrib_reminder_remove_limitation">Fjern denne begrænsning og få adgang til flere funktioner ved at opgradere <i>{app_name}</i>.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> tilbydes open source.</string>
     <string name="dialog_contrib_text_2">Bidrag venligst ved at opgradere <i>{app_name}</i>, og få ubegrænset adgang til følgende funktioner:</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="dialog_contrib_usage_limit_accounts" ns0:ignore="PluralsCandidate">Din nuværende licensstatus (%2$s) lader dig oprette %1$d konti.</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="dialog_contrib_usage_limit_plans" ns0:ignore="PluralsCandidate">Din nuværende licensstatus (%2$s) lader dig oprette %1$d planer.</string>
+    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Din nuværende licensstatus (%2$s) lader dig oprette %1$d konti.</string>
+    <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Din nuværende licensstatus (%2$s) lader dig oprette %1$d planer.</string>
     <string name="dialog_contrib_usage_limit_split_templates">Din nuværende licensstatus (%1$s) lader dig oprette 1 opdelingsskabelon.</string>
     <string name="dialog_export_delete">Slet eksporterede transaktioner</string>
     <string name="dialog_export_not_yet_exported">Eksportér kun transaktioner, der endnu ikke er eksporteret</string>
@@ -269,7 +269,7 @@
     <string name="restore_preferences_failure">Gendannelse af indstillinger mislykkedes.</string>
     <string name="restore_backup_file_not_found">Filen %1$s findes ikke i arkivet \"%2$s\"</string>
     <string name="restore_preferences_success">Indstillinger blev gendannet fra sikkerhedskopi.</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="restore_calendar_success" ns0:ignore="PluralsCandidate">%d planer blev gendannet fra sikkerhedskopi</string>
+    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d planer blev gendannet fra sikkerhedskopi</string>
     <string name="save_transaction_and_new_success">Gemt</string>
     <string name="save_transaction_error">Kunne ikke gemme ny transaktion fra skabelon.</string>
     <plurals name="save_transaction_from_template_success">
@@ -334,10 +334,10 @@
     <string name="warning_reset_account_all">Hvis du fortsætter, slettes alle transaktioner i alle konti %1$s fra databasen og kan ikke gendannes.</string>
     <string name="warning_reset_account_matched">Hvis du fortsætter, slettes alle transaktioner fra databasen, der svarer til det aktuelle filter, og kan ikke gendannes.</string>
     <string name="warning_restore">Databasen og indstillingerne gendannes fra filen \"%1$s\". De aktuelle data slettes.</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="validation_error_number_out_of_range" ns0:ignore="PluralsCandidate">Angiv venligst et tal mellem %1$d og %2$d</string>
+    <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Angiv venligst et tal mellem %1$d og %2$d</string>
     <string name="warning_change_fraction_digits_1">Beløb i databasen skal opdateres for at matche det nye antal decimaler.</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="warning_change_fraction_digits_2_multiplied" ns0:ignore="PluralsCandidate">Hvis beløb ikke opdateres, vises de som ganget med %d efter ændringen.</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="warning_change_fraction_digits_2_divided" ns0:ignore="PluralsCandidate">Hvis beløb ikke opdateres, vises de som divideret med %d efter ændringen.</string>
+    <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Hvis beløb ikke opdateres, vises de som ganget med %d efter ændringen.</string>
+    <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Hvis beløb ikke opdateres, vises de som divideret med %d efter ændringen.</string>
     <string name="warning_change_fraction_digits_3">Hvis beløb opdateres, mister du oplysningerne om deres decimaldel.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Opdater beløb i database</string>
     <plurals name="import_categories_result">
@@ -379,9 +379,9 @@
     <string name="comparison_operator_between">mellem</string>
     <string name="comparison_operator_date_before">før</string>
     <string name="comparison_operator_date_after">efter</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="premium_failed_or_canceled" ns0:ignore="UnusedResources">Køb mislykkedes eller blev annulleret.</string>
+    <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Køb mislykkedes eller blev annulleret.</string>
     <string name="hint_auto_fill">Skal data udfyldes automatisk fra sidste transaktion for samme modtager/betaler? Du kan altid ændre denne adfærd i indstillingerne.</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="change_fraction_digits_result" ns0:ignore="PluralsCandidate">%1$d konti med valuta %2$s blev opdateret.</string>
+    <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d konti med valuta %2$s blev opdateret.</string>
     <string name="import_source_file">Fil</string>
     <string name="pref_manage_stale_images_title">Gamle billeder</string>
     <string name="pref_manage_stale_images_summary">Administrer gamle billeder fra slettede transaktioner</string>
@@ -400,7 +400,7 @@
     <string name="pref_csv_import_delimiter">Adskiller</string>
     <string name="menu_parse">Læs</string>
     <string name="csv_import_field_mapped_more_than_once">%s er knyttet til flere.</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="csv_import_records_discarded" ns0:ignore="PluralsCandidate">%d registreringer blev kasseret.</string>
+    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d registreringer blev kasseret.</string>
     <string name="csv_import_subcategory_requires_category">Hvis du tilknytter en underkategori, skal du også tilknytte kategorien.</string>
     <string name="cvs_import_set_first_line_as_header">Skal den første linje behandles som en overskrift?</string>
     <string name="csv_import_no_mapping_found_for_amount">Knyt venligst en kolonne til enten beløb, indtægt eller udgift.</string>
@@ -411,7 +411,7 @@
     <string name="pref_auto_backup_summary">Sikkerhedskopiér databasen dagligt på det angivne tidspunkt (kun hvis data ændres).</string>
     <string name="pref_auto_backup_time_title">Auto-sikkerhedskopieringstidspunkt</string>
     <string name="calendar_permission_required"><i>{app_name}</i> skal have adgang til din kalender for at oprette planer for fremtidige og tilbagevendende transaktioner.</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="button_request_calendar_access" ns0:ignore="UnusedResources">Giv adgang</string>
+    <string name="button_request_calendar_access" tools:ignore="UnusedResources">Giv adgang</string>
     <string name="menu_move">Flyt</string>
     <string name="dialog_title_select_target">Vælg mål</string>
     <string name="transform_subcategory_to_main">Omdan til hovedkategori</string>
@@ -454,7 +454,7 @@
     <string name="dialog_confirm_sync_link_remote">Lokale data for denne konto slettes.</string>
     <string name="warning_trial_limit_reached">Prøveperioden for at teste funktionen %s er udløbet.</string>
     <string name="warning_synchronization_folder_usage">Denne mappe bruges til at synkronisere data mellem installationer af {app_name} på forskellige enheder. Vær venlig ikke at ændre indholdet manuelt.</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="warning_synchronization_select_parent" ns0:ignore="UnusedResources">Den valgte mappe svarer til en konto på en eksisterende backend. Du skal vælge dens overordnede mappe for at genbruge denne backend.</string>
+    <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Den valgte mappe svarer til en konto på en eksisterende backend. Du skal vælge dens overordnede mappe for at genbruge denne backend.</string>
     <string name="link_account_failure_2">En konto med samme UUID eksisterer allerede på den eksterne backend.</string>
     <string name="link_account_failure_3">Konflikten kan løses manuelt fra postens kontekstmenu.</string>
     <string name="progress_dialog_checking_sync_backend">Bekræfter backend</string>
@@ -478,11 +478,11 @@
     <string name="sync_io_exception_unlocking">Fejl under fjernelse af lås fra ekstern backend.</string>
     <string name="sync_io_exception_locking">Ekstern backend er låst eller kan ikke låses.</string>
     <string name="synchronization_start">Starter synkronisering for konto %s.</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="synchronization_end_success" ns0:ignore="PluralsCandidate">%1$d fjernændringer blev skrevet til den lokale database. %2$d lokale ændringer blev skrevet til ekstern backend.</string>
+    <string name="synchronization_end_success" tools:ignore="PluralsCandidate">%1$d fjernændringer blev skrevet til den lokale database. %2$d lokale ændringer blev skrevet til ekstern backend.</string>
     <string name="synchronization_end_success_none">Ingen ændringer at synkronisere.</string>
     <string name="pref_webdav_timeout_title">WebDAV-timeout (i sekunder)</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="sync_state_restored" ns0:ignore="PluralsCandidate">Synkroniseringsstatus blev gendannet for %d konti.</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="sync_state_could_not_be_restored" ns0:ignore="PluralsCandidate">Synkroniseringsstatus kunne ikke gendannes for %d konti.</string>
+    <string name="sync_state_restored" tools:ignore="PluralsCandidate">Synkroniseringsstatus blev gendannet for %d konti.</string>
+    <string name="sync_state_could_not_be_restored" tools:ignore="PluralsCandidate">Synkroniseringsstatus kunne ikke gendannes for %d konti.</string>
     <string name="onboarding_ui_title">{app_name} tilpasser sig dine præferencer</string>
     <string name="onboarding_data_title">Lad os opsætte din første konto</string>
     <string name="onboarding_restore_from_cloud">Gendan fra cloud-synkronisering</string>
@@ -497,17 +497,17 @@
     <string name="licence_validation_error_device_limit_exceeded">Enhedsgrænse overskredet. Fjern venligst licensen fra en anden enhed.</string>
     <string name="button_validate">Valider</string>
     <string name="licence_key">Licensnøgle</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="licence_removal_information" ns0:ignore="PluralsCandidate">Hvis du ikke længere har brug for premiumfunktioner på denne enhed, kan du fjerne licensnøglen. Dette frigører nøglen til aktivering på en anden enhed. Nøglen kan aktiveres på op til %d enheder.</string>
+    <string name="licence_removal_information" tools:ignore="PluralsCandidate">Hvis du ikke længere har brug for premiumfunktioner på denne enhed, kan du fjerne licensnøglen. Dette frigører nøglen til aktivering på en anden enhed. Nøglen kan aktiveres på op til %d enheder.</string>
     <string name="progress_removing_licence">Fjerner licens</string>
     <string name="licence_removal_success">Licensnøglen blev frigjort fra denne enhed.</string>
     <string name="professional_key">Professionel Nøgle</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="n_months" ns0:ignore="PluralsCandidate">%d måneder</string>
+    <string name="n_months" tools:ignore="PluralsCandidate">%d måneder</string>
     <string name="eu_vat_info">For borgere i Den Europæiske Union vises priserne uden moms.</string>
     <string name="valid_until">Indtil %s</string>
     <string name="extend_until">Forlæng indtil %1$s for %2$s</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="extended_upgrade_goodie_github" ns0:ignore="PluralsCandidate">Yderligere %d måneder gives én gang til brugere, der allerede ejer Udvidet Licens</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="switch_to_yearly" ns0:ignore="UnusedResources">Skift til årligt abonnement</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="switch_to_monthly" ns0:ignore="UnusedResources">Skift til månedligt abonnement</string>
+    <string name="extended_upgrade_goodie_github" tools:ignore="PluralsCandidate">Yderligere %d måneder gives én gang til brugere, der allerede ejer Udvidet Licens</string>
+    <string name="switch_to_yearly" tools:ignore="UnusedResources">Skift til årligt abonnement</string>
+    <string name="switch_to_monthly" tools:ignore="UnusedResources">Skift til månedligt abonnement</string>
     <string name="extend_validity">Forlæng gyldigheden</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Henter data fra ekstern backend. Dette kan tage noget tid.</string>
     <string name="donate_button_invoice">Faktura</string>
@@ -537,17 +537,17 @@
     <string name="menu_ungroup_split_transaction">Afgruppér opdeling</string>
     <string name="ungroup_split_transaction_success">Opdelt transaktion blev afgrupperet.</string>
     <string name="split_transaction_one_success">Transaktion blev omdannet til en opdeling.</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="split_transaction_group_success" ns0:ignore="PluralsCandidate">%1$d transaktioner blev grupperet i én opdelt transaktion.</string>
+    <string name="split_transaction_group_success" tools:ignore="PluralsCandidate">%1$d transaktioner blev grupperet i én opdelt transaktion.</string>
     <string name="split_transaction_not_possible">Kun transaktioner med samme konto, modtager og status kan grupperes i én opdelt transaktion.</string>
     <string name="pref_transaction_time_summary">Tillad at angive præcis transaktionstid.</string>
     <string name="pref_value_date_summary">Tillad at angive værdidato ud over bogføringsdatoen. Transaktionstiden vil være skjult. Denne indstilling gælder ikke for kontantkonti.</string>
     <string name="booking_date">Bogføringsdato</string>
     <string name="value_date">Værdidato</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="licence_expires_n_days" ns0:ignore="PluralsCandidate">Din professionelle nøgle udløber om %d dage.</string>
+    <string name="licence_expires_n_days" tools:ignore="PluralsCandidate">Din professionelle nøgle udløber om %d dage.</string>
     <string name="licence_expires_tomorrow">Din professionelle nøgle udløber i morgen.</string>
     <string name="licence_expires_today">Din professionelle nøgle udløber i dag.</string>
     <string name="licence_expired_yesterday">Din professionelle nøgle udløb i går.</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="licence_has_expired_n_days" ns0:ignore="PluralsCandidate">Din professionelle nøgle udløb %d dage siden.</string>
+    <string name="licence_has_expired_n_days" tools:ignore="PluralsCandidate">Din professionelle nøgle udløb %d dage siden.</string>
     <string name="gdpr_consent_button_no">Betal for den reklamefri version</string>
     <string name="sort_order">Sorteringsrækkefølge</string>
     <string name="pref_sync_wifi_only_summary">Synkroniser kun på Wi-Fi</string>
@@ -610,7 +610,7 @@
     <string name="pref_exchange_rates_api_key_summary">Opret venligst en gratis konto på %s og angiv dit App-ID</string>
     <string name="pref_plan_executor_time_title">Notifikationstid</string>
     <string name="synchronization_select_folder_dialog_title">Vælg en eksisterende mappe, eller opret en ny</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="discover_feature_expense_income_switch" ns0:ignore="UnusedResources">Brug denne knap til at registrere indtægt.</string>
+    <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">Brug denne knap til at registrere indtægt.</string>
     <string name="menu_create_budget">Nyt budget</string>
     <string name="budget_onetime">Engangs</string>
     <string name="no_budgets">Definer dit første budget ved at trykke på \"+\"-knappen.</string>
@@ -714,9 +714,9 @@
     <string name="pref_acra_user_email_summary">Indtast venligst din e-mailadresse, hvis du vil hjælpe med fejlfinding og tillade os at kontakte dig.</string>
     <string name="backup_save_to_sync_backend">Gem på %s</string>
     <string name="ui_refinement">Forbedring af brugergrænsefladen</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="bug_fixes" ns0:ignore="UnusedResources">Fejlrettelser</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="performance_enhancement" ns0:ignore="UnusedResources">Forbedringer af ydeevnen</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="stability_improvements" ns0:ignore="UnusedResources">Forbedringer af stabiliteten</string>
+    <string name="bug_fixes" tools:ignore="UnusedResources">Fejlrettelser</string>
+    <string name="performance_enhancement" tools:ignore="UnusedResources">Forbedringer af ydeevnen</string>
+    <string name="stability_improvements" tools:ignore="UnusedResources">Forbedringer af stabiliteten</string>
     <string name="new_version">Ny version</string>
     <string name="pref_news_title">Nyheder</string>
     <string name="debt_managment">Gældshåndtering</string>
@@ -817,7 +817,7 @@
     <string name="pref_unmapped_transaction_as_transfer_summary_on">tælles som overførsel</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">tælles som udgift / indtægt</string>
     <string name="menu_aggregate_neutral_categories">Samlede neutrale kategorier</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="dialog_contrib_trial_info" ns0:ignore="PluralsCandidate">Din nuværende licensstatus (%1$s) lader dig prøve %2$s i %3$d dage (indtil %4$s).</string>
+    <string name="dialog_contrib_trial_info" tools:ignore="PluralsCandidate">Din nuværende licensstatus (%1$s) lader dig prøve %2$s i %3$d dage (indtil %4$s).</string>
     <string name="one_time_payment">Engangsbetaling</string>
     <string name="dialog_contrib_trial_info_play">Denne gratis prøveperiode konverteres aldrig til nogen form for abonnement.</string>
     <string name="dialog_contrib_subscription_info_play">Dette abonnement træder i kraft med det samme, faktureres månedligt eller årligt og kan opsiges når som helst.</string>
