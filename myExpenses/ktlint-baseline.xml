@@ -15367,31 +15367,6 @@
         <error line="62" column="92" source="standard:op-spacing" />
         <error line="64" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/test/java/org/totschnig/myexpenses/changelog/ChangeLogGenerator.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="76" column="44" source="standard:argument-list-wrapping" />
-        <error line="76" column="49" source="standard:argument-list-wrapping" />
-        <error line="76" column="58" source="standard:argument-list-wrapping" />
-        <error line="76" column="80" source="standard:argument-list-wrapping" />
-        <error line="76" column="88" source="standard:argument-list-wrapping" />
-        <error line="76" column="89" source="standard:argument-list-wrapping" />
-        <error line="76" column="92" source="standard:argument-list-wrapping" />
-        <error line="76" column="101" source="standard:max-line-length" />
-        <error line="76" column="116" source="standard:argument-list-wrapping" />
-        <error line="189" column="27" source="standard:wrapping" />
-        <error line="196" column="48" source="standard:argument-list-wrapping" />
-        <error line="196" column="53" source="standard:argument-list-wrapping" />
-        <error line="196" column="62" source="standard:argument-list-wrapping" />
-        <error line="196" column="84" source="standard:argument-list-wrapping" />
-        <error line="196" column="92" source="standard:argument-list-wrapping" />
-        <error line="196" column="93" source="standard:argument-list-wrapping" />
-        <error line="196" column="94" source="standard:argument-list-wrapping" />
-        <error line="196" column="101" source="standard:max-line-length" />
-        <error line="196" column="111" source="standard:argument-list-wrapping" />
-        <error line="196" column="114" source="standard:argument-list-wrapping" />
-        <error line="204" column="9" source="standard:wrapping" />
-        <error line="207" column="1" source="standard:final-newline" />
-    </file>
     <file name="src/test/java/org/totschnig/myexpenses/db2/RepositoryBudgetTest.kt">
         <error line="95" column="15" source="standard:wrapping" />
         <error line="95" column="16" source="standard:argument-list-wrapping" />

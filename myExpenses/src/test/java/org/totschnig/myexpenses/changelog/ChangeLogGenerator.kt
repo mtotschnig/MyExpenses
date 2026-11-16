@@ -3,6 +3,12 @@ package org.totschnig.myexpenses.changelog
 import android.app.Application
 import androidx.test.core.app.ApplicationProvider
 import com.google.common.truth.Truth.assertWithMessage
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.time.LocalDate
+import java.util.Locale
+import kotlin.io.path.exists
 import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -12,12 +18,6 @@ import org.totschnig.myexpenses.ui.ContextHelper.wrap
 import org.totschnig.myexpenses.viewmodel.data.VersionInfo
 import org.yaml.snakeyaml.DumperOptions
 import org.yaml.snakeyaml.Yaml
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.Paths
-import java.time.LocalDate
-import java.util.Locale
-import kotlin.io.path.exists
 
 @RunWith(RobolectricTestRunner::class)
 @Ignore("This is only run on demand in order to generate ChangeLog!")
@@ -73,7 +73,10 @@ class ChangeLogGenerator {
             buildString {
                 allLanguages.forEach { language ->
                     appendLine("<$language>")
-                    versionInfo.getChanges(wrap(context, Locale.forLanguageTag(language)), withContributors = false)!!
+                    versionInfo.getChanges(
+                        wrap(context, Locale.forLanguageTag(language)),
+                        withContributors = false
+                    )!!
                         .forEach {
                             appendLine("• $it")
                         }
@@ -186,22 +189,25 @@ class ChangeLogGenerator {
             }
         )
 
-        val data = listOf(listOf(
-            versionInfo.name,
-            versionDate,
-            buildMap {
-                allLanguages.forEach { language ->
-                    put(
-                        language,
-                        versionInfo.getChanges(wrap(context, Locale.forLanguageTag(language)))!!.joinToString(" ")
-                    )
+        val data = listOf(
+            listOf(
+                versionInfo.name,
+                versionDate,
+                buildMap {
+                    allLanguages.forEach { language ->
+                        put(
+                            language,
+                            versionInfo.getChanges(wrap(context, Locale.forLanguageTag(language)))!!
+                                .joinToString(" ")
+                        )
+                    }
+                },
+                buildMap {
+                    put("github2", versionInfo.githubLink(context)!!)
+                    put("mastodon", versionInfo.mastodonLink(context)!!)
                 }
-            },
-            buildMap {
-                put("github2", versionInfo.githubLink(context)!!)
-                put("mastodon", versionInfo.mastodonLink(context)!!)
-            }
-        ))
+            )
+        )
         print(yaml.dump(data))
     }
 }
