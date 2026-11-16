@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="whats_new_382">위젯 %2$s에서 %1$s 기능을 호출할 수 있습니다.</string>
     <string name="whats_new_384">클라우드 백업 설정 간소화</string>
+    <string name="whats_new_386">지출별 분포와 수입별 분포를 2중 도넛 차트에 함께 표시할 수 있습니다.</string>
     <string name="whats_new_388">거래내역을 보관할 수 있습니다.</string>
     <string name="whats_new_395">내보낸 파일(PDF, 백업, QIF, CSV, JSON)은 웹 사용자 인터페이스를 통해 다운로드할 수 있습니다.</string>
     <string name="whats_new_396">자동 환율 업데이트 및 실시간 가치 추적을 통해 향상된 외환 계좌 관리.</string>
     <string name="whats_new_398">자산, 부채 및 순자산을 한 곳에서 확인하세요.</string>
     <string name="whats_new_399">향상된 PDF 내보내기 레이아웃, 드래그 앤 드롭으로 완전히 사용자 정의 할 수 있습니다.</string>
-    <string name="whats_new_400_2">가격 내역: 누락된 항목의 대량 다운로드</string>
     <string name="whats_new_400_1">계좌 간의 자금 분배를 보여주는 파이 차트</string>
+    <string name="whats_new_400_2">가격 내역: 누락된 항목의 대량 다운로드</string>
     <string name="whats_new_401">이제 거래 목록에서 분할 거래에 대한 세부 정보가 더 많이 표시됩니다.</string>
     <string name="whats_new_402">계정 유형을 사용자 지정할 수 있습니다.</string>
     <string name="whats_new_403">계정 플래그는 계정 가시성 및 우선 순위의 사용자 지정을 확장합니다.</string>
     <string name="whats_new_407">태그, 카테고리, 계좌, 구성원에 대한 자연스러운 정렬.</string>
+    <string name="whats_new_411_1">분할 이체</string>
+    <string name="whats_new_411_2">포트폴리오 간 자산 이체</string>
+    <string name="whats_new_411_3">집계 계좌의 내역 화면에 외화 가치 변동이 반영됩니다.</string>
 </resources>

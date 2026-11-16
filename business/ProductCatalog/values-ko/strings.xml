@@ -1,20 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="splittemplate_title">분할 템플릿</string>
     <string name="splittemplate_description">분할 트랜잭션에 대한 무제한 템플릿 및 계획</string>
+    <string name="history_title">내역 차트</string>
     <string name="history_description">시간이 지남에 따라 재무 상황이 어떻게 전개되는지 이해</string>
+    <string name="budget_title">예산편성</string>
     <string name="budget_description">연간, 월간 또는 주별 예산으로 지출 할 금액을 정의하십시오.</string>
-    <string name="professional_benefit_2">이메일 지원</string>
-    <string name="professional_benefit_3">개발 로드맵에 바로 투표</string>
+    <string name="ocr_title">영수증 스캔</string>
+    <string name="ocr_description">금액, 날짜 및 거래처를 자동으로 추출</string>
+    <string name="webui_title">웹 사용자 인터페이스</string>
+    <string name="webui_description">데스크톱 브라우저를 사용하여 데이터 입력</string>
+    <string name="categorytree_title">카테고리 트리</string>
+    <string name="categorytree_description">임의의 깊은 범주 계층 구조</string>
     <string name="accountsunlimited_title">개수 제한 없는 계좌</string>
     <string name="accountsunlimited_description">다섯 개 이상의 계정을 만들 수 있는 기능 잠금 해제.</string>
     <string name="adfree_title">광고 없음</string>
-    <string name="categorytree_description">임의의 깊은 범주 계층 구조</string>
+    <string name="adfree_description">광고 없음.</string>
     <string name="csvimport_title">CSV 가져오기</string>
+    <string name="csvimport_description">정교하고 사용자 정의 가능한 CSV 가져오기 (스프레드시트 애플리케이션)</string>
+    <string name="distribution_title">원형 차트</string>
+    <string name="distribution_description">다양한 기간(연, 월, 주, 일)에 걸친 카테고리별 거래 통계 분포 시각화</string>
     <string name="plansunlimited_title">개수 제한 없는 재무 계획</string>
+    <string name="plansunlimited_description">반복 거래에 대해 3개 이상의 계획을 생성할 수 있도록 해제합니다.</string>
     <string name="print_title">인쇄</string>
+    <string name="print_description">거래 내역 목록을 PDF 파일로 인쇄</string>
     <string name="splittransaction_title">거래 내역을 분할하기</string>
+    <string name="splittransaction_description">단일 거래를 여러 부분(카테고리 및 이체)으로 분할할 수 있습니다.</string>
     <string name="synchronization_title">클라우드 동기화</string>
-    <string name="budget_title">예산편성</string>
-    <string name="ocr_title">영수증 스캔</string>
+    <string name="synchronization_description">여러 기기 간에 데이터를 동기화할 수 있습니다.</string>
     <string name="professional_benefit_1">모든 프리미엄 기능 잠금 해제</string>
+    <string name="professional_benefit_2">이메일 지원</string>
+    <string name="professional_benefit_3">개발 로드맵에 바로 투표</string>
 </resources>
