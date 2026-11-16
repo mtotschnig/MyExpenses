@@ -1020,7 +1020,7 @@
     <string name="asset_type_commodity_plural">Matèries primeres</string>
     <string name="trade_funding_source">Font de finançament</string>
     <string name="trade_funding_portfolio">Efectiu de la cartera</string>
-    <string name="trade_funding_external_description">Fons de fonts no en el seguiment d\'aquesta aplicació</string>
+    <string name="trade_funding_external_description">Fons provinents de fonts que aquesta aplicació no segueix</string>
     <string name="trade_deposit">Dipòsit</string>
     <string name="trade_withdraw">Retirada</string>
     <string name="trade_matching_transaction_found">S\'ha trobat una transacció coincident al compte de finançament. Selecciona per enllaçar:</string>
