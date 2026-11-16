@@ -136,6 +136,97 @@ amazon:
   en: "www.amazon.com"
   pt: "www.amazon.com.br"
 versions:
+  -   - 4.1.4
+      - '2026-11-16'
+      - ar: البحث في النص الكامل
+        bg: Пълнотекстово търсене
+        ca: Cerca de text complet
+        cs: Celotextové vyhledávání
+        da: Fuldtekstsøgning
+        de: Volltextsuche
+        el: Αναζήτηση πλήρους κειμένου
+        es: Búsqueda de texto completo
+        fr: Recherche en texte intégral
+        hr: Pretraživanje punog teksta
+        hu: Teljes szöveges keresés
+        it: Ricerca a testo intero
+        iw: חיפוש טקסט מלא
+        ja: 全文検索
+        ko: 전문 검색
+        nl: Volledige tekst zoeken
+        pl: Wyszukiwanie pełnotekstowe
+        pt: Pesquisa de texto completo
+        ro: Căutare în text integral
+        ru: Полнотекстовый поиск
+        tr: Tam metin araması
+        vi: Tìm kiếm toàn văn
+        zh-TW: 全文搜尋
+        en: Full text search
+      - github2: '200'
+        mastodon: '117598998214483743'
+  -   - 4.1.3
+      - '2026-11-16'
+      - ar: 'تتبع المحفظة : تكاليف إضافية. نمط الوسم : إطار ملون أو ملون بالكامل'
+        bg: 'Проследяване на портфейла : Допълнителни разходи. Стил на етикета : Цветен
+          контур или Изцяло оцветен'
+        ca: 'Seguiment de cartera : Costos addicionals. Estil d''etiqueta : Vora acolorida
+          o Totalment acolorit'
+        cs: 'Sledování portfolia : Dodatečné náklady. Styl štítku : Barevný okraj
+          nebo Plně barevné'
+        da: 'Porteføljesporing : Yderligere omkostninger. Etiket-stil : Farvet kant
+          eller Helt farvet'
+        de: 'Portfolio-Tracking : Zusätzliche Kosten. Schlagwort-Stil : Farbiger Rand
+          oder Vollständig farbig'
+        el: 'Παρακολούθηση χαρτοφυλακίου : Πρόσθετα έξοδα. Στυλ ετικέτας : Χρωματιστό
+          περίγραμμα ή Πλήρως χρωματισμένο'
+        es: 'Seguimiento de cartera : Costes adicionales. Estilo de etiqueta : Borde
+          coloreado o Totalmente coloreado'
+        eu: 'Portafolioaren jarraipena : Kostu gehigarriak. Etiketa-estiloa : Ertz
+          koloreztatua edo Guztiz koloreztatua'
+        fr: 'Suivi de portefeuille : Coûts supplémentaires. Style d''étiquette : Bordure
+          colorée ou Entièrement coloré'
+        hr: 'Praćenje portfelja : Dodatni troškovi. Stil oznake : Obojeni rub ili
+          Potpuno obojeno'
+        hu: 'Portfóliókövetés : További költségek. Címke stílus : Színes keret vagy
+          Teljesen színes'
+        it: 'Tracciamento del portafoglio : Costi aggiuntivi. Stile Tag : Bordo colorato
+          o Completamente colorato'
+        iw: 'מעקב תיק השקעות : עלויות נוספות. סגנון תג : מסגרת צבעונית או צבעוני מלא'
+        ja: 'ポートフォリオ追跡 : 追加費用. タグのスタイル : カラー枠線または塗りつぶし'
+        km: 'ការតាមដានផលប័ត្រ : ចំណាយបន្ថែម. រចនាប័ទ្មស្លាក : ព្រំប្រទល់មានពណ៌ ឬ មានពណ៌ពេញ'
+        kn: 'ಪೋರ್ಟ್‌ಫೋಲಿಯೊ ಟ್ರ್ಯಾಕಿಂಗ್ : ಹೆಚ್ಚುವರಿ ವೆಚ್ಚಗಳು. ಟ್ಯಾಗ್ ಶೈಲಿ : ಬಣ್ಣದ ಗಡಿ
+          ಅಥವಾ ಪೂರ್ಣ ಬಣ್ಣದ'
+        ko: '포트폴리오 추적 : 추가 비용. 태그 스타일 : 색상 테두리 또는 전체 색상'
+        ms: 'Penjejakan portfolio : Kos tambahan. Gaya tag : Sempadan berwarna atau
+          Berwarna penuh'
+        nl: 'Portefeuille-tracking : Aanvullende kosten. Tag-stijl : Gekleurde rand
+          of Volledig gekleurd'
+        pl: 'Śledzenie portfela : Dodatkowe koszty. Styl taga : Kolorowa ramka lub
+          Pełny kolor'
+        pt: 'Acompanhamento de carteira : Custos adicionais. Estilo da etiqueta :
+          Borda colorida ou Totalmente colorido'
+        ro: 'Urmărirea portofoliului : Costuri suplimentare. Stil etichetă : Bordură
+          colorată sau Complet colorat'
+        ru: 'Отслеживание портфеля : Дополнительные расходы. Стиль тега : Цветная
+          рамка или Полностью цветной'
+        si: 'පෝට්ෆෝලියෝ ලුහුබැඳීම : අතිරේක පිරිවැය. ටැග් විලාසය : වර්ණවත් සීමාව හෝ
+          සම්පූර්ණයෙන්ම වර්ණවත්'
+        ta: 'போர்ட்ஃபோலியோ கண்காணிப்பு : கூடுதல் செலவுகள். குறிச்சொல் பாணி : வண்ண
+          எல்லை அல்லது முழு வண்ணமயமான'
+        te: 'పోర్ట్‌ఫోలియో ట్రాకింగ్ : అదనపు ఖర్చులు. ట్యాగ్ శైలి : రంగుల సరిహద్దు
+          లేదా పూర్తిగా రంగుల'
+        tr: 'Portföy takibi : Ek masraflar. Etiket biçimi : Renkli kenarlık veya Tamamen
+          renkli'
+        uk: 'Відстеження портфеля : Додаткові витрати. Стиль тегу : Кольорова рамка
+          або Повністю кольоровий'
+        vi: 'Theo dõi danh mục đầu tư : Chi phí bổ sung. Kiểu thẻ : Viền màu hoặc
+          Tô màu toàn bộ'
+        zh-CN: '投资组合跟踪 : 附加费用. 标签样式 : 彩色边框或全彩色'
+        zh-TW: '投資組合追蹤 : 附加費用. 標籤樣式 : 彩色邊框或全彩色'
+        en: 'Portfolio tracking : Additional costs. Tag style : Colored border or
+          Fully colored'
+      - github2: '198'
+        mastodon: '117371810026312107'
   -   - 4.1.2
       - '2026-09-25'
       - ar: 'تتبع المحفظة : بحث (الأصل, القيمة, ملاحظات, التاريخ)'
