@@ -55,7 +55,6 @@ Credits
 - [Copper](https://github.com/cashapp/copper)
 - [andOTP](https://github.com/andOTP/andOTP) (EncryptionHelper)
 - [Font-Awesome](https://github.com/FortAwesome/Font-Awesome) (Category Icons)
-- [TapTargetView](https://github.com/KeepSafe/TapTargetView)
 - [PageIndicatorView](https://github.com/romandanylyk/PageIndicatorView)
 - [FlexboxLayout](https://github.com/google/flexbox-layout)
 - [Android Image Cropper](https://github.com/ArthurHub/Android-Image-Cropper)
