@@ -5,12 +5,12 @@ import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import javax.inject.Inject
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.feature.Callback
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.viewmodel.data.Event
-import javax.inject.Inject
 
 class FeatureViewModel(application: Application) : AndroidViewModel(application) {
     @Inject
@@ -22,8 +22,8 @@ class FeatureViewModel(application: Application) : AndroidViewModel(application)
 
     fun registerCallback() {
         featureManager.registerCallback(object : Callback {
-            override fun onFeatureAvailable(moduleNames: List<String>) {
-                postAsEvent(FeatureState.FeatureAvailable(moduleNames))
+            override fun onFeatureAvailable(feature: Feature) {
+                postAsEvent(FeatureState.FeatureAvailable(feature))
             }
 
             override fun onAsyncStartedFeature(feature: Feature) {
@@ -41,7 +41,6 @@ class FeatureViewModel(application: Application) : AndroidViewModel(application)
             override fun onLanguageAvailable(language: String) {
                 postAsEvent(FeatureState.LanguageAvailable(language))
             }
-
         })
     }
 
@@ -53,15 +52,13 @@ class FeatureViewModel(application: Application) : AndroidViewModel(application)
         class Error(val throwable: Throwable) : FeatureState()
         class FeatureLoading(val feature: Feature) : FeatureState()
         class LanguageLoading(val language: String) : FeatureState()
-        class FeatureAvailable(val modules: List<String>) : FeatureState()
+        class FeatureAvailable(val feature: Feature) : FeatureState()
         class LanguageAvailable(val language: String) : FeatureState()
     }
 
     private val featureState = MutableLiveData<Event<FeatureState>>()
 
-    fun getFeatureState(): LiveData<Event<FeatureState>> {
-        return featureState
-    }
+    fun getFeatureState(): LiveData<Event<FeatureState>> = featureState
 
     fun isFeatureAvailable(context: Context, feature: Feature) =
         featureManager.isFeatureInstalled(feature, context)

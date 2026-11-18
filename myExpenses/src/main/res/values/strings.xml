@@ -756,6 +756,10 @@
     <string name="menu_scan_mode">Scan mode</string>
     <!-- Button that triggers the scan operation -->
     <string name="button_scan">Scan</string>
+    <!-- Title for a preference that, when enabled, prompts the user to choose their preferred camera or image picker application instead of opening the default camera app -->
+    <string name="pick_image_intent_chooser_title">Always offer app chooser</string>
+    <string name="pref_title_gms_document_scanner">Use Document Scanner</string>
+    <string name="pref_summary_gms_document_scanner">Use Google Play Services document scanner with automatic cropping and text enhancement</string>
     <string name="pref_ocr_total_indicators_title">Indicators for total amount</string>
     <string name="pref_ocr_total_indicators_summary">A list of strings, which identify the total value in a receipt. Put each value on a new line. Leave empty to restore the default value.</string>
     <string name="pref_ocr_date_formats_title">Date Formats</string>

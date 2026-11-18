@@ -48,6 +48,7 @@ dependencies {
     ksp libs.dagger.compiler
     implementation libs.dagger
     implementation libs.kotlinx.coroutines.android
+    implementation libs.android.image.cropper
 
     testImplementation libs.junit
     testImplementation libs.truth

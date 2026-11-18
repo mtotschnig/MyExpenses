@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
-import com.theartofdev.edmodo.cropper.CropImage
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.OcrResultFlat
 import org.totschnig.myexpenses.model.ContribFeature
@@ -13,7 +12,7 @@ import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_COLOR
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
 
-class OcrLauncher: ProtectedFragmentActivity() {
+class OcrLauncher : ProtectedFragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
@@ -24,28 +23,24 @@ class OcrLauncher: ProtectedFragmentActivity() {
     override fun contribFeatureCalled(feature: ContribFeature, tag: ContribPayload?) {
         if (feature == ContribFeature.OCR) {
             if (featureViewModel.isFeatureAvailable(this, Feature.OCR)) {
-                ocrViewModel.startScan(this)
+                startCapture()
             } else {
                 featureViewModel.requestFeature(this, Feature.OCR)
             }
         }
     }
 
-    override fun processImageCaptureError(
-        resultCode: Int,
-        activityResult: CropImage.ActivityResult?
-    ): Boolean {
-        if (!super.processImageCaptureError(resultCode, activityResult)) {
-            finish()
-        }
-        return true
-    }
-
     override fun onFeatureAvailable(feature: Feature) {
         super.onFeatureAvailable(feature)
         if (feature == Feature.OCR) {
-            ocrViewModel.startScan(this)
+            startCapture()
         }
+    }
+
+    private fun startCapture() {
+        ocrViewModel.startCapture(this, onCancel = {
+            finish()
+        })
     }
 
     override suspend fun getEditIntent(): Intent = super.getEditIntent()!!.apply {

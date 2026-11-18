@@ -1575,10 +1575,11 @@
         <error line="711" column="1" source="standard:no-consecutive-blank-lines" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/activity/BaseActivity.kt">
-        <error line="182" column="17" source="standard:backing-property-naming" />
-        <error line="1759" column="101" source="standard:max-line-length" />
-        <error line="1761" column="101" source="standard:max-line-length" />
-        <error line="1771" column="101" source="standard:max-line-length" />
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="176" column="17" source="standard:backing-property-naming" />
+        <error line="1731" column="101" source="standard:max-line-length" />
+        <error line="1733" column="101" source="standard:max-line-length" />
+        <error line="1743" column="101" source="standard:max-line-length" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/activity/BaseMyExpenses.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -2130,12 +2131,12 @@
         <error line="46" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/activity/ExpenseEdit.kt">
-        <error line="900" column="101" source="standard:max-line-length" />
-        <error line="1024" column="101" source="standard:max-line-length" />
-        <error line="1058" column="101" source="standard:max-line-length" />
-        <error line="1074" column="101" source="standard:max-line-length" />
-        <error line="1359" column="101" source="standard:max-line-length" />
-        <error line="1598" column="101" source="standard:max-line-length" />
+        <error line="914" column="101" source="standard:max-line-length" />
+        <error line="1038" column="101" source="standard:max-line-length" />
+        <error line="1072" column="101" source="standard:max-line-length" />
+        <error line="1088" column="101" source="standard:max-line-length" />
+        <error line="1380" column="101" source="standard:max-line-length" />
+        <error line="1619" column="101" source="standard:max-line-length" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/activity/Help.kt">
         <error line="26" column="1" source="standard:final-newline" />
@@ -2572,9 +2573,6 @@
         <error line="658" column="47" source="standard:multiline-if-else" />
         <error line="659" column="1" source="standard:no-empty-first-line-in-method-block" />
         <error line="682" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/main/java/org/totschnig/myexpenses/activity/OcrLauncher.kt">
-        <error line="16" column="18" source="standard:colon-spacing" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/activity/PreferenceActivity.kt">
         <error line="62" column="27" source="standard:wrapping" />
@@ -5281,31 +5279,6 @@
         <error line="14" column="75" source="standard:function-expression-body" />
         <error line="17" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/main/java/org/totschnig/myexpenses/di/FeatureModule.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="30" column="79" source="standard:chain-wrapping" />
-        <error line="32" column="14" source="standard:wrapping" />
-        <error line="32" column="28" source="standard:argument-list-wrapping" />
-        <error line="32" column="62" source="standard:argument-list-wrapping" />
-        <error line="32" column="79" source="standard:argument-list-wrapping" />
-        <error line="32" column="101" source="standard:max-line-length" />
-        <error line="32" column="102" source="standard:argument-list-wrapping" />
-        <error line="33" column="55" source="standard:wrapping" />
-        <error line="41" column="67" source="standard:chain-wrapping" />
-        <error line="42" column="1" source="standard:indent" />
-        <error line="43" column="1" source="standard:indent" />
-        <error line="43" column="24" source="standard:argument-list-wrapping" />
-        <error line="43" column="64" source="standard:argument-list-wrapping" />
-        <error line="43" column="101" source="standard:max-line-length" />
-        <error line="44" column="1" source="standard:indent" />
-        <error line="45" column="1" source="standard:indent" />
-        <error line="46" column="1" source="standard:indent" />
-        <error line="47" column="1" source="standard:indent" />
-        <error line="48" column="1" source="standard:indent" />
-        <error line="54" column="1" source="standard:indent" />
-        <error line="55" column="1" source="standard:indent" />
-        <error line="62" column="1" source="standard:final-newline" />
-    </file>
     <file name="src/main/java/org/totschnig/myexpenses/di/FeatureScope.kt">
         <error line="11" column="29" source="standard:final-newline" />
     </file>
@@ -6708,37 +6681,6 @@
         <error line="31" column="100" source="standard:max-line-length" />
         <error line="32" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/main/java/org/totschnig/myexpenses/feature/FeatureManager.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="75" column="1" source="standard:no-blank-line-before-rbrace" />
-        <error line="109" column="1" source="standard:indent" />
-        <error line="120" column="1" source="standard:indent" />
-        <error line="121" column="1" source="standard:indent" />
-        <error line="149" column="25" source="standard:colon-spacing" />
-        <error line="154" column="20" source="standard:function-expression-body" />
-        <error line="158" column="22" source="standard:colon-spacing" />
-        <error line="162" column="11" source="standard:enum-wrapping" />
-        <error line="162" column="16" source="standard:enum-wrapping" />
-        <error line="162" column="22" source="standard:enum-wrapping" />
-        <error line="162" column="28" source="standard:enum-wrapping" />
-        <error line="167" column="13" source="standard:keyword-spacing" />
-        <error line="176" column="9" source="standard:keyword-spacing" />
-        <error line="176" column="10" source="standard:paren-spacing" />
-        <error line="206" column="9" source="standard:multiline-if-else" />
-        <error line="206" column="32" source="standard:multiline-if-else" />
-        <error line="218" column="53" source="standard:multiline-if-else" />
-        <error line="219" column="10" source="standard:multiline-if-else" />
-        <error line="238" column="13" source="standard:multiline-if-else" />
-        <error line="277" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/main/java/org/totschnig/myexpenses/feature/OcrFeature.kt">
-        <error line="63" column="69" source="standard:argument-list-wrapping" />
-        <error line="63" column="74" source="standard:argument-list-wrapping" />
-        <error line="63" column="82" source="standard:argument-list-wrapping" />
-        <error line="63" column="86" source="standard:function-literal" />
-        <error line="63" column="101" source="standard:function-literal" />
-        <error line="63" column="101" source="standard:max-line-length" />
-    </file>
     <file name="src/main/java/org/totschnig/myexpenses/feature/WebUiFeature.kt">
         <error line="10" column="27" source="standard:colon-spacing" />
         <error line="33" column="1" source="standard:final-newline" />
@@ -7434,8 +7376,8 @@
         <error line="223" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/fragment/preferences/PreferencesAttachPictureFragment.kt">
-        <error line="33" column="13" source="standard:keyword-spacing" />
-        <error line="37" column="1" source="standard:final-newline" />
+        <error line="41" column="13" source="standard:keyword-spacing" />
+        <error line="46" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/fragment/preferences/PreferencesContribFragment.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -7478,11 +7420,11 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/fragment/preferences/PreferencesOcrFragment.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="36" column="56" source="standard:multiline-if-else" />
-        <error line="67" column="56" source="standard:multiline-if-else" />
-        <error line="68" column="18" source="standard:multiline-if-else" />
-        <error line="109" column="13" source="standard:keyword-spacing" />
-        <error line="113" column="1" source="standard:final-newline" />
+        <error line="37" column="56" source="standard:multiline-if-else" />
+        <error line="68" column="56" source="standard:multiline-if-else" />
+        <error line="69" column="18" source="standard:multiline-if-else" />
+        <error line="111" column="13" source="standard:keyword-spacing" />
+        <error line="115" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/fragment/preferences/PreferencesPrintFragment.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -10810,19 +10752,15 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/BaseFunctionalityViewModel.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="75" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="111" column="39" source="standard:wrapping" />
-        <error line="112" column="71" source="standard:wrapping" />
-        <error line="137" column="32" source="standard:multiline-if-else" />
-        <error line="166" column="25" source="standard:trailing-comma-on-declaration-site" />
-        <error line="182" column="17" source="standard:trailing-comma-on-declaration-site" />
-        <error line="193" column="58" source="standard:function-expression-body" />
-        <error line="219" column="34" source="standard:trailing-comma-on-declaration-site" />
-        <error line="234" column="44" source="standard:binary-expression-wrapping" />
-        <error line="234" column="83" source="standard:argument-list-wrapping" />
-        <error line="234" column="99" source="standard:argument-list-wrapping" />
-        <error line="234" column="101" source="standard:max-line-length" />
-        <error line="246" column="1" source="standard:final-newline" />
+        <error line="74" column="1" source="standard:blank-line-between-when-conditions" />
+        <error line="110" column="39" source="standard:wrapping" />
+        <error line="111" column="71" source="standard:wrapping" />
+        <error line="136" column="32" source="standard:multiline-if-else" />
+        <error line="165" column="25" source="standard:trailing-comma-on-declaration-site" />
+        <error line="181" column="17" source="standard:trailing-comma-on-declaration-site" />
+        <error line="192" column="58" source="standard:function-expression-body" />
+        <error line="218" column="34" source="standard:trailing-comma-on-declaration-site" />
+        <error line="245" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/BaseViewModel.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -11136,12 +11074,6 @@
         <error line="274" column="45" source="standard:wrapping" />
         <error line="327" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/main/java/org/totschnig/myexpenses/viewmodel/FeatureViewModel.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="44" column="1" source="standard:no-blank-line-before-rbrace" />
-        <error line="62" column="58" source="standard:function-expression-body" />
-        <error line="75" column="1" source="standard:final-newline" />
-    </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/HistoryViewModel.kt">
         <error line="43" column="1" source="standard:indent" />
         <error line="43" column="18" source="standard:function-literal" />
@@ -11439,9 +11371,6 @@
         <error line="876" column="123" source="standard:argument-list-wrapping" />
         <error line="918" column="61" source="standard:string-template" />
         <error line="919" column="55" source="standard:string-template" />
-    </file>
-    <file name="src/main/java/org/totschnig/myexpenses/viewmodel/OcrViewModel.kt">
-        <error line="56" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/OnBoardingDataViewModel.kt">
         <error line="19" column="17" source="standard:backing-property-naming" />
@@ -14899,15 +14828,6 @@
         <error line="111" column="5" source="standard:wrapping" />
         <error line="111" column="6" source="standard:wrapping" />
         <error line="111" column="6" source="standard:argument-list-wrapping" />
-    </file>
-    <file name="src/main/java/org/totschnig/myexpenses/widget/AccountWidget.kt">
-        <error line="113" column="18" source="standard:wrapping" />
-        <error line="113" column="45" source="standard:multiline-if-else" />
-        <error line="114" column="22" source="standard:multiline-if-else" />
-        <error line="118" column="17" source="standard:wrapping" />
-        <error line="121" column="43" source="standard:argument-list-wrapping" />
-        <error line="143" column="47" source="standard:comment-spacing" />
-        <error line="147" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/widget/AccountWidgetService.kt">
         <error line="3" column="1" source="standard:import-ordering" />

@@ -9,6 +9,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.OCR_REQUEST
@@ -16,7 +17,6 @@ import org.totschnig.myexpenses.feature.OcrFeature.Companion.ACTION
 import org.totschnig.myexpenses.feature.OcrFeature.Companion.MIME_TYPE
 import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.util.AppDirHelper
-import javax.inject.Inject
 
 class ScanPreviewViewModel(application: Application) : AndroidViewModel(application) {
     private var running: Boolean = false
@@ -29,7 +29,8 @@ class ScanPreviewViewModel(application: Application) : AndroidViewModel(applicat
     fun getResult(): LiveData<Result<OcrResult>> = result
 
     init {
-        DaggerOcrComponent.builder().appComponent((application as MyApplication).appComponent).build().inject(this)
+        DaggerOcrComponent.builder().appComponent((application as MyApplication).appComponent)
+            .build().inject(this)
     }
 
     fun runTextRecognition(scanUri: Uri, activity: Activity) {
@@ -39,7 +40,14 @@ class ScanPreviewViewModel(application: Application) : AndroidViewModel(applicat
                 runExternal(scanUri, activity)
             } else {
                 viewModelScope.launch {
-                    result.postValue(runCatching { ocrHandler.runTextRecognition(scanUri, activity) })
+                    result.postValue(
+                        runCatching {
+                            ocrHandler.runTextRecognition(
+                                scanUri,
+                                activity
+                            )
+                        }
+                    )
                 }
             }
         }
@@ -47,15 +55,23 @@ class ScanPreviewViewModel(application: Application) : AndroidViewModel(applicat
 
     private fun runExternal(scanUri: Uri, activity: Activity) {
         activity.startActivityForResult(
-                Intent(ACTION).apply {
-                    setDataAndType(AppDirHelper.ensureContentUri(scanUri, activity), MIME_TYPE)
-                    flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                }, OCR_REQUEST)
+            Intent(ACTION).apply {
+                setDataAndType(AppDirHelper.ensureContentUri(scanUri, activity), MIME_TYPE)
+                flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            },
+            OCR_REQUEST
+        )
     }
 
     fun handleData(intent: Intent?) {
         viewModelScope.launch {
-            result.postValue(runCatching { ocrHandler.handleData(intent ?: throw Exception("Received null intent")) })
+            result.postValue(
+                runCatching {
+                    ocrHandler.handleData(
+                        intent ?: throw Exception("Received null intent")
+                    )
+                }
+            )
         }
     }
 

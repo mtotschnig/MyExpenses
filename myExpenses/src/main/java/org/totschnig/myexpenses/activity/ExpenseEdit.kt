@@ -96,6 +96,7 @@ import org.totschnig.myexpenses.dialog.CriterionReachedDialogFragment
 import org.totschnig.myexpenses.dialog.OnCriterionDialogDismissedListener
 import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
+import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.OcrResultFlat
 import org.totschnig.myexpenses.fragment.PartiesList.Companion.DIALOG_EDIT_PARTY
 import org.totschnig.myexpenses.fragment.PlanMonthFragment
@@ -633,12 +634,14 @@ open class ExpenseEdit :
             showPicturePopupMenu(view, R.menu.create_attachment_options) { item ->
                 trackCommand(item.itemId)
                 when (item.itemId) {
-                    R.id.PHOTO_COMMAND -> ocrViewModel.startScan(
-                        this,
-                        PictureDirHelper.defaultFileName
-                    ) { uri ->
-                        setDirty()
-                        viewModel.addAttachmentUris(uri)
+                    R.id.PHOTO_COMMAND -> if (featureViewModel.isFeatureAvailable(
+                            this,
+                            Feature.CAPTURE
+                        )
+                    ) {
+                        startCapture()
+                    } else {
+                        featureViewModel.requestFeature(this, Feature.CAPTURE)
                     }
 
                     R.id.ATTACH_COMMAND -> try {
@@ -654,6 +657,17 @@ open class ExpenseEdit :
                 true
             }
         }
+    }
+
+    private fun startCapture() {
+        ocrViewModel.startCapture(
+            this,
+            PictureDirHelper.defaultFileName,
+            onResult = { uri ->
+                setDirty()
+                viewModel.addAttachmentUris(uri)
+            }
+        )
     }
 
     private val pickAttachment: ActivityResultLauncher<Array<String>> =
@@ -1292,6 +1306,13 @@ open class ExpenseEdit :
                 isSplitPart = true
             )
         )
+    }
+
+    override fun onFeatureAvailable(feature: Feature) {
+        super.onFeatureAvailable(feature)
+        if (feature == Feature.CAPTURE) {
+            startCapture()
+        }
     }
 
     /**

@@ -873,7 +873,6 @@
     <ID>MaxLineLength:ExportViewModel.kt:ExportViewModel$||</ID>
     <ID>MaxLineLength:ExtendProLicenceDialogFragment.kt:ExtendProLicenceDialogFragment$binding.actSelectLicence.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ -&gt; selectedIndex = position }</ID>
     <ID>MaxLineLength:ExtendProLicenceDialogFragment.kt:ExtendProLicenceDialogFragment$dialog.setOnShowListener { dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener { onExtendClicked() } }</ID>
-    <ID>MaxLineLength:FeatureModule.kt:FeatureModule$(Class.forName("org.totschnig.fints.BankingFeatureImpl").getConstructor().newInstance() as BankingFeature)</ID>
     <ID>MaxLineLength:FileUtils.kt:FileUtils$*</ID>
     <ID>MaxLineLength:FilterPersistence.kt:FilterPersistence$else -&gt; if (oldValue is AndCriterion) AndCriterion(filtered.toSet()) else OrCriterion(filtered.toSet())</ID>
     <ID>MaxLineLength:FloatingActionButtonMenu.kt:contentDescription = stringResource(androidx.appcompat.R.string.abc_action_menu_overflow_description)</ID>
@@ -1161,7 +1160,6 @@
     <ID>NewLineAtEndOfFile:AccountSumTest.kt:org.totschnig.myexpenses.provider.AccountSumTest.kt</ID>
     <ID>NewLineAtEndOfFile:AccountTest.kt:org.totschnig.myexpenses.repository.AccountTest.kt</ID>
     <ID>NewLineAtEndOfFile:AccountType.kt:org.totschnig.myexpenses.model.AccountType.kt</ID>
-    <ID>NewLineAtEndOfFile:AccountWidget.kt:org.totschnig.myexpenses.widget.AccountWidget.kt</ID>
     <ID>NewLineAtEndOfFile:AccountWidgetConfigurationFragment.kt:org.totschnig.myexpenses.fragment.AccountWidgetConfigurationFragment.kt</ID>
     <ID>NewLineAtEndOfFile:AccountWidgetConfigure.kt:org.totschnig.myexpenses.activity.AccountWidgetConfigure.kt</ID>
     <ID>NewLineAtEndOfFile:AccountWidgetService.kt:org.totschnig.myexpenses.widget.AccountWidgetService.kt</ID>
@@ -1334,11 +1332,8 @@
     <ID>NewLineAtEndOfFile:ExportViewModel.kt:org.totschnig.myexpenses.viewmodel.ExportViewModel.kt</ID>
     <ID>NewLineAtEndOfFile:ExtendProLicenceDialogFragment.kt:org.totschnig.myexpenses.dialog.ExtendProLicenceDialogFragment.kt</ID>
     <ID>NewLineAtEndOfFile:ExtraIcons.kt:org.totschnig.myexpenses.viewmodel.data.ExtraIcons.kt</ID>
-    <ID>NewLineAtEndOfFile:FeatureManager.kt:org.totschnig.myexpenses.feature.FeatureManager.kt</ID>
-    <ID>NewLineAtEndOfFile:FeatureModule.kt:org.totschnig.myexpenses.di.FeatureModule.kt</ID>
     <ID>NewLineAtEndOfFile:FeatureScope.kt:org.totschnig.myexpenses.di.FeatureScope.kt</ID>
     <ID>NewLineAtEndOfFile:FeatureTest.kt:org.totschnig.myexpenses.feature.FeatureTest.kt</ID>
-    <ID>NewLineAtEndOfFile:FeatureViewModel.kt:org.totschnig.myexpenses.viewmodel.FeatureViewModel.kt</ID>
     <ID>NewLineAtEndOfFile:FileUtils.kt:org.totschnig.myexpenses.util.io.FileUtils.kt</ID>
     <ID>NewLineAtEndOfFile:FilterConstants.kt:org.totschnig.myexpenses.dialog.FilterConstants.kt</ID>
     <ID>NewLineAtEndOfFile:FilterPersistence.kt:org.totschnig.myexpenses.provider.filter.FilterPersistence.kt</ID>
@@ -1425,7 +1420,6 @@
     <ID>NewLineAtEndOfFile:NonScrollListView.kt:org.totschnig.myexpenses.ui.NonScrollListView.kt</ID>
     <ID>NewLineAtEndOfFile:NotifyingBaseWorker.kt:org.totschnig.myexpenses.service.NotifyingBaseWorker.kt</ID>
     <ID>NewLineAtEndOfFile:NumberFormatPreference.kt:org.totschnig.myexpenses.preference.NumberFormatPreference.kt</ID>
-    <ID>NewLineAtEndOfFile:OcrViewModel.kt:org.totschnig.myexpenses.viewmodel.OcrViewModel.kt</ID>
     <ID>NewLineAtEndOfFile:OnBoardingDataViewModel.kt:org.totschnig.myexpenses.viewmodel.OnBoardingDataViewModel.kt</ID>
     <ID>NewLineAtEndOfFile:OnBoardingPrivacyFragment.kt:org.totschnig.myexpenses.fragment.OnBoardingPrivacyFragment.kt</ID>
     <ID>NewLineAtEndOfFile:OnBoardingUiViewModel.kt:org.totschnig.myexpenses.viewmodel.OnBoardingUiViewModel.kt</ID>

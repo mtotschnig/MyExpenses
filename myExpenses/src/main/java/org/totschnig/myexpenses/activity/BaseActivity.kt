@@ -71,8 +71,6 @@ import com.google.android.material.color.HarmonizedColorsOptions
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
-import com.theartofdev.edmodo.cropper.CropImage
-import com.theartofdev.edmodo.cropper.CropImageView
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import de.cketti.mailto.EmailIntentBuilder
@@ -82,12 +80,6 @@ import eltos.simpledialogfragment.form.AmountInputHostDialog
 import eltos.simpledialogfragment.form.Hint
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import eltos.simpledialogfragment.form.Spinner
-import java.math.BigDecimal
-import java.time.LocalDate
-import java.time.LocalTime
-import java.util.Locale
-import javax.inject.Inject
-import kotlin.math.sign
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -114,17 +106,14 @@ import org.totschnig.myexpenses.dialog.VersionDialogFragment
 import org.totschnig.myexpenses.feature.BankingFeature
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
-import org.totschnig.myexpenses.feature.Module
 import org.totschnig.myexpenses.feature.OcrHost
 import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.feature.OcrResultFlat
 import org.totschnig.myexpenses.feature.Payee
-import org.totschnig.myexpenses.feature.values
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.ContribPayload
 import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -145,7 +134,6 @@ import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
-import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.config.Configurator
@@ -165,6 +153,12 @@ import org.totschnig.myexpenses.viewmodel.FeatureViewModel
 import org.totschnig.myexpenses.viewmodel.OcrViewModel
 import org.totschnig.myexpenses.viewmodel.data.EventObserver
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET_DATA_ENTRY
+import java.math.BigDecimal
+import java.time.LocalDate
+import java.time.LocalTime
+import java.util.Locale
+import javax.inject.Inject
+import kotlin.math.sign
 
 abstract class BaseActivity :
     AppCompatActivity(),
@@ -495,35 +489,16 @@ abstract class BaseActivity :
 
                     is FeatureViewModel.FeatureState.FeatureAvailable -> {
                         showSnackBar(
-                            featureState.modules.map { Module.print(this, it) }
-                                .joinToString(" ") {
-                                    getString(R.string.feature_downloaded, it)
-                                }
+                            getString(
+                                R.string.feature_downloaded,
+                                getString(featureState.feature.labelResId)
+                            )
                         )
-                        Feature.values.find {
-                            featureState.modules.contains(it.mainModule.moduleName)
+                        if (!featureViewModel.isFeatureAvailable(this, featureState.feature)) {
+                            featureViewModel.requestFeature(this, featureState.feature)
+                        } else {
+                            onFeatureAvailable(featureState.feature)
                         }
-                            ?.also {
-                                // after the dynamic feature module has been installed, we need to
-                                // check if data needed by the module (e.g. Tesseract) has been
-                                // downloaded
-                                if (!featureViewModel.isFeatureAvailable(this, it)) {
-                                    featureViewModel.requestFeature(this, it)
-                                } else {
-                                    onFeatureAvailable(it)
-                                }
-                            }
-                            ?: run {
-                                // This should be an exceptional case, for example user has installed
-                                // Dropbox # Jackson, then uninstalls Jackson. when later we need to
-                                // install Jackson again, we no longer know for which feature to call
-                                // onFeatureAvailable
-                                report(
-                                    Throwable(
-                                        "No feature found for ${featureState.modules.joinToString()}"
-                                    )
-                                )
-                            }
                     }
 
                     is FeatureViewModel.FeatureState.Error -> {
@@ -987,22 +962,17 @@ abstract class BaseActivity :
 
     open val imageCaptureErrorDismissCallback: Snackbar.Callback? = null
 
-    open fun processImageCaptureError(resultCode: Int, activityResult: CropImage.ActivityResult?) =
-        if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-            val throwable = activityResult?.error ?: Throwable("ERROR")
-            report(throwable)
-            showSnackBar(
-                if (throwable is ActivityNotFoundException) {
-                    getString(R.string.image_capture_not_installed)
-                } else {
-                    throwable.safeMessage
-                },
-                callback = imageCaptureErrorDismissCallback
-            )
-            true
-        } else {
-            false
-        }
+    fun processImageCaptureError(exception: Exception) {
+        report(exception)
+        showSnackBar(
+            if (exception is ActivityNotFoundException) {
+                getString(R.string.image_capture_not_installed)
+            } else {
+                exception.safeMessage
+            },
+            callback = imageCaptureErrorDismissCallback
+        )
+    }
 
     @JvmOverloads
     fun showDismissibleSnackBar(message: Int, callback: Snackbar.Callback? = null) {
@@ -1220,9 +1190,11 @@ abstract class BaseActivity :
     }
 
     fun deleteFailureMessage(message: String?) =
-        "There was an error deleting the object${message?.let {
-            " ($it)"
-        } ?: ""}. Please contact support@myexenses.mobi !"
+        "There was an error deleting the object${
+            message?.let {
+                " ($it)"
+            } ?: ""
+        }. Please contact support@myexenses.mobi !"
 
     fun showDeleteFailureFeedback(message: String? = null, callback: Snackbar.Callback? = null) {
         showDismissibleSnackBar(deleteFailureMessage(message), callback)

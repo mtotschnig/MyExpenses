@@ -964,7 +964,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
             }
 
             ContribFeature.OCR -> if (featureViewModel.isFeatureAvailable(this, Feature.OCR)) {
-                ocrViewModel.startScan(this)
+                ocrViewModel.startCapture(this)
             } else {
                 featureViewModel.requestFeature(this, Feature.OCR)
             }

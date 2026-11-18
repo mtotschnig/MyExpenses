@@ -147,6 +147,7 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     EXPENSE_EDIT_SAVE_AND_NEW("expense_edit_save_and_new"),
     EXPENSE_EDIT_SAVE_AND_NEW_SPLIT_PART("expense_edit_save_and_new_split_part"),
     OCR_ENGINE(R.string.pref_ocr_engine_key),
+    GMS_DOCUMENT_SCANNER(R.string.pref_gms_document_scanner_key),
     TESSERACT_LANGUAGE(R.string.pref_tesseract_language_key),
     MLKIT_SCRIPT(R.string.pref_mlkit_script_key),
     GROUP_HEADER(R.string.pref_group_header_show_details_key),

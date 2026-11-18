@@ -1,26 +1,16 @@
 package org.totschnig.myexpenses.feature
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Parcelable
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.lifecycleScope
 import androidx.preference.ListPreference
-import com.theartofdev.edmodo.cropper.CropImage
-import com.theartofdev.edmodo.cropper.CropImageView
 import java.time.LocalDate
 import java.time.LocalTime
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.activity.BaseActivity
-import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.util.PictureDirHelper
 
 interface OcrFeature {
     companion object {
@@ -30,67 +20,53 @@ interface OcrFeature {
         fun intent() = Intent(ACTION).setType(MIME_TYPE)
     }
 
-    fun start(scanUri: Uri, fragmentManager: FragmentManager) {}
-    fun startScan(
-        activity: BaseActivity,
-        fileName: String = "SCAN",
-        onResult: (Uri) -> Unit = {
-            start(it, activity.supportFragmentManager)
-        }
-    ) {
-        startMediaChooserDo(activity, fileName, onResult)
-    }
-
+    fun showPreview(scanUri: Uri, fragmentManager: FragmentManager) {}
     fun startMediaChooserDo(
         activity: BaseActivity,
         fileName: String,
-        onResult: (Uri) -> Unit
+        onResult: (Uri) -> Unit,
+        onException: (Exception) -> Unit,
+        onCancel: (() -> Unit)?
     ) {
-        activity.lifecycleScope.launch {
-            val uris = withContext(Dispatchers.IO) {
-                PictureDirHelper.getOutputMediaUri(
-                    temp = true,
-                    application = activity.requireApplication(),
-                    fileName = fileName
-                ) to PictureDirHelper.getOutputMediaUri(
-                    temp = true,
-                    application = activity.requireApplication(),
-                    fileName = "${fileName}_CROPPED"
-                )
-            }
-            val contract = ActivityResultContracts.StartActivityForResult()
-            val key = "CropImageRequest_$fileName"
-            val launcher = activity.activityResultRegistry.register(key, contract) { activityResult ->
-                val cropResult = CropImage.getActivityResult(activityResult.data)
-                if (activityResult.resultCode == Activity.RESULT_OK && cropResult != null) {
-                    activity.baseViewModel.cleanupOrigFile(cropResult)
-                    onResult(cropResult.uri)
-                } else {
-                    activity.processImageCaptureError(activityResult.resultCode, cropResult)
-                }
-            }
-            val intent = CropImage.activity()
-                .setCameraOnly(!activity.prefHandler.getBoolean(PrefKey.CAMERA_CHOOSER, false))
-                .setCameraPackage(
-                    activity.prefHandler.getString(PrefKey.CAMERA_APP)?.takeIf { it.isNotEmpty() }
-                )
-                .setAllowFlipping(false)
-                .setCaptureImageOutputUri(uris.first)
-                .setOutputUri(uris.second)
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .getIntent(activity)
+    }
 
-            launcher.launch(intent)
-        }
+    fun startCapture(
+        activity: BaseActivity,
+        fileName: String = "SCAN",
+        onResult: (Uri) -> Unit,
+        onCancel: (() -> Unit)?
+    ) {
+        startMediaChooserDo(
+            activity,
+            fileName,
+            onResult,
+            {
+                activity.processImageCaptureError(it)
+            },
+            onCancel
+        )
     }
 
     fun handleData(intent: Intent?, fragmentManager: FragmentManager) {}
     fun downloadTessData(context: Context): String? = null
     fun isAvailable(context: Context): Boolean = false
     fun offerInstall(baseActivity: BaseActivity) {}
-    fun configureOcrEnginePrefs(tesseract: ListPreference, mlkit: ListPreference) {
+    fun configureOcrEnginePrefs(
+        tesseract: ListPreference,
+        mlkit: ListPreference,
+        gmsDocumentScanner: androidx.preference.Preference? = null
+    ) {
         tesseract.isVisible = false
         mlkit.isVisible = false
+        gmsDocumentScanner?.isVisible = false
+    }
+
+    fun configureAttachPicturePrefs(
+        gmsDocumentScanner: androidx.preference.Preference?,
+        cameraCategory: androidx.preference.PreferenceGroup?
+    ) {
+        gmsDocumentScanner?.isVisible = false
+        cameraCategory?.isVisible = true
     }
 
     fun shouldShowEngineSelection() = true

@@ -8,6 +8,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import androidx.preference.ListPreference
+import androidx.preference.Preference
+import androidx.preference.PreferenceGroup
 import kotlinx.coroutines.Dispatchers
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.BaseActivity
@@ -26,18 +28,20 @@ class OcrViewModel(application: Application) : AndroidViewModel(application) {
         emit(ocrFeature.downloadTessData(getApplication()))
     }
 
-    fun startOcrFeature(scanUri: Uri, fragmentManager: FragmentManager) {
-        ocrFeature.start(scanUri, fragmentManager)
-    }
-
-    fun startScan(
+    fun startCapture(
         baseActivity: BaseActivity,
         fileName: String = "SCAN",
-        onResult: (Uri) -> Unit = {
-            ocrFeature.start(it, baseActivity.supportFragmentManager)
-        }
+        onResult: ((Uri) -> Unit)? = null,
+        onCancel: (() -> Unit)? = null
     ) {
-        ocrFeature.startScan(baseActivity, fileName, onResult)
+        ocrFeature.startCapture(
+            baseActivity,
+            fileName,
+            onResult ?: {
+                ocrFeature.showPreview(it, baseActivity.supportFragmentManager)
+            },
+            onCancel
+        )
     }
 
     fun handleOcrData(intent: Intent?, fragmentManager: FragmentManager) {
@@ -48,8 +52,19 @@ class OcrViewModel(application: Application) : AndroidViewModel(application) {
         ocrFeature.offerInstall(baseActivity)
     }
 
-    fun configureOcrEnginePrefs(tesseract: ListPreference, mlkit: ListPreference) {
-        ocrFeature.configureOcrEnginePrefs(tesseract, mlkit)
+    fun configureOcrEnginePrefs(
+        tesseract: ListPreference,
+        mlkit: ListPreference,
+        gmsDocumentScanner: Preference?
+    ) {
+        ocrFeature.configureOcrEnginePrefs(tesseract, mlkit, gmsDocumentScanner)
+    }
+
+    fun configureAttachPicturePrefs(
+        gmsDocumentScanner: Preference?,
+        cameraCategory: PreferenceGroup?
+    ) {
+        ocrFeature.configureAttachPicturePrefs(gmsDocumentScanner, cameraCategory)
     }
 
     fun shouldShowEngineSelection() = ocrFeature.shouldShowEngineSelection()

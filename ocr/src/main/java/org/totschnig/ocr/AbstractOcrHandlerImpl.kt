@@ -1,6 +1,13 @@
 package org.totschnig.ocr
 
 import android.graphics.Rect
+import java.text.NumberFormat
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.util.Locale
+import kotlin.math.absoluteValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
@@ -15,13 +22,6 @@ import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.Utils
 import timber.log.Timber
-import java.text.NumberFormat
-import java.time.LocalDate
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
-import java.util.Locale
-import kotlin.math.absoluteValue
 
 abstract class AbstractOcrHandlerImpl(
     @Suppress("MemberVisibilityCanBePrivate") val prefHandler: PrefHandler,
@@ -34,7 +34,6 @@ abstract class AbstractOcrHandlerImpl(
 
     val locale: Locale
         get() = application.userPreferredLocale
-
 
     init {
         numberFormatList = mutableListOf<NumberFormat>().apply {
@@ -75,7 +74,7 @@ abstract class AbstractOcrHandlerImpl(
             ?.parseTotalIndicators()
             ?: application.wrappedContext.getString(R.string.pref_ocr_total_indicators_default)
                 .parseTotalIndicators()
-                    ?: listOf("Total")
+            ?: listOf("Total")
         log("TotalIndicators: %s", totalIndicators.joinToString("\n"))
     }
 
@@ -95,7 +94,9 @@ abstract class AbstractOcrHandlerImpl(
             application.contentResolver.query(
                 TransactionProvider.PAYEES_URI,
                 arrayOf(KEY_ROWID, KEY_PAYEE_NAME),
-                null, null, null
+                null,
+                null,
+                null
             )?.use { cursor ->
                 if (cursor.moveToFirst()) {
                     do {
@@ -130,7 +131,10 @@ abstract class AbstractOcrHandlerImpl(
         val amountCandidates = lines.filter { line ->
             for (totalIndicator in totalIndicators) {
                 if (line.text.filter { c -> c.isLetter() }
-                        .startsWith(totalIndicator, ignoreCase = true)) return@filter true
+                        .startsWith(totalIndicator, ignoreCase = true)
+                ) {
+                    return@filter true
+                }
                 var matchesAllSplits = true
                 for (split in totalIndicator.split(' ')) {
                     var found = false
@@ -151,15 +155,23 @@ abstract class AbstractOcrHandlerImpl(
             false
         }.map { totalBlock ->
             log("Now looking at total block: ${totalBlock.text}")
-            //find amount in the total line itself and in the nearest line
-            listOf(extractAmount(totalBlock), lines.minus(totalBlock).sortedBy { line ->
-                (line.bOr0() - totalBlock.bOr0()).absoluteValue.coerceAtMost((line.tOr0() - totalBlock.tOr0()).absoluteValue)
-                    .also {
-                        log("%s: distance %d", line.text, it)
-                    }
-            }.firstNotNullOfOrNull {
-                extractAmount(it)
-            })
+            // find amount in the total line itself and in the nearest line
+            listOf(
+                extractAmount(totalBlock),
+                lines.minus(totalBlock).sortedBy { line ->
+                    (line.bOr0() - totalBlock.bOr0()).absoluteValue.coerceAtMost(
+                        (
+                            line.tOr0() -
+                                totalBlock.tOr0()
+                            ).absoluteValue
+                    )
+                        .also {
+                            log("%s: distance %d", line.text, it)
+                        }
+                }.firstNotNullOfOrNull {
+                    extractAmount(it)
+                }
+            )
         }.flatten().filterNotNull()
         // We might receive data or time values split into adjacent elements, which prevents us from finding them, if we work on elements alone
         // if we do not find any data by working on individual elements, we iterate again over pairs, then triples of elements
@@ -183,7 +195,8 @@ abstract class AbstractOcrHandlerImpl(
                         normalized.replace(
                             " ",
                             ""
-                        ), text.replace(" ", "")
+                        ),
+                        text.replace(" ", "")
                     )
                 }
             }
@@ -207,17 +220,19 @@ abstract class AbstractOcrHandlerImpl(
     private fun extractTime(line: Line, windowSize: Int): Pair<LocalTime, Rect?>? {
         timeFormatterList.forEach { formatter ->
             line.elements.windowed(windowSize).forEach { list ->
-                (try {
-                    LocalTime.parse(list.join(), formatter)
-                } catch (_: Exception) {
-                    null
-                }
-                    ?: try {
-                        LocalTime.parse(list.join(" "), formatter)
+                (
+                    try {
+                        LocalTime.parse(list.join(), formatter)
                     } catch (_: Exception) {
                         null
-                    })?.let {
-                        return Pair(it, list.boundingBox)
+                    }
+                        ?: try {
+                            LocalTime.parse(list.join(" "), formatter)
+                        } catch (_: Exception) {
+                            null
+                        }
+                    )?.let {
+                    return Pair(it, list.boundingBox)
                 }
             }
         }
