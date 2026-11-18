@@ -9,14 +9,9 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import androidx.preference.ListPreference
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.feature.OcrFeature
-import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.util.PictureDirHelper
-import javax.inject.Inject
 
 class OcrViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -33,6 +28,16 @@ class OcrViewModel(application: Application) : AndroidViewModel(application) {
 
     fun startOcrFeature(scanUri: Uri, fragmentManager: FragmentManager) {
         ocrFeature.start(scanUri, fragmentManager)
+    }
+
+    fun startScan(
+        baseActivity: BaseActivity,
+        fileName: String = "SCAN",
+        onResult: (Uri) -> Unit = {
+            ocrFeature.start(it, baseActivity.supportFragmentManager)
+        }
+    ) {
+        ocrFeature.startScan(baseActivity, fileName, onResult)
     }
 
     fun handleOcrData(intent: Intent?, fragmentManager: FragmentManager) {

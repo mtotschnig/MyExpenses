@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.annotation.Keep
-import com.google.mlkit.common.MlKit
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizerOptionsInterface
@@ -27,18 +26,15 @@ import kotlin.coroutines.suspendCoroutine
 
 @Keep
 object Engine : org.totschnig.ocr.MlkitEngine {
-    private var initialized: Boolean = false
-    private fun initialize(context: Context) {
-        if (!initialized) {
-            MlKit.initialize(context)
-            initialized = true
-        }
-    }
 
     private fun getOptions(script: Script) =
         try {
-            (Class.forName("org.totschnig.mlkit_${script.name.lowercase(Locale.ROOT)}.Options").kotlin.objectInstance as RecognizerProvider).textRecognizerOptions
-        } catch (e: Exception) {
+            (
+                Class.forName(
+                    "org.totschnig.mlkit_${script.name.lowercase(Locale.ROOT)}.Options"
+                ).kotlin.objectInstance as RecognizerProvider
+                ).textRecognizerOptions
+        } catch (_: Exception) {
             throw java.lang.IllegalStateException("Recognizer for ${script.name} not found")
         }
 
@@ -53,17 +49,17 @@ object Engine : org.totschnig.ocr.MlkitEngine {
             .map { getDisplayNameForScript(context, it) }
             .toTypedArray()
 
-
     override suspend fun run(uri: Uri, context: Context, prefHandler: PrefHandler): Text =
         withContext(Dispatchers.Default) {
-            initialize(context)
             val image =
-                if (uri.isDebugAsset)
+                if (uri.isDebugAsset) {
                     InputImage.fromBitmap(
                         BitmapFactory.decodeStream(context.assets.open(uri.pathSegments[1])),
                         0
                     )
-                else InputImage.fromFilePath(context, uri)
+                } else {
+                    InputImage.fromFilePath(context, uri)
+                }
             TextRecognition.getClient(options(context, prefHandler)).use { recognizer ->
                 suspendCoroutine { cont ->
                     recognizer.process(image)
@@ -78,16 +74,24 @@ object Engine : org.totschnig.ocr.MlkitEngine {
         }
 
     override fun info(context: Context, prefHandler: PrefHandler) = "Ml Kit (" +
-            getDisplayNameForScript(
-                context,
-                getUserConfiguredMlkitScript(context, prefHandler).name
-            ) + ")"
+        getDisplayNameForScript(
+            context,
+            getUserConfiguredMlkitScript(context, prefHandler).name
+        ) + ")"
 }
 
-fun com.google.mlkit.vision.text.Text.wrap() = Text(textBlocks.map { textBlock ->
-    TextBlock(textBlock.lines.map { line ->
-        Line(line.text, line.boundingBox, line.elements.map { element ->
-            Element(element.text, element.boundingBox)
-        })
-    })
-})
+fun com.google.mlkit.vision.text.Text.wrap() = Text(
+    textBlocks.map { textBlock ->
+        TextBlock(
+            textBlock.lines.map { line ->
+                Line(
+                    line.text,
+                    line.boundingBox,
+                    line.elements.map { element ->
+                        Element(element.text, element.boundingBox)
+                    }
+                )
+            }
+        )
+    }
+)

@@ -81,6 +81,7 @@
     <ID>CyclomaticComplexMethod:ManageBudgets.kt:ManageBudgets$@OptIn(ExperimentalMaterial3Api::class) public override fun onCreate</ID>
     <ID>CyclomaticComplexMethod:ManageCategories.kt:ManageCategories$override fun onCreate</ID>
     <ID>CyclomaticComplexMethod:MoreDbUtils.kt:fun parseCategoriesFromXml: List&lt;CategoryTreeItem&gt;</ID>
+    <ID>CyclomaticComplexMethod:MoreUiUtils.kt:fun attachmentInfoMap: Map&lt;Uri, AttachmentInfo&gt;</ID>
     <ID>CyclomaticComplexMethod:MyExpensesV2.kt:MyExpensesV2$@OptIn(ExperimentalMaterial3Api::class) override fun onCreate</ID>
     <ID>CyclomaticComplexMethod:MyExpensesV2ViewModel.kt:MyExpensesV2ViewModel$private fun saveAssetTransfer</ID>
     <ID>CyclomaticComplexMethod:MyExpensesV2ViewModel.kt:MyExpensesV2ViewModel$private fun saveTradeInternal</ID>
@@ -238,6 +239,7 @@
     <ID>LongMethod:BaseActivity.kt:BaseActivity$@CallSuper override fun dispatchCommand: Boolean</ID>
     <ID>LongMethod:BaseActivity.kt:BaseActivity$open fun handleRootWindowInsets</ID>
     <ID>LongMethod:BaseActivity.kt:BaseActivity$override fun onCreate</ID>
+    <ID>LongMethod:BaseActivity.kt:BaseActivity$override fun processOcrResult</ID>
     <ID>LongMethod:BaseMyExpenses.kt:BaseMyExpenses$@Composable fun Page</ID>
     <ID>LongMethod:BaseMyExpenses.kt:BaseMyExpenses$override fun contribFeatureCalled</ID>
     <ID>LongMethod:BaseMyExpenses.kt:BaseMyExpenses$override fun dispatchCommand: Boolean</ID>
@@ -692,10 +694,6 @@
     <ID>MaxLineLength:Archive.kt:"UPDATE $TABLE_TRANSACTIONS SET $KEY_PARENTID = null, $KEY_STATUS = $STATUS_NONE WHERE $KEY_PARENTID = $rowIdSubSelect "</ID>
     <ID>MaxLineLength:Archive.kt://If we archive a cash account, where we find multiple states (which can happen when user updates account type),</ID>
     <ID>MaxLineLength:Archive.kt:query(TABLE_ACCOUNT_TYPES, null, "$KEY_ROWID = (SELECT $KEY_TYPE FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = ?)", arrayOf(accountId))</ID>
-    <ID>MaxLineLength:BaseActivity.kt:BaseActivity$//This should be an exceptional case, for example user has installed Dropbox # Jackson, then uninstalls Jackson.</ID>
-    <ID>MaxLineLength:BaseActivity.kt:BaseActivity$//after the dynamic feature module has been installed, we need to check if data needed by the module (e.g. Tesseract) has been downloaded</ID>
-    <ID>MaxLineLength:BaseActivity.kt:BaseActivity$//when later we need to install Jackson again, we no longer know for which feature to call onFeatureAvailable</ID>
-    <ID>MaxLineLength:BaseActivity.kt:BaseActivity$if</ID>
     <ID>MaxLineLength:BaseMyExpenses.kt:BaseMyExpenses$AccountGrouping.FLAG -&gt; it.flag.let { it.title(this@BaseMyExpenses) to it.id }</ID>
     <ID>MaxLineLength:BaseMyExpenses.kt:BaseMyExpenses$AccountGrouping.TYPE -&gt; it.type.let { it.title(this@BaseMyExpenses) to it.id }</ID>
     <ID>MaxLineLength:BaseMyExpenses.kt:BaseMyExpenses$futureCriterion = viewModel.futureCriterion.collectAsState(initial = FutureCriterion.EndOfDay).value</ID>
@@ -862,10 +860,8 @@
     <ID>MaxLineLength:ExchangeRateServiceTest.kt:ExchangeRateServiceTest$val (rates, exception) = service.getTimeSeries(ExchangeRateApi.OpenExchangeRates, BuildConfig.OPEN_EXCHANGE_RATES_API_KEY, LocalDate.now().minusDays(10), LocalDate.now(), "EUR","AUD")</ID>
     <ID>MaxLineLength:ExchangeRateServiceTest.kt:ExchangeRateServiceTest$val rates = service.getLatest(ExchangeRateApi.CoinApi, BuildConfig.COIN_API_API_KEY, "EUR", listOf("AUD", "GBP", "CHF"))</ID>
     <ID>MaxLineLength:ExchangeRateServiceTest.kt:ExchangeRateServiceTest$val rates = service.getLatest(ExchangeRateApi.OpenExchangeRates, BuildConfig.OPEN_EXCHANGE_RATES_API_KEY, "EUR", listOf("AUD", "GBP", "CHF"))</ID>
-    <ID>MaxLineLength:ExpenseEdit.kt:ExpenseEdit$(delegate as? TransferDelegate)?.run { passedInTransferAmount?.takeIf { passedInTransferAccountId == id } }</ID>
-    <ID>MaxLineLength:ExpenseEdit.kt:ExpenseEdit$//if we are editing the transaction the difference between the new and the old value define the delta, as long as user did not select a different account</ID>
-    <ID>MaxLineLength:ExpenseEdit.kt:ExpenseEdit$get() = if (createNew &amp;&amp; delegate.createNewOverride) R.string.menu_save_and_new_content_description else super.fabDescription</ID>
-    <ID>MaxLineLength:ExpenseEdit.kt:ExpenseEdit$getString(if (areDatesLinked) R.string.content_description_dates_are_linked else R.string.content_description_dates_are_not_linked)</ID>
+    <ID>MaxLineLength:ExpenseEdit.kt:ExpenseEdit$// if we are editing the transaction the difference between the new and the old value define the delta, as long as user did not select a different account</ID>
+    <ID>MaxLineLength:ExpenseEdit.kt:ExpenseEdit$if (areDatesLinked) R.string.content_description_dates_are_linked else R.string.content_description_dates_are_not_linked</ID>
     <ID>MaxLineLength:ExportDialogFragment.kt:ExportDialogFragment$getString(R.string.help_ExportDialog_date_format, "https://developer.android.com/reference/java/time/format/DateTimeFormatter")</ID>
     <ID>MaxLineLength:ExportTest.kt:ExportTest$""""","$date","","0","0,10","","","${context.getString(R.string.pm_cheque)}","*","1","","Tag One, 'Tags, Tags, Tags'""""</ID>
     <ID>MaxLineLength:ExportTest.kt:ExportTest$""""";"$date";"";"0";"0.10";"";"";"${context.getString(R.string.pm_cheque)}";"*";"1";"";"Tag One, 'Tags, Tags, Tags'""""</ID>
@@ -963,8 +959,6 @@
     <ID>MaxLineLength:NetworkModule.kt:NetworkModule.Companion$fun</ID>
     <ID>MaxLineLength:NewDialogUtils.kt:headerToString = { context.getString(if(it) R.string.balance_sheet_section_assets else R.string.balance_sheet_section_liabilities) }</ID>
     <ID>MaxLineLength:NumberFormatPreference.kt:NumberFormatPreference$override fun getDefaultValue: String?</ID>
-    <ID>MaxLineLength:OcrFeature.kt:OcrResult$OcrResultFlat(amountCandidates.getOrNull(amountIndex), dateCandidates.getOrNull(dateIndex), payeeCandidates.getOrNull(payeeIndex))</ID>
-    <ID>MaxLineLength:OcrFeature.kt:OcrResult$data</ID>
     <ID>MaxLineLength:OnBoardingPrivacyFragment.kt:OnBoardingPrivacyFragment$hostActivity.requestNotificationPermission(PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_AUTO_BACKUP)</ID>
     <ID>MaxLineLength:OnboardingDataFragment.kt:OnboardingDataFragment$if</ID>
     <ID>MaxLineLength:OnboardingUiFragment.kt:OnboardingUiFragment$(Utils.ensureDateFormatWithShortYear(context) as SimpleDateFormat).asDateTimeFormatter</ID>
@@ -1198,7 +1192,6 @@
     <ID>NewLineAtEndOfFile:BalanceType.kt:org.totschnig.myexpenses.model.BalanceType.kt</ID>
     <ID>NewLineAtEndOfFile:Bank.kt:org.totschnig.myexpenses.model2.Bank.kt</ID>
     <ID>NewLineAtEndOfFile:BankingFeature.kt:org.totschnig.myexpenses.feature.BankingFeature.kt</ID>
-    <ID>NewLineAtEndOfFile:BaseActivity.kt:org.totschnig.myexpenses.activity.BaseActivity.kt</ID>
     <ID>NewLineAtEndOfFile:BaseDialogFragment.kt:org.totschnig.myexpenses.dialog.BaseDialogFragment.kt</ID>
     <ID>NewLineAtEndOfFile:BaseFunctionalityViewModel.kt:org.totschnig.myexpenses.viewmodel.BaseFunctionalityViewModel.kt</ID>
     <ID>NewLineAtEndOfFile:BaseHelpTest.kt:org.totschnig.myexpenses.util.BaseHelpTest.kt</ID>
@@ -1242,7 +1235,6 @@
     <ID>NewLineAtEndOfFile:CategoryTreeTest.kt:org.totschnig.myexpenses.provider.CategoryTreeTest.kt</ID>
     <ID>NewLineAtEndOfFile:CategoryTreeTest.kt:org.totschnig.myexpenses.viewmodel.data.CategoryTreeTest.kt</ID>
     <ID>NewLineAtEndOfFile:CategoryViewModelTest.kt:org.totschnig.myexpenses.viewmodel.CategoryViewModelTest.kt</ID>
-    <ID>NewLineAtEndOfFile:ChangeLogGenerator.kt:org.totschnig.myexpenses.changelog.ChangeLogGenerator.kt</ID>
     <ID>NewLineAtEndOfFile:ChangeLogTriggers.kt:org.totschnig.myexpenses.provider.ChangeLogTriggers.kt</ID>
     <ID>NewLineAtEndOfFile:ChangeSet.kt:org.totschnig.myexpenses.sync.json.ChangeSet.kt</ID>
     <ID>NewLineAtEndOfFile:CircularInitials.kt:org.totschnig.myexpenses.compose.CircularInitials.kt</ID>

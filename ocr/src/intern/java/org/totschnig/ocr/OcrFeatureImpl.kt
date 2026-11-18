@@ -1,16 +1,66 @@
 package org.totschnig.ocr
 
+import android.app.Activity
 import android.content.Context
+import android.net.Uri
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.Keep
 import androidx.preference.ListPreference
+import com.google.mlkit.common.MlKit
+import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions
+import com.google.mlkit.vision.documentscanner.GmsDocumentScanning
+import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.ocr.OcrHandlerImpl.Companion.availableEngines
 import org.totschnig.ocr.OcrHandlerImpl.Companion.getEngine
+import timber.log.Timber
 
 @Keep
 class OcrFeatureImpl(val prefHandler: PrefHandler) : OcrFeature() {
+    override fun startScan(activity: BaseActivity, fileName: String, onResult: (Uri) -> Unit) {
+        try {
+            MlKit.initialize(activity.applicationContext)
+        } catch (_: IllegalStateException) {
+            // Already initialized
+        }
+
+        try {
+            val options = GmsDocumentScannerOptions.Builder()
+                .setGalleryImportAllowed(true)
+                .setPageLimit(1)
+                .setResultFormats(GmsDocumentScannerOptions.RESULT_FORMAT_JPEG)
+                .setScannerMode(GmsDocumentScannerOptions.SCANNER_MODE_FULL)
+                .build()
+
+            val scanner = GmsDocumentScanning.getClient(options)
+            scanner.getStartScanIntent(activity)
+                .addOnSuccessListener { intentSender ->
+                    val request = IntentSenderRequest.Builder(intentSender).build()
+                    val key = "GmsDocumentScannerRequest"
+                    val contract = ActivityResultContracts.StartIntentSenderForResult()
+                    val launcher =
+                        activity.activityResultRegistry.register(key, contract) { result ->
+                            if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+                                GmsDocumentScanningResult.fromActivityResultIntent(
+                                    result.data
+                                )?.pages?.firstOrNull()?.imageUri?.let(onResult)
+                            }
+                        }
+                    launcher.launch(request)
+                }
+                .addOnFailureListener { e ->
+                    Timber.w(e, "GmsDocumentScanner failed, falling back to media chooser")
+                    startMediaChooserDo(activity, fileName, onResult)
+                }
+        } catch (e: Exception) {
+            Timber.w(e, "GmsDocumentScanner unavailable, falling back to media chooser")
+            startMediaChooserDo(activity, fileName, onResult)
+        }
+    }
+
     override fun downloadTessData(context: Context) =
         (getEngine(context, prefHandler) as? TesseractEngine)?.downloadTessData(
             context,
@@ -47,8 +97,9 @@ class OcrFeatureImpl(val prefHandler: PrefHandler) : OcrFeature() {
     }
 
     override fun shouldShowEngineSelection() =
-        if (DistributionHelper.distribution.hasDynamicFeatureDelivery)
+        if (DistributionHelper.distribution.hasDynamicFeatureDelivery) {
             true
-        else
+        } else {
             availableEngines().size > 1
+        }
 }

@@ -7,8 +7,10 @@ import android.content.res.Resources
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Rect
+import android.media.ThumbnailUtils
 import android.net.Uri
 import android.os.Build
+import java.io.File
 import android.text.format.DateFormat
 import android.text.method.LinkMovementMethod
 import android.util.Size
@@ -334,7 +336,7 @@ fun attachmentInfoMap(context: Context, withFile: Boolean = false): Map<Uri, Att
                 }
             }
 
-            "file" -> if (uri.pathSegments.first() == "android_asset") {
+            "file" -> if (uri.pathSegments.firstOrNull() == "android_asset") {
                 val file = uri.pathSegments[1]
                 AttachmentInfo.of(
                     getMimeType(file),
@@ -343,13 +345,59 @@ fun attachmentInfoMap(context: Context, withFile: Boolean = false): Map<Uri, Att
                     null
                 )
             } else {
-                null
+                val file = File(uri.path ?: "")
+                if (file.exists()) {
+                    val contentDescription = file.name
+                    val mimeType = getMimeType(file.name)
+                    val attachFile = if (withFile) file else null
+                    if (mimeType.startsWith("image")) {
+                        val size = UiUtils.dp2Px(48f, context.resources)
+                        val thumbnail = try {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                ThumbnailUtils.createImageThumbnail(file, Size(size, size), null)
+                            } else {
+                                BitmapFactory.decodeFile(file.path)
+                            }
+                        } catch (_: Exception) {
+                            null
+                        }
+                        if (thumbnail != null) {
+                            AttachmentInfo.of(
+                                mimeType,
+                                thumbnail,
+                                contentDescription,
+                                attachFile
+                            )
+                        } else {
+                            AttachmentInfo.of(
+                                mimeType,
+                                R.drawable.ic_menu_camera,
+                                contentDescription,
+                                attachFile
+                            )
+                        }
+                    } else {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            val icon = contentResolver.getTypeInfo(mimeType).icon
+                            AttachmentInfo.of(mimeType, icon, contentDescription, attachFile)
+                        } else {
+                            AttachmentInfo.of(
+                                mimeType,
+                                R.drawable.ic_menu_template,
+                                contentDescription,
+                                attachFile
+                            )
+                        }
+                    }
+                } else {
+                    null
+                }
             }
 
             else -> null
         } ?: AttachmentInfo.of(
             null,
-            com.google.android.material.R.drawable.mtrl_ic_error,
+            R.drawable.ic_warning,
             "Error",
             null
         )

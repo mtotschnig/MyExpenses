@@ -8,7 +8,7 @@ import org.totschnig.myexpenses.feature.OcrFeature
 const val FRAGMENT_TAG = "SCAN_PREVIEW"
 
 @Keep
-abstract class OcrFeature: OcrFeature {
+abstract class OcrFeature : OcrFeature {
     override fun start(scanUri: Uri, fragmentManager: FragmentManager) {
         ScanPreviewFragment.with(scanUri).show(fragmentManager, FRAGMENT_TAG)
     }

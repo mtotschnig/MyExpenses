@@ -39,6 +39,10 @@ android {
 dependencies {
     coreLibraryDesugaring libs.android.desugar
     api project(':myExpenses')
+    internImplementation libs.play.services.base
+    internImplementation libs.play.services.mlkit.document.scanner
+    internApi libs.text.recognition.bundled.common
+    internApi libs.play.services.mlkit.text.recognition.common
     implementation libs.androidx.appcompat
     implementation libs.androidx.lifecycle.viewmodel.ktx
     ksp libs.dagger.compiler

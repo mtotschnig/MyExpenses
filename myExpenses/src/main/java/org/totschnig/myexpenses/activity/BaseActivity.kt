@@ -82,6 +82,12 @@ import eltos.simpledialogfragment.form.AmountInputHostDialog
 import eltos.simpledialogfragment.form.Hint
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import eltos.simpledialogfragment.form.Spinner
+import java.math.BigDecimal
+import java.time.LocalDate
+import java.time.LocalTime
+import java.util.Locale
+import javax.inject.Inject
+import kotlin.math.sign
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -159,16 +165,17 @@ import org.totschnig.myexpenses.viewmodel.FeatureViewModel
 import org.totschnig.myexpenses.viewmodel.OcrViewModel
 import org.totschnig.myexpenses.viewmodel.data.EventObserver
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET_DATA_ENTRY
-import java.math.BigDecimal
-import java.time.LocalDate
-import java.time.LocalTime
-import java.util.Locale
-import javax.inject.Inject
-import kotlin.math.sign
 
-abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.MessageDialogListener,
-    ConfirmationDialogListener, EasyPermissions.PermissionCallbacks, AmountInput.Host, ContribIFace,
-    OnDialogResultListener, OnSharedPreferenceChangeListener, OcrHost {
+abstract class BaseActivity :
+    AppCompatActivity(),
+    MessageDialogFragment.MessageDialogListener,
+    ConfirmationDialogListener,
+    EasyPermissions.PermissionCallbacks,
+    AmountInput.Host,
+    ContribIFace,
+    OnDialogResultListener,
+    OnSharedPreferenceChangeListener,
+    OcrHost {
     private var snackBar: Snackbar? = null
     private var pwDialog: AlertDialog? = null
 
@@ -294,7 +301,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     fun sendEmail(
         recipient: String,
         subject: String,
-        body: String,
+        body: String
     ) {
         if (!EmailIntentBuilder.from(this)
                 .to(recipient)
@@ -308,14 +315,15 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     fun startActivity(intent: Intent, notAvailableMessage: Int, forResultRequestCode: Int? = null) {
         try {
-            if (forResultRequestCode != null)
+            if (forResultRequestCode != null) {
                 startActivityForResult(intent, forResultRequestCode)
-            else
+            } else {
                 startActivity(intent)
+            }
         } catch (_: ActivityNotFoundException) {
             showSnackBar(notAvailableMessage)
         } catch (e: SecurityException) {
-            //seen on  Mate 20 Lite with cmp=com.simplemobiletools.calendar/.activities.MainActivity
+            // seen on  Mate 20 Lite with cmp=com.simplemobiletools.calendar/.activities.MainActivity
             showSnackBar(e.safeMessage)
         }
     }
@@ -444,9 +452,11 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     private val contentColor: Int
-        get() = if (canUseContentColor)
+        get() = if (canUseContentColor) {
             color.takeIf { it != 0 } ?: intent.getIntExtra(KEY_COLOR, 0)
-        else 0
+        } else {
+            0
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (uiConfigIsSafe) {
@@ -472,59 +482,71 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 .build()
         )
 
-        featureViewModel.getFeatureState().observe(this, EventObserver { featureState ->
-            when (featureState) {
-                is FeatureViewModel.FeatureState.FeatureLoading -> showSnackBar(
-                    getString(
-                        R.string.feature_download_requested,
-                        getString(featureState.feature.labelResId)
+        featureViewModel.getFeatureState().observe(
+            this,
+            EventObserver { featureState ->
+                when (featureState) {
+                    is FeatureViewModel.FeatureState.FeatureLoading -> showSnackBar(
+                        getString(
+                            R.string.feature_download_requested,
+                            getString(featureState.feature.labelResId)
+                        )
                     )
-                )
 
-                is FeatureViewModel.FeatureState.FeatureAvailable -> {
-                    showSnackBar(
-                        featureState.modules.map { Module.print(this, it) }
-                            .joinToString(" ") {
-                                getString(R.string.feature_downloaded, it)
+                    is FeatureViewModel.FeatureState.FeatureAvailable -> {
+                        showSnackBar(
+                            featureState.modules.map { Module.print(this, it) }
+                                .joinToString(" ") {
+                                    getString(R.string.feature_downloaded, it)
+                                }
+                        )
+                        Feature.values.find {
+                            featureState.modules.contains(it.mainModule.moduleName)
+                        }
+                            ?.also {
+                                // after the dynamic feature module has been installed, we need to
+                                // check if data needed by the module (e.g. Tesseract) has been
+                                // downloaded
+                                if (!featureViewModel.isFeatureAvailable(this, it)) {
+                                    featureViewModel.requestFeature(this, it)
+                                } else {
+                                    onFeatureAvailable(it)
+                                }
                             }
+                            ?: run {
+                                // This should be an exceptional case, for example user has installed
+                                // Dropbox # Jackson, then uninstalls Jackson. when later we need to
+                                // install Jackson again, we no longer know for which feature to call
+                                // onFeatureAvailable
+                                report(
+                                    Throwable(
+                                        "No feature found for ${featureState.modules.joinToString()}"
+                                    )
+                                )
+                            }
+                    }
+
+                    is FeatureViewModel.FeatureState.Error -> {
+                        with(featureState.throwable) {
+                            report(this)
+                            message?.let { showSnackBar(it) }
+                        }
+                    }
+
+                    is FeatureViewModel.FeatureState.LanguageLoading -> showSnackBar(
+                        getString(
+                            R.string.language_download_requested,
+                            featureState.language
+                        )
                     )
-                    Feature.values.find { featureState.modules.contains(it.mainModule.moduleName) }
-                        ?.also {
-                            //after the dynamic feature module has been installed, we need to check if data needed by the module (e.g. Tesseract) has been downloaded
-                            if (!featureViewModel.isFeatureAvailable(this, it)) {
-                                featureViewModel.requestFeature(this, it)
-                            } else {
-                                onFeatureAvailable(it)
-                            }
-                        }
-                        ?: run {
-                            //This should be an exceptional case, for example user has installed Dropbox # Jackson, then uninstalls Jackson.
-                            //when later we need to install Jackson again, we no longer know for which feature to call onFeatureAvailable
-                            report(Throwable("No feature found for ${featureState.modules.joinToString()}"))
-                        }
 
-                }
-
-                is FeatureViewModel.FeatureState.Error -> {
-                    with(featureState.throwable) {
-                        report(this)
-                        message?.let { showSnackBar(it) }
+                    is FeatureViewModel.FeatureState.LanguageAvailable -> {
+                        setLanguage(featureState.language)
+                        recreate()
                     }
                 }
-
-                is FeatureViewModel.FeatureState.LanguageLoading -> showSnackBar(
-                    getString(
-                        R.string.language_download_requested,
-                        featureState.language
-                    )
-                )
-
-                is FeatureViewModel.FeatureState.LanguageAvailable -> {
-                    setLanguage(featureState.language)
-                    recreate()
-                }
             }
-        })
+        )
         super.onCreate(savedInstanceState)
         tracker.init(this, licenceHandler.licenceStatus)
         lifecycleScope.launch {
@@ -540,7 +562,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                     result?.onFailure {
                         showDismissibleSnackBar(it.safeMessage, callback)
                     }?.onSuccess {
-                        if (it == BaseFunctionalityViewModel.Scheme.HTTP || it == BaseFunctionalityViewModel.Scheme.HTTPS) {
+                        if (it == BaseFunctionalityViewModel.Scheme.HTTP ||
+                            it == BaseFunctionalityViewModel.Scheme.HTTPS
+                        ) {
                             showDismissibleSnackBar("HTTP PUT completed successfully.", callback)
                         }
                     }
@@ -572,7 +596,13 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 val imeVisible = windowInsets.isVisible(WindowInsetsCompat.Type.ime())
                 val baseMargin = UiUtils.dp2Px(16f, resources)
                 val insets =
-                    if (imeVisible) Insets.NONE else windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
+                    if (imeVisible) {
+                        Insets.NONE
+                    } else {
+                        windowInsets.getInsets(
+                            WindowInsetsCompat.Type.navigationBars()
+                        )
+                    }
                 v.updateLayoutParams<MarginLayoutParams> {
                     leftMargin = baseMargin + insets.left
                     bottomMargin = baseMargin + insets.bottom
@@ -590,12 +620,14 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     fun setLanguage(language: String) {
         AppCompatDelegate.setApplicationLocales(
-            if (language == MyApplication.DEFAULT_LANGUAGE)
-                LocaleListCompat.getEmptyLocaleList() else
+            if (language == MyApplication.DEFAULT_LANGUAGE) {
+                LocaleListCompat.getEmptyLocaleList()
+            } else {
                 LocaleListCompat.forLanguageTags(language)
+            }
         )
 
-        //from Tiramisu on, change of language is handled in onConfigurationChange
+        // from Tiramisu on, change of language is handled in onConfigurationChange
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
             currencyFormatter.invalidate(contentResolver)
         }
@@ -615,22 +647,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 }
             }
 
-            CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
-                val result = CropImage.getActivityResult(data)
-                if (resultCode == RESULT_OK && result != null) {
-                    baseViewModel.cleanupOrigFile(result)
-                    onCropResultOK(result)
-                } else {
-                    processImageCaptureError(resultCode, result)
-                }
-            }
-
             OCR_REQUEST -> ocrViewModel.handleOcrData(data, supportFragmentManager)
         }
-    }
-
-    open fun onCropResultOK(result: CropImage.ActivityResult) {
-        ocrViewModel.startOcrFeature(result.uri, supportFragmentManager)
     }
 
     fun requireApplication() = application as MyApplication
@@ -703,7 +721,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         requestCode: Int,
         legacyUnlockCallback: PasswordDialogUnlockedCallback? = null,
         shouldHideWindow: Boolean = true,
-        shouldLock: Boolean = true,
+        shouldLock: Boolean = true
     ) {
         if (prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false)) {
             val intent = (getSystemService(KEYGUARD_SERVICE) as KeyguardManager)
@@ -751,7 +769,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     override fun onSharedPreferenceChanged(
         sharedPreferences: SharedPreferences,
-        key: String?,
+        key: String?
     ) {
         if (key != null && prefHandler.matches(
                 key,
@@ -783,8 +801,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         try {
             unregisterReceiver(downloadReceiver)
         } catch (_: IllegalArgumentException) {
-            //Mainly hits Android 4, 5 and 6, no need to report
-            //CrashHandler.report(e)
+            // Mainly hits Android 4, 5 and 6, no need to report
+            // CrashHandler.report(e)
         }
         featureViewModel.unregisterCallback()
     }
@@ -799,7 +817,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         } catch (_: Resources.NotFoundException) {
             null
         }?.let { fullResourceName ->
-            trackCommand(fullResourceName.substring(fullResourceName.indexOf('/') + 1))
+            trackCommand(fullResourceName.substringAfter('/'))
         }
     }
 
@@ -842,12 +860,15 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                         PermissionGroup.NOTIFICATION
                     )
                 } else {
-
                     val intent = Intent().apply {
                         val channelId = if (
                             NotificationManagerCompat.from(this@BaseActivity)
                                 .areNotificationsEnabled()
-                        ) NotificationBuilderWrapper.CHANNEL_ID_PLANNER else null
+                        ) {
+                            NotificationBuilderWrapper.CHANNEL_ID_PLANNER
+                        } else {
+                            null
+                        }
                         action = when (channelId) {
                             null -> Settings.ACTION_APP_NOTIFICATION_SETTINGS
                             else -> Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS
@@ -861,9 +882,13 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             }
 
             R.id.RATE_COMMAND -> {
-                startActivity(Intent(Intent.ACTION_VIEW).apply {
-                    data = marketSelfUri.toUri()
-                }, R.string.error_accessing_market, null)
+                startActivity(
+                    Intent(Intent.ACTION_VIEW).apply {
+                        data = marketSelfUri.toUri()
+                    },
+                    R.string.error_accessing_market,
+                    null
+                )
                 true
             }
 
@@ -893,7 +918,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
                 sendEmail(
                     recipient = getString(R.string.support_email),
-                    subject = "[" + getString(R.string.app_name) + "] " + getString(R.string.feedback),
+                    subject =
+                        "[" + getString(R.string.app_name) + "] " + getString(R.string.feedback),
                     body = """
                         APP_VERSION:${getVersionInfo(this)}
                         FIRST_INSTALL_VERSION:$firstInstallVersion (DB_SCHEMA $firstInstallSchema)
@@ -928,7 +954,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
             R.id.SHARE_PDF_COMMAND -> {
                 baseViewModel.share(
-                    this, listOf(ensureContentUri((tag as String).toUri(), this)),
+                    this,
+                    listOf(ensureContentUri((tag as String).toUri(), this)),
                     shareTarget,
                     "application/pdf"
                 )
@@ -965,13 +992,17 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             val throwable = activityResult?.error ?: Throwable("ERROR")
             report(throwable)
             showSnackBar(
-                if (throwable is ActivityNotFoundException)
+                if (throwable is ActivityNotFoundException) {
                     getString(R.string.image_capture_not_installed)
-                else throwable.safeMessage,
+                } else {
+                    throwable.safeMessage
+                },
                 callback = imageCaptureErrorDismissCallback
             )
             true
-        } else false
+        } else {
+            false
+        }
 
     @JvmOverloads
     fun showDismissibleSnackBar(message: Int, callback: Snackbar.Callback? = null) {
@@ -982,11 +1013,13 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     fun showDismissibleSnackBar(
         message: CharSequence,
         callback: Snackbar.Callback? = null,
-        actionLabel: String = getString(R.string.dialog_dismiss),
+        actionLabel: String = getString(R.string.dialog_dismiss)
     ) {
         showSnackBar(
-            message, Snackbar.LENGTH_INDEFINITE,
-            SnackbarAction(actionLabel) { snackBar?.dismiss() }, callback
+            message,
+            Snackbar.LENGTH_INDEFINITE,
+            SnackbarAction(actionLabel) { snackBar?.dismiss() },
+            callback
         )
     }
 
@@ -1015,13 +1048,17 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         message: CharSequence,
         total: Int = 0,
         progress: Int = 0,
-        container: View? = snackBarContainer,
+        container: View? = snackBarContainer
     ) {
         (container ?: snackBarContainer)?.also {
             val displayMessage = if (total > 0) "$message ($progress/$total)" else message
             if (snackBar == null) {
                 snackBar = Snackbar.make(it, displayMessage, Snackbar.LENGTH_INDEFINITE).apply {
-                    (view.findViewById<View>(com.google.android.material.R.id.snackbar_text).parent as ViewGroup)
+                    (
+                        view.findViewById<View>(
+                            com.google.android.material.R.id.snackbar_text
+                        ).parent as ViewGroup
+                        )
                         .addView(
                             ProgressBar(
                                 ContextThemeWrapper(
@@ -1064,7 +1101,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         duration: Int = Snackbar.LENGTH_LONG,
         snackBarAction: SnackbarAction? = null,
         callback: Snackbar.Callback? = null,
-        container: View? = null,
+        container: View? = null
     ) {
         (container ?: snackBarContainer)?.also {
             snackBar = Snackbar.make(it, message, duration).apply {
@@ -1098,16 +1135,19 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     fun checkTessDataDownload() {
         ocrViewModel.tessDataExists().observe(this) {
-            if (!it)
+            if (!it) {
                 offerTessDataDownload()
+            }
         }
     }
 
     fun startActionView(uri: String) {
         try {
-            startActivity(Intent(Intent.ACTION_VIEW).apply {
-                data = uri.toUri()
-            })
+            startActivity(
+                Intent(Intent.ACTION_VIEW).apply {
+                    data = uri.toUri()
+                }
+            )
         } catch (_: ActivityNotFoundException) {
             showSnackBar("No activity found for opening $uri")
         }
@@ -1115,13 +1155,14 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     fun startActionView(uri: Uri, mimeType: String) {
         try {
-            startActivity(Intent(Intent.ACTION_VIEW).apply {
-                setDataAndType(
-                    ensureContentUri(uri, this@BaseActivity),
-                    mimeType
-                )
-                setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            }
+            startActivity(
+                Intent(Intent.ACTION_VIEW).apply {
+                    setDataAndType(
+                        ensureContentUri(uri, this@BaseActivity),
+                        mimeType
+                    )
+                    setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
             )
         } catch (_: ActivityNotFoundException) {
             showSnackBar(
@@ -1141,7 +1182,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         positive: MessageDialogFragment.Button? = MessageDialogFragment.okButton(),
         neutral: MessageDialogFragment.Button? = null,
         negative: MessageDialogFragment.Button? = null,
-        cancellable: Boolean = true,
+        cancellable: Boolean = true
     ) {
         lifecycleScope.launchWhenResumed {
             MessageDialogFragment.newInstance(title, message, positive, neutral, negative).apply {
@@ -1167,7 +1208,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     fun initLocaleContext() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            requireApplication().setUserPreferredLocale(AppCompatDelegate.getApplicationLocales()[0])
+            requireApplication().setUserPreferredLocale(
+                AppCompatDelegate.getApplicationLocales()[0]
+            )
         }
         DatabaseConstants.buildLocalized(
             getLocale(),
@@ -1177,17 +1220,21 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     fun deleteFailureMessage(message: String?) =
-        "There was an error deleting the object${message?.let { " ($it)" } ?: ""}. Please contact support@myexenses.mobi !"
+        "There was an error deleting the object${message?.let {
+            " ($it)"
+        } ?: ""}. Please contact support@myexenses.mobi !"
 
     fun showDeleteFailureFeedback(message: String? = null, callback: Snackbar.Callback? = null) {
         showDismissibleSnackBar(deleteFailureMessage(message), callback)
     }
 
     protected open fun doHelp(variant: String?): Boolean {
-        startActivity(Intent(this, Help::class.java).apply {
-            putExtra(HelpDialogFragment.KEY_CONTEXT, helpContext)
-            putExtra(HelpDialogFragment.KEY_VARIANT, variant ?: helpVariant)
-        })
+        startActivity(
+            Intent(this, Help::class.java).apply {
+                putExtra(HelpDialogFragment.KEY_CONTEXT, helpContext)
+                putExtra(HelpDialogFragment.KEY_VARIANT, variant ?: helpVariant)
+            }
+        )
         return true
     }
 
@@ -1204,7 +1251,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
-        grantResults: IntArray,
+        grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (hasFloatingActionButton) {
@@ -1222,9 +1269,12 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     open fun showContribDialog(feature: ContribFeature? = null, tag: ContribPayload? = null) {
-        startActivityForResult(getIntentFor(this, feature).apply {
-            putExtra(ContribInfoDialogActivity.KEY_TAG, tag)
-        }, CONTRIB_REQUEST)
+        startActivityForResult(
+            getIntentFor(this, feature).apply {
+                putExtra(ContribInfoDialogActivity.KEY_TAG, tag)
+            },
+            CONTRIB_REQUEST
+        )
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -1239,7 +1289,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
             !PermissionGroup.NOTIFICATION.hasPermission(this)
         ) {
-            requestNotificationPermission(PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_AUTO_BACKUP)
+            requestNotificationPermission(
+                PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_AUTO_BACKUP
+            )
         } else if (!areNotificationsEnabled(NotificationBuilderWrapper.CHANNEL_ID_AUTO_BACKUP)) {
             showSnackBar(
                 TextUtils.concat(
@@ -1255,7 +1307,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     fun checkPermissionsForPlaner() {
-
         val missingPermissions = buildList {
             add(PermissionGroup.CALENDAR)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -1270,7 +1321,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 *missingPermissions.toTypedArray()
             )
         } else {
-
             val prefKey = "notification_permission_rationale_shown"
             if (!areNotificationsEnabled(NotificationBuilderWrapper.CHANNEL_ID_PLANNER) &&
                 !prefHandler.getBoolean(prefKey, false)
@@ -1311,7 +1361,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             val channel = manager.getNotificationChannel(channelId)
             channel?.importance != NotificationManager.IMPORTANCE_NONE
-        } else false
+        } else {
+            false
+        }
 
     fun requestCalendarPermission() {
         disableFab()
@@ -1343,7 +1395,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 .title(R.string.permissions_label)
                 .rationale(
                     PermissionHelper.getRationale(
-                        this, requestCode,
+                        this,
+                        requestCode,
                         *perms.map { PermissionGroup.fromPermission(it) }.distinct().toTypedArray()
                     )
                 )
@@ -1351,7 +1404,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         } else {
             showSnackBar(
                 PermissionHelper.getRationale(
-                    this, requestCode, PermissionGroup.NOTIFICATION
+                    this,
+                    requestCode,
+                    PermissionGroup.NOTIFICATION
                 )
             )
         }
@@ -1361,7 +1416,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         transactionId: Long,
         fullScreen: Boolean = false,
         currentFilter: FilterPersistence? = null,
-        sortOrder: String? = null,
+        sortOrder: String? = null
     ) {
         lifecycleScope.launchWhenResumed {
             TransactionDetailFragment.show(
@@ -1392,37 +1447,14 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         WindowInsetsControllerCompat(window, view).show(WindowInsetsCompat.Type.ime())
     }
 
-    fun startMediaChooserDo(fileName: String) {
-        lifecycleScope.launch {
-            val uris = withContext(Dispatchers.IO) {
-                PictureDirHelper.getOutputMediaUri(
-                    temp = true,
-                    application = myApplication,
-                    fileName = fileName
-                ) to PictureDirHelper.getOutputMediaUri(
-                    temp = true,
-                    application = myApplication,
-                    fileName = "${fileName}_CROPPED"
-                )
-            }
-            CropImage.activity()
-                .setCameraOnly(!prefHandler.getBoolean(PrefKey.CAMERA_CHOOSER, false))
-                .setCameraPackage(
-                    prefHandler.getString(PrefKey.CAMERA_APP)?.takeIf { it.isNotEmpty() })
-                .setAllowFlipping(false)
-                .setCaptureImageOutputUri(uris.first)
-                .setOutputUri(uris.second)
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .start(this@BaseActivity)
-        }
-    }
-
     fun maybeApplyContentColor(): Boolean = if (canUseContentColor) {
         val intent = getIntent() // Get the current intent
         intent.putExtra(KEY_IS_MANUAL_RECREATE, true)
         recreate()
         true
-    } else false
+    } else {
+        false
+    }
 
     val canUseContentColor: Boolean by lazy {
         when {
@@ -1433,19 +1465,27 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     val uiConfigIsSafe: Boolean
-        get() = if (prefHandler.getInt(PrefKey.UI_FONT_SIZE, 0) == 0) true else {
+        get() = if (prefHandler.getInt(PrefKey.UI_FONT_SIZE, 0) == 0) {
+            true
+        } else {
             val uiModeFromPref = prefHandler.uiMode(this)
-            if (uiModeFromPref == "default") true else {
-                val ourUiMode = if (uiModeFromPref == "dark")
-                    UI_MODE_NIGHT_YES else UI_MODE_NIGHT_NO
+            if (uiModeFromPref == "default") {
+                true
+            } else {
+                val ourUiMode = if (uiModeFromPref == "dark") {
+                    UI_MODE_NIGHT_YES
+                } else {
+                    UI_MODE_NIGHT_NO
+                }
                 val systemUiMode =
-                    applicationContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+                    applicationContext.resources.configuration.uiMode and
+                        Configuration.UI_MODE_NIGHT_MASK
                 ourUiMode == systemUiMode
             }
         }
 
     fun tintFab(color: Int) {
-        //If we use dynamic content based color, we do not need to harmonize the color
+        // If we use dynamic content based color, we do not need to harmonize the color
         val harmonized =
             if (canUseContentColor) color else MaterialColors.harmonizeWithPrimary(this, color)
         floatingActionButton.setBackgroundTintList(harmonized)
@@ -1463,9 +1503,10 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     open fun onEditTransactionResult(isOk: Boolean) {}
 
-    private val editLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        onEditTransactionResult(result.resultCode == RESULT_OK)
-    }
+    private val editLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            onEditTransactionResult(result.resultCode == RESULT_OK)
+        }
 
     protected val calledFromOnboarding: Boolean
         get() = callingActivity?.let {
@@ -1479,9 +1520,11 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         (application as MyApplication).invalidateHomeCurrency()
         if (!isFinishing) {
             finishAffinity()
-            startActivity(Intent(this, MyExpensesV2::class.java).apply {
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            })
+            startActivity(
+                Intent(this, MyExpensesV2::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                }
+            )
         }
     }
 
@@ -1529,21 +1572,23 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         (pair.second?.let { pair.first.atTime(pair.second) } ?: pair.first).toString()
 
     override fun processOcrResult(result: Result<OcrResult>, scanUri: Uri) {
-
         result.onSuccess {
             if (it.needsDisambiguation()) {
                 SimpleFormDialog.build()
                     .cancelable(false)
                     .autofocus(false)
                     .neg(android.R.string.cancel)
-                    .extra(Bundle().apply {
-                        putParcelable(KEY_OCR_RESULT, it)
-                        putParcelable(KEY_URI, scanUri)
-                    })
+                    .extra(
+                        Bundle().apply {
+                            putParcelable(KEY_OCR_RESULT, it)
+                            putParcelable(KEY_URI, scanUri)
+                        }
+                    )
                     .title(getString(R.string.scan_result_multiple_candidates_dialog_title))
                     .fields(
                         when (it.amountCandidates.size) {
                             0 -> Hint.plain(getString(R.string.scan_result_no_amount))
+
                             1 -> Hint.plain(
                                 "${getString(R.string.amount)}: ${it.amountCandidates[0]}"
                             )
@@ -1555,6 +1600,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                         },
                         when (it.dateCandidates.size) {
                             0 -> Hint.plain(getString(R.string.scan_result_no_date))
+
                             1 -> Hint.plain(
                                 "${getString(R.string.date)}: ${it.dateCandidates[0]}"
                             )
@@ -1569,6 +1615,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                         },
                         when (it.payeeCandidates.size) {
                             0 -> Hint.plain(getString(R.string.scan_result_no_payee))
+
                             1 -> Hint.plain(
                                 "${getString(R.string.payee)}: ${it.payeeCandidates[0]}"
                             )
@@ -1615,7 +1662,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     protected fun setupWithFragment(
         doInstantiate: Boolean,
         withFab: Boolean = true,
-        instantiate: (() -> Fragment),
+        instantiate: (() -> Fragment)
     ) {
         ActivityWithFragmentBinding.inflate(layoutInflater).apply {
             if (doInstantiate) {
@@ -1642,8 +1689,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     open val drawToBottomEdge: Boolean = true
 
-    //We centrally deal with all window insets that should be consumed at the window root level
-    //Only the bottom inset should be passed down to enable lists to scroll edge to edge
+    // We centrally deal with all window insets that should be consumed at the window root level
+    // Only the bottom inset should be passed down to enable lists to scroll edge to edge
     open fun handleRootWindowInsets() {
         val rootView = findViewById<View>(android.R.id.content)
         ViewGroupCompat.installCompatInsetsDispatch(rootView)
@@ -1657,12 +1704,21 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 receivedInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
 
             // 2. Determine the padding values to apply to this view 'v'
-            val horizontalPaddingToApplyLeft = if (scrollsHorizontally) 0 else
+            val horizontalPaddingToApplyLeft = if (scrollsHorizontally) {
+                0
+            } else {
                 displayCutoutInsets.left.coerceAtLeast(systemBarsInsets.left)
-            val horizontalPaddingToApplyRight = if (scrollsHorizontally) 0 else
+            }
+            val horizontalPaddingToApplyRight = if (scrollsHorizontally) {
+                0
+            } else {
                 displayCutoutInsets.right.coerceAtLeast(systemBarsInsets.right)
-            val topPaddingToApply = if (drawToTopEdge) 0 else
+            }
+            val topPaddingToApply = if (drawToTopEdge) {
+                0
+            } else {
                 displayCutoutInsets.top.coerceAtLeast(systemBarsInsets.top)
+            }
 
             val bottomPaddingToApply = imeInsets.bottom.coerceAtLeast(
                 if (drawToBottomEdge) 0 else navigationBarsInsets.bottom
@@ -1770,7 +1826,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     open fun onPdfResultProcessed() {
-
     }
 
     fun showConfirmationDialog(
@@ -1780,20 +1835,21 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         tagPositive: Bundle? = null,
         @StringRes commandPositiveLabel: Int = 0,
         @IdRes commandNegative: Int? = R.id.CANCEL_CALLBACK_COMMAND,
-        prepareBundle: Bundle.() -> Unit = { },
+        prepareBundle: Bundle.() -> Unit = { }
     ) {
         ConfirmationDialogFragment
-            .newInstance(Bundle().apply {
-                putString(KEY_MESSAGE, message)
-                putInt(KEY_COMMAND_POSITIVE, commandPositive)
-                putInt(KEY_POSITIVE_BUTTON_LABEL, commandPositiveLabel)
-                tagPositive?.let { putBundle(KEY_TAG_POSITIVE_BUNDLE, it) }
-                commandNegative?.let { putInt(KEY_COMMAND_NEGATIVE, it) }
-                prepareBundle()
-            })
+            .newInstance(
+                Bundle().apply {
+                    putString(KEY_MESSAGE, message)
+                    putInt(KEY_COMMAND_POSITIVE, commandPositive)
+                    putInt(KEY_POSITIVE_BUTTON_LABEL, commandPositiveLabel)
+                    tagPositive?.let { putBundle(KEY_TAG_POSITIVE_BUNDLE, it) }
+                    commandNegative?.let { putInt(KEY_COMMAND_NEGATIVE, it) }
+                    prepareBundle()
+                }
+            )
             .show(supportFragmentManager, tag)
     }
-
 
     companion object {
         const val ASYNC_TAG = "ASYNC_TASK"

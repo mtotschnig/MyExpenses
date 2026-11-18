@@ -82,6 +82,8 @@ pagingCompose = "3.5.3"
 phrase = "1.2.0"
 picassoVersion = "2.8"
 playServicesAuth = "22.0.0"
+playServicesBase = "18.11.1"
+playServicesMlkitDocumentScanner = "16.0.0"
 playServicesMlkitTextRecognitionCommon = "19.1.1"
 recyclerview = "1.4.0"
 relinker = "1.4.5"
@@ -234,6 +236,8 @@ pageindicatorview = { module = "com.github.adrielcafe:PageIndicatorView", versio
 phrase = { module = "com.squareup.phrase:phrase", version.ref = "phrase" }
 picasso = { module = "com.squareup.picasso:picasso", version.ref = "picassoVersion" }
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
+play-services-base = { module = "com.google.android.gms:play-services-base", version.ref = "playServicesBase" }
+play-services-mlkit-document-scanner = { module = "com.google.android.gms:play-services-mlkit-document-scanner", version.ref = "playServicesMlkitDocumentScanner" }
 play-services-mlkit-text-recognition-common = { module = "com.google.android.gms:play-services-mlkit-text-recognition-common", version.ref = "playServicesMlkitTextRecognitionCommon" }
 relinker = { module = "com.getkeepsafe.relinker:relinker", version.ref = "relinker" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofitVersion" }

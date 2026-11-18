@@ -24,7 +24,7 @@ class OcrLauncher: ProtectedFragmentActivity() {
     override fun contribFeatureCalled(feature: ContribFeature, tag: ContribPayload?) {
         if (feature == ContribFeature.OCR) {
             if (featureViewModel.isFeatureAvailable(this, Feature.OCR)) {
-                startMediaChooserDo("SCAN")
+                ocrViewModel.startScan(this)
             } else {
                 featureViewModel.requestFeature(this, Feature.OCR)
             }
@@ -44,7 +44,7 @@ class OcrLauncher: ProtectedFragmentActivity() {
     override fun onFeatureAvailable(feature: Feature) {
         super.onFeatureAvailable(feature)
         if (feature == Feature.OCR) {
-            startMediaChooserDo("SCAN")
+            ocrViewModel.startScan(this)
         }
     }
 
