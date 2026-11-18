@@ -10,7 +10,6 @@ import android.graphics.Rect
 import android.media.ThumbnailUtils
 import android.net.Uri
 import android.os.Build
-import java.io.File
 import android.text.format.DateFormat
 import android.text.method.LinkMovementMethod
 import android.util.Size
@@ -44,6 +43,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import java.io.File
 import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -279,130 +279,116 @@ fun ImageView.setAttachmentInfo(info: AttachmentInfo) {
     }
 }
 
-fun attachmentInfoMap(context: Context, withFile: Boolean = false): Map<Uri, AttachmentInfo> {
-    val contentResolver = context.contentResolver
-    return lazyMap { uri ->
+fun attachmentInfoMap(context: Context, withFile: Boolean = false): Map<Uri, AttachmentInfo> =
+    lazyMap { uri ->
         when (uri.scheme) {
-            "content" -> {
-                val contentDescription = uri.fileName(context)
-                val file = if (withFile) {
-                    try {
-                        PictureDirHelper.getFileForUri(context, uri)
-                    } catch (_: IllegalArgumentException) {
-                        null
-                    }
-                } else {
-                    null
-                }
-                contentResolver.getType(uri)?.let {
-                    if (it.startsWith("image")) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            val size = UiUtils.dp2Px(48f, context.resources)
-                            try {
-                                AttachmentInfo.of(
-                                    it,
-                                    contentResolver.loadThumbnail(
-                                        uri,
-                                        Size(size, size),
-                                        null
-                                    ),
-                                    contentDescription,
-                                    file
-                                )
-                            } catch (_: Exception) {
-                                null
-                            }
-                        } else {
-                            AttachmentInfo.of(
-                                it,
-                                R.drawable.ic_menu_camera,
-                                contentDescription,
-                                file
-                            )
-                        }
-                    } else {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            val icon = contentResolver.getTypeInfo(it).icon
-                            AttachmentInfo.of(it, icon, contentDescription, file)
-                        } else {
-                            AttachmentInfo.of(
-                                it,
-                                R.drawable.ic_menu_template,
-                                contentDescription,
-                                file
-                            )
-                        }
-                    }
-                }
-            }
-
-            "file" -> if (uri.pathSegments.firstOrNull() == "android_asset") {
-                val file = uri.pathSegments[1]
-                AttachmentInfo.of(
-                    getMimeType(file),
-                    context.assets.open(file).use(BitmapFactory::decodeStream),
-                    file,
-                    null
-                )
-            } else {
-                val file = File(uri.path ?: "")
-                if (file.exists()) {
-                    val contentDescription = file.name
-                    val mimeType = getMimeType(file.name)
-                    val attachFile = if (withFile) file else null
-                    if (mimeType.startsWith("image")) {
-                        val size = UiUtils.dp2Px(48f, context.resources)
-                        val thumbnail = try {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                ThumbnailUtils.createImageThumbnail(file, Size(size, size), null)
-                            } else {
-                                BitmapFactory.decodeFile(file.path)
-                            }
-                        } catch (_: Exception) {
-                            null
-                        }
-                        if (thumbnail != null) {
-                            AttachmentInfo.of(
-                                mimeType,
-                                thumbnail,
-                                contentDescription,
-                                attachFile
-                            )
-                        } else {
-                            AttachmentInfo.of(
-                                mimeType,
-                                R.drawable.ic_menu_camera,
-                                contentDescription,
-                                attachFile
-                            )
-                        }
-                    } else {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            val icon = contentResolver.getTypeInfo(mimeType).icon
-                            AttachmentInfo.of(mimeType, icon, contentDescription, attachFile)
-                        } else {
-                            AttachmentInfo.of(
-                                mimeType,
-                                R.drawable.ic_menu_template,
-                                contentDescription,
-                                attachFile
-                            )
-                        }
-                    }
-                } else {
-                    null
-                }
-            }
-
+            "content" -> getAttachmentInfoForContentUri(context, uri, withFile)
+            "file" -> getAttachmentInfoForFileUri(context, uri, withFile)
             else -> null
-        } ?: AttachmentInfo.of(
-            null,
-            R.drawable.ic_warning,
-            "Error",
+        } ?: AttachmentInfo.of(null, R.drawable.ic_warning, "Error", null)
+    }
+
+private fun getAttachmentInfoForContentUri(
+    context: Context,
+    uri: Uri,
+    withFile: Boolean
+): AttachmentInfo? {
+    val contentResolver = context.contentResolver
+    val contentDescription = uri.fileName(context)
+    val file = if (withFile) {
+        try {
+            PictureDirHelper.getFileForUri(context, uri)
+        } catch (_: IllegalArgumentException) {
             null
-        )
+        }
+    } else {
+        null
+    }
+    val mimeType = contentResolver.getType(uri) ?: return null
+
+    return if (mimeType.startsWith("image")) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val size = UiUtils.dp2Px(48f, context.resources)
+            try {
+                AttachmentInfo.of(
+                    mimeType,
+                    contentResolver.loadThumbnail(uri, Size(size, size), null),
+                    contentDescription,
+                    file
+                )
+            } catch (_: Exception) {
+                null
+            }
+        } else {
+            AttachmentInfo.of(mimeType, R.drawable.ic_menu_camera, contentDescription, file)
+        }
+    } else {
+        createDocumentAttachmentInfo(context, mimeType, contentDescription, file)
     }
 }
+
+private fun getAttachmentInfoForAssetUri(context: Context, uri: Uri): AttachmentInfo {
+    val file = uri.pathSegments[1]
+    return AttachmentInfo.of(
+        getMimeType(file),
+        context.assets.open(file).use(BitmapFactory::decodeStream),
+        file,
+        null
+    )
+}
+
+private fun getAttachmentInfoForFileUri(
+    context: Context,
+    uri: Uri,
+    withFile: Boolean
+): AttachmentInfo? = if (uri.pathSegments.firstOrNull() == "android_asset") {
+    getAttachmentInfoForAssetUri(context, uri)
+} else {
+    val file = File(uri.path ?: "")
+    if (file.exists()) {
+        val contentDescription = file.name
+        val mimeType = getMimeType(file.name)
+        val attachFile = if (withFile) file else null
+
+        if (mimeType.startsWith("image")) {
+            val size = UiUtils.dp2Px(48f, context.resources)
+            val thumbnail = try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    ThumbnailUtils.createImageThumbnail(file, Size(size, size), null)
+                } else {
+                    BitmapFactory.decodeFile(file.path)
+                }
+            } catch (_: Exception) {
+                null
+            }
+            thumbnail?.let {
+                AttachmentInfo.of(mimeType, it, contentDescription, attachFile)
+            } ?: AttachmentInfo.of(
+                mimeType,
+                R.drawable.ic_menu_camera,
+                contentDescription,
+                attachFile
+            )
+        } else {
+            createDocumentAttachmentInfo(context, mimeType, contentDescription, attachFile)
+        }
+    } else {
+        null
+    }
+}
+
+private fun createDocumentAttachmentInfo(
+    context: Context,
+    mimeType: String,
+    contentDescription: String,
+    file: File?
+): AttachmentInfo =
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        val icon = context.contentResolver.getTypeInfo(mimeType).icon
+        AttachmentInfo.of(mimeType, icon, contentDescription, file)
+    } else {
+        AttachmentInfo.of(mimeType, R.drawable.ic_menu_template, contentDescription, file)
+    }
 
 fun Context.getActivity(): BaseActivity? = this as? BaseActivity
     ?: (this as? ContextWrapper)?.baseContext?.getActivity()

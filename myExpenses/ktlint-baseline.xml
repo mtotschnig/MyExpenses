@@ -2130,14 +2130,6 @@
         <error line="43" column="69" source="standard:argument-list-wrapping" />
         <error line="46" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/main/java/org/totschnig/myexpenses/activity/ExpenseEdit.kt">
-        <error line="914" column="101" source="standard:max-line-length" />
-        <error line="1038" column="101" source="standard:max-line-length" />
-        <error line="1072" column="101" source="standard:max-line-length" />
-        <error line="1088" column="101" source="standard:max-line-length" />
-        <error line="1380" column="101" source="standard:max-line-length" />
-        <error line="1619" column="101" source="standard:max-line-length" />
-    </file>
     <file name="src/main/java/org/totschnig/myexpenses/activity/Help.kt">
         <error line="26" column="1" source="standard:final-newline" />
     </file>
@@ -10648,9 +10640,6 @@
         <error line="29" column="1" source="standard:blank-line-between-when-conditions" />
         <error line="31" column="1" source="standard:blank-line-between-when-conditions" />
         <error line="41" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/main/java/org/totschnig/myexpenses/util/ui/MoreUiUtils.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/AbstractSetupViewModel.kt">
         <error line="21" column="89" source="standard:argument-list-wrapping" />

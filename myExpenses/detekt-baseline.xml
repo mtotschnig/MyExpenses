@@ -81,7 +81,6 @@
     <ID>CyclomaticComplexMethod:ManageBudgets.kt:ManageBudgets$@OptIn(ExperimentalMaterial3Api::class) public override fun onCreate</ID>
     <ID>CyclomaticComplexMethod:ManageCategories.kt:ManageCategories$override fun onCreate</ID>
     <ID>CyclomaticComplexMethod:MoreDbUtils.kt:fun parseCategoriesFromXml: List&lt;CategoryTreeItem&gt;</ID>
-    <ID>CyclomaticComplexMethod:MoreUiUtils.kt:fun attachmentInfoMap: Map&lt;Uri, AttachmentInfo&gt;</ID>
     <ID>CyclomaticComplexMethod:MyExpensesV2.kt:MyExpensesV2$@OptIn(ExperimentalMaterial3Api::class) override fun onCreate</ID>
     <ID>CyclomaticComplexMethod:MyExpensesV2ViewModel.kt:MyExpensesV2ViewModel$private fun saveAssetTransfer</ID>
     <ID>CyclomaticComplexMethod:MyExpensesV2ViewModel.kt:MyExpensesV2ViewModel$private fun saveTradeInternal</ID>
@@ -330,7 +329,6 @@
     <ID>LongMethod:MergePartiesDialogFragment.kt:MergePartiesDialogFragment$@OptIn(ExperimentalMaterial3Api::class) @Composable override fun ColumnScope.MainContent</ID>
     <ID>LongMethod:MoreDbUtils.kt:fun parseCategoriesFromXml: List&lt;CategoryTreeItem&gt;</ID>
     <ID>LongMethod:MoreDbUtils.kt:private fun setupCategoriesInternal: Pair&lt;Int, Int&gt;</ID>
-    <ID>LongMethod:MoreUiUtils.kt:fun attachmentInfoMap: Map&lt;Uri, AttachmentInfo&gt;</ID>
     <ID>LongMethod:MyExpensesV2.kt:MyExpensesV2$@Composable fun PortfolioPage</ID>
     <ID>LongMethod:MyExpensesV2.kt:MyExpensesV2$@OptIn(ExperimentalMaterial3Api::class) override fun onCreate</ID>
     <ID>LongMethod:MyExpensesV2ViewModel.kt:MyExpensesV2ViewModel$private fun saveAssetTransfer</ID>
@@ -861,7 +859,6 @@
     <ID>MaxLineLength:ExchangeRateServiceTest.kt:ExchangeRateServiceTest$val rates = service.getLatest(ExchangeRateApi.CoinApi, BuildConfig.COIN_API_API_KEY, "EUR", listOf("AUD", "GBP", "CHF"))</ID>
     <ID>MaxLineLength:ExchangeRateServiceTest.kt:ExchangeRateServiceTest$val rates = service.getLatest(ExchangeRateApi.OpenExchangeRates, BuildConfig.OPEN_EXCHANGE_RATES_API_KEY, "EUR", listOf("AUD", "GBP", "CHF"))</ID>
     <ID>MaxLineLength:ExpenseEdit.kt:ExpenseEdit$// if we are editing the transaction the difference between the new and the old value define the delta, as long as user did not select a different account</ID>
-    <ID>MaxLineLength:ExpenseEdit.kt:ExpenseEdit$if (areDatesLinked) R.string.content_description_dates_are_linked else R.string.content_description_dates_are_not_linked</ID>
     <ID>MaxLineLength:ExportDialogFragment.kt:ExportDialogFragment$getString(R.string.help_ExportDialog_date_format, "https://developer.android.com/reference/java/time/format/DateTimeFormatter")</ID>
     <ID>MaxLineLength:ExportTest.kt:ExportTest$""""","$date","","0","0,10","","","${context.getString(R.string.pm_cheque)}","*","1","","Tag One, 'Tags, Tags, Tags'""""</ID>
     <ID>MaxLineLength:ExportTest.kt:ExportTest$""""";"$date";"";"0";"0.10";"";"";"${context.getString(R.string.pm_cheque)}";"*";"1";"";"Tag One, 'Tags, Tags, Tags'""""</ID>
@@ -1126,6 +1123,7 @@
     <ID>NestedBlockDepth:MoreDbUtils.kt:fun cacheEventData</ID>
     <ID>NestedBlockDepth:MoreDbUtils.kt:fun insertUuidsForDefaultCategories</ID>
     <ID>NestedBlockDepth:MoreDbUtils.kt:private fun setupCategoriesInternal: Pair&lt;Int, Int&gt;</ID>
+    <ID>NestedBlockDepth:MoreUiUtils.kt:private fun getAttachmentInfoForFileUri: AttachmentInfo?</ID>
     <ID>NestedBlockDepth:NewDialogUtils.kt:fun ContentResolver.getDisplayName: String</ID>
     <ID>NestedBlockDepth:PdfPrinter.kt:PdfPrinter$@Throws(DocumentException::class, IOException::class) private fun addTransactionList</ID>
     <ID>NestedBlockDepth:PlanExecutor.kt:PlanExecutor$@RequiresPermission(allOf = [Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR]) @SuppressLint("InlinedApi") override suspend fun doWork: Result</ID>

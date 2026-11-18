@@ -277,11 +277,9 @@ open class ExpenseEdit :
 
     @Suppress("UNCHECKED_CAST")
     val parentOriginalAmountExchangeRate: Pair<BigDecimal, Currency>?
-        get() = (
-            intent.getSerializableExtra(
-                KEY_PARENT_ORIGINAL_AMOUNT_EXCHANGE_RATE
-            ) as? Pair<BigDecimal, Currency>
-            )
+        get() = intent.getSerializableExtra(
+            KEY_PARENT_ORIGINAL_AMOUNT_EXCHANGE_RATE
+        ) as? Pair<BigDecimal, Currency>
 
     private val isClone: Boolean
         get() = intent.getBooleanExtra(KEY_CLONE, false)
@@ -911,7 +909,8 @@ open class ExpenseEdit :
         pObserver?.let {
             try {
                 contentResolver.unregisterContentObserver(it)
-            } catch (_: IllegalStateException) { // Do Nothing.  Observer has already been unregistered.
+            } catch (_: IllegalStateException) {
+                // Do Nothing.  Observer has already been unregistered.
             }
         }
         if (::delegate.isInitialized) delegate.onDestroy()
@@ -1035,7 +1034,11 @@ open class ExpenseEdit :
     }
 
     private val saveAndNewPrefKey: PrefKey
-        get() = if (isSplitPart) PrefKey.EXPENSE_EDIT_SAVE_AND_NEW_SPLIT_PART else PrefKey.EXPENSE_EDIT_SAVE_AND_NEW
+        get() = if (isSplitPart) {
+            PrefKey.EXPENSE_EDIT_SAVE_AND_NEW_SPLIT_PART
+        } else {
+            PrefKey.EXPENSE_EDIT_SAVE_AND_NEW
+        }
 
     private fun setTitle() {
         if (withTypeSpinner) {
@@ -1069,7 +1072,11 @@ open class ExpenseEdit :
         )
         val help =
             getString(
-                if (areDatesLinked) R.string.content_description_dates_are_linked else R.string.content_description_dates_are_not_linked
+                if (areDatesLinked) {
+                    R.string.content_description_dates_are_linked
+                } else {
+                    R.string.content_description_dates_are_not_linked
+                }
             )
         dateEditBinding.DateLink.contentDescription = help
         TooltipCompat.setTooltipText(dateEditBinding.DateLink, help)
@@ -1085,7 +1092,11 @@ open class ExpenseEdit :
         get() = if (::delegate.isInitialized) delegate.currentAccount() else null
 
     private val transferAccount: Account?
-        get() = if (::delegate.isInitialized) (delegate as? TransferDelegate)?.transferAccount() else null
+        get() = if (::delegate.isInitialized) {
+            (delegate as? TransferDelegate)?.transferAccount()
+        } else {
+            null
+        }
 
     override fun onTypeChanged(isChecked: Boolean) {
         super.onTypeChanged(isChecked)
@@ -1377,7 +1388,7 @@ open class ExpenseEdit :
                                         TemplateEditData(templateId = it)
                                     }
                                 ),
-                                userSetExchangeRate = (delegate as? MainDelegate)?.userSetExchangeRate
+                                (delegate as? MainDelegate)?.userSetExchangeRate
                             )
                         )
                     }
@@ -1616,7 +1627,8 @@ open class ExpenseEdit :
         }.onFailure {
             showSnackBar(
                 when (it) {
-                    is ExternalStorageNotAvailableException -> "External storage (sdcard) not available"
+                    is ExternalStorageNotAvailableException ->
+                        "External storage (sdcard) not available"
 
                     is UnknownPictureSaveException -> {
                         val customData = buildMap {
