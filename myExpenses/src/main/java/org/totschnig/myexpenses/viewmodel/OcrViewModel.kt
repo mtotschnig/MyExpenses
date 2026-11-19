@@ -28,20 +28,22 @@ class OcrViewModel(application: Application) : AndroidViewModel(application) {
         emit(ocrFeature.downloadTessData(getApplication()))
     }
 
-    fun startCapture(
+    fun registerCaptureLaunchers(
         baseActivity: BaseActivity,
-        fileName: String = "SCAN",
-        onResult: ((Uri) -> Unit)? = null,
+        onResult: (Uri) -> Unit = {
+            ocrFeature.showPreview(it, baseActivity.supportFragmentManager)
+        },
+        onException: (Exception) -> Unit = { baseActivity.processImageCaptureError(it) },
         onCancel: (() -> Unit)? = null
     ) {
-        ocrFeature.startCapture(
-            baseActivity,
-            fileName,
-            onResult ?: {
-                ocrFeature.showPreview(it, baseActivity.supportFragmentManager)
-            },
-            onCancel
-        )
+        ocrFeature.registerCaptureLaunchers(baseActivity, onResult, onException, onCancel)
+    }
+
+    fun startCapture(
+        baseActivity: BaseActivity,
+        fileName: String = "SCAN"
+    ) {
+        ocrFeature.startCapture(baseActivity, fileName)
     }
 
     fun handleOcrData(intent: Intent?, fragmentManager: FragmentManager) {

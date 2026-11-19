@@ -27,7 +27,7 @@ open class FeatureModule {
     private var bankingFeature: BankingFeature? = null
 
     @Provides
-    fun provideOcrFeature(prefHandler: PrefHandler): OcrFeature? = ocrFeature ?: try {
+    open fun provideOcrFeature(prefHandler: PrefHandler): OcrFeature? = ocrFeature ?: try {
         (
             Class.forName(
                 "org.totschnig.ocr.OcrFeatureImpl"

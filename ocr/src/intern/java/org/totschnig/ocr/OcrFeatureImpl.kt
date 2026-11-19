@@ -3,6 +3,7 @@ package org.totschnig.ocr
 import android.app.Activity
 import android.content.Context
 import android.net.Uri
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.Keep
@@ -19,13 +20,43 @@ import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.ocr.OcrHandlerImpl.Companion.availableEngines
 import org.totschnig.ocr.OcrHandlerImpl.Companion.getEngine
 
+const val GMS_SCANNER_REQUEST_KEY = "GmsDocumentScannerRequest"
+
 @Keep
 class OcrFeatureImpl(val prefHandler: PrefHandler) : OcrFeature() {
+    private lateinit var gmsLauncher: ActivityResultLauncher<IntentSenderRequest>
+    private var lastResultCallback: ((Uri) -> Unit)? = null
+    private var lastCancelCallback: (() -> Unit)? = null
+
+    override fun registerCaptureLaunchers(
+        activity: BaseActivity,
+        onResult: (Uri) -> Unit,
+        onException: (Exception) -> Unit,
+        onCancel: (() -> Unit)?
+    ) {
+        super.registerCaptureLaunchers(activity, onResult, onException, onCancel)
+        lastResultCallback = onResult
+        lastCancelCallback = onCancel
+
+        val contract = ActivityResultContracts.StartIntentSenderForResult()
+        gmsLauncher = activity.activityResultRegistry.register(
+            GMS_SCANNER_REQUEST_KEY,
+            contract
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+                GmsDocumentScanningResult.fromActivityResultIntent(result.data)
+                    ?.pages?.firstOrNull()?.imageUri?.let { uri ->
+                        lastResultCallback?.invoke(uri)
+                    }
+            } else if (result.resultCode == Activity.RESULT_CANCELED) {
+                lastCancelCallback?.invoke()
+            }
+        }
+    }
+
     override fun startCapture(
         activity: BaseActivity,
-        fileName: String,
-        onResult: (Uri) -> Unit,
-        onCancel: (() -> Unit)?
+        fileName: String
     ) {
         if (prefHandler.getBoolean(PrefKey.GMS_DOCUMENT_SCANNER, true)) {
             try {
@@ -46,30 +77,19 @@ class OcrFeatureImpl(val prefHandler: PrefHandler) : OcrFeature() {
                 scanner.getStartScanIntent(activity)
                     .addOnSuccessListener { intentSender ->
                         val request = IntentSenderRequest.Builder(intentSender).build()
-                        val key = "GmsDocumentScannerRequest"
-                        val contract = ActivityResultContracts.StartIntentSenderForResult()
-                        val launcher =
-                            activity.activityResultRegistry.register(key, contract) { result ->
-                                if (result.resultCode == Activity.RESULT_OK &&
-                                    result.data != null
-                                ) {
-                                    GmsDocumentScanningResult.fromActivityResultIntent(
-                                        result.data
-                                    )?.pages?.firstOrNull()?.imageUri?.let(onResult)
-                                }
-                            }
-                        launcher.launch(request)
+                        gmsLauncher.launch(request)
                     }
                     .addOnFailureListener { e ->
                         CrashHandler.report(e)
-                        super.startCapture(activity, fileName, onResult, onCancel)
+                        startFallbackCapture(activity, fileName)
                     }
+                return
             } catch (e: Exception) {
                 CrashHandler.report(e)
-                super.startCapture(activity, fileName, onResult, onCancel)
+                startFallbackCapture(activity, fileName)
             }
         } else {
-            super.startCapture(activity, fileName, onResult, onCancel)
+            startFallbackCapture(activity, fileName)
         }
     }
 

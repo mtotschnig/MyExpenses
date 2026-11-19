@@ -4,9 +4,14 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.annotation.Keep
+import com.google.mlkit.common.MlKit
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizerOptionsInterface
+import java.util.Locale
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
@@ -19,10 +24,6 @@ import org.totschnig.ocr.Element
 import org.totschnig.ocr.Line
 import org.totschnig.ocr.Text
 import org.totschnig.ocr.TextBlock
-import java.util.Locale
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 @Keep
 object Engine : org.totschnig.ocr.MlkitEngine {
@@ -51,6 +52,11 @@ object Engine : org.totschnig.ocr.MlkitEngine {
 
     override suspend fun run(uri: Uri, context: Context, prefHandler: PrefHandler): Text =
         withContext(Dispatchers.Default) {
+            try {
+                MlKit.initialize(context)
+            } catch (_: IllegalStateException) {
+                // Already initialized
+            }
             val image =
                 if (uri.isDebugAsset) {
                     InputImage.fromBitmap(

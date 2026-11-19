@@ -21,30 +21,19 @@ interface OcrFeature {
     }
 
     fun showPreview(scanUri: Uri, fragmentManager: FragmentManager) {}
-    fun startMediaChooserDo(
+
+    fun registerCaptureLaunchers(
         activity: BaseActivity,
-        fileName: String,
         onResult: (Uri) -> Unit,
-        onException: (Exception) -> Unit,
-        onCancel: (() -> Unit)?
+        onException: (Exception) -> Unit = { activity.processImageCaptureError(it) },
+        onCancel: (() -> Unit)? = null
     ) {
     }
 
     fun startCapture(
         activity: BaseActivity,
-        fileName: String = "SCAN",
-        onResult: (Uri) -> Unit,
-        onCancel: (() -> Unit)?
+        fileName: String = "SCAN"
     ) {
-        startMediaChooserDo(
-            activity,
-            fileName,
-            onResult,
-            {
-                activity.processImageCaptureError(it)
-            },
-            onCancel
-        )
     }
 
     fun handleData(intent: Intent?, fragmentManager: FragmentManager) {}

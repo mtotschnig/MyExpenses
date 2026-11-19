@@ -395,6 +395,13 @@ open class ExpenseEdit :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ocrViewModel.registerCaptureLaunchers(
+            baseActivity = this,
+            onResult = { uri ->
+                setDirty()
+                viewModel.addAttachmentUris(uri)
+            }
+        )
         setHelpVariant(HELP_VARIANT_TRANSACTION, false)
         rootBinding = OneExpenseBinding.inflate(LayoutInflater.from(this))
         rootBinding.TagRow.TagLabel.setText(R.string.tags)
@@ -660,11 +667,7 @@ open class ExpenseEdit :
     private fun startCapture() {
         ocrViewModel.startCapture(
             this,
-            PictureDirHelper.defaultFileName,
-            onResult = { uri ->
-                setDirty()
-                viewModel.addAttachmentUris(uri)
-            }
+            PictureDirHelper.defaultFileName
         )
     }
 

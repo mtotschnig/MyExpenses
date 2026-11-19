@@ -1,7 +1,9 @@
 package org.totschnig.ocr
 
 import android.app.Activity
+import android.content.Intent
 import android.net.Uri
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.Keep
 import androidx.fragment.app.FragmentManager
@@ -17,20 +19,51 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.PictureDirHelper
 
 const val FRAGMENT_TAG = "SCAN_PREVIEW"
+const val CROP_IMAGE_REQUEST_KEY = "CropImageRequest"
 
 @Keep
 abstract class OcrFeature : OcrFeature {
+    protected lateinit var cropLauncher: ActivityResultLauncher<Intent>
 
     override fun showPreview(scanUri: Uri, fragmentManager: FragmentManager) {
         ScanPreviewFragment.with(scanUri).show(fragmentManager, FRAGMENT_TAG)
     }
 
-    override fun startMediaChooserDo(
+    override fun registerCaptureLaunchers(
         activity: BaseActivity,
-        fileName: String,
         onResult: (Uri) -> Unit,
         onException: (Exception) -> Unit,
         onCancel: (() -> Unit)?
+    ) {
+        val contract = ActivityResultContracts.StartActivityForResult()
+        cropLauncher = activity.activityResultRegistry.register(
+            CROP_IMAGE_REQUEST_KEY,
+            contract
+        ) { activityResult ->
+            val cropResult = CropImage.getActivityResult(activityResult.data)
+            when (activityResult.resultCode) {
+                Activity.RESULT_OK if cropResult != null -> {
+                    activity.baseViewModel.cleanupOrigFile(cropResult.originalUri)
+                    onResult(cropResult.uri)
+                }
+
+                CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE -> onException(cropResult.error)
+
+                Activity.RESULT_CANCELED -> onCancel?.invoke()
+            }
+        }
+    }
+
+    override fun startCapture(
+        activity: BaseActivity,
+        fileName: String
+    ) {
+        startFallbackCapture(activity, fileName)
+    }
+
+    fun startFallbackCapture(
+        activity: BaseActivity,
+        fileName: String
     ) {
         activity.lifecycleScope.launch {
             val uris = withContext(Dispatchers.IO) {
@@ -44,22 +77,6 @@ abstract class OcrFeature : OcrFeature {
                     fileName = "${fileName}_CROPPED"
                 )
             }
-            val contract = ActivityResultContracts.StartActivityForResult()
-            val key = "CropImageRequest_$fileName"
-            val launcher =
-                activity.activityResultRegistry.register(key, contract) { activityResult ->
-                    val cropResult = CropImage.getActivityResult(activityResult.data)
-                    if (activityResult.resultCode == Activity.RESULT_OK && cropResult != null) {
-                        activity.baseViewModel.cleanupOrigFile(cropResult.originalUri)
-                        onResult(cropResult.uri)
-                    } else if (activityResult.resultCode ==
-                        CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE
-                    ) {
-                        onException(cropResult.error)
-                    } else if (activityResult.resultCode == Activity.RESULT_CANCELED) {
-                        onCancel?.invoke()
-                    }
-                }
             val intent = CropImage.activity()
                 .setCameraOnly(!activity.prefHandler.getBoolean(PrefKey.CAMERA_CHOOSER, false))
                 .setCameraPackage(
@@ -71,7 +88,7 @@ abstract class OcrFeature : OcrFeature {
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .getIntent(activity)
 
-            launcher.launch(intent)
+            cropLauncher.launch(intent)
         }
     }
 }

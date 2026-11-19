@@ -204,6 +204,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ocrViewModel.registerCaptureLaunchers(this)
         remapHandler = RemapHandler(this)
         tagHandler = TagHandler(this)
         with(injector) {

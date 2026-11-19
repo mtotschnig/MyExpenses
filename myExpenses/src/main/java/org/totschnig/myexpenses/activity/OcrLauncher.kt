@@ -15,6 +15,10 @@ import org.totschnig.myexpenses.provider.KEY_CURRENCY
 class OcrLauncher : ProtectedFragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ocrViewModel.registerCaptureLaunchers(
+            baseActivity = this,
+            onCancel = { finish() }
+        )
         if (savedInstanceState == null) {
             contribFeatureRequested(ContribFeature.OCR)
         }
@@ -38,9 +42,7 @@ class OcrLauncher : ProtectedFragmentActivity() {
     }
 
     private fun startCapture() {
-        ocrViewModel.startCapture(this, onCancel = {
-            finish()
-        })
+        ocrViewModel.startCapture(this)
     }
 
     override suspend fun getEditIntent(): Intent = super.getEditIntent()!!.apply {
