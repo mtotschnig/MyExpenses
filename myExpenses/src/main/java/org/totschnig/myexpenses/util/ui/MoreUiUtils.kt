@@ -356,7 +356,7 @@ private fun getAttachmentInfoForFileUri(
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     ThumbnailUtils.createImageThumbnail(file, Size(size, size), null)
                 } else {
-                    BitmapFactory.decodeFile(file.path)
+                    null
                 }
             } catch (_: Exception) {
                 null
