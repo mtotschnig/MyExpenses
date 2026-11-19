@@ -24,7 +24,5 @@ dependencies {
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.espresso.core
     androidTestImplementation libs.androidx.annotation
-    api libs.play.services.mlkit.text.recognition.common
-    api libs.text.recognition.bundled.common
     implementation libs.kotlin.reflect
 }

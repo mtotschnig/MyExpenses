@@ -262,11 +262,9 @@ dependencies {
     implementation libs.androidx.fragment.ktx
 
     //Mlkit / Drive
-    //implementation "com.google.android.gms:play-services-base:18.5.0"
-    //implementation "com.google.mlkit:vision-interfaces:+"
+    internImplementation libs.play.services.base
     implementation(libs.guava)
 
-    implementation libs.android.image.cropper
     api libs.androidx.core.ktx
     implementation libs.androidx.core.remoteviews
     implementation libs.kotlin.reflect

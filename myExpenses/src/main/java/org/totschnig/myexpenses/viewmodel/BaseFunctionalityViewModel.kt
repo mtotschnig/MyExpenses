@@ -7,7 +7,6 @@ import android.net.Uri
 import androidx.annotation.VisibleForTesting
 import androidx.core.net.toUri
 import androidx.lifecycle.viewModelScope
-import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -230,10 +229,10 @@ class BaseFunctionalityViewModel(application: Application) :
         }
     }
 
-    fun cleanupOrigFile(result: CropImage.ActivityResult) {
-        if (result.originalUri.authority == AppDirHelper.getFileProviderAuthority(getApplication())) {
+    fun cleanupOrigFile(originalUri: Uri) {
+        if (originalUri.authority == AppDirHelper.getFileProviderAuthority(getApplication())) {
             viewModelScope.launch(coroutineContext()) {
-                contentResolver.delete(result.originalUri, null, null)
+                contentResolver.delete(originalUri, null, null)
             }
         }
     }

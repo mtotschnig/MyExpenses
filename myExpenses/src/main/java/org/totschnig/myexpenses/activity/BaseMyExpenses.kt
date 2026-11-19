@@ -204,6 +204,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ocrViewModel.registerCaptureLaunchers(this)
         remapHandler = RemapHandler(this)
         tagHandler = TagHandler(this)
         with(injector) {
@@ -964,8 +965,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
             }
 
             ContribFeature.OCR -> if (featureViewModel.isFeatureAvailable(this, Feature.OCR)) {
-                //ocrViewModel.startOcrFeature(Uri.parse("file:///android_asset/OCR.jpg"), supportFragmentManager);
-                startMediaChooserDo("SCAN")
+                ocrViewModel.startCapture(this)
             } else {
                 featureViewModel.requestFeature(this, Feature.OCR)
             }

@@ -110,15 +110,21 @@ class AccountWidget :
             }
 
             else -> {
-                (if (clickAction == "SCAN") Intent(context, OcrLauncher::class.java)
-                else Intent(context, ExpenseEdit::class.java).apply {
-                    putExtra(EXTRA_START_FROM_WIDGET, true)
-                    putExtra(EXTRA_START_FROM_WIDGET_DATA_ENTRY, true)
-                    putExtra(OPERATION_TYPE, Button.valueOf(clickAction).type)
-                }).apply {
+                (
+                    if (clickAction == "SCAN") {
+                        Intent(context, OcrLauncher::class.java)
+                    } else {
+                        Intent(context, ExpenseEdit::class.java).apply {
+                            putExtra(EXTRA_START_FROM_WIDGET, true)
+                            putExtra(EXTRA_START_FROM_WIDGET_DATA_ENTRY, true)
+                            putExtra(OPERATION_TYPE, Button.valueOf(clickAction).type)
+                        }
+                    }
+                    ).apply {
                     if (accountId < 0) {
                         putExtra(
-                            KEY_CURRENCY, intent.getStringExtra(KEY_CURRENCY)
+                            KEY_CURRENCY,
+                            intent.getStringExtra(KEY_CURRENCY)
                         )
                     } else {
                         putExtra(KEY_ACCOUNTID, accountId)
@@ -140,7 +146,7 @@ class AccountWidget :
 
     companion object {
         val OBSERVED_URIS = arrayOf(
-            TransactionProvider.ACCOUNTS_URI, //if color changes
+            TransactionProvider.ACCOUNTS_URI, // if color changes
             TransactionProvider.TRANSACTIONS_URI
         )
     }

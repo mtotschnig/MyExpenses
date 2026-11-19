@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>NewLineAtEndOfFile:Options.kt:org.totschnig.mlkit_latn.Options.kt</ID>
+    <ID>PackageNaming:Options.kt:package org.totschnig.mlkit_latn</ID>
+  </CurrentIssues>
+</SmellBaseline>

@@ -6,6 +6,7 @@ import androidx.annotation.StringRes
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.livefront.sealedenum.GenSealedEnum
+import java.util.Locale
 import kotlinx.coroutines.flow.first
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -18,7 +19,6 @@ import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import java.util.Locale
 
 enum class Module(@StringRes val labelResId: Int) {
     OCR(R.string.title_scan_receipt_feature),
@@ -60,6 +60,13 @@ sealed class Feature(vararg val requiredModules: Module) {
     val mainModule
         get() = requiredModules.first()
 
+    /**
+     * Resolves the full set of modules required by this feature.
+     * Overridden by features with dynamic sub-modules (like OCR needing MLKit/Tesseract).
+     */
+    open fun allRequiredModules(context: Context, prefHandler: PrefHandler): Set<Module> =
+        requiredModules.toSet()
+
     open suspend fun canUninstall(
         context: Context,
         prefHandler: PrefHandler,
@@ -72,7 +79,6 @@ sealed class Feature(vararg val requiredModules: Module) {
             .filter {
                 it.requiredModules.contains(Module.from(moduleName))
             }
-
     }
 
     sealed class SyncBackend(vararg requiredModules: Module) :
@@ -89,13 +95,25 @@ sealed class Feature(vararg val requiredModules: Module) {
             }
     }
 
+    data object CAPTURE : Feature(Module.OCR)
     data object OCR : Feature(Module.OCR) {
+        override fun allRequiredModules(context: Context, prefHandler: PrefHandler): Set<Module> {
+            val engine = getUserConfiguredOcrEngine(context, prefHandler)
+            val engineModules = if (engine == MLKIT) {
+                val scriptFeature = getUserConfiguredMlkitScriptModule(context, prefHandler)
+                engine.requiredModules.toSet() + scriptFeature.requiredModules.toSet()
+            } else {
+                engine.requiredModules.toSet()
+            }
+            return setOf(Module.OCR) + engineModules
+        }
+
+        // If user decides to no longer want to use picture attachments, we should allow so
         override suspend fun canUninstall(
             context: Context,
             prefHandler: PrefHandler,
             datastore: DataStore<Preferences>
-        ) =
-            !prefHandler.getBoolean(PrefKey.OCR, false)
+        ) = true
     }
 
     sealed class OcrEngine(val engineClassName: String, vararg requiredModules: Module) :
@@ -104,9 +122,7 @@ sealed class Feature(vararg val requiredModules: Module) {
             context: Context,
             prefHandler: PrefHandler,
             datastore: DataStore<Preferences>
-        ) =
-            OCR.canUninstall(context, prefHandler, datastore) ||
-                    getUserConfiguredOcrEngine(context, prefHandler) != this
+        ) = getUserConfiguredOcrEngine(context, prefHandler) != this
     }
 
     sealed class MlkitProcessor(vararg requiredModules: Module) :
@@ -115,10 +131,8 @@ sealed class Feature(vararg val requiredModules: Module) {
             context: Context,
             prefHandler: PrefHandler,
             datastore: DataStore<Preferences>
-        ) =
-            OCR.canUninstall(context, prefHandler, datastore) ||
-                    MLKIT.canUninstall(context, prefHandler, datastore) ||
-                    getUserConfiguredMlkitScriptModule(context, prefHandler) != this
+        ) = MLKIT.canUninstall(context, prefHandler, datastore) ||
+            getUserConfiguredMlkitScriptModule(context, prefHandler) != this
     }
 
     data object WEBUI : Feature(Module.WEBUI) {
@@ -133,10 +147,12 @@ sealed class Feature(vararg val requiredModules: Module) {
         "org.totschnig.tesseract.Engine",
         Module.TESSERACT
     )
+
     data object MLKIT : OcrEngine(
         "org.totschnig.mlkit.Engine",
         Module.MLKIT
     )
+
     data object DEVA : MlkitProcessor(Module.MLKIT_DEVA)
     data object HAN : MlkitProcessor(Module.MLKIT_HAN)
     data object JPAN : MlkitProcessor(Module.MLKIT_JPAN)
@@ -146,25 +162,28 @@ sealed class Feature(vararg val requiredModules: Module) {
     data object DROPBOX : SyncBackend(Module.DROPBOX, Module.JACKSON)
     data object WEBDAV : SyncBackend(Module.WEBDAV)
     data object ONEDRIVE : SyncBackend(Module.ONEDRIVE, Module.JACKSON)
-    data object SQLCRYPT: Feature(Module.SQLCRYPT) {
+    data object SQLCRYPT : Feature(Module.SQLCRYPT) {
         override suspend fun canUninstall(
             context: Context,
             prefHandler: PrefHandler,
             datastore: DataStore<Preferences>
-        ): Boolean {
-            return !prefHandler.encryptDatabase
-        }
+        ): Boolean = !prefHandler.encryptDatabase
     }
-    data object FINTS: Feature(Module.FINTS)
+
+    data object FINTS : Feature(Module.FINTS)
 }
 
 enum class Script {
-    Latn, Han, Deva, Jpan, Kore
+    Latn,
+    Han,
+    Deva,
+    Jpan,
+    Kore
 }
 
 fun getUserConfiguredOcrEngine(context: Context, prefHandler: PrefHandler): Feature.OcrEngine =
     prefHandler.getString(PrefKey.OCR_ENGINE, null)?.let {
-        when(it) {
+        when (it) {
             "tesseract" -> Feature.TESSERACT
             "mlkit" -> Feature.MLKIT
             else -> null
@@ -173,7 +192,7 @@ fun getUserConfiguredOcrEngine(context: Context, prefHandler: PrefHandler): Feat
         ?: getDefaultOcrEngine(context)
 
 fun getUserConfiguredMlkitScriptModule(context: Context, prefHandler: PrefHandler): Feature =
-    when( getUserConfiguredMlkitScript(context, prefHandler)) {
+    when (getUserConfiguredMlkitScript(context, prefHandler)) {
         Script.Latn -> Feature.LATN
         Script.Han -> Feature.HAN
         Script.Deva -> Feature.DEVA
@@ -202,8 +221,11 @@ fun getDefaultOcrEngine(context: Context): Feature.OcrEngine =
             "iu", "jv", "kn", "ka", "kk", "km", "ky", "lo", "ml", "mn", "my", "ne", "or",
             "pa", "ps", "ru", "si", "sd", "sr", "ta", "te", "tg", "th", "ti", "ug", "uk", "ur"
         )
-    )
-        Feature.TESSERACT else Feature.MLKIT
+    ) {
+        Feature.TESSERACT
+    } else {
+        Feature.MLKIT
+    }
 
 fun getLocaleForUserCountry(context: Context) =
     getLocaleForUserCountry(Utils.getCountryFromTelephonyManager(context))
@@ -215,9 +237,12 @@ fun getLocaleForUserCountry(country: String?, defaultLocale: Locale): Locale {
     val localesForCountry = country?.uppercase(Locale.ROOT)?.let {
         Locale.getAvailableLocales().filter { locale -> it == locale.country }
     }
-    return if ((localesForCountry?.size ?: 0) == 0) defaultLocale
-    else localesForCountry!!.find { locale -> locale.language == defaultLocale.language }
-        ?: localesForCountry[0]
+    return if ((localesForCountry?.size ?: 0) == 0) {
+        defaultLocale
+    } else {
+        localesForCountry!!.find { locale -> locale.language == defaultLocale.language }
+            ?: localesForCountry[0]
+    }
 }
 
 abstract class FeatureManager {
@@ -234,8 +259,9 @@ abstract class FeatureManager {
     open fun isFeatureInstalled(feature: Feature, context: Context) =
         if (feature == Feature.OCR) {
             ocrFeature?.isAvailable(context) ?: false
-        } else
+        } else {
             true
+        }
 
     open fun requestFeature(feature: Feature, context: Context) {
         if (feature == Feature.OCR) {
@@ -270,7 +296,7 @@ abstract class FeatureManager {
 
 interface Callback {
     fun onLanguageAvailable(language: String) {}
-    fun onFeatureAvailable(moduleNames: List<String>) {}
+    fun onFeatureAvailable(feature: Feature) {}
     fun onAsyncStartedFeature(feature: Feature) {}
     fun onAsyncStartedLanguage(displayLanguage: String) {}
     fun onError(throwable: Throwable) {}

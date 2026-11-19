@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>NewLineAtEndOfFile:RecognizerProvider.kt:org.totschnig.mlkit.RecognizerProvider.kt</ID>
+  </CurrentIssues>
+</SmellBaseline>

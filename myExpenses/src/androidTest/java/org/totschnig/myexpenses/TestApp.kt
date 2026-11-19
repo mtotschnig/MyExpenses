@@ -2,6 +2,11 @@ package org.totschnig.myexpenses
 
 import androidx.core.os.ConfigurationCompat
 import androidx.test.platform.app.InstrumentationRegistry
+import java.time.Clock
+import java.time.Instant
+import java.time.ZoneId
+import java.time.temporal.TemporalAmount
+import java.util.Currency
 import kotlinx.coroutines.CoroutineDispatcher
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.di.AppModule
@@ -19,29 +24,17 @@ import org.totschnig.myexpenses.testutils.TestViewModelModule
 import org.totschnig.myexpenses.testutils.withEncryption
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import java.time.Clock
-import java.time.Instant
-import java.time.ZoneId
-import java.time.temporal.TemporalAmount
-import java.util.Currency
 
 class TestApp : MyApplication() {
     lateinit var fixture: Fixture
 
     var currentTime: Instant = Instant.EPOCH
     private val clock: Clock = object : Clock() {
-        override fun getZone(): ZoneId {
-            return ZoneId.systemDefault()
-        }
+        override fun getZone(): ZoneId = ZoneId.systemDefault()
 
-        override fun withZone(zone: ZoneId?): Clock {
-            return this
-        }
+        override fun withZone(zone: ZoneId?): Clock = this
 
-        override fun instant(): Instant {
-            return currentTime
-        }
-
+        override fun instant(): Instant = currentTime
     }
 
     fun advanceClock(byAmount: TemporalAmount) {
@@ -80,9 +73,11 @@ class TestApp : MyApplication() {
                                 .get(0)!!
                         return when (locale.country) {
                             "VI" -> Currency.getInstance("VND")
+
                             "BG" -> Currency.getInstance("EUR")
+
                             else
-                                -> Currency.getInstance(locale)
+                            -> Currency.getInstance(locale)
                         }
                     }
             }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<baseline version="1.0">
+    <file name="src/main/java/org/totschnig/mlkit_latn/Options.kt">
+        <error line="1" column="9" source="standard:package-name" />
+        <error line="9" column="15" source="standard:colon-spacing" />
+        <error line="11" column="17" source="standard:no-multi-spaces" />
+        <error line="12" column="1" source="standard:final-newline" />
+    </file>
+</baseline>

@@ -6,6 +6,7 @@ import android.text.TextUtils
 import androidx.annotation.Keep
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
+import androidx.preference.Preference
 import androidx.preference.Preference.OnPreferenceChangeListener
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefKey
@@ -100,8 +101,9 @@ class PreferencesOcrFragment : BasePreferenceFragment() {
     fun configureOcrEnginePrefs() {
         val tesseract = findPreference<ListPreference>(PrefKey.TESSERACT_LANGUAGE)
         val mlkit = findPreference<ListPreference>(PrefKey.MLKIT_SCRIPT)
+        val gmsScanner = findPreference<Preference>(PrefKey.GMS_DOCUMENT_SCANNER)
         if (tesseract != null && mlkit != null) {
-            preferenceActivity.ocrViewModel.configureOcrEnginePrefs(tesseract, mlkit)
+            preferenceActivity.ocrViewModel.configureOcrEnginePrefs(tesseract, mlkit, gmsScanner)
         }
     }
 
