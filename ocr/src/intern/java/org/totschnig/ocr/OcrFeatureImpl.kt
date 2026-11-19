@@ -7,6 +7,8 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.Keep
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.preference.ListPreference
 import com.google.mlkit.common.MlKit
 import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions
@@ -22,11 +24,13 @@ import org.totschnig.ocr.OcrHandlerImpl.Companion.getEngine
 
 const val GMS_SCANNER_REQUEST_KEY = "GmsDocumentScannerRequest"
 
+data class GmsCaptureBinding(
+    val launcher: ActivityResultLauncher<IntentSenderRequest>
+)
+
 @Keep
 class OcrFeatureImpl(val prefHandler: PrefHandler) : OcrFeature() {
-    private lateinit var gmsLauncher: ActivityResultLauncher<IntentSenderRequest>
-    private var lastResultCallback: ((Uri) -> Unit)? = null
-    private var lastCancelCallback: (() -> Unit)? = null
+    private val gmsBindings = HashMap<BaseActivity, GmsCaptureBinding>()
 
     override fun registerCaptureLaunchers(
         activity: BaseActivity,
@@ -35,30 +39,35 @@ class OcrFeatureImpl(val prefHandler: PrefHandler) : OcrFeature() {
         onCancel: (() -> Unit)?
     ) {
         super.registerCaptureLaunchers(activity, onResult, onException, onCancel)
-        lastResultCallback = onResult
-        lastCancelCallback = onCancel
 
         val contract = ActivityResultContracts.StartIntentSenderForResult()
-        gmsLauncher = activity.activityResultRegistry.register(
+        val launcher = activity.activityResultRegistry.register(
             GMS_SCANNER_REQUEST_KEY,
             contract
         ) { result ->
             if (result.resultCode == Activity.RESULT_OK && result.data != null) {
                 GmsDocumentScanningResult.fromActivityResultIntent(result.data)
-                    ?.pages?.firstOrNull()?.imageUri?.let { uri ->
-                        lastResultCallback?.invoke(uri)
-                    }
+                    ?.pages?.firstOrNull()?.imageUri?.let(onResult)
             } else if (result.resultCode == Activity.RESULT_CANCELED) {
-                lastCancelCallback?.invoke()
+                onCancel?.invoke()
             }
         }
+
+        gmsBindings[activity] = GmsCaptureBinding(launcher)
+
+        activity.lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onDestroy(owner: LifecycleOwner) {
+                gmsBindings.remove(activity)
+            }
+        })
     }
 
     override fun startCapture(
         activity: BaseActivity,
         fileName: String
     ) {
-        if (prefHandler.getBoolean(PrefKey.GMS_DOCUMENT_SCANNER, true)) {
+        val gmsBinding = gmsBindings[activity]
+        if (gmsBinding != null && prefHandler.getBoolean(PrefKey.GMS_DOCUMENT_SCANNER, true)) {
             try {
                 MlKit.initialize(activity.applicationContext)
             } catch (_: IllegalStateException) {
@@ -77,7 +86,7 @@ class OcrFeatureImpl(val prefHandler: PrefHandler) : OcrFeature() {
                 scanner.getStartScanIntent(activity)
                     .addOnSuccessListener { intentSender ->
                         val request = IntentSenderRequest.Builder(intentSender).build()
-                        gmsLauncher.launch(request)
+                        gmsBinding.launcher.launch(request)
                     }
                     .addOnFailureListener { e ->
                         CrashHandler.report(e)

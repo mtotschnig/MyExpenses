@@ -7,6 +7,8 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.Keep
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
@@ -21,9 +23,13 @@ import org.totschnig.myexpenses.util.PictureDirHelper
 const val FRAGMENT_TAG = "SCAN_PREVIEW"
 const val CROP_IMAGE_REQUEST_KEY = "CropImageRequest"
 
+data class CropCaptureBinding(
+    val launcher: ActivityResultLauncher<Intent>
+)
+
 @Keep
 abstract class OcrFeature : OcrFeature {
-    protected lateinit var cropLauncher: ActivityResultLauncher<Intent>
+    protected val cropBindings = HashMap<BaseActivity, CropCaptureBinding>()
 
     override fun showPreview(scanUri: Uri, fragmentManager: FragmentManager) {
         ScanPreviewFragment.with(scanUri).show(fragmentManager, FRAGMENT_TAG)
@@ -36,7 +42,7 @@ abstract class OcrFeature : OcrFeature {
         onCancel: (() -> Unit)?
     ) {
         val contract = ActivityResultContracts.StartActivityForResult()
-        cropLauncher = activity.activityResultRegistry.register(
+        val launcher = activity.activityResultRegistry.register(
             CROP_IMAGE_REQUEST_KEY,
             contract
         ) { activityResult ->
@@ -52,6 +58,14 @@ abstract class OcrFeature : OcrFeature {
                 Activity.RESULT_CANCELED -> onCancel?.invoke()
             }
         }
+
+        cropBindings[activity] = CropCaptureBinding(launcher)
+
+        activity.lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onDestroy(owner: LifecycleOwner) {
+                cropBindings.remove(activity)
+            }
+        })
     }
 
     override fun startCapture(
@@ -65,6 +79,7 @@ abstract class OcrFeature : OcrFeature {
         activity: BaseActivity,
         fileName: String
     ) {
+        val binding = cropBindings[activity] ?: return
         activity.lifecycleScope.launch {
             val uris = withContext(Dispatchers.IO) {
                 PictureDirHelper.getOutputMediaUri(
@@ -88,7 +103,7 @@ abstract class OcrFeature : OcrFeature {
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .getIntent(activity)
 
-            cropLauncher.launch(intent)
+            binding.launcher.launch(intent)
         }
     }
 }

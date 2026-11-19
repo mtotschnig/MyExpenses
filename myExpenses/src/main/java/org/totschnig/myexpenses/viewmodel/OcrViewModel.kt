@@ -20,6 +20,10 @@ class OcrViewModel(application: Application) : AndroidViewModel(application) {
     private val ocrFeature: OcrFeature
         get() = getApplication<MyApplication>().appComponent.ocrFeature() ?: object : OcrFeature {}
 
+    private var savedOnResult: ((Uri) -> Unit)? = null
+    private var savedOnException: ((Exception) -> Unit)? = null
+    private var savedOnCancel: (() -> Unit)? = null
+
     fun tessDataExists() = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
         emit(ocrFeature.isAvailable(getApplication<MyApplication>()))
     }
@@ -36,6 +40,9 @@ class OcrViewModel(application: Application) : AndroidViewModel(application) {
         onException: (Exception) -> Unit = { baseActivity.processImageCaptureError(it) },
         onCancel: (() -> Unit)? = null
     ) {
+        savedOnResult = onResult
+        savedOnException = onException
+        savedOnCancel = onCancel
         ocrFeature.registerCaptureLaunchers(baseActivity, onResult, onException, onCancel)
     }
 
@@ -43,6 +50,12 @@ class OcrViewModel(application: Application) : AndroidViewModel(application) {
         baseActivity: BaseActivity,
         fileName: String = "SCAN"
     ) {
+        val onResult = savedOnResult ?: {
+            ocrFeature.showPreview(it, baseActivity.supportFragmentManager)
+        }
+        val onException = savedOnException ?: { baseActivity.processImageCaptureError(it) }
+        val onCancel = savedOnCancel
+        ocrFeature.registerCaptureLaunchers(baseActivity, onResult, onException, onCancel)
         ocrFeature.startCapture(baseActivity, fileName)
     }
 

@@ -107,6 +107,13 @@ sealed class Feature(vararg val requiredModules: Module) {
             }
             return setOf(Module.OCR) + engineModules
         }
+
+        // If user decides to no longer want to use picture attachments, we should allow so
+        override suspend fun canUninstall(
+            context: Context,
+            prefHandler: PrefHandler,
+            datastore: DataStore<Preferences>
+        ) = true
     }
 
     sealed class OcrEngine(val engineClassName: String, vararg requiredModules: Module) :
@@ -115,9 +122,7 @@ sealed class Feature(vararg val requiredModules: Module) {
             context: Context,
             prefHandler: PrefHandler,
             datastore: DataStore<Preferences>
-        ) =
-            OCR.canUninstall(context, prefHandler, datastore) ||
-                getUserConfiguredOcrEngine(context, prefHandler) != this
+        ) = getUserConfiguredOcrEngine(context, prefHandler) != this
     }
 
     sealed class MlkitProcessor(vararg requiredModules: Module) :
@@ -126,10 +131,8 @@ sealed class Feature(vararg val requiredModules: Module) {
             context: Context,
             prefHandler: PrefHandler,
             datastore: DataStore<Preferences>
-        ) =
-            OCR.canUninstall(context, prefHandler, datastore) ||
-                MLKIT.canUninstall(context, prefHandler, datastore) ||
-                getUserConfiguredMlkitScriptModule(context, prefHandler) != this
+        ) = MLKIT.canUninstall(context, prefHandler, datastore) ||
+            getUserConfiguredMlkitScriptModule(context, prefHandler) != this
     }
 
     data object WEBUI : Feature(Module.WEBUI) {
