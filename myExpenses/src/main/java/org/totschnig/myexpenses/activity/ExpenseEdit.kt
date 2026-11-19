@@ -395,13 +395,6 @@ open class ExpenseEdit :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ocrViewModel.registerCaptureLaunchers(
-            baseActivity = this,
-            onResult = { uri ->
-                setDirty()
-                viewModel.addAttachmentUris(uri)
-            }
-        )
         setHelpVariant(HELP_VARIANT_TRANSACTION, false)
         rootBinding = OneExpenseBinding.inflate(LayoutInflater.from(this))
         rootBinding.TagRow.TagLabel.setText(R.string.tags)
@@ -419,6 +412,14 @@ open class ExpenseEdit :
             inject(currencyViewModel)
         }
         attachmentInfoMap = attachmentInfoMap(this)
+
+        ocrViewModel.registerCaptureLaunchers(
+            baseActivity = this,
+            onResult = { uri ->
+                setDirty()
+                viewModel.addAttachmentUris(uri)
+            }
+        )
 
         // we enable it only after accountCursor has been loaded, preventing NPE when user clicks on it early
         amountInput.setTypeEnabled(false)

@@ -17,6 +17,7 @@ import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.ocr.OcrHandlerImpl.Companion.availableEngines
@@ -47,7 +48,10 @@ class OcrFeatureImpl(val prefHandler: PrefHandler) : OcrFeature() {
         ) { result ->
             if (result.resultCode == Activity.RESULT_OK && result.data != null) {
                 GmsDocumentScanningResult.fromActivityResultIntent(result.data)
-                    ?.pages?.firstOrNull()?.imageUri?.let(onResult)
+                    ?.pages?.firstOrNull()?.imageUri?.let { uri ->
+                        val contentUri = AppDirHelper.ensureContentUri(uri, activity)
+                        onResult(contentUri)
+                    }
             } else if (result.resultCode == Activity.RESULT_CANCELED) {
                 onCancel?.invoke()
             }
