@@ -71,7 +71,7 @@ object DatabaseConstants {
         val minimalDaysInFirstWeek = WeekFields.of(locale).minimalDaysInFirstWeek
         val pivotDay = if (minimalDaysInFirstWeek >= 4) "-01-04" else "-01-01"
         val yearOffset = if (minimalDaysInFirstWeek >= 4) "-3 day" else "0 day"
-        val maxDate = if (minimalDaysInFirstWeek >= 4) "%1\$d-12-28" else "%1\$d-12-31"
+        val maxDate = if (minimalDaysInFirstWeek >= 4) "%1\$d-12-28" else "%1\$d-12-25"
 
         nextWeekEndSqlite = if (weekStartsOn == Calendar.SUNDAY) {
             /*weekStartsOn Sunday*/

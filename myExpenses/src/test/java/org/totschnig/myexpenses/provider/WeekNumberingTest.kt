@@ -61,6 +61,14 @@ class WeekNumberingTest {
         }
     }
 
+    private fun queryMaxWeeks(year: Int): Int {
+        val maxExpr = DbUtils.maximumWeekExpression(year)
+        return db.rawQuery("SELECT $maxExpr", null).use { cursor ->
+            cursor.moveToFirst()
+            cursor.getInt(0)
+        }
+    }
+
     private fun assertRoundTrip(year: Int, week: Int, expectedWeekStart: String) {
         val sqlExpr = DbUtils.weekStartFromGroupSqlExpression(year, week)
         db.query("test_dates", arrayOf(sqlExpr), null, null, null, null, null).use { cursor ->
@@ -144,6 +152,39 @@ class WeekNumberingTest {
         assertEquals(52, week)
         assertEquals("2024-12-22", weekStart)
         assertRoundTrip(year, week, weekStart)
+    }
+
+    @Test
+    fun testMaxWeeks_2024_US_SundayStart() {
+        configureLocaleAndWeekStart(Locale.US, Calendar.SUNDAY)
+        // Year 2024 under US Sunday start has 52 weeks (Dec 29, 2024 is already 2025 W1).
+        // Max weeks for 2024 must be 52, not 53!
+        val maxWeeks = queryMaxWeeks(2024)
+        assertEquals("Max weeks for 2024 under US Sunday start should be 52", 52, maxWeeks)
+    }
+
+    @Test
+    fun testMaxWeeks_2028_US_SundayStart() {
+        configureLocaleAndWeekStart(Locale.US, Calendar.SUNDAY)
+        // Year 2028 under US Sunday start has 53 weeks.
+        val maxWeeks = queryMaxWeeks(2028)
+        assertEquals("Max weeks for 2028 under US Sunday start should be 53", 53, maxWeeks)
+    }
+
+    @Test
+    fun testMaxWeeks_2020_ISO8601() {
+        configureLocaleAndWeekStart(Locale.GERMANY, Calendar.MONDAY)
+        // Year 2020 under ISO 8601 has 53 weeks.
+        val maxWeeks = queryMaxWeeks(2020)
+        assertEquals("Max weeks for 2020 under ISO 8601 should be 53", 53, maxWeeks)
+    }
+
+    @Test
+    fun testMaxWeeks_2024_ISO8601() {
+        configureLocaleAndWeekStart(Locale.GERMANY, Calendar.MONDAY)
+        // Year 2024 under ISO 8601 has 52 weeks.
+        val maxWeeks = queryMaxWeeks(2024)
+        assertEquals("Max weeks for 2024 under ISO 8601 should be 52", 52, maxWeeks)
     }
 
     private class TestDbHelper(context: android.content.Context) :
