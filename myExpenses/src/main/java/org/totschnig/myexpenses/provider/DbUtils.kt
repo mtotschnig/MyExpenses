@@ -19,6 +19,8 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
 import androidx.annotation.VisibleForTesting
+import java.io.File
+import java.util.Locale
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.FLAG_TRANSFER
@@ -28,8 +30,6 @@ import org.totschnig.myexpenses.service.AutoBackupWorker
 import org.totschnig.myexpenses.service.DailyExchangeRateDownloadService
 import org.totschnig.myexpenses.service.PlanExecutor
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
-import java.io.File
-import java.util.Locale
 
 object DbUtils {
     fun restore(app: MyApplication, backupFile: File, encrypt: Boolean): Boolean {
@@ -39,12 +39,16 @@ object DbUtils {
             DailyExchangeRateDownloadService.cancel(app)
             if (backupFile.exists()) {
                 val client =
-                    app.contentResolver.acquireContentProviderClient(TransactionProvider.AUTHORITY)!!
+                    app.contentResolver.acquireContentProviderClient(
+                        TransactionProvider.AUTHORITY
+                    )!!
                 val provider = client.localContentProvider as TransactionProvider
                 provider.restore(backupFile, encrypt)
                 client.release()
                 true
-            } else false
+            } else {
+                false
+            }
         } catch (e: Exception) {
             report(e)
             false
@@ -57,18 +61,18 @@ object DbUtils {
     }
 
     @JvmStatic
-    fun weekStartFromGroupSqlExpression(year: Int, week: Int): String {
-        return String.format(
-            Locale.US,
-            DatabaseConstants.countFromWeekStartZero + " AS " + KEY_WEEK_START,
-            year,
-            week * 7
-        )
-    }
+    fun weekStartFromGroupSqlExpression(year: Int, week: Int): String = String.format(
+        Locale.US,
+        DatabaseConstants.countFromWeekStartZero + " AS " + KEY_WEEK_START,
+        year,
+        (week - 1) * 7
+    )
 
-    fun maximumWeekExpression(year: Int): String {
-        return String.format(Locale.US, DatabaseConstants.weekMax, year)
-    }
+    fun maximumWeekExpression(year: Int): String = String.format(
+        Locale.US,
+        DatabaseConstants.weekMax,
+        year
+    )
 
     fun getSchemaDetails(contentResolver: ContentResolver): Map<String, String> = getTableDetails(
         contentResolver.query(TransactionProvider.DEBUG_SCHEMA_URI, null, null, null, null)
@@ -83,9 +87,10 @@ object DbUtils {
     }
 
     @VisibleForTesting
-    fun fqcn(table: String?, column: String?): String {
-        return String.format(Locale.ROOT, "%s.%s", table, column)
-    }
+    fun fqcn(
+        table: String?,
+        column: String?
+    ): String = String.format(Locale.ROOT, "%s.%s", table, column)
 
     fun storeSetting(contentResolver: ContentResolver, key: String?, value: String?): Uri? {
         val values = ContentValues(2)
@@ -96,8 +101,11 @@ object DbUtils {
 
     fun loadSetting(contentResolver: ContentResolver, key: String) =
         contentResolver.query(
-            TransactionProvider.SETTINGS_URI, arrayOf(KEY_VALUE),
-            "$KEY_KEY = ?", arrayOf(key), null
+            TransactionProvider.SETTINGS_URI,
+            arrayOf(KEY_VALUE),
+            "$KEY_KEY = ?",
+            arrayOf(key),
+            null
         )?.use {
             if (it.moveToFirst()) it.getString(0) else null
         }
@@ -106,10 +114,22 @@ object DbUtils {
             PrefKey.DB_SAFE_MODE,
             false
         )
-    ) "total" else "sum"
+    ) {
+        "total"
+    } else {
+        "sum"
+    }
 
     // @formatter:off
     fun typeWithFallBack(prefHandler: PrefHandler) =
-        """coalesce($KEY_TYPE, CASE $KEY_CATID WHEN $SPLIT_CATID THEN $FLAG_NEUTRAL ELSE ${if (prefHandler.getBoolean(PrefKey.UNMAPPED_TRANSACTION_AS_TRANSFER, false)) FLAG_TRANSFER else FLAG_NEUTRAL} END)"""
+        """coalesce($KEY_TYPE, CASE $KEY_CATID WHEN $SPLIT_CATID THEN $FLAG_NEUTRAL ELSE ${if (prefHandler.getBoolean(
+                PrefKey.UNMAPPED_TRANSACTION_AS_TRANSFER,
+                false
+            )
+        ) {
+            FLAG_TRANSFER
+        } else {
+            FLAG_NEUTRAL
+        }} END)"""
     // @formatter:on
 }

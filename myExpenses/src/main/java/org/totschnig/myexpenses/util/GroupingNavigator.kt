@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.util
 
 import android.os.Parcelable
+import java.io.Serializable
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Grouping.DAY
@@ -10,7 +11,6 @@ import org.totschnig.myexpenses.model.Grouping.WEEK
 import org.totschnig.myexpenses.model.Grouping.YEAR
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
 import org.totschnig.myexpenses.viewmodel.data.DateInfoExtra
-import java.io.Serializable
 
 @Parcelize
 data class GroupingInfo(
@@ -38,9 +38,11 @@ object GroupingNavigator {
     }
 
     suspend fun next(groupingInfo: GroupingInfo, dateInfo: suspend () -> DateInfoExtra) =
-        when(groupingInfo.grouping) {
+        when (groupingInfo.grouping) {
             NONE -> throw IllegalArgumentException()
+
             YEAR -> groupingInfo.copy(year = groupingInfo.year + 1)
+
             else -> {
                 val nextSecond = groupingInfo.second + 1
                 val overflow = nextSecond > dateInfo().maxValue
@@ -52,9 +54,11 @@ object GroupingNavigator {
         }
 
     suspend fun previous(groupingInfo: GroupingInfo, dateInfo: suspend () -> DateInfoExtra) =
-        when(groupingInfo.grouping) {
+        when (groupingInfo.grouping) {
             NONE -> throw IllegalArgumentException()
+
             YEAR -> groupingInfo.copy(year = groupingInfo.year - 1)
+
             else -> {
                 val nextSecond = groupingInfo.second - 1
                 val underflow = nextSecond < groupingInfo.grouping.minValue

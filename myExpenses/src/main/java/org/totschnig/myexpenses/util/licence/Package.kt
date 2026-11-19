@@ -2,13 +2,13 @@ package org.totschnig.myexpenses.util.licence
 
 import android.content.Context
 import androidx.annotation.Keep
+import java.util.Locale
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.formatMoney
-import java.util.Locale
 
 @Keep
 sealed class Package(val defaultPrice: Long) {
@@ -25,7 +25,7 @@ sealed class Package(val defaultPrice: Long) {
         currencyFormatter: ICurrencyFormatter,
         currencyUnit: CurrencyUnit,
         withExtra: Boolean,
-        usesSubscription: Boolean,
+        usesSubscription: Boolean
     ): String {
         val formatted = getFormattedPriceRaw(currencyUnit, currencyFormatter)
         return getFormattedPrice(context, formatted, withExtra, usesSubscription)
@@ -51,18 +51,16 @@ sealed class Package(val defaultPrice: Long) {
     data object Extended : Package(1990)
 
     companion object {
-        fun fromString(id: String): Package? {
-            return when (id) {
-                Contrib.id -> Contrib
-                Upgrade.id -> Upgrade
-                Extended.id -> Extended
-                ProfessionalPackage.Professional_1.id -> ProfessionalPackage.Professional_1
-                ProfessionalPackage.Professional_6.id -> ProfessionalPackage.Professional_6
-                ProfessionalPackage.Professional_12.id -> ProfessionalPackage.Professional_12
-                ProfessionalPackage.Professional_24.id -> ProfessionalPackage.Professional_24
-                ProfessionalPackage.Amazon.id -> ProfessionalPackage.Amazon
-                else -> AddOnPackage.values.find { it.id == id }
-            }
+        fun fromString(id: String): Package? = when (id) {
+            Contrib.id -> Contrib
+            Upgrade.id -> Upgrade
+            Extended.id -> Extended
+            ProfessionalPackage.Professional_1.id -> ProfessionalPackage.Professional_1
+            ProfessionalPackage.Professional_6.id -> ProfessionalPackage.Professional_6
+            ProfessionalPackage.Professional_12.id -> ProfessionalPackage.Professional_12
+            ProfessionalPackage.Professional_24.id -> ProfessionalPackage.Professional_24
+            ProfessionalPackage.Amazon.id -> ProfessionalPackage.Amazon
+            else -> AddOnPackage.values.find { it.id == id }
         }
     }
 }
@@ -98,8 +96,8 @@ sealed class ProfessionalPackage(defaultPrice: Long, val duration: Int) : Packag
     ) =
         formatWithDuration(context, formatted, withExtra, usesSubscription)
 
-/*    fun getMonthlyPrice(withExtra: Boolean) =
-            ceil(defaultPrice.toDouble() / getDuration(withExtra)).toLong()*/
+    /*    fun getMonthlyPrice(withExtra: Boolean) =
+                ceil(defaultPrice.toDouble() / getDuration(withExtra)).toLong()*/
 
     private fun formatWithDuration(
         context: Context,
@@ -110,9 +108,13 @@ sealed class ProfessionalPackage(defaultPrice: Long, val duration: Int) : Packag
         val duration = getDuration(withExtra)
         val formattedDuration: String
         var format = "%s (%s)"
-        if (usesSubscription && duration == 1) formattedDuration = context.getString(R.string.monthly_plain)
-        else if (usesSubscription && duration == 12) formattedDuration = context.getString(R.string.yearly_plain)
-        else {
+        if (usesSubscription && duration == 1) {
+            formattedDuration =
+                context.getString(R.string.monthly_plain)
+        } else if (usesSubscription && duration == 12) {
+            formattedDuration =
+                context.getString(R.string.yearly_plain)
+        } else {
             format = "%s / %s"
             formattedDuration = context.getString(R.string.n_months, duration)
         }
@@ -134,9 +136,9 @@ sealed class AddOnPackage(
 ) : Package(590) {
 
     companion object {
-        //We cannot use an initializer here, because the objects we want to list might not be constructed
-        //thus giving us a list of nulls:
-        //https://youtrack.jetbrains.com/issue/KT-8970/Object-is-uninitialized-null-when-accessed-from-static-context-ex.-companion-object-with-initialization-loop
+        // We cannot use an initializer here, because the objects we want to list might not be constructed
+        // thus giving us a list of nulls:
+        // https://youtrack.jetbrains.com/issue/KT-8970/Object-is-uninitialized-null-when-accessed-from-static-context-ex.-companion-object-with-initialization-loop
         val values: List<AddOnPackage>
             get() = listOf(
                 SplitTemplate, History, Budget, Ocr, WebUi, CategoryTree,
@@ -146,6 +148,7 @@ sealed class AddOnPackage(
     }
 
     override val optionName = "AddOn"
+
     @Suppress("unused")
     val sku: String
         get() = this::class.simpleName!!.lowercase(Locale.ROOT)
@@ -203,8 +206,8 @@ sealed class AddOnPackage(
     data object Banking : AddOnPackage(ContribFeature.BANKING)
 
     @Keep
-    data object AutomaticFxDownload: AddOnPackage(ContribFeature.AUTOMATIC_FX_DOWNLOAD)
+    data object AutomaticFxDownload : AddOnPackage(ContribFeature.AUTOMATIC_FX_DOWNLOAD)
 
     @Keep
-    data object Portfolio: AddOnPackage(ContribFeature.PORTFOLIO)
+    data object Portfolio : AddOnPackage(ContribFeature.PORTFOLIO)
 }

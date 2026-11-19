@@ -1,12 +1,12 @@
 package org.totschnig.myexpenses.util
 
 import com.google.common.truth.Truth.assertThat
+import java.time.LocalDate
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
 import org.totschnig.myexpenses.viewmodel.data.DateInfoExtra
-import java.time.LocalDate
 
 class GroupingNavigatorTest {
 
@@ -31,10 +31,26 @@ class GroupingNavigatorTest {
     }
 
     @Test
+    fun navigateDayLeapYear() {
+        val first = GroupingInfo(Grouping.DAY, 2025, 1)
+        val last = GroupingInfo(Grouping.DAY, 2024, 366)
+        val dateInfoExtra = DateInfoExtra(366, LocalDate.now())
+        runTheTest(first, last, dateInfoExtra)
+    }
+
+    @Test
     fun navigateWeek() {
         val first = GroupingInfo(Grouping.WEEK, 2024, 1)
         val last = GroupingInfo(Grouping.WEEK, 2023, 52)
         val dateInfoExtra = DateInfoExtra(52, LocalDate.now())
+        runTheTest(first, last, dateInfoExtra)
+    }
+
+    @Test
+    fun navigateWeek53() {
+        val first = GroupingInfo(Grouping.WEEK, 2021, 1)
+        val last = GroupingInfo(Grouping.WEEK, 2020, 53)
+        val dateInfoExtra = DateInfoExtra(53, LocalDate.now())
         runTheTest(first, last, dateInfoExtra)
     }
 
@@ -50,7 +66,7 @@ class GroupingNavigatorTest {
     fun navigateYear() {
         val first = GroupingInfo(Grouping.YEAR, 2024, 0)
         val last = GroupingInfo(Grouping.YEAR, 2023, 0)
-        val dateInfoExtra = DateInfoExtra(52, LocalDate.now())
+        val dateInfoExtra = DateInfoExtra(0, LocalDate.now())
         runTheTest(first, last, dateInfoExtra)
     }
 
@@ -62,5 +78,4 @@ class GroupingNavigatorTest {
                 .isEqualTo(first)
         }
     }
-
 }
