@@ -4,7 +4,7 @@ screenshot_titles:
   export: Exportera till PDF, QIF och CSV
   group: Gruppera efter år, månad eller vecka
   summarize: Översikt över alla dina konton
-  split: Dela upp till flera kategorier
+  split: Dela upp i flera kategorier
   budget: Årliga, månatliga och veckovisa budgetar
   distribution: Utgiftsfördelning per kategori
 store:
