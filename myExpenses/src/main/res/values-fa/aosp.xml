@@ -88,4 +88,6 @@
     <string name="options">"گزینه‌ها"</string>
     <string name="actions">"اقدامات"</string>
     <string name="search_clear_desc">"پاک کردن نوشتار جستجو"</string>
+    <string name="drawer_open">بستن منو</string>
+    <string name="drawer_close">کشوی ناوبری را ببندید</string>
 </resources>
