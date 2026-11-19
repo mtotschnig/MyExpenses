@@ -13,13 +13,19 @@ object TestFeatureModule : FeatureModule() {
     override fun provideFeatureManager(prefHandler: PrefHandler) = TestFeatureManager
 
     var testOcrFeature: OcrFeature = object : OcrFeature {
-        override fun startCapture(
+        private lateinit var resultCallback: (Uri) -> Unit
+
+        override fun registerCaptureLaunchers(
             activity: BaseActivity,
-            fileName: String,
             onResult: (Uri) -> Unit,
+            onException: (Exception) -> Unit,
             onCancel: (() -> Unit)?
         ) {
-            onResult(Uri.parse("file:///android_asset/screenshot.jpg"))
+            resultCallback = onResult
+        }
+
+        override fun startCapture(activity: BaseActivity, fileName: String) {
+            resultCallback(Uri.parse("file:///android_asset/screenshot.jpg"))
         }
     }
 
