@@ -959,7 +959,6 @@
     <ID>MaxLineLength:OnboardingDataFragment.kt:OnboardingDataFragment$if</ID>
     <ID>MaxLineLength:OnboardingUiFragment.kt:OnboardingUiFragment$(Utils.ensureDateFormatWithShortYear(context) as SimpleDateFormat).asDateTimeFormatter</ID>
     <ID>MaxLineLength:OnboardingUiFragment.kt:OnboardingUiFragment$(if (isChecked) ProtectedFragmentActivity.ThemeType.light else ProtectedFragmentActivity.ThemeType.dark).name</ID>
-    <ID>MaxLineLength:Package.kt:AddOnPackage.Companion$//https://youtrack.jetbrains.com/issue/KT-8970/Object-is-uninitialized-null-when-accessed-from-static-context-ex.-companion-object-with-initialization-loop</ID>
     <ID>MaxLineLength:PartiesList.kt:PartiesList.ViewHolder$setImageResource(if (viewModel.expandedItem == party.id) R.drawable.ic_expand_less else R.drawable.ic_expand_more)</ID>
     <ID>MaxLineLength:Party.kt:Party$get() = id != NULL_ITEM_ID &amp;&amp; !mappedTransactions &amp;&amp; !mappedTemplates &amp;&amp; !mappedDebts &amp;&amp; duplicates.all { it.isUnused }</ID>
     <ID>MaxLineLength:PartyListViewModel.kt:PartyListViewModel$)</ID>
@@ -1349,7 +1348,6 @@
     <ID>NewLineAtEndOfFile:GroupedSpinnerAdapter.kt:org.totschnig.myexpenses.adapter.GroupedSpinnerAdapter.kt</ID>
     <ID>NewLineAtEndOfFile:Grouping.kt:org.totschnig.myexpenses.model.Grouping.kt</ID>
     <ID>NewLineAtEndOfFile:GroupingNavigator.kt:org.totschnig.myexpenses.util.GroupingNavigator.kt</ID>
-    <ID>NewLineAtEndOfFile:GroupingNavigatorTest.kt:org.totschnig.myexpenses.util.GroupingNavigatorTest.kt</ID>
     <ID>NewLineAtEndOfFile:HeaderPreference.kt:org.totschnig.myexpenses.preference.HeaderPreference.kt</ID>
     <ID>NewLineAtEndOfFile:Help.kt:org.totschnig.myexpenses.activity.Help.kt</ID>
     <ID>NewLineAtEndOfFile:HelpDialogHelperTest.kt:org.totschnig.myexpenses.util.HelpDialogHelperTest.kt</ID>

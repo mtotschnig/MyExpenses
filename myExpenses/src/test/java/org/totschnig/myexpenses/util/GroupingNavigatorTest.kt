@@ -1,12 +1,12 @@
 package org.totschnig.myexpenses.util
 
 import com.google.common.truth.Truth.assertThat
+import java.time.LocalDate
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
 import org.totschnig.myexpenses.viewmodel.data.DateInfoExtra
-import java.time.LocalDate
 
 class GroupingNavigatorTest {
 
@@ -62,5 +62,4 @@ class GroupingNavigatorTest {
                 .isEqualTo(first)
         }
     }
-
 }
