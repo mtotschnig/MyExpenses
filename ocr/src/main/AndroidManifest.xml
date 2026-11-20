@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application>
-        <provider
-            android:name="com.google.mlkit.common.internal.MlKitInitProvider"
-            android:authorities="${applicationId}.mlkitinitprovider"
-            tools:node="remove" />
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
     </application>
+
 
     <dist:module
         dist:instant="false"
