@@ -60,7 +60,7 @@
     <string name="dialog_contrib_reminder_remove_limitation">رفع این محدودیت و دسترسی به ویژگی‌های بیشتر از طریق ارتقاء <i>{app_name}</i></string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> به صورت متن‌باز ارائه شده است.</string>
     <string name="dialog_contrib_text_2">لطفاً با ارتقاء <i>{app_name}</i> به برنامه کمک کنید و به ویژگی‌های زیر دسترسی نامحدود پیدا کنید:</string>
-    <string name="dialog_contrib_trial_info" tools:ignore="PluralsCandidate">وضعیت فعلی مجوز شما (%1) به شما امکان می‌دهد %2 را به مدت %3 روز (تا %4) امتحان کنید.</string>
+    <string name="dialog_contrib_trial_info" tools:ignore="PluralsCandidate">وضعیت فعلی مجوز شما (%1$s) به شما امکان می‌دهد %2$s را به مدت %3$d روز (تا %4$s) امتحان کنید.</string>
     <string name="dialog_contrib_trial_info_play">این دوره آزمایشی رایگان هرگز به هیچ نوع اشتراکی تبدیل نخواهد شد.</string>
     <string name="dialog_contrib_subscription_info_play">این اشتراک بلافاصله فعال می‌شود، به صورت ماهانه یا سالانه صورت‌حساب می‌شود و در هر زمان قابل لغو است.</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">شما با لایسنس فعلی (%2$s) می‌توانید %1$d حساب ایجاد کنید.</string>
