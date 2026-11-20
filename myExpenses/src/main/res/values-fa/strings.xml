@@ -834,7 +834,7 @@
     <string name="menu_unlink_transfer">لغو پیوند انتقال</string>
     <string name="warning_unlink_transfer">انتقال انتخاب‌شده لغو پیوند خواهد شد: در هر دو حساب با تراکنش‌های معمولی جایگزین خواهد شد.</string>
     <string name="menu_transform_to_transfer">تبدیل به انتقال</string>
-    <string name="warning_transform_to_transfer">تراکنش انتخاب‌شده با یک انتقال از %1 به %2 جایگزین خواهد شد.</string>
+    <string name="warning_transform_to_transfer">تراکنش انتخاب‌شده با یک انتقال از %1$s به %2$s جایگزین خواهد شد.</string>
     <string name="remap_date">در تمام تراکنش‌های انتخاب‌شده، تاریخ روی %s تنظیم خواهد شد.</string>
     <string name="remap_update_value_date">تاریخ ارزش نیز به‌روزرسانی شود</string>
     <string name="roadmap_intro">رای‌گیری نقشه راه %d اکنون باز است! به قابلیت‌ها و بهبودهایی که برای شما اهمیت بیشتری دارند رای دهید.</string>
