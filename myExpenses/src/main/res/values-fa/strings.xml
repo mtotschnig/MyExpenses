@@ -607,7 +607,7 @@
     <string name="debt_paid_off_other">بدهی %s تسویه شد.</string>
     <string name="debt_paid_off_self">بدهی من تسویه شد.</string>
     <string name="debt_balance_i_owe">اکنون %s بدهکارم.</string>
-    <string name="debt_balance_they_owe">اکنون %1 مبلغ %2 بدهکار است.</string>
+    <string name="debt_balance_they_owe">اکنون %1$s مبلغ %2$s بدهکار است.</string>
     <string name="pref_backup_file_prefix_title">پیشوند فایل</string>
     <string name="optimize_image_file_size">بهینه‌سازی حجم فایل تصویر</string>
     <string name="maximum_size">حداکثر حجم</string>
