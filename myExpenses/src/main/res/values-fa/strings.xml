@@ -551,8 +551,8 @@
     <string name="debts">دیون و مطالبات</string>
     <string name="warning_party_delete_debt">هنگام حذف این طرف حساب، دیون و مطالبات تعریف شده برای آن نیز حذف خواهند شد.</string>
     <plurals name="debt_mapped_transactions">
-        <item quantity="one">بدهی «%1» %2 تراکنش نگاشت‌شده دارد.</item>
-        <item quantity="other">بدهی «%1» %2 تراکنش نگاشت‌شده دارد.</item>
+        <item quantity="one">بدهی «%1$s» %2$d تراکنش نگاشت‌شده دارد.</item>
+        <item quantity="other">بدهی «%1$s» %2$d تراکنش نگاشت‌شده دارد.</item>
     </plurals>
     <string name="object_sealed_debt">مورد مربوط به یک طلب/بدهی بسته شده است.</string>
     <string name="debt_managment">مدیریت دیون و مطالبات</string>
