@@ -914,10 +914,10 @@
         <item quantity="other">%d خط پردازش نشدند.</item>
     </plurals>
     <plurals name="import_trades_missing_assets_message">
-        <item quantity="one">%1 خط به دارایی‌های ناشناخته اشاره می‌کند: %2.</item>
-        <item quantity="other">%1 خط به دارایی‌های ناشناخته اشاره می‌کنند: %2.</item>
+        <item quantity="one">%1$d خط به دارایی‌های ناشناخته اشاره می‌کند: %2$s.</item>
+        <item quantity="other">%1$d خط به دارایی‌های ناشناخته اشاره می‌کنند: %2$s.</item>
     </plurals>
-    <string name="confirm_process_file_message">آیا از وارد کردن قیمت‌ها برای \'%1\' از \'%2\' اطمینان دارید؟ قیمت‌های جدید ممکن است بر مبالغ معادل موجود تأثیر بگذارند.</string>
+    <string name="confirm_process_file_message">آیا از وارد کردن قیمت‌ها برای \'%1$s\' از \'%2$s\' اطمینان دارید؟ قیمت‌های جدید ممکن است بر مبالغ معادل موجود تأثیر بگذارند.</string>
     <string name="warning_expense_category_credit">شما یک دسته‌بندی هزینه را به یک تراکنش درآمد اختصاص می‌دهید. در نتیجه، این تراکنش مجموع هزینه‌های شما را کاهش داده و به صورت پیش‌فرض قرمز رنگ نشان داده می‌شود.</string>
     <string name="warning_income_category_debit">شما یک دسته‌بندی درآمد را به یک تراکنش هزینه اختصاص می‌دهید. در نتیجه، این تراکنش مجموع درآمد شما را کاهش داده و به صورت پیش‌فرض سبز رنگ نشان داده می‌شود.</string>
     <string name="pref_dynamic_exchange_rates_dynamic">نرخ‌های پویا برای همه حساب‌ها</string>
@@ -926,10 +926,10 @@
     <string name="category_type_main">دسته‌بندی اصلی</string>
     <string name="category_type_sub">زیردسته</string>
     <string name="parent_category">دسته‌بندی مادر</string>
-    <string name="category_description_base">%1، سطح %2</string>
+    <string name="category_description_base">%1$s، سطح %2$d</string>
     <plurals name="category_description_children_suffix">
-        <item quantity="one">، شامل یک زیردسته در سطح %2 است.</item>
-        <item quantity="other">، شامل %1 زیردسته در سطح %2 است.</item>
+        <item quantity="one">، شامل یک زیردسته در سطح %2$d است.</item>
+        <item quantity="other">، شامل %1$d زیردسته در سطح %2$d است.</item>
     </plurals>
     <string name="edit_account_type">ویرایش نوع حساب</string>
     <string name="new_account_type">نوع حساب جدید</string>
@@ -992,9 +992,9 @@
     <string name="trade_deposit">واریز</string>
     <string name="trade_withdraw">برداشت</string>
     <string name="trade_matching_transaction_found">تراکنش منطبق در حساب تامین مالی یافت شد. برای اتصال انتخاب کنید:</string>
-    <string name="asset_quantity_at_price">%1 با قیمت %2</string>
+    <string name="asset_quantity_at_price">%1$s با قیمت %2$s</string>
     <string name="contrib_feature_portfolio_tracking">پیگیری سبد دارایی</string>
-    <string name="premium_nudge_portfolio_message">شما می‌توانید یک سبد دارایی را به صورت رایگان مدیریت کنید. برای مدیریت چندین سبد دارایی و باز کردن قابلیت‌های پیشرفته پیگیری ارتقا دهید (%1).</string>
+    <string name="premium_nudge_portfolio_message">شما می‌توانید یک سبد دارایی را به صورت رایگان مدیریت کنید. برای مدیریت چندین سبد دارایی و باز کردن قابلیت‌های پیشرفته پیگیری ارتقا دهید (%1$s).</string>
     <string name="rounding">گرد کردن</string>
     <string name="help_floating_action_button">دکمه اقدام شناور</string>
     <string name="licence_validation_error_device_limit_exceeded">تعداد دستگاه‌ها بیش‌از حد مجاز. لطفاً لایسنس را از یکی از دستگاه ها حذف کنید.</string>
@@ -1020,7 +1020,7 @@
     <string name="menu_history_show_balance">نمایش موجودی</string>
     <string name="history_chart_out_label">هزینه‌ها</string>
     <string name="pref_protection_device_lock_screen_title">صفحه قفل دستگاه</string>
-    <string name="pref_warning_only_one_protection">قبل از استفاده از محافظت %1، باید محافظت %2 را خاموش کنید.</string>
+    <string name="pref_warning_only_one_protection">قبل از استفاده از محافظت %1$s، باید محافظت %2$s را خاموش کنید.</string>
     <string name="menu_history_totals">نمایش جمع‌ها</string>
     <string name="grand_total">جمع کل</string>
     <string name="important_upgrade_information_heading">اطلاعات مهم</string>
