@@ -439,7 +439,7 @@
     <string name="warning_account_for_transaction_is_closed">دست کم یکی از تراکنش‌های انتخاب‌شده نمی‌توانند ویراش شوند:</string>
     <string name="object_sealed">مورد مربوط به یک حساب بسته شده است.</string>
     <string name="content_description_download_exchange_rate">دانلود نرخ تبدیل</string>
-    <string name="exchange_rate_not_supported">ارائه‌دهنده نرخ ارز تنظیم‌شده، نرخ %1 : %2 را ارائه نمی‌دهد. می‌توانید ارائه‌دهنده دیگری را در تنظیمات انتخاب کنید.</string>
+    <string name="exchange_rate_not_supported">ارائه‌دهنده نرخ ارز تنظیم‌شده، نرخ %1$s : %2$s را ارائه نمی‌دهد. می‌توانید ارائه‌دهنده دیگری را در تنظیمات انتخاب کنید.</string>
     <string name="pref_category_exchange_rates">نرخ‌های ارز</string>
     <string name="pref_exchange_rate_provider_summary">انتخاب ارائه‌دهنده برای دانلود نرخ ارز</string>
     <string name="pref_exchange_rate_provider_title">ارائه‌دهنده نرخ ارز</string>
