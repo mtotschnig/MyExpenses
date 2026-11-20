@@ -10,6 +10,7 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.localizedQuote
 
 @Parcelize
@@ -181,6 +182,16 @@ class VersionInfo(val code: Int, val name: String, val tickets: String? = null) 
                     )
                 )
             }
+
+            "415" -> listOfNotNull(
+                t(R.string.whats_new_415),
+                if (!DistributionHelper.isGithub) {
+                    t(R.string.pref_summary_gms_document_scanner)
+                } else {
+                    null
+                },
+                "${t(R.string.pref_translation_title)} : ${Locale("fa").displayLanguage}"
+            ).toTypedArray()
 
             else -> {
                 //noinspection DiscouragedApi

@@ -10082,16 +10082,6 @@
         <error line="36" column="102" source="standard:binary-expression-wrapping" />
         <error line="43" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/main/java/org/totschnig/myexpenses/util/GroupingNavigator.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="41" column="13" source="standard:keyword-spacing" />
-        <error line="43" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="44" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="55" column="13" source="standard:keyword-spacing" />
-        <error line="57" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="58" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="67" column="1" source="standard:final-newline" />
-    </file>
     <file name="src/main/java/org/totschnig/myexpenses/util/ImageOptimizer.kt">
         <error line="15" column="17" source="standard:keyword-spacing" />
         <error line="21" column="1" source="standard:comment-spacing" />
@@ -14570,29 +14560,29 @@
         <error line="208" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/data/VersionInfo.kt">
-        <error line="36" column="22" source="standard:argument-list-wrapping" />
-        <error line="36" column="41" source="standard:argument-list-wrapping" />
-        <error line="36" column="49" source="standard:argument-list-wrapping" />
-        <error line="36" column="71" source="standard:argument-list-wrapping" />
-        <error line="36" column="79" source="standard:argument-list-wrapping" />
-        <error line="36" column="100" source="standard:argument-list-wrapping" />
-        <error line="36" column="108" source="standard:argument-list-wrapping" />
-        <error line="36" column="130" source="standard:argument-list-wrapping" />
-        <error line="57" column="22" source="standard:argument-list-wrapping" />
-        <error line="57" column="41" source="standard:argument-list-wrapping" />
-        <error line="57" column="49" source="standard:argument-list-wrapping" />
-        <error line="57" column="71" source="standard:argument-list-wrapping" />
-        <error line="57" column="79" source="standard:argument-list-wrapping" />
-        <error line="57" column="100" source="standard:argument-list-wrapping" />
-        <error line="57" column="108" source="standard:argument-list-wrapping" />
-        <error line="57" column="128" source="standard:argument-list-wrapping" />
-        <error line="57" column="136" source="standard:argument-list-wrapping" />
-        <error line="57" column="160" source="standard:argument-list-wrapping" />
-        <error line="153" column="22" source="standard:argument-list-wrapping" />
-        <error line="153" column="65" source="standard:argument-list-wrapping" />
-        <error line="153" column="74" source="standard:argument-list-wrapping" />
-        <error line="153" column="94" source="standard:argument-list-wrapping" />
-        <error line="153" column="101" source="standard:max-line-length" />
+        <error line="37" column="22" source="standard:argument-list-wrapping" />
+        <error line="37" column="41" source="standard:argument-list-wrapping" />
+        <error line="37" column="49" source="standard:argument-list-wrapping" />
+        <error line="37" column="71" source="standard:argument-list-wrapping" />
+        <error line="37" column="79" source="standard:argument-list-wrapping" />
+        <error line="37" column="100" source="standard:argument-list-wrapping" />
+        <error line="37" column="108" source="standard:argument-list-wrapping" />
+        <error line="37" column="130" source="standard:argument-list-wrapping" />
+        <error line="58" column="22" source="standard:argument-list-wrapping" />
+        <error line="58" column="41" source="standard:argument-list-wrapping" />
+        <error line="58" column="49" source="standard:argument-list-wrapping" />
+        <error line="58" column="71" source="standard:argument-list-wrapping" />
+        <error line="58" column="79" source="standard:argument-list-wrapping" />
+        <error line="58" column="100" source="standard:argument-list-wrapping" />
+        <error line="58" column="108" source="standard:argument-list-wrapping" />
+        <error line="58" column="128" source="standard:argument-list-wrapping" />
+        <error line="58" column="136" source="standard:argument-list-wrapping" />
+        <error line="58" column="160" source="standard:argument-list-wrapping" />
+        <error line="154" column="22" source="standard:argument-list-wrapping" />
+        <error line="154" column="65" source="standard:argument-list-wrapping" />
+        <error line="154" column="74" source="standard:argument-list-wrapping" />
+        <error line="154" column="94" source="standard:argument-list-wrapping" />
+        <error line="154" column="101" source="standard:max-line-length" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/data/mapper/TransactionMapper.kt">
         <error line="24" column="41" source="standard:trailing-comma-on-declaration-site" />

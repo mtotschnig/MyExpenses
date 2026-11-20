@@ -18,4 +18,5 @@
     <string name="whats_new_411_1">Split transfers</string>
     <string name="whats_new_411_2">Asset transfers between portfolios</string>
     <string name="whats_new_411_3">History Screen for aggregate accounts now reflects change in value of foreign currencies</string>
+    <string name="whats_new_415">Week numbering for weekly transaction grouping now follows regional standards (e.g., ISO 8601).</string>
 </resources>
