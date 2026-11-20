@@ -862,7 +862,7 @@
     <string name="credit_limit_available_credit">اعتبار در دسترس</string>
     <string name="saving_goal_short_fall">کسری</string>
     <string name="content_description_original_amount">مقدار اصلی این تراکنش را با انتخاب ارز و وارد کردن مبلغ تعیین کنید. همچنین می‌توانید نرخ ارزی را تعیین کنید که برای محاسبه مبلغ مؤثر استفاده می‌شود.</string>
-    <string name="content_description_exchange_rate">نرخ ارز برای ۱ %1 در %2</string>
+    <string name="content_description_exchange_rate">نرخ ارز برای ۱ %1$s در %2$s</string>
     <string name="content_description_equivalent_amount">ارزش این تراکنش را به ارز پایه خود تعیین کنید. به جای وارد کردن مبلغ، می‌توانید نرخ ارز را برای محاسبه آن وارد کنید.</string>
     <string name="warning_archived_transfer_cannot_be_edited">انتقال قابل ویرایش نیست زیرا طرف دیگر آن آرشیو شده است.</string>
     <string name="warning_budget_sync_import">تنظیمات این بودجه از سرویس همگام‌سازی وارد خواهد شد. تمام تغییرات محلی از بین خواهند رفت.</string>
