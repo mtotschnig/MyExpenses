@@ -174,7 +174,7 @@
     <string name="parse_error_grisbi_version_not_supported">نسخه فایل Grisbi پشتیبانی نشده است: %1$s</string>
     <string name="parse_error_other_exception">یک خطا رخ داد : %1$s</string>
     <string name="parse_error_parse_exception">فایل تجزیه نشد</string>
-    <string name="parse_error_at_line">خطا در خط %1: %2</string>
+    <string name="parse_error_at_line">خطا در خط %1$d: %2$s</string>
     <string name="password_disabled_reenable">حفاظت از طریق گذرواژه غیرفعال شد. شما می‌توانید آن را در تنظیمات، مجدد فعال کنید.</string>
     <string name="password_lost">گذرواژه‌ام را گم کرده‌ام</string>
     <string name="password_not_valid">گذرواژه نامعتبر است. لطفاً مجدداً تلاش کنید!</string>
