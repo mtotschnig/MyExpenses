@@ -560,8 +560,8 @@
     <string name="cb_label_merge_accounts">ادغام حساب‌ها</string>
     <string name="pref_mlkit_script_title">اسکریپت برای MlKit</string>
     <plurals name="import_categories_icons_updated">
-        <item quantity="one">%1 دسته‌بندی با نماد به‌روزرسانی شد.</item>
-        <item quantity="other">%1 دسته‌بندی با نماد به‌روزرسانی شدند.</item>
+        <item quantity="one">%1$d دسته‌بندی با نماد به‌روزرسانی شد.</item>
+        <item quantity="other">%1$d دسته‌بندی با نماد به‌روزرسانی شدند.</item>
     </plurals>
     <string name="setup_completed">تنظیمات انجام شد</string>
     <string name="menu_parent_category_selection">انتخاب دسته‌بندی اصلی با لمس کوتاه</string>
