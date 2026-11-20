@@ -1115,4 +1115,7 @@
     <string name="search_fts_help_prefix">thé* : trouve les mots commençant par thé (par ex. thé, théière)</string>
     <string name="search_fts_help_column">Préfixer le terme de recherche pour restreindre la recherche à une colonne spécifique (ex. payee:carrefour, category:alimentation, tag:travail). Disponible : \'comment\' (notes), \'payee\' (bénéficiaire), \'category\' (catégorie), \'tag\' (tags), \'ref\' (numéro de référence)</string>
     <string name="search_fts_error_malformed">Opérateur de recherche incomplet ou guillemets non fermés</string>
+    <string name="pick_image_intent_chooser_title">Toujours proposer le sélecteur d\'applications</string>
+    <string name="pref_title_gms_document_scanner">Utiliser le scanner de documents</string>
+    <string name="pref_summary_gms_document_scanner">Utilise le scanner de documents avec recadrage automatique et amélioration de texte des Google Play Services</string>
 </resources>
