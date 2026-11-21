@@ -17,36 +17,43 @@ import androidx.compose.ui.res.stringResource
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.LocalColors
 import org.totschnig.myexpenses.compose.main.FabMenuAction
-import org.totschnig.myexpenses.contract.TransactionsContract
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 
 enum class Action(
     override val imageVector: ImageVector,
     @param:StringRes override val label: Int,
-    @param:TransactionsContract.Transactions.TransactionType val type: Int = TransactionsContract.Transactions.TYPE_TRANSACTION,
+    @param:Transactions.TransactionType val type: Int = Transactions.TYPE_TRANSACTION
 ) : FabMenuAction {
     Expense(Icons.Default.Remove, R.string.expense),
     Income(Icons.Default.Add, R.string.income),
     Transfer(
         Icons.AutoMirrored.Default.ArrowForward,
         R.string.transfer,
-        TransactionsContract.Transactions.TYPE_TRANSFER
+        Transactions.TYPE_TRANSFER
     ),
     Split(
         Icons.AutoMirrored.Default.CallSplit,
         R.string.split_transaction,
-        TransactionsContract.Transactions.TYPE_SPLIT
+        Transactions.TYPE_SPLIT
     ),
     Scan(Icons.Default.Scanner, R.string.button_scan),
     Buy(Icons.Default.ArrowUpward, R.string.trade_buy),
     Sell(Icons.Default.ArrowDownward, R.string.trade_sell),
-    Deposit(Icons.Default.Add, R.string.trade_deposit, TransactionsContract.Transactions.TYPE_TRANSFER),
-    Withdraw(Icons.Default.Remove, R.string.trade_withdraw, TransactionsContract.Transactions.TYPE_TRANSFER),
-AssetTransfer(
+    Deposit(
+        Icons.Default.Add,
+        R.string.trade_deposit,
+        Transactions.TYPE_TRANSFER
+    ),
+    Withdraw(
+        Icons.Default.Remove,
+        R.string.trade_withdraw,
+        Transactions.TYPE_TRANSFER
+    ),
+    AssetTransfer(
         Icons.AutoMirrored.Filled.TrendingFlat,
         R.string.trade_transfer,
-        TransactionsContract.Transactions.TYPE_TRANSFER
+        Transactions.TYPE_TRANSFER
     );
-
 
     val tint: Color?
         @Composable get() = when (this) {
@@ -56,15 +63,17 @@ AssetTransfer(
             else -> null
         }
 
-
     override val contentDescription: String
         @Composable get() = when (this) {
-            Expense, Income -> stringResource(R.string.menu_create_transaction) + " (" + stringResource(
-                label
-            ) + ")"
+            Expense, Income -> stringResource(R.string.menu_create_transaction) + " (" +
+                stringResource(
+                    label
+                ) + ")"
 
             Transfer -> stringResource(R.string.menu_create_transfer)
+
             Split -> stringResource(R.string.menu_create_split)
+
             else -> stringResource(label)
         }
 

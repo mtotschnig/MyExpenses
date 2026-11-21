@@ -3388,20 +3388,6 @@
         <error line="36" column="1" source="standard:no-empty-first-line-in-method-block" />
         <error line="44" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/main/java/org/totschnig/myexpenses/compose/main/FloatingActionButtonMenu.kt">
-        <error line="52" column="1" source="standard:spacing-between-declarations-with-annotations" />
-        <error line="57" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="59" column="7" source="standard:colon-spacing" />
-        <error line="65" column="26" source="standard:trailing-comma-on-declaration-site" />
-        <error line="102" column="1" source="standard:no-empty-first-line-in-method-block" />
-        <error line="122" column="61" source="standard:argument-list-wrapping" />
-        <error line="122" column="101" source="standard:max-line-length" />
-        <error line="122" column="125" source="standard:argument-list-wrapping" />
-        <error line="122" column="126" source="standard:trailing-comma-on-call-site" />
-        <error line="135" column="46" source="standard:trailing-comma-on-declaration-site" />
-        <error line="140" column="1" source="standard:no-blank-line-before-rbrace" />
-        <error line="179" column="1" source="standard:final-newline" />
-    </file>
     <file name="src/main/java/org/totschnig/myexpenses/compose/main/MainScreen.kt">
         <error line="115" column="24" source="standard:trailing-comma-on-declaration-site" />
         <error line="137" column="44" source="standard:trailing-comma-on-declaration-site" />
@@ -3641,31 +3627,6 @@
         <error line="222" column="34" source="standard:trailing-comma-on-declaration-site" />
         <error line="316" column="1" source="standard:no-consecutive-blank-lines" />
         <error line="321" column="33" source="standard:final-newline" />
-    </file>
-    <file name="src/main/java/org/totschnig/myexpenses/compose/transactions/Action.kt">
-        <error line="25" column="101" source="standard:max-line-length" />
-        <error line="25" column="128" source="standard:trailing-comma-on-declaration-site" />
-        <error line="42" column="13" source="standard:argument-list-wrapping" />
-        <error line="42" column="32" source="standard:argument-list-wrapping" />
-        <error line="42" column="56" source="standard:argument-list-wrapping" />
-        <error line="42" column="101" source="standard:max-line-length" />
-        <error line="42" column="103" source="standard:argument-list-wrapping" />
-        <error line="43" column="14" source="standard:argument-list-wrapping" />
-        <error line="43" column="36" source="standard:argument-list-wrapping" />
-        <error line="43" column="61" source="standard:argument-list-wrapping" />
-        <error line="43" column="101" source="standard:max-line-length" />
-        <error line="43" column="108" source="standard:argument-list-wrapping" />
-        <error line="44" column="1" source="standard:indent" />
-        <error line="49" column="1" source="standard:enum-wrapping" />
-        <error line="50" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="59" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="62" column="47" source="standard:argument-list-wrapping" />
-        <error line="62" column="79" source="standard:argument-list-wrapping" />
-        <error line="62" column="89" source="standard:binary-expression-wrapping" />
-        <error line="62" column="101" source="standard:max-line-length" />
-        <error line="67" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="68" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="75" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/compose/transactions/ImportTradesDialog.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -3960,71 +3921,6 @@
         <error line="737" column="28" source="standard:wrapping" />
         <error line="737" column="28" source="standard:argument-list-wrapping" />
         <error line="861" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/main/java/org/totschnig/myexpenses/compose/transactions/TransactionScreen.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="142" column="15" source="standard:enum-wrapping" />
-        <error line="165" column="19" source="standard:parameter-wrapping" />
-        <error line="165" column="29" source="standard:parameter-list-wrapping" />
-        <error line="165" column="43" source="standard:parameter-list-wrapping" />
-        <error line="165" column="59" source="standard:parameter-list-wrapping" />
-        <error line="165" column="80" source="standard:parameter-list-wrapping" />
-        <error line="165" column="96" source="standard:parameter-list-wrapping" />
-        <error line="165" column="101" source="standard:max-line-length" />
-        <error line="165" column="124" source="standard:parameter-list-wrapping" />
-        <error line="165" column="147" source="standard:function-literal" />
-        <error line="165" column="150" source="standard:function-literal" />
-        <error line="165" column="153" source="standard:function-literal" />
-        <error line="165" column="156" source="standard:function-literal" />
-        <error line="165" column="159" source="standard:function-literal" />
-        <error line="165" column="161" source="standard:function-literal" />
-        <error line="165" column="162" source="standard:function-literal" />
-        <error line="165" column="169" source="standard:function-literal" />
-        <error line="166" column="40" source="standard:trailing-comma-on-declaration-site" />
-        <error line="288" column="79" source="standard:multiline-if-else" />
-        <error line="288" column="89" source="standard:multiline-if-else" />
-        <error line="294" column="68" source="standard:multiline-if-else" />
-        <error line="306" column="1" source="standard:no-empty-first-line-in-method-block" />
-        <error line="311" column="33" source="standard:comment-spacing" />
-        <error line="312" column="78" source="standard:multiline-if-else" />
-        <error line="314" column="40" source="standard:multiline-if-else" />
-        <error line="344" column="26" source="standard:trailing-comma-on-call-site" />
-        <error line="370" column="53" source="standard:multiline-if-else" />
-        <error line="371" column="21" source="standard:multiline-if-else" />
-        <error line="382" column="34" source="standard:binary-expression-wrapping" />
-        <error line="382" column="68" source="standard:argument-list-wrapping" />
-        <error line="382" column="85" source="standard:argument-list-wrapping" />
-        <error line="382" column="95" source="standard:binary-expression-wrapping" />
-        <error line="382" column="101" source="standard:max-line-length" />
-        <error line="449" column="66" source="standard:trailing-comma-on-call-site" />
-        <error line="476" column="34" source="standard:argument-list-wrapping" />
-        <error line="476" column="41" source="standard:argument-list-wrapping" />
-        <error line="476" column="43" source="standard:function-literal" />
-        <error line="476" column="97" source="standard:function-literal" />
-        <error line="476" column="100" source="standard:binary-expression-wrapping" />
-        <error line="476" column="101" source="standard:max-line-length" />
-        <error line="513" column="54" source="standard:trailing-comma-on-call-site" />
-        <error line="521" column="70" source="standard:binary-expression-wrapping" />
-        <error line="521" column="101" source="standard:max-line-length" />
-        <error line="550" column="1" source="standard:indent" />
-        <error line="551" column="1" source="standard:indent" />
-        <error line="560" column="101" source="standard:max-line-length" />
-        <error line="582" column="60" source="standard:trailing-comma-on-declaration-site" />
-        <error line="597" column="40" source="standard:trailing-comma-on-declaration-site" />
-        <error line="618" column="24" source="standard:argument-list-wrapping" />
-        <error line="618" column="54" source="standard:argument-list-wrapping" />
-        <error line="618" column="101" source="standard:max-line-length" />
-        <error line="618" column="103" source="standard:argument-list-wrapping" />
-        <error line="618" column="104" source="standard:argument-list-wrapping" />
-        <error line="631" column="1" source="standard:no-empty-first-line-in-method-block" />
-        <error line="658" column="1" source="standard:no-empty-first-line-in-method-block" />
-        <error line="669" column="50" source="standard:trailing-comma-on-declaration-site" />
-        <error line="670" column="34" source="standard:function-expression-body" />
-        <error line="675" column="17" source="standard:comment-spacing" />
-        <error line="747" column="34" source="standard:trailing-comma-on-declaration-site" />
-        <error line="761" column="25" source="standard:trailing-comma-on-declaration-site" />
-        <error line="820" column="11" source="standard:wrapping" />
-        <error line="820" column="12" source="standard:argument-list-wrapping" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/compose/transactions/menus.kt">
         <error line="1" column="1" source="standard:filename" />

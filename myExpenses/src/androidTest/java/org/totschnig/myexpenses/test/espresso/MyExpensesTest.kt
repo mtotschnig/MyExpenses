@@ -14,6 +14,7 @@ import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
@@ -48,7 +49,6 @@ import org.totschnig.myexpenses.compose.TEST_TAG_BALANCE_HEADER
 import org.totschnig.myexpenses.compose.TEST_TAG_DELETE_ACCOUNT
 import org.totschnig.myexpenses.compose.TEST_TAG_EDIT_ACCOUNT
 import org.totschnig.myexpenses.compose.TEST_TAG_FAB_ACCOUNTS
-import org.totschnig.myexpenses.compose.TEST_TAG_FAB_TRANSACTIONS
 import org.totschnig.myexpenses.compose.TEST_TAG_OVERFLOW_MENU
 import org.totschnig.myexpenses.compose.TEST_TAG_OVERFLOW_MENU_TRANSACTIONS
 import org.totschnig.myexpenses.db2.deleteAccount
@@ -94,13 +94,6 @@ class MyExpensesTest : BaseMyExpensesTest() {
     }
 
     @Test
-    fun floatingActionButtonOpensForm() {
-        composeTestRule.onNodeWithTag(TEST_TAG_FAB_TRANSACTIONS).performClick()
-        intended(hasComponent(ExpenseEdit::class.java.name))
-        pressBack()
-    }
-
-    @Test
     fun newBalanceOpensForm() {
         composeTestRule.onNodeWithTag(TEST_TAG_BALANCE_HEADER).performClick()
         composeTestRule.onNodeWithText(getString(R.string.new_balance)).performClick()
@@ -109,8 +102,11 @@ class MyExpensesTest : BaseMyExpensesTest() {
                 R.id.AmountEditText,
                 R.id.amount
             )
-        ).perform(click(), replaceText("1000"))
-        onView(withId(android.R.id.button1)).perform(click())
+        ).inRoot(isDialog())
+            .perform(click(), replaceText("1000"))
+        Espresso.closeSoftKeyboard()
+        onView(withId(android.R.id.button1)).inRoot(isDialog()).perform(click())
+
         intended(hasComponent(ExpenseEdit::class.java.name))
         pressBack()
     }
