@@ -17,4 +17,5 @@
     <string name="whats_new_411_1">Transferts ventilés</string>
     <string name="whats_new_411_2">Transferts d’actifs entre portefeuilles</string>
     <string name="whats_new_411_3">Écran d’historique pour les comptes agrégés reflète désormais la variation de la valeur des devises étrangères</string>
+    <string name="whats_new_415">Le numéro de semaine pour le regroupement des transactions hebdomadaires suit désormais les normes régionales (par ex., ISO 8601).</string>
 </resources>
