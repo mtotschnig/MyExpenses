@@ -51,6 +51,5 @@ class ScrollingChip @JvmOverloads constructor(
                 recycle()
             }
         }
-        expandTouchTarget()
     }
 }

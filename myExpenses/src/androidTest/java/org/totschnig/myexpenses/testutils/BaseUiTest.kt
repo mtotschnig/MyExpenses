@@ -47,6 +47,7 @@ import com.adevinta.android.barista.internal.matcher.HelperMatchers.menuIdMatche
 import com.google.android.apps.common.testing.accessibility.framework.AccessibilityCheckResultUtils.matchesCheck
 import com.google.android.apps.common.testing.accessibility.framework.AccessibilityCheckResultUtils.matchesViews
 import com.google.android.apps.common.testing.accessibility.framework.checks.SpeakableTextPresentCheck
+import com.google.android.apps.common.testing.accessibility.framework.checks.TouchTargetSizeCheck
 import com.google.android.material.R as RM
 import com.google.android.material.textfield.TextInputEditText
 import com.google.common.truth.Truth.assertThat
@@ -221,7 +222,18 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
                         // Caldorama legacy
                         matchesViews(isAssignableFrom(CellView::class.java)),
                         matchesViews(withId(com.caldroid.R.id.weekday_gridview)),
-                        matchesViews(isDescendantOfA(withId(com.caldroid.R.id.calendar_title_view)))
+                        matchesViews(
+                            isDescendantOfA(withId(com.caldroid.R.id.calendar_title_view))
+                        ),
+                        allOf(
+                            matchesCheck(TouchTargetSizeCheck::class.java),
+                            matchesViews(
+                                allOf(
+                                    withClassName(endsWith("Chip")),
+                                    isDescendantOfA(withClassName(endsWith("ScrollingChip")))
+                                )
+                            )
+                        )
                     )
                 )
         }
