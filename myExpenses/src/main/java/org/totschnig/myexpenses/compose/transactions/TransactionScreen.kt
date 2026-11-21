@@ -31,7 +31,6 @@ import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -92,6 +91,8 @@ import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
 import androidx.compose.ui.window.PopupProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import java.math.RoundingMode
+import kotlin.math.absoluteValue
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.StartScreen
@@ -120,6 +121,8 @@ import org.totschnig.myexpenses.compose.main.parseMenu
 import org.totschnig.myexpenses.compose.main.rememberCollapsingTabRowState
 import org.totschnig.myexpenses.compose.main.validatedBalanceType
 import org.totschnig.myexpenses.compose.optional
+import org.totschnig.myexpenses.compose.transactions.Action.Companion.PORTFOLIO_ACTIONS
+import org.totschnig.myexpenses.compose.transactions.Action.Companion.STANDARD_ACTIONS
 import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.model.AccountGroupingKey
 import org.totschnig.myexpenses.model.AccountType
@@ -135,14 +138,12 @@ import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import timber.log.Timber
-import java.math.RoundingMode
-import kotlin.math.absoluteValue
 
 enum class FabStyle {
-    Standard, Compact
+    Standard,
+    Compact
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TransactionScreen(
     containerColor: Color = MaterialTheme.colorScheme.background,
@@ -162,8 +163,14 @@ fun TransactionScreen(
     navigationIcon: @Composable () -> Unit = {},
     allCurrencies: List<CurrencyUnit>,
     isCurrencyUsed: suspend (String) -> Boolean = { false },
-    onCreateAsset: suspend (code: String, symbol: String, fractionDigits: Int, label: String?, commodityType: CommodityType) -> CurrencyUnit? = { _, _, _, _, _ -> null },
-    onAccountEvent: AccountEventHandler,
+    onCreateAsset: suspend (
+        code: String,
+        symbol: String,
+        fractionDigits: Int,
+        label: String?,
+        commodityType: CommodityType
+    ) -> CurrencyUnit? = { _, _, _, _, _ -> null },
+    onAccountEvent: AccountEventHandler
 ) {
     LaunchedEffect(Unit) {
         viewModel.setLastVisited(StartScreen.Transactions)
@@ -285,13 +292,19 @@ fun TransactionScreen(
                                     padding(start = 4.dp, top = 4.dp)
                                 },
                                 currentAccount = currentAccount,
-                                onDisplayBalanceTypeChange = if (isPortfolio) null else { newType ->
-                                    viewModel.persistBalanceType(newType)
+                                onDisplayBalanceTypeChange = if (isPortfolio) {
+                                    null
+                                } else {
+                                    { newType ->
+                                        viewModel.persistBalanceType(newType)
+                                    }
                                 },
                                 onCopyBalance = {
                                     onEvent(AppEvent.CopyToClipBoard(it))
                                 },
-                                onSetNewBalance = if (isPortfolio) null else {
+                                onSetNewBalance = if (isPortfolio) {
+                                    null
+                                } else {
                                     { onEvent(AppEvent.MenuItemClicked(R.id.NEW_BALANCE_COMMAND)) }
                                 },
                                 bankIcon = bankIcon,
@@ -303,15 +316,18 @@ fun TransactionScreen(
                                 .collectAsState(PreferenceState.Loading).value
 
                             if (menuConfig is PreferenceState.Loaded) {
-
                                 val filteredItems = menuConfig.value.filter {
                                     onPrepareMenuItem(it.id)
                                 }
 
-                                //no need to show overflow menu if there is only one item
-                                val quickItems = if (filteredItems.size > 1) filteredItems.take(
-                                    visibleActionItems
-                                ) else filteredItems
+                                // no need to show overflow menu if there is only one item
+                                val quickItems = if (filteredItems.size > 1) {
+                                    filteredItems.take(
+                                        visibleActionItems
+                                    )
+                                } else {
+                                    filteredItems
+                                }
                                 val overflowItems = filteredItems - quickItems.toSet()
 
                                 quickItems.forEach { menuItem ->
@@ -341,7 +357,7 @@ fun TransactionScreen(
                                     isChecked = ::isChecked
                                 )
                             }
-                        },
+                        }
                     )
                 }
             }
@@ -367,38 +383,54 @@ fun TransactionScreen(
                 }
             } else {
                 val isPortfolio = (currentAccount as? FullAccount)?.isPortfolio == true
-                val staticAction = if (isPortfolio) null else
-                    viewModel.defaultAction.collectAsState("LastVisited").value
-                        .takeIf { it != "LastVisited" }
-                        ?.let {
-                            enumValueOrDefault(it, Action.Expense)
-                        }
-                val lastAction =
-                    if (isPortfolio) viewModel.lastActionPortfolio else viewModel.lastAction
-                FloatingActionButtonMenu(
-                    modifier = Modifier.testTag(TEST_TAG_FAB_TRANSACTIONS),
-                    primaryAction = staticAction
-                        ?: lastAction.flow.collectAsState(Action.Expense).value,
-                    isStandard = viewModel.fabStyle.collectAsState(FabStyle.Standard).value == FabStyle.Standard,
-                    containerColor = accountColor,
-                    actions = if (isPortfolio) Action.PORTFOLIO_ACTIONS else Action.STANDARD_ACTIONS
-                ) { action ->
+                val fabStyleState = viewModel.fabStyle.collectAsState(null).value
 
-                    if (staticAction == null) {
-                        scope.launch {
-                            lastAction.set(action)
-                        }
-                    }
-
-                    if (action in Action.PORTFOLIO_ACTIONS) {
-                        showTradeScreen = action
+                if (fabStyleState != null) {
+                    val staticAction = if (isPortfolio) {
+                        null
                     } else {
-                        onEvent(
-                            AppEvent.CreateTransaction(
-                                action = action,
-                                transferEnabled = accountList.size > 1
-                            )
-                        )
+                        viewModel.defaultAction.collectAsState(null).value
+                            ?.takeIf { it != "LastVisited" }
+                            ?.let {
+                                enumValueOrDefault(it, Action.Expense)
+                            }
+                    }
+                    val lastAction =
+                        if (isPortfolio) viewModel.lastActionPortfolio else viewModel.lastAction
+                    val lastActionLoadingState = lastAction.statefulFlow
+                        .collectAsState(PreferenceState.Loading).value
+                    val lastActionState = when (lastActionLoadingState) {
+                        is PreferenceState.Loaded -> lastActionLoadingState.value
+                        PreferenceState.Loading -> null
+                    }
+                    val primaryAction = staticAction ?: lastActionState
+
+                    if (primaryAction != null) {
+                        FloatingActionButtonMenu(
+                            modifier = Modifier.testTag(TEST_TAG_FAB_TRANSACTIONS),
+                            primaryAction = primaryAction,
+                            isStandard = fabStyleState == FabStyle.Standard,
+                            containerColor = accountColor,
+                            actions = if (isPortfolio) PORTFOLIO_ACTIONS else STANDARD_ACTIONS
+                        ) { action ->
+
+                            if (staticAction == null) {
+                                scope.launch {
+                                    lastAction.set(action)
+                                }
+                            }
+
+                            if (action in PORTFOLIO_ACTIONS) {
+                                showTradeScreen = action
+                            } else {
+                                onEvent(
+                                    AppEvent.CreateTransaction(
+                                        action = action,
+                                        transferEnabled = accountList.size > 1
+                                    )
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -446,7 +478,7 @@ fun TransactionScreen(
                         AccountFilterMenu(
                             activeFilter = activeFilter,
                             availableFilters = availableFilters,
-                            onFilterChange = viewModel::setFilter,
+                            onFilterChange = viewModel::setFilter
                         )
                     }
                     val selectedTabIndex =
@@ -473,7 +505,8 @@ fun TransactionScreen(
                     ) {
                         val density = LocalDensity.current
                         val maxTabWidth =
-                            with(density) { MaterialTheme.typography.labelLarge.fontSize.toDp() } * 10
+                            with(density) { MaterialTheme.typography.labelLarge.fontSize.toDp() } *
+                                10
                         Timber.d("maxTabWidth: $maxTabWidth")
                         accountList.forEachIndexed { index, account ->
                             Tab(
@@ -510,7 +543,7 @@ fun TransactionScreen(
                     key = { pageIndex ->
                         accountList.getOrNull(pageIndex)?.id ?: pageIndex
                     },
-                    verticalAlignment = Alignment.Top,
+                    verticalAlignment = Alignment.Top
                 ) { page ->
                     val isCurrentPage = pagerState.currentPage == page
                     Box(
@@ -518,7 +551,8 @@ fun TransactionScreen(
                             .fillMaxSize()
                             .graphicsLayer {
                                 val pageOffset =
-                                    (pagerState.currentPage - page) + pagerState.currentPageOffsetFraction
+                                    (pagerState.currentPage - page) +
+                                        pagerState.currentPageOffsetFraction
                                 // Apply a slight shadow or dimming to non-focused pages
                                 alpha = (1f - pageOffset.absoluteValue).coerceIn(0f, 1f)
                             }
@@ -547,8 +581,8 @@ fun TransactionScreen(
             fundingAccounts = accounts
                 .filter {
                     !it.isPortfolio && !it.sealed &&
-                            it.currencyUnit.code == currentAccount.currencyUnit.code &&
-                            it.id != currentAccount.id
+                        it.currencyUnit.code == currentAccount.currencyUnit.code &&
+                        it.id != currentAccount.id
                 }
                 .map {
                     it.id to it.labelV2(LocalContext.current)
@@ -557,7 +591,8 @@ fun TransactionScreen(
                 .filter { it.isPortfolio && it.id != currentAccount.id }
                 .map { it.id to it.labelV2(LocalContext.current) },
             initialAction = tradeAction,
-            initialCostCategoryRefs = viewModel.lastTradeFeeCategories.collectAsStateWithLifecycle().value,
+            initialCostCategoryRefs = viewModel.lastTradeFeeCategories.collectAsStateWithLifecycle()
+                .value,
             canAddMultipleCostLegs = viewModel.canAddMultipleCostLegs,
             onShowUpgrade = { onEvent(AppEvent.ShowUpgrade(ContribFeature.PORTFOLIO)) },
             onCreateAsset = onCreateAsset,
@@ -579,7 +614,7 @@ fun TransactionScreen(
 private fun TransactionListPage(
     account: BaseAccount,
     isCurrent: Boolean,
-    pageContent: @Composable (PageAccount, Boolean) -> Unit,
+    pageContent: @Composable (PageAccount, Boolean) -> Unit
 ) {
     val context = LocalContext.current
     val pageAccount = remember(account) { account.toPageAccount(context = context) }
@@ -594,7 +629,7 @@ private fun BalanceHeader(
     onDisplayBalanceTypeChange: ((BalanceType) -> Unit)? = null,
     onCopyBalance: (String) -> Unit = {},
     onSetNewBalance: (() -> Unit)? = null,
-    onAccountEvent: AccountEventHandler,
+    onAccountEvent: AccountEventHandler
 ) {
     var isSummaryPopupVisible by rememberSaveable { mutableStateOf(false) }
 
@@ -615,7 +650,9 @@ private fun BalanceHeader(
             .semantics {
                 role = Role.Button
             }
-            .clickable(onClickLabel = stringResource(R.string.content_description_show_balance_details)) {
+            .clickable(
+                onClickLabel = stringResource(R.string.content_description_show_balance_details)
+            ) {
                 isSummaryPopupVisible = !isSummaryPopupVisible
             },
         verticalAlignment = Alignment.CenterVertically
@@ -628,7 +665,6 @@ private fun BalanceHeader(
                 .weight(1f, fill = false)
                 .padding(end = 8.dp)
         ) {
-
             val isWideLayout = maxWidth > 300.dp
             // Adaptive Content: Switch between Column and Row
             if (isWideLayout) {
@@ -655,7 +691,6 @@ private fun BalanceHeader(
 
         // The Popup that shows the full summary
         if (isSummaryPopupVisible) {
-
             val currencyFormatter = LocalCurrencyFormatter.current
 
             Popup(
@@ -666,13 +701,11 @@ private fun BalanceHeader(
                         anchorBounds: IntRect,
                         windowSize: IntSize,
                         layoutDirection: LayoutDirection,
-                        popupContentSize: IntSize,
-                    ): IntOffset {
-                        return anchorBounds.bottomLeft
-                    }
+                        popupContentSize: IntSize
+                    ): IntOffset = anchorBounds.bottomLeft
                 }
             ) {
-                //overwrite TitleTypography
+                // overwrite TitleTypography
                 ProvideTextStyle(MaterialTheme.typography.bodyMedium) {
                     Box(
                         modifier = Modifier
@@ -744,7 +777,7 @@ private fun BalanceHeader(
 @Composable
 private fun AccountLabel(
     account: BaseAccount,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     Text(
         modifier = modifier.testTag(TEST_TAG_ACCOUNT_LABEL),
@@ -758,7 +791,7 @@ private fun AccountLabel(
 @Composable
 private fun BalanceSection(
     balance: Long,
-    account: BaseAccount,
+    account: BaseAccount
 ) {
     val type = account.validatedBalanceType
     Row(
@@ -817,7 +850,8 @@ fun HeaderPreview() {
             type = AccountType.CASH,
             criterion = 5000,
             excludeFromTotals = true
-        ), onAccountEvent = object : AccountEventHandler {
+        ),
+        onAccountEvent = object : AccountEventHandler {
             override fun invoke(event: AccountEvent, account: FullAccount) {}
         }
     )

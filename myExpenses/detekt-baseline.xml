@@ -134,7 +134,7 @@
     <ID>CyclomaticComplexMethod:TransactionRenderer.kt:ItemRenderer$@Composable fun Transaction2.buildSecondaryInfo: Pair&lt;AnnotatedString, List&lt;String&gt;&gt;</ID>
     <ID>CyclomaticComplexMethod:TransactionRenderer.kt:ItemRenderer$@Composable protected fun Transaction2.CategoryIcon</ID>
     <ID>CyclomaticComplexMethod:TransactionRenderer.kt:ItemRenderer$fun Transaction2.buildPrimaryInfo</ID>
-    <ID>CyclomaticComplexMethod:TransactionScreen.kt:@OptIn(ExperimentalMaterial3Api::class) @Composable fun TransactionScreen</ID>
+    <ID>CyclomaticComplexMethod:TransactionScreen.kt:@Composable fun TransactionScreen</ID>
     <ID>CyclomaticComplexMethod:TransferDelegate.kt:TransferDelegate$override fun buildTransaction: TransactionEditData?</ID>
     <ID>CyclomaticComplexMethod:UpgradeHandlerViewModel.kt:UpgradeHandlerViewModel$fun upgrade</ID>
     <ID>CyclomaticComplexMethod:VersionInfo.kt:VersionInfo$fun getChanges: Array&lt;String&gt;?</ID>
@@ -301,7 +301,7 @@
     <ID>LongMethod:ExportViewModel.kt:ExportViewModel$fun startExport</ID>
     <ID>LongMethod:FilterDialog.kt:@OptIn(ExperimentalMaterial3Api::class) @Suppress( "MaxLineLength", "ktlint:standard:max-line-length", "ktlint:standard:argument-list-wrapping" ) @Composable fun FilterDialog</ID>
     <ID>LongMethod:FilterHandler.kt:@Composable fun FilterHandler</ID>
-    <ID>LongMethod:FloatingActionButtonMenu.kt:@Composable fun &lt;T: FabMenuAction&gt; FloatingActionButtonMenu</ID>
+    <ID>LongMethod:FloatingActionButtonMenu.kt:@Composable fun &lt;T : FabMenuAction&gt; FloatingActionButtonMenu</ID>
     <ID>LongMethod:HelpDialogFragment.kt:HelpDialogFragment$override fun onCreateDialog: Dialog</ID>
     <ID>LongMethod:HelpDialogHelper.kt:HelpDialogHelper$fun resolveStringOrArray</ID>
     <ID>LongMethod:HelpDialogHelperTest.kt:HelpDialogHelperTest$@Test fun testHelpStringResExists</ID>
@@ -397,8 +397,8 @@
     <ID>LongMethod:TransactionRenderer.kt:ItemRenderer$@Composable fun TextWithInlineContent</ID>
     <ID>LongMethod:TransactionRenderer.kt:ItemRenderer$@Composable fun Transaction2.buildSecondaryInfo: Pair&lt;AnnotatedString, List&lt;String&gt;&gt;</ID>
     <ID>LongMethod:TransactionRenderer.kt:ItemRenderer$@Composable protected fun Transaction2.CategoryIcon</ID>
+    <ID>LongMethod:TransactionScreen.kt:@Composable fun TransactionScreen</ID>
     <ID>LongMethod:TransactionScreen.kt:@Composable private fun BalanceHeader</ID>
-    <ID>LongMethod:TransactionScreen.kt:@OptIn(ExperimentalMaterial3Api::class) @Composable fun TransactionScreen</ID>
     <ID>LongMethod:TransactionTest.kt:BaseTransactionTest$@Test fun testUpdateSplitAddTransferPart</ID>
     <ID>LongMethod:TransactionTest.kt:BaseTransactionTest$@Test fun testUpdateSplitRemoveTransferPart</ID>
     <ID>LongMethod:UpgradeHandlerViewModel.kt:UpgradeHandlerViewModel$fun upgrade</ID>
@@ -683,7 +683,6 @@
     <ID>MaxLineLength:AccountType.kt:AccountType.Companion$val ASSET = AccountType(name = PREDEFINED_NAME_ASSET, isAsset = true, supportsReconciliation = true, sortKey = -1)</ID>
     <ID>MaxLineLength:AccountType.kt:AccountType.Companion$val CCARD = AccountType(name = PREDEFINED_NAME_CCARD, isAsset = false, supportsReconciliation = true, sortKey = 0)</ID>
     <ID>MaxLineLength:AccountWidgetConfigurationFragment.kt:AccountWidgetConfigurationFragment$(list.map { it.label } + getString(R.string.budget_filter_all_accounts)).toTypedArray()</ID>
-    <ID>MaxLineLength:Action.kt:Action$@param:TransactionsContract.Transactions.TransactionType val type: Int = TransactionsContract.Transactions.TYPE_TRANSACTION</ID>
     <ID>MaxLineLength:AmountInput.kt:AmountInput$throw IllegalArgumentException("alternateLayout cannot be used together with typeSwitch and currencySelection")</ID>
     <ID>MaxLineLength:AmountInputHostDialog.kt:AmountInputHostDialog$Toast.makeText(context, "CALCULATOR_REQUEST launched with incorrect EXTRA_KEY_INPUT_ID", Toast.LENGTH_LONG).show()</ID>
     <ID>MaxLineLength:AppComponent.kt:AppComponent$modules = [AppModule::class, UiModule::class, NetworkModule::class, LicenceModule::class, DataModule::class, CoroutineModule::class, ViewModelModule::class, FeatureModule::class, CrashHandlerModule::class, SyncModule::class, ConfigurationModule::class]</ID>
@@ -869,7 +868,6 @@
     <ID>MaxLineLength:ExtendProLicenceDialogFragment.kt:ExtendProLicenceDialogFragment$dialog.setOnShowListener { dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener { onExtendClicked() } }</ID>
     <ID>MaxLineLength:FileUtils.kt:FileUtils$*</ID>
     <ID>MaxLineLength:FilterPersistence.kt:FilterPersistence$else -&gt; if (oldValue is AndCriterion) AndCriterion(filtered.toSet()) else OrCriterion(filtered.toSet())</ID>
-    <ID>MaxLineLength:FloatingActionButtonMenu.kt:contentDescription = stringResource(androidx.appcompat.R.string.abc_action_menu_overflow_description)</ID>
     <ID>MaxLineLength:FontAwesomeIcons.kt:"house-flood-water-circle-arrow-right" to IconInfo('\ue50f', R.string.fa_house_flood_water_circle_arrow_right_label, false)</ID>
     <ID>MaxLineLength:FontAwesomeIcons.kt:"person-walking-dashed-line-arrow-right" to IconInfo('\ue553', R.string.fa_person_walking_dashed_line_arrow_right_label, false)</ID>
     <ID>MaxLineLength:FormAccentUtil.kt:if</ID>
@@ -1076,7 +1074,6 @@
     <ID>MaxLineLength:TransactionListViewModel.kt:TransactionListViewModel$withTransfers -&gt; effectiveTypeExpressionIncludeTransfers(typeWithFallback) + " = " + type.asCategoryType</ID>
     <ID>MaxLineLength:TransactionPagingSource.kt:TransactionPagingSource$if</ID>
     <ID>MaxLineLength:TransactionRenderer.kt:ItemRenderer$is ResolvedExtraInfo.Trade -&gt; context.getString(resolvedExtraInfo.trade.type.label) + " " + resolvedExtraInfo.trade.assetSymbol</ID>
-    <ID>MaxLineLength:TransactionScreen.kt:onCreateAsset: suspend (code: String, symbol: String, fractionDigits: Int, label: String?, commodityType: CommodityType) -&gt; CurrencyUnit? = { _, _, _, _, _ -&gt; null }</ID>
     <ID>MaxLineLength:TransferDelegate.kt:TransferDelegate$if</ID>
     <ID>MaxLineLength:TransferTest.kt:TransferTest$TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath(TransactionProvider.URI_SEGMENT_UNLINK_TRANSFER)</ID>
     <ID>MaxLineLength:UpgradeHandlerViewModel.kt:UpgradeHandlerViewModel$"$KEY_CURRENCY = (SELECT $KEY_CODE FROM $TABLE_CURRENCIES WHERE -$KEY_ROWID = ?) AND $KEY_GROUPING = ?"</ID>
@@ -1150,7 +1147,6 @@
     <ID>NewLineAtEndOfFile:AccountWidgetService.kt:org.totschnig.myexpenses.widget.AccountWidgetService.kt</ID>
     <ID>NewLineAtEndOfFile:AccountsMinimalTest.kt:org.totschnig.myexpenses.provider.AccountsMinimalTest.kt</ID>
     <ID>NewLineAtEndOfFile:AcraCrashHandler.kt:org.totschnig.myexpenses.util.crashreporting.AcraCrashHandler.kt</ID>
-    <ID>NewLineAtEndOfFile:Action.kt:org.totschnig.myexpenses.compose.transactions.Action.kt</ID>
     <ID>NewLineAtEndOfFile:AdditionalHelpTest.kt:org.totschnig.myexpenses.util.AdditionalHelpTest.kt</ID>
     <ID>NewLineAtEndOfFile:Amount.kt:org.totschnig.myexpenses.compose.Amount.kt</ID>
     <ID>NewLineAtEndOfFile:AmountActivity.kt:org.totschnig.myexpenses.activity.AmountActivity.kt</ID>
@@ -1322,7 +1318,6 @@
     <ID>NewLineAtEndOfFile:FilterPersistence.kt:org.totschnig.myexpenses.provider.filter.FilterPersistence.kt</ID>
     <ID>NewLineAtEndOfFile:FilterPersistenceLegacy.kt:org.totschnig.myexpenses.provider.filter.FilterPersistenceLegacy.kt</ID>
     <ID>NewLineAtEndOfFile:FloatSeekBarPreference.kt:org.totschnig.myexpenses.preference.FloatSeekBarPreference.kt</ID>
-    <ID>NewLineAtEndOfFile:FloatingActionButtonMenu.kt:org.totschnig.myexpenses.compose.main.FloatingActionButtonMenu.kt</ID>
     <ID>NewLineAtEndOfFile:FormAccentUtil.kt:org.totschnig.myexpenses.util.FormAccentUtil.kt</ID>
     <ID>NewLineAtEndOfFile:FractionDigitsInputFilter.kt:org.totschnig.myexpenses.ui.FractionDigitsInputFilter.kt</ID>
     <ID>NewLineAtEndOfFile:FractionDigitsInputFilterTest.kt:org.totschnig.myexpenses.ui.FractionDigitsInputFilterTest.kt</ID>
