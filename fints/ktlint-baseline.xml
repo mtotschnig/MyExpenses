@@ -250,37 +250,6 @@
         <error line="1004" column="109" source="standard:argument-list-wrapping" />
         <error line="1008" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/main/java/org/totschnig/fints/Composables.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="84" column="62" source="standard:trailing-comma-on-declaration-site" />
-        <error line="103" column="47" source="standard:trailing-comma-on-call-site" />
-        <error line="112" column="65" source="standard:binary-expression-wrapping" />
-        <error line="112" column="101" source="standard:max-line-length" />
-        <error line="177" column="32" source="standard:multiline-if-else" />
-        <error line="177" column="42" source="standard:multiline-if-else" />
-        <error line="190" column="101" source="standard:max-line-length" />
-        <error line="196" column="13" source="standard:multiline-if-else" />
-        <error line="198" column="13" source="standard:multiline-if-else" />
-        <error line="211" column="77" source="standard:wrapping" />
-        <error line="211" column="78" source="standard:argument-list-wrapping" />
-        <error line="219" column="43" source="standard:trailing-comma-on-declaration-site" />
-        <error line="282" column="55" source="standard:trailing-comma-on-call-site" />
-        <error line="316" column="45" source="standard:trailing-comma-on-declaration-site" />
-        <error line="319" column="80" source="standard:function-literal" />
-        <error line="319" column="97" source="standard:argument-list-wrapping" />
-        <error line="319" column="101" source="standard:argument-list-wrapping" />
-        <error line="319" column="101" source="standard:max-line-length" />
-        <error line="319" column="103" source="standard:function-literal" />
-        <error line="385" column="54" source="standard:trailing-comma-on-declaration-site" />
-        <error line="430" column="17" source="standard:multiline-if-else" />
-        <error line="433" column="1" source="standard:no-empty-first-line-in-method-block" />
-        <error line="435" column="30" source="standard:argument-list-wrapping" />
-        <error line="435" column="45" source="standard:argument-list-wrapping" />
-        <error line="435" column="71" source="standard:binary-expression-wrapping" />
-        <error line="435" column="101" source="standard:max-line-length" />
-        <error line="435" column="144" source="standard:argument-list-wrapping" />
-        <error line="435" column="145" source="standard:argument-list-wrapping" />
-    </file>
     <file name="src/main/java/org/totschnig/fints/FinTSComponent.kt">
         <error line="25" column="1" source="standard:indent" />
         <error line="29" column="1" source="standard:final-newline" />

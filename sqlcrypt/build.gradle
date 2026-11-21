@@ -3,7 +3,6 @@ plugins {
 }
 android {
     namespace 'org.totschnig.sqlcrypt'
-    compileSdkVersion project.compileSdkVersion
 
     defaultConfig {
         missingDimensionStrategy 'textRecognition', 'extern'

@@ -3,7 +3,6 @@ plugins {
     id 'com.google.devtools.ksp'
 }
 android {
-    compileSdk project.compileSdkVersion
 
     defaultConfig {
         missingDimensionStrategy 'textRecognition', 'extern'

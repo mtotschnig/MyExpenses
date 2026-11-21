@@ -4,7 +4,6 @@ plugins {
     id 'com.android.legacy-kapt'
 }
 android {
-    compileSdk project.compileSdkVersion
 
     defaultConfig {
         missingDimensionStrategy 'textRecognition', 'extern'

@@ -26,7 +26,6 @@ def getPropertyIfDefined(property, defaultValue) {
 }
 
 android {
-    compileSdk project.compileSdkVersion
     useLibrary 'android.test.runner'
     useLibrary 'android.test.mock'
     useLibrary 'android.test.base'

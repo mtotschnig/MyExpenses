@@ -50,7 +50,7 @@
     <ID>CyclomaticComplexMethod:CSVParser.kt:CSVParser$fun parse</ID>
     <ID>CyclomaticComplexMethod:CalculatorInput.kt:CalculatorInput$private fun doButton</ID>
     <ID>CyclomaticComplexMethod:CategoryDelegate.kt:CategoryDelegate$fun autoFill</ID>
-    <ID>CyclomaticComplexMethod:CategoryDialogs.kt:@OptIn(ExperimentalMaterial3Api::class) @Composable fun CategoryEdit</ID>
+    <ID>CyclomaticComplexMethod:CategoryDialogs.kt:@Composable fun CategoryEdit</ID>
     <ID>CyclomaticComplexMethod:CategoryTree.kt:@Composable fun Category</ID>
     <ID>CyclomaticComplexMethod:CategoryTree.kt:@OptIn(ExperimentalFoundationApi::class) @Composable fun CategoryRenderer</ID>
     <ID>CyclomaticComplexMethod:ConfirmationDialogFragment.kt:ConfirmationDialogFragment$override fun onCreateDialog: Dialog</ID>
@@ -89,7 +89,7 @@
     <ID>CyclomaticComplexMethod:PdfHelper.kt:PdfHelper$@Throws(DocumentException::class, IOException::class) fun print: Phrase</ID>
     <ID>CyclomaticComplexMethod:PdfPrinter.kt:PdfPrinter$@Throws(DocumentException::class, IOException::class) private fun addTransactionList</ID>
     <ID>CyclomaticComplexMethod:PlanExecutor.kt:PlanExecutor$@RequiresPermission(allOf = [Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR]) @SuppressLint("InlinedApi") override suspend fun doWork: Result</ID>
-    <ID>CyclomaticComplexMethod:PortfolioSetupDialog.kt:@OptIn(ExperimentalMaterial3Api::class) @Composable fun PortfolioSetupDialog</ID>
+    <ID>CyclomaticComplexMethod:PortfolioSetupDialog.kt:@Composable fun PortfolioSetupDialog</ID>
     <ID>CyclomaticComplexMethod:PreferenceActivity.kt:PreferenceActivity$override fun onSharedPreferenceChanged</ID>
     <ID>CyclomaticComplexMethod:PriceHistory.kt:@Composable fun PriceListScreen</ID>
     <ID>CyclomaticComplexMethod:PrintLayoutConfiguration.kt:PrintLayoutConfiguration$@Composable fun DraggableTableRow</ID>
@@ -117,8 +117,8 @@
     <ID>CyclomaticComplexMethod:TemplatesList.kt:TemplatesList.MyAdapter$@SuppressLint("SetTextI18n") override fun bindView</ID>
     <ID>CyclomaticComplexMethod:TradeList.kt:@Composable fun TradeRow</ID>
     <ID>CyclomaticComplexMethod:TradePagingSource.kt:TradePagingSource$override suspend fun load: LoadResult&lt;Int, Trade&gt;</ID>
-    <ID>CyclomaticComplexMethod:TradeScreen.kt:@OptIn(ExperimentalMaterial3Api::class) @Composable fun AssetSelector</ID>
-    <ID>CyclomaticComplexMethod:TradeScreen.kt:@OptIn(ExperimentalMaterial3Api::class) @Composable fun TradeScreen</ID>
+    <ID>CyclomaticComplexMethod:TradeScreen.kt:@Composable fun AssetSelector</ID>
+    <ID>CyclomaticComplexMethod:TradeScreen.kt:@Composable fun TradeScreen</ID>
     <ID>CyclomaticComplexMethod:Transaction2.kt:Transaction2.Companion$fun fromCursor: Transaction2</ID>
     <ID>CyclomaticComplexMethod:TransactionDelegate.kt:TransactionDelegate$open fun bind</ID>
     <ID>CyclomaticComplexMethod:TransactionDelegate.kt:TransactionDelegate$open fun syncStateAndValidate: TransactionEditData?</ID>
@@ -229,7 +229,7 @@
     <ID>LongMethod:AccountList.kt:@Composable fun PortfolioInventory</ID>
     <ID>LongMethod:AccountList.kt:@OptIn(ExperimentalFoundationApi::class) @Composable fun AccountCard</ID>
     <ID>LongMethod:AccountListDisplayConfigurationDialogFragment.kt:AccountListDisplayConfigurationDialogFragment$@Composable override fun ColumnScope.MainContent</ID>
-    <ID>LongMethod:AccountsScreen.kt:@OptIn(ExperimentalMaterial3Api::class) @Composable fun AccountsScreen</ID>
+    <ID>LongMethod:AccountsScreen.kt:@Composable fun AccountsScreen</ID>
     <ID>LongMethod:Archive.kt:fun SupportSQLiteDatabase.archive: Long</ID>
     <ID>LongMethod:AutoBackupWorker.kt:AutoBackupWorker$override suspend fun doWork: Result</ID>
     <ID>LongMethod:BackupRestoreActivity.kt:BackupRestoreActivity$public override fun onCreate</ID>
@@ -265,8 +265,8 @@
     <ID>LongMethod:CSVParser.kt:CSVParser$fun parse</ID>
     <ID>LongMethod:CalculatorInput.kt:CalculatorInput$override fun onCreate</ID>
     <ID>LongMethod:CalendarListPreferenceDialogFragmentCompat.kt:CalendarListPreferenceDialogFragmentCompat$override fun onPrepareDialogBuilder</ID>
-    <ID>LongMethod:CategoryDialogs.kt:@OptIn(ExperimentalMaterial3Api::class) @Composable fun CategoryEdit</ID>
-    <ID>LongMethod:CategoryDialogs.kt:@OptIn(ExperimentalMaterial3Api::class) @Composable fun CategoryMerge</ID>
+    <ID>LongMethod:CategoryDialogs.kt:@Composable fun CategoryEdit</ID>
+    <ID>LongMethod:CategoryDialogs.kt:@Composable fun CategoryMerge</ID>
     <ID>LongMethod:CategoryTree.kt:@Composable fun Category</ID>
     <ID>LongMethod:CategoryTree.kt:@OptIn(ExperimentalFoundationApi::class) @Composable fun CategoryRenderer</ID>
     <ID>LongMethod:CategoryViewModelTest.kt:CategoryViewModelTest$@Test fun buildCatTree</ID>
@@ -344,7 +344,7 @@
     <ID>LongMethod:PlanNotificationClickHandler.kt:PlanNotificationClickHandler$@Deprecated("Deprecated in Java") override fun onHandleIntent</ID>
     <ID>LongMethod:PlannerFragment.kt:PlannerFragment.PlanInstanceViewHolder$fun bind</ID>
     <ID>LongMethod:PlannerUtils.kt:PlannerUtils$@RequiresPermission(Manifest.permission.READ_CALENDAR, conditional = true) fun onPlannerCalendarIdChanged</ID>
-    <ID>LongMethod:PortfolioSetupDialog.kt:@OptIn(ExperimentalMaterial3Api::class) @Composable fun PortfolioSetupDialog</ID>
+    <ID>LongMethod:PortfolioSetupDialog.kt:@Composable fun PortfolioSetupDialog</ID>
     <ID>LongMethod:PreferenceActivity.kt:PreferenceActivity$override fun dispatchCommand</ID>
     <ID>LongMethod:PreferenceActivity.kt:PreferenceActivity$override fun onSharedPreferenceChanged</ID>
     <ID>LongMethod:PreferenceDataFragment.kt:PreferenceDataFragment$override fun onCreatePreferences</ID>
@@ -380,9 +380,9 @@
     <ID>LongMethod:TemplatesList.kt:TemplatesList$override fun onLoadFinished</ID>
     <ID>LongMethod:TemplatesList.kt:TemplatesList.MyAdapter$@SuppressLint("SetTextI18n") override fun bindView</ID>
     <ID>LongMethod:TradeList.kt:@Composable fun TradeRow</ID>
-    <ID>LongMethod:TradeScreen.kt:@OptIn(ExperimentalMaterial3Api::class) @Composable fun AssetSelector</ID>
-    <ID>LongMethod:TradeScreen.kt:@OptIn(ExperimentalMaterial3Api::class) @Composable fun FundingSourceSelector</ID>
-    <ID>LongMethod:TradeScreen.kt:@OptIn(ExperimentalMaterial3Api::class) @Composable fun TradeScreen</ID>
+    <ID>LongMethod:TradeScreen.kt:@Composable fun AssetSelector</ID>
+    <ID>LongMethod:TradeScreen.kt:@Composable fun FundingSourceSelector</ID>
+    <ID>LongMethod:TradeScreen.kt:@Composable fun TradeScreen</ID>
     <ID>LongMethod:Transaction2.kt:Transaction2.Companion$fun fromCursor: Transaction2</ID>
     <ID>LongMethod:TransactionDelegate.kt:TransactionDelegate$open fun bind</ID>
     <ID>LongMethod:TransactionDelegate.kt:TransactionDelegate$open fun syncStateAndValidate: TransactionEditData?</ID>
@@ -683,7 +683,6 @@
     <ID>MaxLineLength:AccountType.kt:AccountType.Companion$val ASSET = AccountType(name = PREDEFINED_NAME_ASSET, isAsset = true, supportsReconciliation = true, sortKey = -1)</ID>
     <ID>MaxLineLength:AccountType.kt:AccountType.Companion$val CCARD = AccountType(name = PREDEFINED_NAME_CCARD, isAsset = false, supportsReconciliation = true, sortKey = 0)</ID>
     <ID>MaxLineLength:AccountWidgetConfigurationFragment.kt:AccountWidgetConfigurationFragment$(list.map { it.label } + getString(R.string.budget_filter_all_accounts)).toTypedArray()</ID>
-    <ID>MaxLineLength:AccountsScreen.kt:viewModel.accountsForBalanceSheet.collectAsState(LocalDate.now() to emptyList()).value.second</ID>
     <ID>MaxLineLength:Action.kt:Action$@param:TransactionsContract.Transactions.TransactionType val type: Int = TransactionsContract.Transactions.TYPE_TRANSACTION</ID>
     <ID>MaxLineLength:AmountInput.kt:AmountInput$throw IllegalArgumentException("alternateLayout cannot be used together with typeSwitch and currencySelection")</ID>
     <ID>MaxLineLength:AmountInputHostDialog.kt:AmountInputHostDialog$Toast.makeText(context, "CALCULATOR_REQUEST launched with incorrect EXTRA_KEY_INPUT_ID", Toast.LENGTH_LONG).show()</ID>
@@ -977,7 +976,6 @@
     <ID>MaxLineLength:PlanMonthFragment.kt:PlanMonthFragment.CaldroidCustomAdapter$if (brightColor) com.caldroid.R.color.cell_text_color else com.caldroid.R.color.cell_text_color_dark</ID>
     <ID>MaxLineLength:PlannerFragment.kt:PlannerFragment.PlanInstanceViewHolder$if (planInstance.amount.amountMinor &lt; 0) R.color.colorExpenseOnCard else R.color.colorIncomeOnCard</ID>
     <ID>MaxLineLength:PlannerFragment.kt:PlannerFragment.PlannerAdapter$data.indexOfFirst { planInstance -&gt; planInstance.templateId == update.templateId &amp;&amp; planInstance.instanceId == update.instanceId }</ID>
-    <ID>MaxLineLength:PortfolioSetupDialog.kt:onConfirm: (label: String, currency: String, color: Int, exchangeRate: Double, dynamicExchangeRates: Boolean, type: AccountType) -&gt; Unit</ID>
     <ID>MaxLineLength:PreferenceActivity.kt:PreferenceActivity$getString(R.string.pref_home_currency_title) + ": " + currencyContext[currencyCode].description</ID>
     <ID>MaxLineLength:PreferenceDataFragment.kt:PreferenceDataFragment$getString(R.string.pref_home_currency_title) + ": " + viewModel.currencyContext[newHomeCurrency].description</ID>
     <ID>MaxLineLength:PreferenceDataFragment.kt:PreferenceDataFragment$preferenceActivity.showSnackBar(getString(R.string.exchange_rate_not_supported, currency, homeCurrency))</ID>
@@ -1060,16 +1058,8 @@
     <ID>MaxLineLength:TimePreference.kt:TimePreference.Companion$val</ID>
     <ID>MaxLineLength:TradeList.kt:style = if (renderType == RenderType.Legacy) MaterialTheme.typography.bodySmall else MaterialTheme.typography.bodyLarge</ID>
     <ID>MaxLineLength:TradeScreen.kt:color = if (isOverLimit) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant</ID>
-    <ID>MaxLineLength:TradeScreen.kt:contentDescription = stringResource(R.string.content_description_clear_category)</ID>
-    <ID>MaxLineLength:TradeScreen.kt:fractionDigits</ID>
-    <ID>MaxLineLength:TradeScreen.kt:if</ID>
-    <ID>MaxLineLength:TradeScreen.kt:if (fundingAccounts.any { it.first == trade.peerAccount.first }) FundingSource.ACCOUNT else FundingSource.PORTFOLIO</ID>
     <ID>MaxLineLength:TradeScreen.kt:if (type.isIncoming) Icons.AutoMirrored.Filled.ArrowBack else Icons.AutoMirrored.Filled.ArrowForward</ID>
     <ID>MaxLineLength:TradeScreen.kt:if (type.isIncoming) R.string.transfer_from_account else R.string.transfer_to_account</ID>
-    <ID>MaxLineLength:TradeScreen.kt:label = stringResource(if (type.isIncoming) R.string.transfer_from_account else R.string.transfer_to_account)</ID>
-    <ID>MaxLineLength:TradeScreen.kt:onCreateAsset: suspend (code: String, symbol: String, fractionDigits: Int, label: String?, commodityType: CommodityType) -&gt; CurrencyUnit? = { _, _, _, _, _ -&gt; null }</ID>
-    <ID>MaxLineLength:TradeScreen.kt:onLookupMatchingTransactions: (accountId: Long, total: BigDecimal, date: LocalDateTime, isBuy: Boolean) -&gt; Flow&lt;List&lt;Transaction2&gt;&gt; = { _, _, _, _ -&gt; emptyFlow() }</ID>
-    <ID>MaxLineLength:TradeScreen.kt:portfolio.children.find { it.type.isCashAccount }?.currentBalance to reportingCurrency</ID>
     <ID>MaxLineLength:TransactionDelegate.kt:TransactionDelegate$TYPE_TRANSACTION -&gt; if (isSplitPart) R.string.menu_create_split_part_category else if (isTemplate) R.string.menu_create_template_for_transaction else R.string.menu_create_transaction</ID>
     <ID>MaxLineLength:TransactionDelegate.kt:TransactionDelegate$TYPE_TRANSFER -&gt; if (isSplitPart) R.string.menu_create_split_part_transfer else if (isTemplate) R.string.menu_create_template_for_transfer else R.string.menu_create_transfer</ID>
     <ID>MaxLineLength:TransactionDelegate.kt:TransactionDelegate$host.showSnackBar(context.getString(R.string.plan_automatic_without_amount_hint))</ID>
@@ -1217,7 +1207,6 @@
     <ID>NewLineAtEndOfFile:Category.kt:org.totschnig.myexpenses.viewmodel.data.Category.kt</ID>
     <ID>NewLineAtEndOfFile:CategoryCriterion.kt:org.totschnig.myexpenses.provider.filter.CategoryCriterion.kt</ID>
     <ID>NewLineAtEndOfFile:CategoryDelegate.kt:org.totschnig.myexpenses.delegate.CategoryDelegate.kt</ID>
-    <ID>NewLineAtEndOfFile:CategoryDialogs.kt:org.totschnig.myexpenses.compose.CategoryDialogs.kt</ID>
     <ID>NewLineAtEndOfFile:CategoryExporter.kt:org.totschnig.myexpenses.export.CategoryExporter.kt</ID>
     <ID>NewLineAtEndOfFile:CategoryInfo.kt:org.totschnig.myexpenses.export.CategoryInfo.kt</ID>
     <ID>NewLineAtEndOfFile:CategoryInfo.kt:org.totschnig.myexpenses.model2.CategoryInfo.kt</ID>
@@ -1344,7 +1333,6 @@
     <ID>NewLineAtEndOfFile:GroupQueryTest.kt:org.totschnig.myexpenses.repository.GroupQueryTest.kt</ID>
     <ID>NewLineAtEndOfFile:GroupedSpinnerAdapter.kt:org.totschnig.myexpenses.adapter.GroupedSpinnerAdapter.kt</ID>
     <ID>NewLineAtEndOfFile:Grouping.kt:org.totschnig.myexpenses.model.Grouping.kt</ID>
-    <ID>NewLineAtEndOfFile:GroupingNavigator.kt:org.totschnig.myexpenses.util.GroupingNavigator.kt</ID>
     <ID>NewLineAtEndOfFile:HeaderPreference.kt:org.totschnig.myexpenses.preference.HeaderPreference.kt</ID>
     <ID>NewLineAtEndOfFile:Help.kt:org.totschnig.myexpenses.activity.Help.kt</ID>
     <ID>NewLineAtEndOfFile:HelpDialogHelperTest.kt:org.totschnig.myexpenses.util.HelpDialogHelperTest.kt</ID>
@@ -1393,7 +1381,6 @@
     <ID>NewLineAtEndOfFile:MenuItem.kt:org.totschnig.myexpenses.dialog.MenuItem.kt</ID>
     <ID>NewLineAtEndOfFile:MenuParser.kt:org.totschnig.myexpenses.compose.main.MenuParser.kt</ID>
     <ID>NewLineAtEndOfFile:MenuUtils.kt:org.totschnig.myexpenses.util.MenuUtils.kt</ID>
-    <ID>NewLineAtEndOfFile:MergePartiesDialogFragment.kt:org.totschnig.myexpenses.dialog.MergePartiesDialogFragment.kt</ID>
     <ID>NewLineAtEndOfFile:MethodCriterion.kt:org.totschnig.myexpenses.provider.filter.MethodCriterion.kt</ID>
     <ID>NewLineAtEndOfFile:MethodEdit.kt:org.totschnig.myexpenses.activity.MethodEdit.kt</ID>
     <ID>NewLineAtEndOfFile:MethodViewModel.kt:org.totschnig.myexpenses.viewmodel.MethodViewModel.kt</ID>

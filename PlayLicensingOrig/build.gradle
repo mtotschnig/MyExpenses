@@ -2,7 +2,6 @@ apply plugin: 'com.android.library'
 
 android {
   namespace "com.google.android.vending.licensing"
-  compileSdkVersion project.compileSdkVersion
   defaultConfig {
     minSdkVersion project.minSdkVersion
   }

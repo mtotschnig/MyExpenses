@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
@@ -17,10 +16,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.OpenInNew
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenu
+import androidx.compose.material3.ExposedDropdownMenuAnchorType.Companion.PrimaryNotEditable
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -54,19 +54,23 @@ class MergePartiesDialogFragment : ComposeBaseDialogFragment3() {
         var expanded by remember { mutableStateOf(false) }
         var selectedPartyIndex by rememberSaveable { mutableIntStateOf(0) }
         var selectedMergeStrategy by rememberSaveable { mutableStateOf(MergeStrategy.DELETE) }
-        val shape = if (expanded) RoundedCornerShape(8.dp).copy(
-            bottomEnd = CornerSize(0.dp),
-            bottomStart = CornerSize(0.dp)
-        )
-        else RoundedCornerShape(8.dp)
+        val shape = if (expanded) {
+            RoundedCornerShape(8.dp).copy(
+                bottomEnd = CornerSize(0.dp),
+                bottomStart = CornerSize(0.dp)
+            )
+        } else {
+            RoundedCornerShape(8.dp)
+        }
 
         ExposedDropdownMenuBox(
             modifier = Modifier.fillMaxWidth(),
             expanded = expanded,
-            onExpandedChange = { expanded = !expanded }) {
+            onExpandedChange = { expanded = !expanded }
+        ) {
             TextField(
                 modifier = Modifier
-                    .menuAnchor(MenuAnchorType.PrimaryNotEditable)
+                    .menuAnchor(PrimaryNotEditable)
                     .fillMaxWidth(),
                 readOnly = true,
                 value = options[selectedPartyIndex],
@@ -80,7 +84,7 @@ class MergePartiesDialogFragment : ComposeBaseDialogFragment3() {
             )
             ExposedDropdownMenu(
                 expanded = expanded,
-                onDismissRequest = { expanded = false },
+                onDismissRequest = { expanded = false }
             ) {
                 options.forEachIndexed { index, s ->
                     DropdownMenuItem(
@@ -89,7 +93,7 @@ class MergePartiesDialogFragment : ComposeBaseDialogFragment3() {
                             selectedPartyIndex = index
                             expanded = false
                         },
-                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
                     )
                 }
             }

@@ -6,7 +6,6 @@ group("androidx.preferences")
 
 android {
     namespace 'androidx.preference'
-    compileSdk project.compileSdkVersion
 
     defaultConfig {
         minSdk project.minSdkVersion

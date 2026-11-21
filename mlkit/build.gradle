@@ -2,7 +2,6 @@ apply plugin: "com.android.dynamic-feature"
 
 android {
     namespace 'org.totschnig.mlkit'
-    compileSdkVersion project.compileSdkVersion
 
     defaultConfig {
         missingDimensionStrategy 'textRecognition', 'intern'

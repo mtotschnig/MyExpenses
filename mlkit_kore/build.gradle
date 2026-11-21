@@ -3,7 +3,6 @@ plugins {
 }
 android {
     namespace 'org.totschnig.mlkit_kore'
-    compileSdk project.compileSdkVersion
 
     defaultConfig {
         missingDimensionStrategy 'textRecognition', 'intern'

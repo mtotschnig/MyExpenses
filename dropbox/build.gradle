@@ -4,7 +4,6 @@ plugins {
 }
 
 android {
-    compileSdk project.compileSdkVersion
 
     defaultConfig {
         missingDimensionStrategy 'textRecognition', 'extern'

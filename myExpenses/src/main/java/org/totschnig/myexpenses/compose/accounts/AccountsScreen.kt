@@ -9,8 +9,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuAnchorType
+import androidx.compose.material3.ExposedDropdownMenu
+import androidx.compose.material3.ExposedDropdownMenuAnchorType.Companion.PrimaryNotEditable
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.LocalTextStyle
@@ -39,6 +39,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import java.time.LocalDate
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BalanceSheetOptions
 import org.totschnig.myexpenses.activity.BalanceSheetViewInner
@@ -54,9 +55,7 @@ import org.totschnig.myexpenses.viewmodel.AccountsScreenTab
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import timber.log.Timber
-import java.time.LocalDate
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AccountsScreen(
     containerColor: Color = MaterialTheme.colorScheme.background,
@@ -71,9 +70,8 @@ fun AccountsScreen(
     onAccountEvent: AccountEventHandler,
     bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
     windowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
-    onNavigateToTransactions: () -> Unit,
+    onNavigateToTransactions: () -> Unit
 ) {
-
     val selectedTab = viewModel.currentAccountsTab.collectAsState()
 
     val showHiddenState = viewModel.balanceSheetShowHidden.asState()
@@ -85,7 +83,6 @@ fun AccountsScreen(
     val premiumNudgeDismissed by viewModel.premiumNudgeDismissed.asState()
 
     fun navigateToAccount(id: Long) {
-
         viewModel.selectAccount(id)
         onNavigateToTransactions()
     }
@@ -120,7 +117,6 @@ fun AccountsScreen(
                 actions = {
                     when (selectedTab.value) {
                         AccountsScreenTab.LIST -> {
-
                             ViewOptionsMenu(
                                 activeGrouping = accountGrouping,
                                 onGroupingChange = { onEvent(AppEvent.SetAccountGrouping(it)) },
@@ -132,7 +128,9 @@ fun AccountsScreen(
 
                         AccountsScreenTab.BALANCE_SHEET -> {
                             val accounts =
-                                viewModel.accountsForBalanceSheet.collectAsState(LocalDate.now() to emptyList()).value.second
+                                viewModel.accountsForBalanceSheet.collectAsState(
+                                    LocalDate.now() to emptyList()
+                                ).value.second
                             BalanceSheetOptions(
                                 showHiddenState.takeIf { accounts.any { !it.isVisible } },
                                 showZeroState.takeIf { accounts.any { it.currentBalance == 0L } },
@@ -154,6 +152,7 @@ fun AccountsScreen(
                 onAction = { action ->
                     when (action) {
                         Action.AddAccount -> onEvent(AppEvent.CreateAccount)
+
                         Action.AddPortfolio -> {
                             if (canCreatePortfolio) {
                                 onEvent(AppEvent.CreatePortfolio)
@@ -168,7 +167,9 @@ fun AccountsScreen(
     ) { paddingValues ->
         if (selectedTab.value == AccountsScreenTab.BALANCE_SHEET) {
             val data =
-                viewModel.accountsForBalanceSheet.collectAsState(LocalDate.now() to emptyList()).value
+                viewModel.accountsForBalanceSheet.collectAsState(
+                    LocalDate.now() to emptyList()
+                ).value
             Column(modifier = Modifier.padding(paddingValues)) {
                 BalanceSheetViewInner(
                     accounts = data.second,
@@ -180,8 +181,8 @@ fun AccountsScreen(
                                 viewModel.maybeResetFilter(accountGrouping.getGroupKey(it))
                             }
                         } else {
-                            //by setting the transaction screen to filter by the invisible flag,
-                            //we make sure that account is displayed
+                            // by setting the transaction screen to filter by the invisible flag,
+                            // we make sure that account is displayed
                             viewModel.setGrouping(AccountGrouping.FLAG)
                             viewModel.setFilter(it.flag)
                         }
@@ -204,8 +205,12 @@ fun AccountsScreen(
                 grouping = accountGrouping,
                 selectedAccount = selectedAccountId,
                 listState = viewModel.listState,
-                expansionHandlerGroups = viewModel.expansionHandler("collapsedHeadersDrawer_${accountGrouping}"),
-                expansionHandlerAccounts = viewModel.expansionHandler("expandedAccounts_${accountGrouping}"),
+                expansionHandlerGroups = viewModel.expansionHandler(
+                    "collapsedHeadersDrawer_$accountGrouping"
+                ),
+                expansionHandlerAccounts = viewModel.expansionHandler(
+                    "expandedAccounts_$accountGrouping"
+                ),
                 onSelected = {
                     if (accountGrouping != AccountGrouping.NONE) {
                         viewModel.maybeResetFilter(accountGrouping.getGroupKey(it))
@@ -224,18 +229,16 @@ fun AccountsScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun Title(
     selectedTab: AccountsScreenTab,
-    setSelectedTab: (AccountsScreenTab) -> Unit = {},
+    setSelectedTab: (AccountsScreenTab) -> Unit = {}
 ) {
     var isDropdownExpanded by remember { mutableStateOf(false) }
     ExposedDropdownMenuBox(
         expanded = isDropdownExpanded,
         onExpandedChange = { isDropdownExpanded = !isDropdownExpanded }
     ) {
-
         val textMeasurer = rememberTextMeasurer()
         val style = LocalTextStyle.current
         val options = AccountsScreenTab.entries.map { stringResource(it.resourceId) }
@@ -258,7 +261,7 @@ private fun Title(
                 disabledContainerColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent
             ),
             // The dropdown arrow
             trailingIcon = {
@@ -271,9 +274,9 @@ private fun Title(
                 bottom = 16.dp
             ),
             modifier = Modifier
-                //48.dp is space for the drop-down
+                // 48.dp is space for the drop-down
                 .width(with(LocalDensity.current) { maxTextWidth.toDp() + 48.dp })
-                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
+                .menuAnchor(PrimaryNotEditable)
         )
 
         // This is the actual dropdown menu that appears.
@@ -299,4 +302,3 @@ private fun Title(
 fun TitlePreview() {
     Title(AccountsScreenTab.LIST)
 }
-

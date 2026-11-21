@@ -3,7 +3,6 @@ plugins {
 }
 android {
     namespace 'org.totschnig.jackson'
-    compileSdk project.compileSdkVersion
 
     defaultConfig {
         missingDimensionStrategy 'textRecognition', 'extern'

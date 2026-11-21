@@ -8,8 +8,8 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuAnchorType
+import androidx.compose.material3.ExposedDropdownMenu
+import androidx.compose.material3.ExposedDropdownMenuAnchorType.Companion.PrimaryNotEditable
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
@@ -36,13 +36,17 @@ import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.viewmodel.ManageCategoriesViewModel
 import org.totschnig.myexpenses.viewmodel.data.Category
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryEdit(
     dialogState: ManageCategoriesViewModel.Edit,
     categories: List<Category> = emptyList(),
     onDismissRequest: () -> Unit = {},
-    onSave: (label: String, icon: String?, typeFlags: Byte, parentId: Long?) -> Unit = { _, _, _, _ -> }
+    onSave: (
+        label: String,
+        icon: String?,
+        typeFlags: Byte,
+        parentId: Long?
+    ) -> Unit = { _, _, _, _ -> }
 ) {
     val fieldPadding = 12.dp
     val resources = LocalResources.current
@@ -83,13 +87,20 @@ fun CategoryEdit(
             label.isBlank() -> resources.getString(R.string.required)
             else -> null
         }
-    } else null
+    } else {
+        null
+    }
 
     DialogFrame(
         title = if (dialogState.isNew) {
-            if (selectedParent == null) stringResource(R.string.menu_create_main_cat)
-            else stringResource(R.string.menu_create_sub_cat) + " (${selectedParent!!.label})"
-        } else stringResource(R.string.menu_edit_cat),
+            if (selectedParent == null) {
+                stringResource(R.string.menu_create_main_cat)
+            } else {
+                stringResource(R.string.menu_create_sub_cat) + " (${selectedParent!!.label})"
+            }
+        } else {
+            stringResource(R.string.menu_edit_cat)
+        },
         onDismissRequest = onDismissRequest,
         cancelEnabled = !dialogState.saving,
         positiveButton = ButtonDefinition(
@@ -110,13 +121,16 @@ fun CategoryEdit(
             ) {
                 OutlinedTextField(
                     modifier = Modifier
-                        .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
+                        .menuAnchor(PrimaryNotEditable)
                         .fillMaxWidth(),
                     readOnly = true,
                     label = { Text(stringResource(id = R.string.parent_category)) },
-                    value = selectedParent?.path ?: stringResource(id = R.string.category_type_main),
+                    value = selectedParent?.path
+                        ?: stringResource(id = R.string.category_type_main),
                     onValueChange = {},
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = parentDropdownExpanded) },
+                    trailingIcon = {
+                        ExposedDropdownMenuDefaults.TrailingIcon(expanded = parentDropdownExpanded)
+                    },
                     colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors()
                 )
                 ExposedDropdownMenu(
@@ -161,7 +175,11 @@ fun CategoryEdit(
             label = { Text(stringResource(id = R.string.label)) },
             value = label,
             isError = isError != null,
-            onValueChange = { shouldValidate = false; label = it })
+            onValueChange = {
+                shouldValidate = false
+                label = it
+            }
+        )
         Text(
             text = isError ?: "",
             color = MaterialTheme.colorScheme.error,
@@ -181,7 +199,6 @@ fun CategoryEdit(
     IconSelectorDialog(showIconSelection, icon)
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryMerge(
     dialogState: ManageCategoriesViewModel.Merge,
@@ -190,10 +207,14 @@ fun CategoryMerge(
 ) {
     var expanded by remember { mutableStateOf(false) }
     var selectedIndex by rememberSaveable { mutableIntStateOf(0) }
-    val shape = if (expanded) RoundedCornerShape(8.dp).copy(
-        bottomEnd = CornerSize(0.dp),
-        bottomStart = CornerSize(0.dp)
-    ) else RoundedCornerShape(8.dp)
+    val shape = if (expanded) {
+        RoundedCornerShape(8.dp).copy(
+            bottomEnd = CornerSize(0.dp),
+            bottomStart = CornerSize(0.dp)
+        )
+    } else {
+        RoundedCornerShape(8.dp)
+    }
     DialogFrame(
         title = stringResource(R.string.merge_categories_dialog_title),
         onDismissRequest = onDismissRequest,
@@ -210,10 +231,11 @@ fun CategoryMerge(
         ExposedDropdownMenuBox(
             modifier = Modifier.fillMaxWidth(),
             expanded = expanded,
-            onExpandedChange = { expanded = !expanded }) {
+            onExpandedChange = { expanded = !expanded }
+        ) {
             TextField(
                 modifier = Modifier
-                    .menuAnchor()
+                    .menuAnchor(type = PrimaryNotEditable)
                     .fillMaxWidth(),
                 readOnly = true,
                 value = dialogState.categories[selectedIndex].path,
@@ -227,7 +249,7 @@ fun CategoryMerge(
             )
             ExposedDropdownMenu(
                 expanded = expanded,
-                onDismissRequest = { expanded = false },
+                onDismissRequest = { expanded = false }
             ) {
                 dialogState.categories.forEachIndexed { index, cat ->
                     DropdownMenuItem(
@@ -236,7 +258,7 @@ fun CategoryMerge(
                             selectedIndex = index
                             expanded = false
                         },
-                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
                     )
                 }
             }

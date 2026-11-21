@@ -4,7 +4,6 @@ plugins {
 
 android {
     namespace = "org.totschnig.shared_test"
-    compileSdk = project.compileSdkVersion
 
     defaultConfig {
         missingDimensionStrategy 'textRecognition', 'extern'

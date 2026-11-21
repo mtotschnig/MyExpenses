@@ -1,8 +1,6 @@
 package org.totschnig.myexpenses.compose.accounts
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,13 +11,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuAnchorType
+import androidx.compose.material3.ExposedDropdownMenu
+import androidx.compose.material3.ExposedDropdownMenuAnchorType.Companion.PrimaryNotEditable
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -39,11 +39,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import java.math.BigDecimal
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.ColorCircle
 import org.totschnig.myexpenses.model.AccountType
@@ -53,36 +54,54 @@ import org.totschnig.myexpenses.util.ColorUtils
 import org.totschnig.myexpenses.util.calculateRawExchangeRate
 import org.totschnig.myexpenses.util.calculateRealExchangeRate
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
-import java.math.BigDecimal
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PortfolioSetupDialog(
     onDismiss: () -> Unit,
-    onConfirm: (label: String, currency: String, color: Int, exchangeRate: Double, dynamicExchangeRates: Boolean, type: AccountType) -> Unit,
+    onConfirm: (
+        label: String,
+        currency: String,
+        color: Int,
+        exchangeRate: Double,
+        dynamicExchangeRates: Boolean,
+        type: AccountType
+    ) -> Unit,
     onDeleteAsset: (FullAccount) -> Unit = {},
     availableCurrencies: List<CurrencyUnit>,
     availableAccountTypes: List<AccountType>,
     homeCurrency: CurrencyUnit,
-    initialPortfolio: FullAccount? = null,
+    initialPortfolio: FullAccount? = null
 ) {
     var label by remember { mutableStateOf(initialPortfolio?.label ?: "") }
-    var selectedCurrencyState by remember { mutableStateOf(initialPortfolio?.currencyUnit ?: homeCurrency) }
-    var selectedAccountType by remember {
+    var selectedCurrencyState by remember {
         mutableStateOf(
-            initialPortfolio?.type ?: availableAccountTypes.find { it.name == AccountType.INVESTMENT.name }
-            ?: availableAccountTypes.firstOrNull()
-            ?: AccountType.INVESTMENT
+            initialPortfolio?.currencyUnit ?: homeCurrency
         )
     }
-    var selectedColor by remember { mutableIntStateOf(initialPortfolio?.color ?: Account.DEFAULT_COLOR) }
+    var selectedAccountType by remember {
+        mutableStateOf(
+            initialPortfolio?.type
+                ?: availableAccountTypes.find { it.name == AccountType.INVESTMENT.name }
+                ?: availableAccountTypes.firstOrNull()
+                ?: AccountType.INVESTMENT
+        )
+    }
+    var selectedColor by remember {
+        mutableIntStateOf(
+            initialPortfolio?.color ?: Account.DEFAULT_COLOR
+        )
+    }
     var showColorPicker by remember { mutableStateOf(false) }
 
     var dynamicExchangeRates by remember { mutableStateOf(initialPortfolio?.dynamic ?: false) }
     var exchangeRate by remember {
         mutableStateOf(
             initialPortfolio?.initialExchangeRate?.let {
-                calculateRealExchangeRate(it, initialPortfolio.currencyUnit, homeCurrency).toPlainString()
+                calculateRealExchangeRate(
+                    it,
+                    initialPortfolio.currencyUnit,
+                    homeCurrency
+                ).toPlainString()
             } ?: "1"
         )
     }
@@ -138,9 +157,11 @@ fun PortfolioSetupDialog(
                         onValueChange = {},
                         readOnly = true,
                         label = { Text(stringResource(R.string.account_types)) },
-                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = typeExpanded) },
+                        trailingIcon = {
+                            ExposedDropdownMenuDefaults.TrailingIcon(expanded = typeExpanded)
+                        },
                         modifier = Modifier
-                            .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
+                            .menuAnchor(PrimaryNotEditable)
                             .fillMaxWidth()
                     )
                     ExposedDropdownMenu(
@@ -170,9 +191,11 @@ fun PortfolioSetupDialog(
                         onValueChange = {},
                         readOnly = true,
                         label = { Text(stringResource(R.string.currency)) },
-                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                        trailingIcon = {
+                            ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                        },
                         modifier = Modifier
-                            .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
+                            .menuAnchor(PrimaryNotEditable)
                             .fillMaxWidth()
                     )
                     ExposedDropdownMenu(
@@ -289,7 +312,9 @@ fun PortfolioSetupDialog(
                                 selectedAccountType
                             )
                         },
-                        enabled = label.isNotBlank() && (!isFx || dynamicExchangeRates || isExchangeRateValid)
+                        enabled =
+                            label.isNotBlank() &&
+                                (!isFx || dynamicExchangeRates || isExchangeRateValid)
                     ) {
                         Text(stringResource(android.R.string.ok))
                     }
@@ -302,7 +327,7 @@ fun PortfolioSetupDialog(
 @Composable
 fun ColorPickerDialog(
     onDismiss: () -> Unit,
-    onColorSelected: (Int) -> Unit,
+    onColorSelected: (Int) -> Unit
 ) {
     Dialog(onDismissRequest = onDismiss) {
         Surface(

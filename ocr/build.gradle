@@ -3,7 +3,6 @@ apply plugin: 'kotlin-parcelize'
 apply plugin: 'com.google.devtools.ksp'
 
 android {
-    compileSdk project.compileSdkVersion
 
     defaultConfig {
         //missingDimensionStrategy 'distribution', 'play'

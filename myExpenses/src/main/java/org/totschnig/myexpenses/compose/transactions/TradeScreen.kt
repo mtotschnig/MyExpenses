@@ -11,17 +11,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
@@ -30,20 +30,14 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.sp
-import org.totschnig.myexpenses.viewmodel.data.CategoryRef
-import org.totschnig.myexpenses.viewmodel.data.CostLeg
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import java.math.RoundingMode
-import androidx.compose.material3.ExposedDropdownMenuAnchorType
+import androidx.compose.material3.ExposedDropdownMenu
+import androidx.compose.material3.ExposedDropdownMenuAnchorType.Companion.PrimaryNotEditable
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.FilterChip
@@ -79,14 +73,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.booleanResource
-import androidx.compose.ui.semantics.selected
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.onClick
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import java.math.BigDecimal
+import java.math.RoundingMode
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
@@ -110,26 +114,21 @@ import org.totschnig.myexpenses.provider.KEY_LABEL
 import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.util.calculateRealExchangeRate
 import org.totschnig.myexpenses.util.toEpochMillis
+import org.totschnig.myexpenses.viewmodel.data.CategoryRef
+import org.totschnig.myexpenses.viewmodel.data.CostLeg
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.FundingSource
 import org.totschnig.myexpenses.viewmodel.data.Trade
 import org.totschnig.myexpenses.viewmodel.data.TradeIntent
 import org.totschnig.myexpenses.viewmodel.data.TradeType
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
-import java.math.BigDecimal
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 
 @Parcelize
 data class CostLegUiState(
     val amount: BigDecimal? = null,
     val category: CategoryRef? = null
-): Parcelable
+) : Parcelable
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TradeScreen(
     onDismiss: () -> Unit,
@@ -144,11 +143,22 @@ fun TradeScreen(
     initialCostCategoryRefs: List<CategoryRef> = emptyList(),
     canAddMultipleCostLegs: Boolean = false,
     onShowUpgrade: () -> Unit = {},
-    onCreateAsset: suspend (code: String, symbol: String, fractionDigits: Int, label: String?, commodityType: CommodityType) -> CurrencyUnit? = { _, _, _, _, _ -> null },
+    onCreateAsset: suspend (
+        code: String,
+        symbol: String,
+        fractionDigits: Int,
+        label: String?,
+        commodityType: CommodityType
+    ) -> CurrencyUnit? = { _, _, _, _, _ -> null },
     isCurrencyUsed: suspend (String) -> Boolean = { false },
-    onLookupMatchingTransactions: (accountId: Long, total: BigDecimal, date: LocalDateTime, isBuy: Boolean) -> Flow<List<Transaction2>> = { _, _, _, _ -> emptyFlow() },
+    onLookupMatchingTransactions: (
+        accountId: Long,
+        total: BigDecimal,
+        date: LocalDateTime,
+        isBuy: Boolean
+    ) -> Flow<List<Transaction2>> = { _, _, _, _ -> emptyFlow() },
     roundingMode: RoundingMode = RoundingMode.HALF_UP,
-    onRoundingModeChange: (RoundingMode) -> Unit = {},
+    onRoundingModeChange: (RoundingMode) -> Unit = {}
 ) {
     val isLarge = booleanResource(R.bool.isLarge)
     Dialog(
@@ -166,22 +176,29 @@ fun TradeScreen(
                         widthIn(max = 560.dp)
                             .heightIn(max = 800.dp) // Limit maximum height
                             .fillMaxHeight(0.95f) // Take up to 95% of screen height
-                    }, ifFalse = { fillMaxSize() }
+                    },
+                    ifFalse = { fillMaxSize() }
                 ),
             shape = if (isLarge) MaterialTheme.shapes.extraLarge else RectangleShape
         ) {
             val currencyFormatter = LocalCurrencyFormatter.current
 
             var selectedSubaccountId by rememberSaveable {
-                mutableStateOf(initialTrade?.let { trade ->
-                    portfolio.children.find { it.currencyUnit.code == trade.assetSymbol }?.id
-                } ?: portfolio.children.find { it.isPortfolioAsset }?.id)
+                mutableStateOf(
+                    initialTrade?.let { trade ->
+                        portfolio.children.find { it.currencyUnit.code == trade.assetSymbol }?.id
+                    } ?: portfolio.children.find { it.isPortfolioAsset }?.id
+                )
             }
             var selectedAsset by rememberSaveable {
-                mutableStateOf(initialTrade?.let { trade ->
-                    assets.find { it.code == trade.assetSymbol }
-                        ?: portfolio.children.find { it.currencyUnit.code == trade.assetSymbol }?.currencyUnit
-                } ?: portfolio.children.firstOrNull { !it.type.isCashAccount }?.currencyUnit)
+                mutableStateOf(
+                    initialTrade?.let { trade ->
+                        assets.find { it.code == trade.assetSymbol }
+                            ?: portfolio.children.find {
+                                it.currencyUnit.code == trade.assetSymbol
+                            }?.currencyUnit
+                    } ?: portfolio.children.firstOrNull { !it.type.isCashAccount }?.currencyUnit
+                )
             }
 
             var type by rememberSaveable {
@@ -242,18 +259,26 @@ fun TradeScreen(
                                 category = leg.category
                             )
                         }
-                    } else if (initialTrade.fee != null && initialTrade.fee.amountMajor > BigDecimal.ZERO) {
+                    } else if (initialTrade.fee != null &&
+                        initialTrade.fee.amountMajor > BigDecimal.ZERO
+                    ) {
                         listOf(CostLegUiState(amount = initialTrade.fee.amountMajor))
                     } else {
                         emptyList()
                     }
                 } else {
-                    if (initialCostCategoryRefs.isNotEmpty())
-                        (if (canAddMultipleCostLegs) initialCostCategoryRefs else
-                            initialCostCategoryRefs.take(1)
-                                )
+                    if (initialCostCategoryRefs.isNotEmpty()) {
+                        (
+                            if (canAddMultipleCostLegs) {
+                                initialCostCategoryRefs
+                            } else {
+                                initialCostCategoryRefs.take(1)
+                            }
+                            )
                             .map { ref -> CostLegUiState(category = ref) }
-                    else emptyList()
+                    } else {
+                        emptyList()
+                    }
                 }
             }
             var costLegs by rememberSaveable(initialCostLegs) { mutableStateOf(initialCostLegs) }
@@ -276,11 +301,22 @@ fun TradeScreen(
                 }
 
             var fundingSource by rememberSaveable {
-                mutableStateOf(initialTrade?.let { trade ->
-                    if (trade.peerAccount != null) {
-                        if (fundingAccounts.any { it.first == trade.peerAccount.first }) FundingSource.ACCOUNT else FundingSource.PORTFOLIO
-                    } else FundingSource.EXTERNAL
-                } ?: FundingSource.EXTERNAL)
+                mutableStateOf(
+                    initialTrade?.let { trade ->
+                        if (trade.peerAccount != null) {
+                            if (fundingAccounts.any {
+                                    it.first == trade.peerAccount.first
+                                }
+                            ) {
+                                FundingSource.ACCOUNT
+                            } else {
+                                FundingSource.PORTFOLIO
+                            }
+                        } else {
+                            FundingSource.EXTERNAL
+                        }
+                    } ?: FundingSource.EXTERNAL
+                )
             }
 
             var peerAccountId by rememberSaveable {
@@ -303,9 +339,13 @@ fun TradeScreen(
 
             val isRoundingNecessary = remember(quantity, price, type, reportingCurrency) {
                 val principalRaw =
-                    if (type is TradeType.CashMovement) quantity.orZero else quantity.orZero.multiply(
-                        price.orZero
-                    )
+                    if (type is TradeType.CashMovement) {
+                        quantity.orZero
+                    } else {
+                        quantity.orZero.multiply(
+                            price.orZero
+                        )
+                    }
                 principalRaw.movePointRight(reportingCurrency.fractionDigits).stripTrailingZeros()
                     .scale() > 0
             }
@@ -407,11 +447,19 @@ fun TradeScreen(
             LaunchedEffect(matchingTransactions) {
                 if (matchingTransactions.none { it.id == linkedTransactionId }) {
                     linkedTransactionId =
-                        if (matchingTransactions.size == 1) matchingTransactions.first().id else null
+                        if (matchingTransactions.size ==
+                            1
+                        ) {
+                            matchingTransactions.first().id
+                        } else {
+                            null
+                        }
                 }
             }
 
-            var showAddAsset by rememberSaveable { mutableStateOf<Pair<String, CommodityType>?>(null) }
+            var showAddAsset by rememberSaveable {
+                mutableStateOf<Pair<String, CommodityType>?>(null)
+            }
 
             showAddAsset?.let { (codeToEdit: String, typeToEdit: CommodityType) ->
                 EditCurrencyDialog(
@@ -509,18 +557,24 @@ fun TradeScreen(
                     TopAppBar(
                         title = {
                             val applicableTypes =
-                                if (initialTrade == null) TradeType.entries else when (initialTrade.type) {
-                                    is TradeType.AssetTrade -> listOf(
-                                        TradeType.AssetTrade.BUY,
-                                        TradeType.AssetTrade.SELL
-                                    )
+                                if (initialTrade ==
+                                    null
+                                ) {
+                                    TradeType.entries
+                                } else {
+                                    when (initialTrade.type) {
+                                        is TradeType.AssetTrade -> listOf(
+                                            TradeType.AssetTrade.BUY,
+                                            TradeType.AssetTrade.SELL
+                                        )
 
-                                    is TradeType.CashMovement -> listOf(
-                                        TradeType.CashMovement.DEPOSIT,
-                                        TradeType.CashMovement.WITHDRAW
-                                    )
+                                        is TradeType.CashMovement -> listOf(
+                                            TradeType.CashMovement.DEPOSIT,
+                                            TradeType.CashMovement.WITHDRAW
+                                        )
 
-                                    else -> listOf(TradeType.Transfer(true))
+                                        else -> listOf(TradeType.Transfer(true))
+                                    }
                                 }
                             SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
                                 applicableTypes.forEachIndexed { index, tradeType ->
@@ -536,7 +590,9 @@ fun TradeScreen(
                                             } else {
                                                 tradeType
                                             }
-                                            if (type is TradeType.CashMovement && fundingSource == FundingSource.PORTFOLIO) {
+                                            if (type is TradeType.CashMovement &&
+                                                fundingSource == FundingSource.PORTFOLIO
+                                            ) {
                                                 fundingSource = FundingSource.EXTERNAL
                                             }
                                         },
@@ -620,7 +676,7 @@ fun TradeScreen(
                             colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
                                 disabledTextColor = MaterialTheme.colorScheme.onSurface,
                                 disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                                disabledBorderColor = MaterialTheme.colorScheme.outline,
+                                disabledBorderColor = MaterialTheme.colorScheme.outline
                             )
                         )
 
@@ -640,7 +696,7 @@ fun TradeScreen(
                             colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
                                 disabledTextColor = MaterialTheme.colorScheme.onSurface,
                                 disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                                disabledBorderColor = MaterialTheme.colorScheme.outline,
+                                disabledBorderColor = MaterialTheme.colorScheme.outline
                             )
                         )
                     }
@@ -667,30 +723,41 @@ fun TradeScreen(
                     ) {
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                stringResource(if (isAssetTrade) R.string.trade_quantity else R.string.amount),
+                                stringResource(
+                                    if (isAssetTrade) R.string.trade_quantity else R.string.amount
+                                ),
                                 style = MaterialTheme.typography.labelMedium
                             )
                             AmountEdit(
                                 value = quantity,
                                 onValueChange = { quantity = it },
-                                fractionDigits = (if (isAssetTrade) selectedAsset else reportingCurrency)?.fractionDigits
-                                    ?: 2,
+                                fractionDigits =
+                                    (if (isAssetTrade) selectedAsset else reportingCurrency)
+                                        ?.fractionDigits ?: 2,
                                 enabled = !isAssetTrade || selectedAsset != null
                             )
                             if (!type.isIncoming) {
                                 val (available, currency) = if (isAssetTrade) {
                                     remember(selectedSubaccountId, portfolio.children) {
-                                        (portfolio.children.find { it.id == selectedSubaccountId }?.currentBalance
-                                            ?: 0L) + (
-                                                initialTrade?.let { initial ->
-                                                    initial.quantity.amountMinor.let {
-                                                        if (initial.type.isIncoming) it.unaryMinus() else it
-                                                    }
-                                                } ?: 0L) to selectedAsset
+                                        (
+                                            portfolio.children.find {
+                                                it.id == selectedSubaccountId
+                                            }?.currentBalance
+                                                ?: 0L
+                                            ) + (
+                                            initialTrade?.let { initial ->
+                                                initial.quantity.amountMinor.let {
+                                                    if (initial.type.isIncoming) it.unaryMinus() else it
+                                                }
+                                            } ?: 0L
+                                            ) to selectedAsset
                                     }
                                 } else {
                                     remember(portfolio.children) {
-                                        portfolio.children.find { it.type.isCashAccount }?.currentBalance to reportingCurrency
+                                        portfolio.children.find {
+                                            it.type.isCashAccount
+                                        }?.currentBalance to
+                                            reportingCurrency
                                     }
                                 }
                                 currency?.let { currencyUnit ->
@@ -912,7 +979,9 @@ fun TradeScreen(
                                             {
                                                 Icon(
                                                     Icons.Default.Close,
-                                                    contentDescription = stringResource(R.string.content_description_clear_category),
+                                                    contentDescription = stringResource(
+                                                        R.string.content_description_clear_category
+                                                    ),
                                                     modifier = Modifier
                                                         .size(16.dp)
                                                         .clickable {
@@ -925,7 +994,9 @@ fun TradeScreen(
                                                         }
                                                 )
                                             }
-                                        } else null
+                                        } else {
+                                            null
+                                        }
                                     )
 
                                     IconButton(
@@ -937,7 +1008,9 @@ fun TradeScreen(
                                     ) {
                                         Icon(
                                             Icons.Default.Delete,
-                                            contentDescription = stringResource(R.string.menu_delete),
+                                            contentDescription = stringResource(
+                                                R.string.menu_delete
+                                            )
                                         )
                                     }
                                 }
@@ -974,8 +1047,10 @@ fun TradeScreen(
                                 },
                                 onClick = {
                                     type =
-                                        (type as TradeType.Transfer).copy(isIncoming = !type.isIncoming)
-                                },
+                                        (type as TradeType.Transfer).copy(
+                                            isIncoming = !type.isIncoming
+                                        )
+                                }
                             ) {
                                 Icon(
                                     if (type.isIncoming) Icons.AutoMirrored.Filled.ArrowBack else Icons.AutoMirrored.Filled.ArrowForward,
@@ -985,7 +1060,9 @@ fun TradeScreen(
                                 )
                             }
                             TargetPortfolioSelector(
-                                label = stringResource(if (type.isIncoming) R.string.transfer_from_account else R.string.transfer_to_account),
+                                label = stringResource(
+                                    if (type.isIncoming) R.string.transfer_from_account else R.string.transfer_to_account
+                                ),
                                 selectedPortfolioId = peerAccountId,
                                 portfolios = targetPortfolios,
                                 onSelectionChanged = { peerAccountId = it },
@@ -1010,7 +1087,9 @@ fun TradeScreen(
                         )
                     }
 
-                    if (fundingSource == FundingSource.ACCOUNT && matchingTransactions.isNotEmpty()) {
+                    if (fundingSource == FundingSource.ACCOUNT &&
+                        matchingTransactions.isNotEmpty()
+                    ) {
                         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                             Text(
                                 stringResource(R.string.trade_matching_transaction_found),
@@ -1021,12 +1100,20 @@ fun TradeScreen(
                                     selected = linkedTransactionId == transaction.id,
                                     onClick = {
                                         linkedTransactionId =
-                                            if (linkedTransactionId == transaction.id) null else transaction.id
+                                            if (linkedTransactionId ==
+                                                transaction.id
+                                            ) {
+                                                null
+                                            } else {
+                                                transaction.id
+                                            }
                                     },
                                     label = {
                                         Column {
-                                            (transaction.party?.name
-                                                ?: transaction.comment)?.let { Text(it) }
+                                            (
+                                                transaction.party?.name
+                                                    ?: transaction.comment
+                                                )?.let { Text(it) }
                                             Text(
                                                 currencyFormatter.formatCurrency(
                                                     transaction.displayAmount.amountMajor,
@@ -1044,7 +1131,9 @@ fun TradeScreen(
                                                 modifier = Modifier.size(16.dp)
                                             )
                                         }
-                                    } else null
+                                    } else {
+                                        null
+                                    }
                                 )
                             }
                         }
@@ -1075,7 +1164,6 @@ fun TradeScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AssetSelector(
     label: String,
@@ -1083,7 +1171,7 @@ fun AssetSelector(
     subaccounts: List<FullAccount>,
     assets: List<CurrencyUnit>,
     onSelectionChanged: (CurrencyUnit, Long?) -> Unit,
-    onCreateAsset: (Pair<String, CommodityType>) -> Unit,
+    onCreateAsset: (Pair<String, CommodityType>) -> Unit
 ) {
     var expanded by rememberSaveable { mutableStateOf(false) }
 
@@ -1113,7 +1201,7 @@ fun AssetSelector(
             label = { Text(label) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             modifier = Modifier
-                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
+                .menuAnchor(PrimaryNotEditable)
                 .fillMaxWidth(),
             colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors()
         )
@@ -1138,7 +1226,10 @@ fun AssetSelector(
                                     selectedTypes - type
                                 } else {
                                     // If toggling off the only selected type, switch to the other types
-                                    CommodityType.entries.filter { it != CommodityType.FIAT && it != type }
+                                    CommodityType.entries.filter {
+                                        it != CommodityType.FIAT &&
+                                            it != type
+                                    }
                                         .toSet()
                                 }
                             } else {
@@ -1148,7 +1239,9 @@ fun AssetSelector(
                         label = { Text(type.name.lowercase().replaceFirstChar { it.uppercase() }) },
                         leadingIcon = if (type in selectedTypes) {
                             { Icon(Icons.Default.Check, null, modifier = Modifier.size(16.dp)) }
-                        } else null
+                        } else {
+                            null
+                        }
                     )
                 }
             }
@@ -1172,7 +1265,9 @@ fun AssetSelector(
                         },
                         leadingIcon = if (isSelected) {
                             { Icon(Icons.Default.Check, contentDescription = null) }
-                        } else null,
+                        } else {
+                            null
+                        },
                         onClick = {
                             onSelectionChanged(account.currencyUnit, account.id)
                             expanded = false
@@ -1190,7 +1285,9 @@ fun AssetSelector(
                         text = { Text("${asset.description} (${asset.code})") },
                         leadingIcon = if (isSelected) {
                             { Icon(Icons.Default.Check, contentDescription = null) }
-                        } else null,
+                        } else {
+                            null
+                        },
                         onClick = {
                             onSelectionChanged(asset, null)
                             expanded = false
@@ -1212,7 +1309,6 @@ fun AssetSelector(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TargetPortfolioSelector(
     label: String,
@@ -1220,7 +1316,7 @@ fun TargetPortfolioSelector(
     portfolios: List<Pair<Long, String>>,
     onSelectionChanged: (Long) -> Unit,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true,
+    enabled: Boolean = true
 ) {
     var expanded by remember { mutableStateOf(false) }
     val selectedText = portfolios.find { it.first == selectedPortfolioId }?.second ?: ""
@@ -1231,10 +1327,15 @@ fun TargetPortfolioSelector(
         modifier = modifier
     ) {
         OutlinedTextField(
-            value = selectedText, onValueChange = {}, readOnly = true, label = { Text(label) },
-            trailingIcon = { if (enabled) ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+            value = selectedText,
+            onValueChange = {},
+            readOnly = true,
+            label = { Text(label) },
+            trailingIcon = {
+                if (enabled) ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+            },
             modifier = Modifier
-                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
+                .menuAnchor(PrimaryNotEditable)
                 .fillMaxWidth(),
             enabled = enabled
         )
@@ -1246,7 +1347,9 @@ fun TargetPortfolioSelector(
                     text = { Text(portfolio.second) },
                     leadingIcon = if (isSelected) {
                         { Icon(Icons.Default.Check, contentDescription = null) }
-                    } else null,
+                    } else {
+                        null
+                    },
                     onClick = {
                         onSelectionChanged(portfolio.first)
                         expanded = false
@@ -1257,7 +1360,6 @@ fun TargetPortfolioSelector(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FundingSourceSelector(
     label: String,
@@ -1266,21 +1368,27 @@ fun FundingSourceSelector(
     selectedAccountId: Long?,
     accounts: List<Pair<Long, String>>,
     onSourceSelected: (FundingSource, Long?) -> Unit,
-    showPortfolio: Boolean = true,
+    showPortfolio: Boolean = true
 ) {
     var expanded by remember { mutableStateOf(false) }
     val selectedText = when (selectedSource) {
-        FundingSource.PORTFOLIO -> stringResource(R.string.trade_funding_portfolio) + " (${portfolio.label})"
+        FundingSource.PORTFOLIO -> stringResource(R.string.trade_funding_portfolio) +
+            " (${portfolio.label})"
+
         FundingSource.EXTERNAL -> stringResource(R.string.trade_funding_external_description)
+
         FundingSource.ACCOUNT -> accounts.find { it.first == selectedAccountId }?.second ?: ""
     }
 
     ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = !expanded }) {
         OutlinedTextField(
-            value = selectedText, onValueChange = {}, readOnly = true, label = { Text(label) },
+            value = selectedText,
+            onValueChange = {},
+            readOnly = true,
+            label = { Text(label) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             modifier = Modifier
-                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
+                .menuAnchor(PrimaryNotEditable)
                 .fillMaxWidth()
         )
         ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
@@ -1300,15 +1408,24 @@ fun FundingSourceSelector(
                                 Text(portfolio.label, style = MaterialTheme.typography.labelSmall)
                             }
                             AmountText(
-                                amount = portfolio.children.find { it.type.isCashAccount }?.currentBalance
-                                    ?: 0L, currency = portfolio.currencyUnit
+                                amount =
+                                    portfolio.children.find {
+                                        it.type.isCashAccount
+                                    }?.currentBalance
+                                        ?: 0L,
+                                currency = portfolio.currencyUnit
                             )
                         }
                     },
                     leadingIcon = if (isSelected) {
                         { Icon(Icons.Default.Check, contentDescription = null) }
-                    } else null,
-                    onClick = { onSourceSelected(FundingSource.PORTFOLIO, null); expanded = false }
+                    } else {
+                        null
+                    },
+                    onClick = {
+                        onSourceSelected(FundingSource.PORTFOLIO, null)
+                        expanded = false
+                    }
                 )
             }
             // Group 2: External
@@ -1323,8 +1440,13 @@ fun FundingSourceSelector(
                 },
                 leadingIcon = if (isExternalSelected) {
                     { Icon(Icons.Default.Check, contentDescription = null) }
-                } else null,
-                onClick = { onSourceSelected(FundingSource.EXTERNAL, null); expanded = false }
+                } else {
+                    null
+                },
+                onClick = {
+                    onSourceSelected(FundingSource.EXTERNAL, null)
+                    expanded = false
+                }
             )
             HorizontalDivider()
             // Group 3: Other Accounts
@@ -1336,9 +1458,12 @@ fun FundingSourceSelector(
                     text = { Text(account.second) },
                     leadingIcon = if (isAccountSelected) {
                         { Icon(Icons.Default.Check, contentDescription = null) }
-                    } else null,
+                    } else {
+                        null
+                    },
                     onClick = {
-                        onSourceSelected(FundingSource.ACCOUNT, account.first); expanded = false
+                        onSourceSelected(FundingSource.ACCOUNT, account.first)
+                        expanded = false
                     }
                 )
             }
@@ -1353,7 +1478,8 @@ private class PickCategoryContract :
     ActivityResultContract<Unit, Pair<String, Long>?>() {
     override fun createIntent(context: Context, input: Unit) =
         Intent(
-            context, ManageCategories::class.java
+            context,
+            ManageCategories::class.java
         ).apply {
             action = SELECT_MAPPING.name
         }
@@ -1361,13 +1487,9 @@ private class PickCategoryContract :
     override fun parseResult(
         resultCode: Int,
         intent: Intent?
-    ): Pair<String, Long>? {
-        return intent.takeIf { resultCode == Activity.RESULT_OK }?.extras?.let {
-            it.getString(KEY_LABEL)!! to it.getLong(KEY_ROWID)
-        }
+    ): Pair<String, Long>? = intent.takeIf { resultCode == Activity.RESULT_OK }?.extras?.let {
+        it.getString(KEY_LABEL)!! to it.getLong(KEY_ROWID)
     }
-
-
 }
 
 @Preview

@@ -28,6 +28,7 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenu
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
@@ -66,22 +67,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.set
+import kotlin.random.Random
 import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import org.kapott.hbci.manager.BankInfo
+import org.totschnig.myexpenses.R as RB
 import org.totschnig.myexpenses.compose.optional
 import org.totschnig.myexpenses.model2.Bank
 import org.totschnig.myexpenses.util.safeMessage
-import kotlin.random.Random
-import org.totschnig.myexpenses.R as RB
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ColumnScope.BankingCredentials(
     bankingCredentials: MutableState<BankingCredentials>,
     onDone: () -> Unit,
-    searchBanks: (String) -> List<BankInfo> = { emptyList() },
+    searchBanks: (String) -> List<BankInfo> = { emptyList() }
 ) {
     val credentials = bankingCredentials.value
     credentials.bank?.let { Text(it.bankName) } ?: run {
@@ -100,7 +101,7 @@ fun ColumnScope.BankingCredentials(
                 enabled = credentials.isNew,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Next,
+                    imeAction = ImeAction.Next
                 ),
                 value = credentials.bankLeitZahl,
                 onValueChange = {
@@ -109,7 +110,9 @@ fun ColumnScope.BankingCredentials(
                 },
                 label = { Text(text = stringResource(R.string.bankleitzahl_or_name)) },
                 supportingText = {
-                    if (credentials.bankLeitZahl.isNotEmpty() && credentials.bankLeitZahl.length < 3) {
+                    if (credentials.bankLeitZahl.isNotEmpty() &&
+                        credentials.bankLeitZahl.length < 3
+                    ) {
                         Text(text = stringResource(R.string.bank_search_min_chars))
                     } else {
                         Text(text = stringResource(R.string.bank_search_hint))
@@ -174,10 +177,14 @@ fun ColumnScope.BankingCredentials(
         singleLine = true
     )
     val focusRequester =
-        if (credentials.isNew) null else remember { FocusRequester() }.also { requester ->
-            LaunchedEffect(Unit) {
-                this.coroutineContext.job.invokeOnCompletion {
-                    requester.requestFocus()
+        if (credentials.isNew) {
+            null
+        } else {
+            remember { FocusRequester() }.also { requester ->
+                LaunchedEffect(Unit) {
+                    this.coroutineContext.job.invokeOnCompletion {
+                        requester.requestFocus()
+                    }
                 }
             }
         }
@@ -187,15 +194,20 @@ fun ColumnScope.BankingCredentials(
             .align(Alignment.CenterHorizontally)
             .semantics { this.contentType = ContentType.Password }
             .optional(focusRequester) { this.focusRequester(it) },
-        visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
+        visualTransformation = if (showPassword) {
+            VisualTransformation.None
+        } else {
+            PasswordVisualTransformation()
+        },
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Password,
             imeAction = ImeAction.Done
         ),
-        keyboardActions = if (credentials.isComplete)
+        keyboardActions = if (credentials.isComplete) {
             KeyboardActions(onDone = { onDone() })
-        else
-            KeyboardActions.Default,
+        } else {
+            KeyboardActions.Default
+        },
         value = credentials.password ?: "",
         onValueChange = {
             bankingCredentials.value = credentials.copy(password = it.trim())
@@ -208,7 +220,8 @@ fun ColumnScope.BankingCredentials(
         trailingIcon = {
             PasswordVisibilityToggleIcon(
                 showPassword = showPassword,
-                onTogglePasswordVisibility = { showPassword = !showPassword })
+                onTogglePasswordVisibility = { showPassword = !showPassword }
+            )
         }
     )
 }
@@ -216,7 +229,7 @@ fun ColumnScope.BankingCredentials(
 @Composable
 fun PasswordVisibilityToggleIcon(
     showPassword: Boolean,
-    onTogglePasswordVisibility: () -> Unit,
+    onTogglePasswordVisibility: () -> Unit
 ) {
     val image = if (showPassword) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
     val contentDescription =
@@ -279,7 +292,7 @@ fun TanDialog(tanRequest: TanRequest?) {
                         onValueChange = {
                             tan = it
                         },
-                        label = { Text(text = "TAN") },
+                        label = { Text(text = "TAN") }
                     )
                 }
             }
@@ -313,10 +326,12 @@ fun TanMediaDialog(request: TanMediumRequest?) {
 private fun SelectionDialog(
     @StringRes title: Int,
     options: List<Pair<String, String>>,
-    submit: (Pair<String, Boolean>?) -> Unit,
+    submit: (Pair<String, Boolean>?) -> Unit
 ) {
     val (selectedOption, onOptionSelected) = rememberSaveable { mutableStateOf(options[0]) }
-    val (shouldSaveSelection, onShouldSaveSelectionChanged) = rememberSaveable { mutableStateOf(true) }
+    val (shouldSaveSelection, onShouldSaveSelectionChanged) = rememberSaveable {
+        mutableStateOf(true)
+    }
     AlertDialog(
         onDismissRequest = {
             submit(null)
@@ -382,7 +397,7 @@ sealed class MigrationState : Parcelable {
 @Composable
 fun MigrationDialog(
     migrationDialogShown: MutableState<Bank?>,
-    onMigrate: suspend (Bank, String) -> Result<Unit>,
+    onMigrate: suspend (Bank, String) -> Result<Unit>
 ) {
     val scope = rememberCoroutineScope()
     var passphrase by rememberSaveable { mutableStateOf("") }
@@ -426,13 +441,22 @@ fun MigrationDialog(
                     else -> {}
                 }
             },
-            dismissButton = if (migrationState == MigrationState.Running)
+            dismissButton = if (migrationState == MigrationState.Running) {
                 null
-            else {
+            } else {
                 {
-
                     Button(onClick = ::doDismiss) {
-                        Text(stringResource(id = if (migrationState == MigrationState.Success) android.R.string.ok else android.R.string.cancel))
+                        Text(
+                            stringResource(
+                                id = if (migrationState ==
+                                    MigrationState.Success
+                                ) {
+                                    android.R.string.ok
+                                } else {
+                                    android.R.string.cancel
+                                }
+                            )
+                        )
                     }
                 }
             },

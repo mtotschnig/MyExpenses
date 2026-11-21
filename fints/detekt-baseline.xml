@@ -103,7 +103,6 @@
     <ID>MaxLineLength:BankingViewModel.kt:BankingViewModel$it.iban == konto.iban || (it.number == konto.number &amp;&amp; it.subnumber == konto.subnumber)</ID>
     <ID>MaxLineLength:BankingViewModel.kt:BankingViewModel$val</ID>
     <ID>MaxLineLength:BankingViewModel.kt:BankingViewModel.MyHBCICallback$throwAndReport(HBCI_Exception("Flicker not yet implemented for ${bankingCredentials.blz} Please contact support@myexpenses.mobi !"))</ID>
-    <ID>MaxLineLength:Composables.kt:Text(stringResource(id = if (migrationState == MigrationState.Success) android.R.string.ok else android.R.string.cancel))</ID>
     <ID>NewLineAtEndOfFile:Banking.kt:org.totschnig.fints.Banking.kt</ID>
     <ID>NewLineAtEndOfFile:BankingCredentials.kt:org.totschnig.fints.BankingCredentials.kt</ID>
     <ID>NewLineAtEndOfFile:BankingFeatureImpl.kt:org.totschnig.fints.BankingFeatureImpl.kt</ID>
