@@ -397,7 +397,12 @@ fun TransactionScreen(
                     }
                     val lastAction =
                         if (isPortfolio) viewModel.lastActionPortfolio else viewModel.lastAction
-                    val lastActionState = lastAction.flow.collectAsState(null).value
+                    val lastActionLoadingState = lastAction.statefulFlow
+                        .collectAsState(PreferenceState.Loading).value
+                    val lastActionState = when (lastActionLoadingState) {
+                        is PreferenceState.Loaded -> lastActionLoadingState.value
+                        PreferenceState.Loading -> null
+                    }
                     val primaryAction = staticAction ?: lastActionState
 
                     if (primaryAction != null) {
