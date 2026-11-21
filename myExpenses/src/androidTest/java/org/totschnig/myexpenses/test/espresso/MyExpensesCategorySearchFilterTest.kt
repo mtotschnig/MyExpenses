@@ -4,6 +4,7 @@ import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performSemanticsAction
+import java.time.LocalDateTime
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -15,7 +16,6 @@ import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.TestShard3
 import org.totschnig.myexpenses.testutils.cleanup
-import java.time.LocalDateTime
 
 @TestShard3
 class MyExpensesCategorySearchFilterTest : BaseMyExpensesTest() {

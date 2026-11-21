@@ -55,25 +55,6 @@
         <error line="98" column="54" source="standard:function-literal" />
         <error line="109" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/BudgetActivityTest.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="67" column="9" source="standard:comment-spacing" />
-        <error line="68" column="9" source="standard:comment-spacing" />
-        <error line="84" column="48" source="standard:paren-spacing" />
-        <error line="90" column="13" source="standard:wrapping" />
-        <error line="90" column="14" source="standard:argument-list-wrapping" />
-        <error line="123" column="32" source="standard:property-wrapping" />
-        <error line="123" column="51" source="standard:argument-list-wrapping" />
-        <error line="123" column="62" source="standard:argument-list-wrapping" />
-        <error line="123" column="98" source="standard:argument-list-wrapping" />
-        <error line="123" column="101" source="standard:max-line-length" />
-        <error line="123" column="106" source="standard:argument-list-wrapping" />
-        <error line="123" column="107" source="standard:argument-list-wrapping" />
-        <error line="138" column="28" source="standard:argument-list-wrapping" />
-        <error line="138" column="34" source="standard:argument-list-wrapping" />
-        <error line="180" column="9" source="standard:comment-spacing" />
-        <error line="206" column="1" source="standard:final-newline" />
-    </file>
     <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/BudgetEditTest.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="37" column="1" source="standard:no-consecutive-blank-lines" />
@@ -133,19 +114,6 @@
     <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/CustomizedMenuTest.kt">
         <error line="17" column="25" source="standard:colon-spacing" />
         <error line="44" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/DistributionTest.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="61" column="37" source="standard:wrapping" />
-        <error line="66" column="13" source="standard:wrapping" />
-        <error line="135" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="179" column="28" source="standard:argument-list-wrapping" />
-        <error line="179" column="72" source="standard:argument-list-wrapping" />
-        <error line="179" column="101" source="standard:max-line-length" />
-        <error line="179" column="115" source="standard:argument-list-wrapping" />
-        <error line="179" column="116" source="standard:argument-list-wrapping" />
-        <error line="222" column="1" source="standard:no-blank-line-before-rbrace" />
-        <error line="223" column="1" source="standard:final-newline" />
     </file>
     <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/ExpenseEditAccountSpinnerTest.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -299,38 +267,6 @@
         <error line="74" column="47" source="standard:op-spacing" />
         <error line="79" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/ManageCategoriesTest.kt">
-        <error line="80" column="32" source="standard:argument-list-wrapping" />
-        <error line="80" column="47" source="standard:argument-list-wrapping" />
-        <error line="80" column="56" source="standard:argument-list-wrapping" />
-        <error line="80" column="70" source="standard:argument-list-wrapping" />
-        <error line="80" column="87" source="standard:argument-list-wrapping" />
-        <error line="80" column="88" source="standard:argument-list-wrapping" />
-        <error line="80" column="101" source="standard:max-line-length" />
-        <error line="86" column="45" source="standard:trailing-comma-on-call-site" />
-        <error line="97" column="32" source="standard:argument-list-wrapping" />
-        <error line="97" column="47" source="standard:argument-list-wrapping" />
-        <error line="97" column="56" source="standard:argument-list-wrapping" />
-        <error line="97" column="70" source="standard:argument-list-wrapping" />
-        <error line="97" column="87" source="standard:argument-list-wrapping" />
-        <error line="97" column="88" source="standard:argument-list-wrapping" />
-        <error line="97" column="101" source="standard:max-line-length" />
-        <error line="103" column="45" source="standard:trailing-comma-on-call-site" />
-        <error line="107" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/ManageCurrenciesTest.kt">
-        <error line="99" column="44" source="standard:argument-list-wrapping" />
-        <error line="99" column="54" source="standard:argument-list-wrapping" />
-        <error line="99" column="101" source="standard:max-line-length" />
-        <error line="99" column="108" source="standard:argument-list-wrapping" />
-        <error line="99" column="109" source="standard:argument-list-wrapping" />
-        <error line="123" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/MyExpensesAmountSearchFilterTest.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="59" column="60" source="standard:dot-spacing" />
-        <error line="79" column="1" source="standard:final-newline" />
-    </file>
     <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/MyExpensesCabTest.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="90" column="40" source="standard:trailing-comma-on-call-site" />
@@ -352,26 +288,10 @@
         <error line="431" column="31" source="standard:argument-list-wrapping" />
         <error line="453" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/MyExpensesCategorySearchFilterTest.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="127" column="1" source="standard:final-newline" />
-    </file>
     <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/MyExpensesClosedAccountTest.kt">
         <error line="44" column="35" source="standard:paren-spacing" />
         <error line="44" column="35" source="standard:spacing-between-function-name-and-opening-parenthesis" />
         <error line="57" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/MyExpensesCommentSearchFilterTest.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="24" column="19" source="standard:no-multi-spaces" />
-        <error line="52" column="44" source="standard:argument-list-wrapping" />
-        <error line="52" column="54" source="standard:argument-list-wrapping" />
-        <error line="52" column="77" source="standard:argument-list-wrapping" />
-        <error line="52" column="78" source="standard:argument-list-wrapping" />
-        <error line="52" column="97" source="standard:argument-list-wrapping" />
-        <error line="52" column="101" source="standard:max-line-length" />
-        <error line="52" column="106" source="standard:argument-list-wrapping" />
-        <error line="70" column="1" source="standard:final-newline" />
     </file>
     <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/MyExpensesMethodFilterTest.kt">
         <error line="10" column="33" source="standard:colon-spacing" />
@@ -382,15 +302,6 @@
     <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/MyExpensesTagsTest.kt">
         <error line="17" column="25" source="standard:colon-spacing" />
         <error line="48" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/MyExpensesTest.kt">
-        <error line="143" column="47" source="standard:argument-list-wrapping" />
-        <error line="143" column="82" source="standard:argument-list-wrapping" />
-        <error line="143" column="101" source="standard:max-line-length" />
-        <error line="192" column="19" source="standard:wrapping" />
-        <error line="192" column="20" source="standard:argument-list-wrapping" />
-        <error line="212" column="9" source="standard:comment-spacing" />
-        <error line="303" column="1" source="standard:final-newline" />
     </file>
     <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/OnboardingTest.kt">
         <error line="131" column="1" source="standard:no-empty-first-line-in-method-block" />
@@ -920,16 +831,6 @@
         <error line="406" column="9" source="standard:comment-spacing" />
         <error line="411" column="19" source="standard:argument-list-wrapping" />
         <error line="411" column="25" source="standard:argument-list-wrapping" />
-    </file>
-    <file name="src/androidTest/java/org/totschnig/myexpenses/test/screenshots/ArabTest.kt">
-        <error line="7" column="1" source="standard:comment-spacing" />
-        <error line="9" column="15" source="standard:colon-spacing" />
-        <error line="15" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/androidTest/java/org/totschnig/myexpenses/test/screenshots/JapaneseTest.kt">
-        <error line="7" column="1" source="standard:comment-spacing" />
-        <error line="9" column="19" source="standard:colon-spacing" />
-        <error line="15" column="1" source="standard:final-newline" />
     </file>
     <file name="src/androidTest/java/org/totschnig/myexpenses/test/util/AppDirHelperTest.kt">
         <error line="14" column="27" source="standard:argument-list-wrapping" />

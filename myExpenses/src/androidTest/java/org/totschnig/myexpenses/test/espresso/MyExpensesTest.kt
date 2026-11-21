@@ -140,7 +140,8 @@ class MyExpensesTest : BaseMyExpensesTest() {
 
     fun assertMenuItemHidden(vararg menuItems: MenuItem) {
         val overflowNodes =
-            composeTestRule.onAllNodesWithTag(TEST_TAG_OVERFLOW_MENU_TRANSACTIONS).fetchSemanticsNodes()
+            composeTestRule.onAllNodesWithTag(TEST_TAG_OVERFLOW_MENU_TRANSACTIONS)
+                .fetchSemanticsNodes()
         if (overflowNodes.isNotEmpty()) {
             composeTestRule.onNodeWithTag(TEST_TAG_OVERFLOW_MENU_TRANSACTIONS).performClick()
 
@@ -189,7 +190,8 @@ class MyExpensesTest : BaseMyExpensesTest() {
             allOf(
                 hasComponent(
                     AccountEdit::class.java.name
-                ), hasExtraWithKey(KEY_ROWID)
+                ),
+                hasExtraWithKey(KEY_ROWID)
             )
         )
     }
@@ -209,7 +211,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
         ).perform(click())
         navigateToTransactions()
         assertDataSize(3)
-        //after deletion of Account 1, Account 2 should still be selected
+        // after deletion of Account 1, Account 2 should still be selected
         checkTitle("Test account 2")
     }
 

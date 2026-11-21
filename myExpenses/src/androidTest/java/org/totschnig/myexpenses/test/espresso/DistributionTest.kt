@@ -16,6 +16,7 @@ import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.google.common.truth.Truth.assertThat
+import java.time.LocalDateTime
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.containsString
 import org.junit.After
@@ -36,7 +37,6 @@ import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.TestShard1
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
-import java.time.LocalDateTime
 
 @TestShard1
 class DistributionTest : BaseUiTest<DistributionActivity>() {
@@ -58,12 +58,14 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
         account = buildAccount("Test account 1")
         additionalFixture()
         testScenario =
-            ActivityScenario.launch(Intent(targetContext, DistributionActivity::class.java).apply {
-                putExtra(KEY_ACCOUNTID, account.id)
-                putExtra(DistributionViewModel.SHOW_INCOME_KEY, showIncome)
-                putExtra(DistributionViewModel.SHOW_EXPENSE_KEY, showExpense)
-                putExtra(KEY_GROUPING, grouping)
-            })
+            ActivityScenario.launch(
+                Intent(targetContext, DistributionActivity::class.java).apply {
+                    putExtra(KEY_ACCOUNTID, account.id)
+                    putExtra(DistributionViewModel.SHOW_INCOME_KEY, showIncome)
+                    putExtra(DistributionViewModel.SHOW_EXPENSE_KEY, showExpense)
+                    putExtra(KEY_GROUPING, grouping)
+                }
+            )
     }
 
     private fun fixtureWithExpenseAndIncome(
@@ -132,7 +134,6 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
         }
     }
 
-
     private fun assertIncome() {
         onView(allOf(withText(containsString("Income")), withText(containsString("34"))))
             .inRoot(isDialog())
@@ -176,7 +177,11 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
     fun testColorCommand() {
         launchWithContextCommand(R.string.color, null) {
             testScenario.onActivity {
-                assertThat(it.supportFragmentManager.findFragmentByTag(ProtectedFragmentActivity.EDIT_COLOR_DIALOG)).isNotNull()
+                assertThat(
+                    it.supportFragmentManager.findFragmentByTag(
+                        ProtectedFragmentActivity.EDIT_COLOR_DIALOG
+                    )
+                ).isNotNull()
             }
         }
     }
@@ -219,5 +224,4 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
 
     private fun onContextMenu(@StringRes menuItemId: Int) =
         composeTestRule.onNodeWithText(getString(menuItemId)).performClick()
-
 }

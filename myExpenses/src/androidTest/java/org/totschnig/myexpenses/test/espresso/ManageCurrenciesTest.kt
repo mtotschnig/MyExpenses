@@ -96,7 +96,9 @@ class ManageCurrenciesTest : BaseComposeTest<ManageCurrencies>() {
         composeTestRule.onNodeWithText("2").performTextReplacement("3")
 
         if (withUpdate) {
-            composeTestRule.onNodeWithText(getString(R.string.warning_change_fraction_digits_checkbox_label))
+            composeTestRule.onNodeWithText(
+                getString(R.string.warning_change_fraction_digits_checkbox_label)
+            )
                 .performClick()
         }
 

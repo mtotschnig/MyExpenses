@@ -9,6 +9,7 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import java.time.LocalDateTime
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -16,12 +17,10 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.insertTransaction
-import org.totschnig.myexpenses.model.CurrencyUnit.Companion.DebugInstance
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.TestShard3
 import org.totschnig.myexpenses.testutils.cleanup
-import java.time.LocalDateTime
 
 @TestShard3
 class MyExpensesAmountSearchFilterTest : BaseMyExpensesTest() {
@@ -56,7 +55,7 @@ class MyExpensesAmountSearchFilterTest : BaseMyExpensesTest() {
         amountIsDisplayed(AMOUNT1, 0)
         amountIsDisplayed(AMOUNT2, 1)
         selectFilter(R.string.amount) {
-            onView(withId(R.id.amount1)).inRoot(isDialog()) .perform(typeText("12"))
+            onView(withId(R.id.amount1)).inRoot(isDialog()).perform(typeText("12"))
             closeSoftKeyboard()
             onView(withId(android.R.id.button1)).perform(click())
         }

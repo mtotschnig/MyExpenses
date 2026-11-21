@@ -77,13 +77,14 @@ class ManageCategoriesTest : BaseComposeTest<ManageCategories>() {
         composeTestRule.onNodeWithTag(TEST_TAG_EDIT_TEXT)
             .performTextInput("Sub category")
         composeTestRule.onNodeWithText(getString(R.string.category_type_main)).performClick()
-        composeTestRule.onNode(hasAnyAncestor(isPopup()) and hasText("Parent Category")).performClick()
+        composeTestRule.onNode(hasAnyAncestor(isPopup()) and hasText("Parent Category"))
+            .performClick()
         composeTestRule.onNodeWithTag(TEST_TAG_POSITIVE_BUTTON).performClick()
         assertThat(
             repository.count(
                 TransactionProvider.CATEGORIES_URI,
                 "$KEY_PARENTID = ?",
-                arrayOf(parentId.toString()),
+                arrayOf(parentId.toString())
             )
         ).isEqualTo(1)
     }
@@ -94,13 +95,14 @@ class ManageCategoriesTest : BaseComposeTest<ManageCategories>() {
         writeCategory(label = "Sub Category")
         clickContextItem(R.string.menu_edit, composeTestRule.onNodeWithText("Sub Category"))
         composeTestRule.onNodeWithText(getString(R.string.category_type_main)).performClick()
-        composeTestRule.onNode(hasAnyAncestor(isPopup()) and hasText("Parent Category")).performClick()
+        composeTestRule.onNode(hasAnyAncestor(isPopup()) and hasText("Parent Category"))
+            .performClick()
         composeTestRule.onNodeWithTag(TEST_TAG_POSITIVE_BUTTON).performClick()
         assertThat(
             repository.count(
                 TransactionProvider.CATEGORIES_URI,
                 "$KEY_PARENTID = ?",
-                arrayOf(parentId.toString()),
+                arrayOf(parentId.toString())
             )
         ).isEqualTo(1)
     }

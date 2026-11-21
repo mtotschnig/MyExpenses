@@ -21,6 +21,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import java.time.LocalDate
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.containsString
@@ -52,7 +53,6 @@ import org.totschnig.myexpenses.testutils.TestShard1
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel
 import timber.log.Timber
-import java.time.LocalDate
 
 @TestShard1
 class BudgetActivityTest : BaseComposeTest<BudgetActivity>() {
@@ -64,8 +64,8 @@ class BudgetActivityTest : BaseComposeTest<BudgetActivity>() {
 
     fun setup(withFilter: Boolean) {
         account = buildAccount("Account")
-        //we write first a category to force category's id to be different from account id
-        //in order to verify fix for https://github.com/mtotschnig/MyExpenses/issues/1189
+        // we write first a category to force category's id to be different from account id
+        // in order to verify fix for https://github.com/mtotschnig/MyExpenses/issues/1189
         catIgnore = writeCategory("ignore")
         mainCat1 = writeCategory("A", null)
         mainCat2 = writeCategory("B", null)
@@ -87,7 +87,8 @@ class BudgetActivityTest : BaseComposeTest<BudgetActivity>() {
                 BudgetActivity::class.java
             ).apply {
                 putExtra(KEY_ROWID, budgetId)
-            })
+            }
+        )
     }
 
     @After
@@ -120,7 +121,8 @@ class BudgetActivityTest : BaseComposeTest<BudgetActivity>() {
     )
 
     private fun saveBudgetFilter(budgetId: Long, categoryId: Long) {
-        val filterPersistence = FilterPersistence(dataStore, BudgetViewModel.prefNameForCriteria(budgetId))
+        val filterPersistence =
+            FilterPersistence(dataStore, BudgetViewModel.prefNameForCriteria(budgetId))
         runBlocking {
             filterPersistence.addCriterion(CategoryCriterion("A", categoryId))
         }
@@ -135,7 +137,9 @@ class BudgetActivityTest : BaseComposeTest<BudgetActivity>() {
         val budgetUri = BaseTransactionProvider.budgetUri(budgetId)
         val result = repository.contentResolver.update(
             ContentUris.withAppendedId(budgetUri, categoryId),
-            contentValues, null, null
+            contentValues,
+            null,
+            null
         )
         Timber.d("Insert category budget: %d", result)
     }
@@ -177,7 +181,7 @@ class BudgetActivityTest : BaseComposeTest<BudgetActivity>() {
         spent: Long,
         dialogTitle: Pair<String, String>
     ) {
-        //Hack: we scroll by large amount to make sure all numbers are visible
+        // Hack: we scroll by large amount to make sure all numbers are visible
         composeTestRule
             .onNodeWithTag(TEST_TAG_BUDGET_ROOT)
             .performTouchInput {

@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.test.espresso
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
+import java.time.LocalDateTime
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -13,7 +14,6 @@ import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.TestShard3
 import org.totschnig.myexpenses.testutils.cleanup
-import java.time.LocalDateTime
 
 @TestShard3
 class MyExpensesCommentSearchFilterTest : BaseMyExpensesTest() {
@@ -21,7 +21,7 @@ class MyExpensesCommentSearchFilterTest : BaseMyExpensesTest() {
 
     @Before
     fun fixture() {
-        account =  buildAccount("Test account 1")
+        account = buildAccount("Test account 1")
         repository.insertTransaction(
             accountId = account.id,
             amount = 1000L,
@@ -49,7 +49,8 @@ class MyExpensesCommentSearchFilterTest : BaseMyExpensesTest() {
         commentIsDisplayed(COMMENT_1, 0)
         commentIsDisplayed(COMMENT_2, 1)
         selectFilter(R.string.notes) {
-            composeTestRule.onNodeWithText(getString(R.string.search_comment)).performTextInput(COMMENT_1)
+            composeTestRule.onNodeWithText(getString(R.string.search_comment))
+                .performTextInput(COMMENT_1)
             composeTestRule.onNodeWithText(getString(android.R.string.ok)).performClick()
         }
         assertListSize(1)
