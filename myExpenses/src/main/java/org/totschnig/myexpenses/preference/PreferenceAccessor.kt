@@ -46,7 +46,6 @@ sealed interface PreferenceState<out T> {
     data class Loaded<T>(val value: T) : PreferenceState<T>
 }
 
-
 /**
  * A helper class that encapsulates the logic for reading and writing
  * a specific preference from a DataStore.
@@ -64,7 +63,7 @@ class PreferenceAccessor<U, P>(
     private val dataStore: DataStore<Preferences>,
     private val key: Preferences.Key<P>,
     private val defaultValue: U,
-    private val mapper: Mapper<U, P>,
+    private val mapper: Mapper<U, P>
 ) {
 
     private val dataStoreFlow: Flow<U> = dataStore.data
@@ -127,7 +126,7 @@ class PreferenceAccessor<U, P>(
 fun <T> PreferenceAccessor(
     dataStore: DataStore<Preferences>,
     key: Preferences.Key<T>,
-    defaultValue: T,
+    defaultValue: T
 ): PreferenceAccessor<T, T> {
     @Suppress("UNCHECKED_CAST")
     return PreferenceAccessor(dataStore, key, defaultValue, Mapper.Identity as Mapper<T, T>)
@@ -141,7 +140,7 @@ fun <T> PreferenceAccessor(
 inline fun <reified E : Enum<E>> EnumPreferenceAccessor(
     dataStore: DataStore<Preferences>,
     key: Preferences.Key<String>,
-    defaultValue: E,
+    defaultValue: E
 ): PreferenceAccessor<E, String> {
     val enumMapper = object : Mapper<E, String> {
         override fun toPreference(userValue: E): String = userValue.name

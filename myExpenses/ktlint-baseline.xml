@@ -7335,12 +7335,6 @@
         <error line="89" column="9" source="standard:comment-spacing" />
         <error line="91" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/main/java/org/totschnig/myexpenses/preference/PreferenceAccessor.kt">
-        <error line="49" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="67" column="37" source="standard:trailing-comma-on-declaration-site" />
-        <error line="130" column="20" source="standard:trailing-comma-on-declaration-site" />
-        <error line="144" column="20" source="standard:trailing-comma-on-declaration-site" />
-    </file>
     <file name="src/main/java/org/totschnig/myexpenses/preference/PreferenceDataStore.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="32" column="37" source="standard:comment-spacing" />
