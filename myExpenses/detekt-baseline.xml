@@ -203,7 +203,6 @@
     <ID>ForbiddenComment:ContextualActionBarFragment.kt:ContextualActionBarFragment.&lt;no name provided&gt;$//TODO:should we convert the flat positions here?</ID>
     <ID>ForbiddenComment:ImportSourceDialogFragment.kt:ImportSourceDialogFragment$//TODO: we should not depend on activity implementing MessageDialogListener</ID>
     <ID>ForbiddenComment:TemplatesList.kt:TemplatesList.MyAdapter$// TODO: simplify confer TemplateWidget</ID>
-    <ID>FunctionNaming:BaseTransactionProvider.kt:BaseTransactionProvider.Companion$fun LIVE_ATTACHMENT_SELECTION</ID>
     <ID>FunctionNaming:SyncAdapter.kt:SyncAdapter.Companion$@JvmStatic fun KEY_LAST_SYNCED_LOCAL: String</ID>
     <ID>FunctionNaming:SyncAdapter.kt:SyncAdapter.Companion$@JvmStatic fun KEY_LAST_SYNCED_REMOTE: String</ID>
     <ID>LargeClass:BaseActivity.kt:BaseActivity : AppCompatActivityMessageDialogListenerConfirmationDialogListenerPermissionCallbacksHostContribIFaceOnDialogResultListenerOnSharedPreferenceChangeListenerOcrHost</ID>
@@ -216,6 +215,7 @@
     <ID>LargeClass:MyExpensesV2ViewModel.kt:MyExpensesV2ViewModel : MyExpensesViewModel</ID>
     <ID>LargeClass:PdfPrinter.kt:PdfPrinter</ID>
     <ID>LargeClass:QifParserTest.kt:QifParserTest</ID>
+    <ID>LargeClass:SplitCalculationBugsTest.kt:SplitCalculationBugsTest : BaseTestWithRepository</ID>
     <ID>LargeClass:SyncAdapter.kt:SyncAdapter : AbstractThreadedSyncAdapter</ID>
     <ID>LargeClass:TemplatesList.kt:TemplatesList : SortableListFragmentLoaderCallbacksOnDialogResultListener</ID>
     <ID>LargeClass:TransactionDelegate.kt:TransactionDelegate : OnItemSelectedListener</ID>
@@ -372,6 +372,8 @@
     <ID>LongMethod:SetupSyncDialogFragment.kt:@Composable private fun Account</ID>
     <ID>LongMethod:SetupSyncDialogFragment.kt:SetupSyncDialogFragment$@Composable override fun BuildContent</ID>
     <ID>LongMethod:SplitCalculationBugsTest.kt:SplitCalculationBugsTest$@Before fun setup</ID>
+    <ID>LongMethod:SplitCalculationBugsTest.kt:SplitCalculationBugsTest$@Test fun testGlobalDynamicOverrideWithStaticAccount</ID>
+    <ID>LongMethod:SplitCalculationBugsTest.kt:SplitCalculationBugsTest$@Test fun testGlobalStaticOverrideWithDynamicAccount</ID>
     <ID>LongMethod:SplitCalculationBugsTest.kt:SplitCalculationBugsTest$@Test fun testUpgradeTo193CleansUpExcessiveEquivalentAmounts</ID>
     <ID>LongMethod:SyncAdapter.kt:SyncAdapter$@SuppressLint("MissingPermission") override fun onPerformSync</ID>
     <ID>LongMethod:SyncAdapter.kt:SyncAdapter$@Throws(RemoteException::class) private fun getLocalChanges: List&lt;TransactionChange&gt;</ID>
@@ -742,7 +744,6 @@
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"(select $KEY_BUDGET_ROLLOVER_PREVIOUS from $TABLE_BUDGET_ALLOCATIONS where $KEY_BUDGETID = ? AND $KEY_CATID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?),"</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"(select $KEY_ONE_TIME from $TABLE_BUDGET_ALLOCATIONS where $KEY_BUDGETID = ? AND $KEY_CATID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?))"</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"(select count(distinct $KEY_CURRENCY) from $TABLE_ACCOUNTS WHERE $KEY_EXCLUDE_FROM_TOTALS = 0 AND $KEY_CURRENCY != '$homeCurrency') &gt; 0"</ID>
-    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"0 AS $KEY_CLEARED_TOTAL"</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"CASE WHEN $KEY_DYNAMIC THEN coalesce(market_rate, $KEY_EXCHANGE_RATE) ELSE $KEY_EXCHANGE_RATE END AS $KEY_EXCHANGE_RATE"</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"INSERT INTO $TABLE_ATTRIBUTES ($KEY_ATTRIBUTE_NAME, $KEY_CONTEXT) SELECT ?,? WHERE NOT EXISTS (SELECT 1 FROM $TABLE_ATTRIBUTES WHERE $KEY_ATTRIBUTE_NAME=? AND $KEY_CONTEXT = ? )"</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"INSERT OR REPLACE INTO $TABLE_BUDGET_ALLOCATIONS ($KEY_BUDGETID, $KEY_CATID, $KEY_YEAR, $KEY_SECOND_GROUP, $KEY_BUDGET_ROLLOVER_PREVIOUS, $KEY_BUDGET_ROLLOVER_NEXT, $KEY_BUDGET, $KEY_ONE_TIME) "</ID>
@@ -770,7 +771,6 @@
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$if (withSum) "coalesce((SELECT sum($debtEquivalentSumExpression) FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_EQUIVALENT_SUM" else null</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$if (withSum) "coalesce((SELECT sum($debtSumExpression) FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_SUM" else null</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider.Companion$"exists (SELECT 1 FROM $TABLE_TRANSACTIONS WHERE $KEY_PAYEEID=$tableName.$KEY_ROWID) AS $KEY_MAPPED_TRANSACTIONS"</ID>
-    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider.Companion$(if (withUUIDSelection) " AND $KEY_TRANSACTIONID = (SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?)" else "")</ID>
     <ID>MaxLineLength:BaseViewModel.kt:BaseViewModel$val SharingStarted.Companion.WhileSubscribedWithTimeout: SharingStarted get() = WhileSubscribed(stopTimeoutMillis = 5000)</ID>
     <ID>MaxLineLength:Budget.kt:Budget$Grouping.NONE -&gt; if (start == null || end == null) throw IllegalArgumentException("start and date are required with Grouping.NONE")</ID>
     <ID>MaxLineLength:Budget.kt:Budget$else -&gt; if (start != null || end != null) throw IllegalArgumentException("start and date are only allowed with Grouping.NONE")</ID>
@@ -809,16 +809,12 @@
     <ID>MaxLineLength:DbConstants.kt:" LEFT JOIN $TABLE_PLAN_INSTANCE_STATUS ON $tableName.$KEY_ROWID = $TABLE_PLAN_INSTANCE_STATUS.$KEY_TRANSACTIONID"</ID>
     <ID>MaxLineLength:DbConstants.kt:" SELECT $tableName.*, Tree.$KEY_PATH, Tree.$KEY_ICON, Tree.$KEY_TYPE, $TABLE_PAYEES.$KEY_PAYEE_NAME, $TABLE_PAYEES.$KEY_SHORT_NAME, $TABLE_METHODS.$KEY_LABEL AS $KEY_METHOD_LABEL, $TABLE_METHODS.$KEY_ICON AS $KEY_METHOD_ICON"</ID>
     <ID>MaxLineLength:DbConstants.kt:" WHERE $WHERE_NOT_SPLIT AND ($KEY_PARENTID = $archiveId OR (SELECT $KEY_PARENTID FROM $TABLE_TRANSACTIONS parents WHERE $KEY_ROWID = $VIEW_WITH_ACCOUNT.$KEY_PARENTID) = $archiveId))"</ID>
-    <ID>MaxLineLength:DbConstants.kt:"$CTE_SEARCH AS (SELECT $forTable.*, $KEY_EXCHANGE_RATE, $KEY_EQUIVALENT_AMOUNT, $KEY_AMOUNT AS $KEY_DISPLAY_AMOUNT FROM "</ID>
     <ID>MaxLineLength:DbConstants.kt:"$aggregateFunction(CASE WHEN effective_type = $FLAG_TRANSFER THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_TRANSFERS,"</ID>
     <ID>MaxLineLength:DbConstants.kt:"($KEY_OPENING_BALANCE + coalesce($KEY_CURRENT,0)) * CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN 1 WHEN $dynamicExpression THEN coalesce($CTE_LATEST_RATES.$KEY_VALUE,$KEY_EXCHANGE_RATE) ELSE $KEY_EXCHANGE_RATE END AS $KEY_EQUIVALENT_CURRENT_BALANCE"</ID>
     <ID>MaxLineLength:DbConstants.kt:"($KEY_OPENING_BALANCE + coalesce($KEY_TOTAL,0)) * CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN 1 WHEN $dynamicExpression THEN coalesce($CTE_LATEST_RATES.$KEY_VALUE,$KEY_EXCHANGE_RATE) ELSE $KEY_EXCHANGE_RATE END AS $KEY_EQUIVALENT_TOTAL"</ID>
     <ID>MaxLineLength:DbConstants.kt:",count(CASE WHEN $KEY_CATID &gt; 0 AND $WHERE_NOT_VOID AND effective_type != $FLAG_TRANSFER THEN 1 ELSE null END) as $KEY_MAPPED_CATEGORIES"</ID>
     <ID>MaxLineLength:DbConstants.kt:"CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN $KEY_OPENING_BALANCE ELSE $KEY_OPENING_BALANCE * $KEY_EXCHANGE_RATE END AS $KEY_EQUIVALENT_OPENING_BALANCE"</ID>
     <ID>MaxLineLength:DbConstants.kt:Grouping.MONTH -&gt; "date($dateCol, 'unixepoch', 'localtime', '-${DatabaseConstants.monthStartsOn - 1} day', 'start of month', '+1 month', '-1 day', '+${DatabaseConstants.monthStartsOn - 1} day')"</ID>
-    <ID>MaxLineLength:DbConstants.kt:KEY_SUM_EXPENSES -&gt; "(SELECT $sumExpression FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_TYPE = $FLAG_EXPENSE) AS $KEY_SUM_EXPENSES"</ID>
-    <ID>MaxLineLength:DbConstants.kt:KEY_SUM_INCOME -&gt; "(SELECT $sumExpression FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_TYPE = $FLAG_INCOME) AS $KEY_SUM_INCOME"</ID>
-    <ID>MaxLineLength:DbConstants.kt:else -&gt; if (breakdownByAccount) "$KEY_YEAR, $KEY_SECOND_GROUP, $KEY_ACCOUNTID" else "$KEY_YEAR, $KEY_SECOND_GROUP"</ID>
     <ID>MaxLineLength:Debt.kt:amount = if (showEquivalentAmount.value) transaction.equivalentAmount else transaction.amount</ID>
     <ID>MaxLineLength:DebtActivity.kt:DebtActivity$(supportFragmentManager.findFragmentByTag(PartiesList.DIALOG_DEBT_DETAILS) as? DebtDetailsDialogFragment)?.dismiss()</ID>
     <ID>MaxLineLength:DeepLinkActivity.kt:DeepLinkActivity$if</ID>
@@ -1761,7 +1757,7 @@
     <ID>TooGenericExceptionThrown:AppDirHelper.kt:AppDirHelper$throw Exception("no not-null value found in getExternalFilesDirs")</ID>
     <ID>TooGenericExceptionThrown:BaseTransactionProvider.kt:BaseTransactionProvider$throw Exception("Missing transaction id")</ID>
     <ID>TooGenericExceptionThrown:BaseTransactionProvider.kt:BaseTransactionProvider$throw Exception("Missing uuid")</ID>
-    <ID>TooGenericExceptionThrown:BaseTransactionProvider.kt:BaseTransactionProvider$throw Throwable( "Unable to copy file from " + (if (copyPrefSuccess) preferencesDataStoreFile else sharedPrefFile).path + " to " + (if (copyPrefSuccess) backupDataStoreFile else backupPrefFile).path )</ID>
+    <ID>TooGenericExceptionThrown:BaseTransactionProvider.kt:BaseTransactionProvider$throw Throwable("Unable to copy file from $path1 to $path2")</ID>
     <ID>TooGenericExceptionThrown:BaseTransactionProvider.kt:BaseTransactionProvider$throw Throwable(message)</ID>
     <ID>TooGenericExceptionThrown:DataModule.kt:DataModule$throw Throwable( "Updating from database schema version 132 or 133 is no longer supported. Please contact support@myexpenses.mobi for assistance." )</ID>
     <ID>TooGenericExceptionThrown:DataModule.kt:DataModule$throw Throwable( context.getString( R.string.restore_cannot_downgrade, it, DATABASE_VERSION ) )</ID>
@@ -1865,7 +1861,6 @@
     <ID>TopLevelPropertyNaming:Budget.kt:const val labelFraction = 0.35f</ID>
     <ID>TopLevelPropertyNaming:Budget.kt:const val numberFraction = 0.2f</ID>
     <ID>TopLevelPropertyNaming:DbConstants.kt:/** * we check if the object is linked to a sealed debt. * This can be used for queries that also include parts, where we do not need to include the parts here */ const val checkForSealedDebt = "coalesce((SELECT $KEY_SEALED FROM $TABLE_DEBTS WHERE $KEY_ROWID = $KEY_DEBT_ID), 0)"</ID>
-    <ID>TopLevelPropertyNaming:DbConstants.kt:const val accountWithTypeAndFlag = "$TABLE_ACCOUNTS LEFT JOIN $TABLE_ACCOUNT_TYPES ON $KEY_TYPE = $TABLE_ACCOUNT_TYPES.$KEY_ROWID LEFT JOIN $TABLE_ACCOUNT_FLAGS ON $KEY_FLAG = $TABLE_ACCOUNT_FLAGS.$KEY_ROWID"</ID>
     <ID>TopLevelPropertyNaming:DbConstants.kt:const val categoryTreeSelectForTrigger = """ WITH Tree AS ( SELECT $KEY_ROWID, $KEY_PARENTID, 1 AS $KEY_LEVEL FROM $TABLE_CATEGORIES main WHERE $KEY_ROWID= new.$KEY_ROWID UNION ALL SELECT subtree.$KEY_ROWID, subtree.$KEY_PARENTID, level + 1 FROM $TABLE_CATEGORIES subtree JOIN Tree ON Tree.$KEY_ROWID = subtree.$KEY_PARENTID ORDER BY $KEY_LEVEL DESC ) SELECT $KEY_ROWID From Tree """</ID>
     <ID>TopLevelPropertyNaming:MyExpensesViewModel.kt:const val pageSize = 150</ID>
     <ID>TopLevelPropertyNaming:QifReduceTransfersTest.kt:const val account1 = "Konto 1"</ID>

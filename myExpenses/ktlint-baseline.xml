@@ -7298,16 +7298,11 @@
         <error line="334" column="100" source="standard:max-line-length" />
         <error line="336" column="100" source="standard:max-line-length" />
         <error line="338" column="100" source="standard:max-line-length" />
-        <error line="468" column="13" source="standard:function-naming" />
-        <error line="469" column="101" source="standard:max-line-length" />
-        <error line="470" column="101" source="standard:max-line-length" />
-        <error line="864" column="101" source="standard:max-line-length" />
-        <error line="961" column="101" source="standard:max-line-length" />
-        <error line="1083" column="101" source="standard:max-line-length" />
-        <error line="1215" column="101" source="standard:max-line-length" />
-        <error line="1353" column="101" source="standard:max-line-length" />
-        <error line="1372" column="101" source="standard:max-line-length" />
-        <error line="1391" column="101" source="standard:max-line-length" />
+        <error line="1232" column="101" source="standard:max-line-length" />
+        <error line="1232" column="104" source="standard:binary-expression-wrapping" />
+        <error line="1370" column="101" source="standard:max-line-length" />
+        <error line="1389" column="101" source="standard:max-line-length" />
+        <error line="1408" column="101" source="standard:max-line-length" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/provider/ChangeLogTriggers.kt">
         <error line="126" column="5" source="standard:comment-spacing" />
@@ -7366,21 +7361,9 @@
         <error line="113" column="11" source="standard:property-naming" />
         <error line="138" column="11" source="standard:property-naming" />
         <error line="169" column="101" source="standard:max-line-length" />
-        <error line="534" column="101" source="standard:max-line-length" />
-        <error line="667" column="101" source="standard:max-line-length" />
-        <error line="775" column="11" source="standard:property-naming" />
-        <error line="914" column="101" source="standard:max-line-length" />
-        <error line="1026" column="101" source="standard:max-line-length" />
-        <error line="1084" column="101" source="standard:max-line-length" />
-        <error line="1085" column="101" source="standard:max-line-length" />
-        <error line="1122" column="171" source="standard:paren-spacing" />
-        <error line="1123" column="19" source="standard:argument-list-wrapping" />
-        <error line="1123" column="30" source="standard:wrapping" />
-        <error line="1123" column="31" source="standard:argument-list-wrapping" />
-        <error line="1124" column="1" source="standard:comment-spacing" />
-        <error line="1149" column="101" source="standard:max-line-length" />
-        <error line="1150" column="101" source="standard:max-line-length" />
-        <error line="1151" column="101" source="standard:max-line-length" />
+        <error line="1202" column="101" source="standard:max-line-length" />
+        <error line="1203" column="101" source="standard:max-line-length" />
+        <error line="1204" column="101" source="standard:max-line-length" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/provider/MoreDbUtils.kt">
         <error line="3" column="1" source="standard:import-ordering" />

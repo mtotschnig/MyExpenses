@@ -2,7 +2,9 @@ package org.totschnig.myexpenses.provider
 
 import android.content.ContentUris
 import android.content.ContentValues
+import androidx.datastore.preferences.core.edit
 import java.time.LocalDate
+import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -18,6 +20,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model2.Category
+import org.totschnig.myexpenses.preference.dynamicExchangeRatesDefaultKey
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
@@ -482,6 +485,307 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
             movesToFirst()
             // Must return trans's OWN stored equivalent amount (-7000), NOT calculated from archive parent
             hasLong(0, -7000)
+        }
+    }
+
+    /**
+     * Tests global DYNAMIC setting override on a static account (dynamic = false).
+     * With global setting DYNAMIC, even static accounts use dynamic calculations based on
+     * stored equivalent amounts (split proportion: -20000 * 60/100 = -12000 USD) instead of
+     * fixed rate results (1.50 * -6000 = -9000 USD).
+     * Checks all 4 code paths:
+     * 1. Home-equivalent projection (KEY_AMOUNT_HOME_EQUIVALENT on EXTENDED_URI)
+     * 2. Grouped totals (groupingUriBuilder)
+     * 3. Transaction sums (TRANSACTIONS_SUM_URI)
+     * 4. Debt calculations (DEBTS_URI)
+     */
+    @Test
+    fun testGlobalDynamicOverrideWithStaticAccount() {
+        runBlocking {
+            dataStore.edit {
+                it[dynamicExchangeRatesDefaultKey] = "DYNAMIC"
+            }
+        }
+        try {
+            val staticAccountId =
+                insertAccount("Static EUR Test Account", currency = "EUR", dynamic = false)
+            val split = repository.createSplitTransaction(
+                Transaction(
+                    accountId = staticAccountId,
+                    amount = -10000,
+                    categoryId = SPLIT_CATID,
+                    equivalentAmount = -20000,
+                    uuid = generateUuid()
+                ),
+                listOf(
+                    Transaction(
+                        accountId = staticAccountId,
+                        amount = -6000,
+                        categoryId = expenseCategory1,
+                        equivalentAmount = -12000,
+                        uuid = generateUuid()
+                    ),
+                    Transaction(
+                        accountId = staticAccountId,
+                        amount = -4000,
+                        categoryId = expenseCategory2,
+                        equivalentAmount = -8000,
+                        uuid = generateUuid()
+                    )
+                )
+            )
+            val staticPart1Id = split.splitParts!![0].data.id
+
+            val db =
+                (
+                    contentResolver.acquireContentProviderClient(
+                        TransactionProvider.AUTHORITY
+                    )!!.localContentProvider as TransactionProvider
+                    ).openHelperForTest.writableDatabase
+            db.insert(
+                TABLE_ACCOUNT_EXCHANGE_RATES,
+                android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE,
+                ContentValues(4).apply {
+                    put(KEY_ACCOUNTID, staticAccountId)
+                    put(KEY_CURRENCY_SELF, "EUR")
+                    put(KEY_CURRENCY_OTHER, "USD")
+                    put(KEY_EXCHANGE_RATE, 1.50)
+                }
+            )
+
+            val staticDebtId = ContentUris.parseId(
+                contentResolver.insert(
+                    TransactionProvider.DEBTS_URI,
+                    Debt(
+                        0,
+                        "Static Account Debt",
+                        "",
+                        payeeId,
+                        100000,
+                        CurrencyUnit.DebugInstance,
+                        System.currentTimeMillis() / 1000
+                    ).toContentValues()
+                )!!
+            )
+            contentResolver.update(
+                TransactionProvider.TRANSACTIONS_URI,
+                ContentValues(1).apply { put(KEY_DEBT_ID, staticDebtId) },
+                "$KEY_ROWID = ?",
+                arrayOf(staticPart1Id.toString())
+            )
+
+            // 1. Home-equivalent projection for split part 1
+            contentResolver.query(
+                TransactionProvider.EXTENDED_URI,
+                arrayOf(KEY_AMOUNT_HOME_EQUIVALENT),
+                "$KEY_ROWID = ?",
+                arrayOf(staticPart1Id.toString()),
+                null
+            ).useAndAssert {
+                hasCount(1)
+                movesToFirst()
+                hasLong(0, -12000)
+            }
+
+            // 2. Grouped totals
+            val groupUri = BaseTransactionProvider.groupingUriBuilder(Grouping.NONE).build()
+            contentResolver.query(
+                groupUri,
+                null,
+                "$KEY_ACCOUNTID = $staticAccountId",
+                null,
+                null
+            ).useAndAssert {
+                hasCount(1)
+                movesToFirst()
+                hasLong(actual.getColumnIndexOrThrow(KEY_SUM_EXPENSES), -20000)
+            }
+
+            // 3. Transaction sums
+            val sumUri = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
+                .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_AGGREGATE_NEUTRAL, "true")
+                .build()
+            contentResolver.query(
+                sumUri,
+                arrayOf(KEY_SUM_EXPENSES),
+                "$KEY_ACCOUNTID = $staticAccountId",
+                null,
+                null
+            ).useAndAssert {
+                hasCount(1)
+                movesToFirst()
+                hasLong(0, -20000)
+            }
+
+            // 4. Debt calculations
+            val debtUri = TransactionProvider.DEBTS_URI.buildUpon().build()
+            contentResolver.query(
+                debtUri,
+                null,
+                "$TABLE_DEBTS.$KEY_ROWID = ?",
+                arrayOf(staticDebtId.toString()),
+                null
+            ).useAndAssert {
+                hasCount(1)
+                movesToFirst()
+                hasLong(actual.getColumnIndexOrThrow(KEY_EQUIVALENT_SUM), -12000)
+            }
+        } finally {
+            runBlocking {
+                dataStore.edit {
+                    it.remove(dynamicExchangeRatesDefaultKey)
+                }
+            }
+        }
+    }
+
+    /**
+     * Tests global STATIC setting override on a dynamic account (dynamic = true).
+     * With global setting STATIC, even dynamic accounts ignore stored equivalent amounts and
+     * use fixed exchange rate results (1.50 * -6000 = -9000 USD, 1.50 * -10000 = -15000 USD).
+     * Checks all 4 code paths:
+     * 1. Home-equivalent projection (KEY_AMOUNT_HOME_EQUIVALENT on EXTENDED_URI)
+     * 2. Grouped totals (groupingUriBuilder)
+     * 3. Transaction sums (TRANSACTIONS_SUM_URI)
+     * 4. Debt calculations (DEBTS_URI)
+     */
+    @Test
+    fun testGlobalStaticOverrideWithDynamicAccount() {
+        runBlocking {
+            dataStore.edit {
+                it[dynamicExchangeRatesDefaultKey] = "STATIC"
+            }
+        }
+        try {
+            val dynamicAccountId =
+                insertAccount("Dynamic EUR Test Account", currency = "EUR", dynamic = true)
+            val split = repository.createSplitTransaction(
+                Transaction(
+                    accountId = dynamicAccountId,
+                    amount = -10000,
+                    categoryId = SPLIT_CATID,
+                    equivalentAmount = -20000,
+                    uuid = generateUuid()
+                ),
+                listOf(
+                    Transaction(
+                        accountId = dynamicAccountId,
+                        amount = -6000,
+                        categoryId = expenseCategory1,
+                        equivalentAmount = -12000,
+                        uuid = generateUuid()
+                    ),
+                    Transaction(
+                        accountId = dynamicAccountId,
+                        amount = -4000,
+                        categoryId = expenseCategory2,
+                        equivalentAmount = -8000,
+                        uuid = generateUuid()
+                    )
+                )
+            )
+            val dynamicPart1Id = split.splitParts!![0].data.id
+
+            val db =
+                (
+                    contentResolver.acquireContentProviderClient(
+                        TransactionProvider.AUTHORITY
+                    )!!.localContentProvider as TransactionProvider
+                    ).openHelperForTest.writableDatabase
+            db.insert(
+                TABLE_ACCOUNT_EXCHANGE_RATES,
+                android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE,
+                ContentValues(4).apply {
+                    put(KEY_ACCOUNTID, dynamicAccountId)
+                    put(KEY_CURRENCY_SELF, "EUR")
+                    put(KEY_CURRENCY_OTHER, "USD")
+                    put(KEY_EXCHANGE_RATE, 1.50)
+                }
+            )
+
+            val dynamicDebtId = ContentUris.parseId(
+                contentResolver.insert(
+                    TransactionProvider.DEBTS_URI,
+                    Debt(
+                        0,
+                        "Dynamic Account Debt",
+                        "",
+                        payeeId,
+                        100000,
+                        CurrencyUnit.DebugInstance,
+                        System.currentTimeMillis() / 1000
+                    ).toContentValues()
+                )!!
+            )
+            contentResolver.update(
+                TransactionProvider.TRANSACTIONS_URI,
+                ContentValues(1).apply { put(KEY_DEBT_ID, dynamicDebtId) },
+                "$KEY_ROWID = ?",
+                arrayOf(dynamicPart1Id.toString())
+            )
+
+            // 1. Home-equivalent projection for split part 1
+            contentResolver.query(
+                TransactionProvider.EXTENDED_URI,
+                arrayOf(KEY_AMOUNT_HOME_EQUIVALENT),
+                "$KEY_ROWID = ?",
+                arrayOf(dynamicPart1Id.toString()),
+                null
+            ).useAndAssert {
+                hasCount(1)
+                movesToFirst()
+                hasLong(0, -9000)
+            }
+
+            // 2. Grouped totals
+            val groupUri = BaseTransactionProvider.groupingUriBuilder(Grouping.NONE).build()
+            contentResolver.query(
+                groupUri,
+                null,
+                "$KEY_ACCOUNTID = $dynamicAccountId",
+                null,
+                null
+            ).useAndAssert {
+                hasCount(1)
+                movesToFirst()
+                hasLong(actual.getColumnIndexOrThrow(KEY_SUM_EXPENSES), -15000)
+            }
+
+            // 3. Transaction sums
+            val sumUri = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
+                .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_AGGREGATE_NEUTRAL, "true")
+                .build()
+            contentResolver.query(
+                sumUri,
+                arrayOf(KEY_SUM_EXPENSES),
+                "$KEY_ACCOUNTID = $dynamicAccountId",
+                null,
+                null
+            ).useAndAssert {
+                hasCount(1)
+                movesToFirst()
+                hasLong(0, -15000)
+            }
+
+            // 4. Debt calculations
+            val debtUri = TransactionProvider.DEBTS_URI.buildUpon().build()
+            contentResolver.query(
+                debtUri,
+                null,
+                "$TABLE_DEBTS.$KEY_ROWID = ?",
+                arrayOf(dynamicDebtId.toString()),
+                null
+            ).useAndAssert {
+                hasCount(1)
+                movesToFirst()
+                hasLong(actual.getColumnIndexOrThrow(KEY_EQUIVALENT_SUM), -9000)
+            }
+        } finally {
+            runBlocking {
+                dataStore.edit {
+                    it.remove(dynamicExchangeRatesDefaultKey)
+                }
+            }
         }
     }
 }

@@ -157,7 +157,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLI
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_RELATED;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.CATEGORY_DEPTH_QUERY;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.CTE_SEARCH;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.accountWithTypeAndFlag;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.ACCOUNT_TYPE_WITH_FLAG;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.amountCteForDebts;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetAllocation;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.buildSearchCte;
@@ -482,7 +482,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           String selector = transactionQuerySelector(uri, CTE_SEARCH);
           selection = TextUtils.isEmpty(selection) ? selector : (TextUtils.isEmpty(selector) ? selection : (selection + " AND " + selector));
           projection = prepareProjectionForTransactions(projection, CTE_SEARCH, uri.getBooleanQueryParameter(QUERY_PARAMETER_SHORTEN_COMMENT, false), false);
-          String sql = transactionListAsCTE(forCatId, forHome  ? getHomeCurrency() : null) + " " + SupportSQLiteQueryBuilder.builder(CTE_SEARCH).columns(projection)
+          String sql = transactionListAsCTE(forCatId, forHome  ? getHomeCurrency() : null, getDynamicExchangeRatesDefault()) + " " + SupportSQLiteQueryBuilder.builder(CTE_SEARCH).columns(projection)
                   .selection(computeWhere(selection, KEY_CATID + " IN (SELECT " + KEY_ROWID + " FROM Tree )"), selectionArgs).groupBy(groupBy)
                   .orderBy(sortOrder).create().getSql();
           c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);
@@ -490,7 +490,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
         String tableForQueryBuilder;
         if (hasSearch) {
-            cte = buildSearchCte(table, getHomeCurrency(), forHome);
+            cte = buildSearchCte(table, getHomeCurrency(), getDynamicExchangeRatesDefault(), forHome);
             table = CTE_SEARCH;
             tableForQueryBuilder = CTE_SEARCH;
         } else {
@@ -519,7 +519,8 @@ public class TransactionProvider extends BaseTransactionProvider {
                 selection,
                 getTypeWithFallBack(),
                 aggregateFunction,
-                getHomeCurrency()
+                getHomeCurrency(),
+                getDynamicExchangeRatesDefault()
         );
         c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);
         return c;
@@ -547,6 +548,7 @@ public class TransactionProvider extends BaseTransactionProvider {
                   categoryTreeWithSum(
                           aggregateFunction,
                           currencyContext.getHomeCurrencyString(),
+                          getDynamicExchangeRatesDefault(),
                           sortOrder,
                           selection,
                           projection,
@@ -629,7 +631,7 @@ public class TransactionProvider extends BaseTransactionProvider {
                     Sort.Companion.preferredOrderByForAccounts(PrefKey.SORT_ORDER_ACCOUNTS, prefHandler, Sort.LABEL, getCollate(), TABLE_ACCOUNTS);
             sortOrder = KEY_FLAG_SORT_KEY + " DESC, " + sortOrder;
           }
-          qb = SupportSQLiteQueryBuilder.builder(minimal ? accountWithTypeAndFlag : getAccountsWithExchangeRate());
+          qb = SupportSQLiteQueryBuilder.builder(minimal ? ACCOUNT_TYPE_WITH_FLAG : getAccountsWithExchangeRate());
           if (projection == null) {
               projection =  org.totschnig.myexpenses.model2.Account.Companion.getProjection(minimal);
           }
@@ -940,7 +942,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       case DEBTS: {
         String date = uri.getQueryParameter(KEY_DATE);
         String dateExpression = date != null ? "cast(strftime('%s', '" + date + "', 'localtime', 'start of day', '+1 day', '-1 second', 'utc') as integer)" : null;
-        cte = amountCteForDebts(getHomeCurrency(), dateExpression);
+        cte = amountCteForDebts(getHomeCurrency(), getDynamicExchangeRatesDefault(), dateExpression);
         if (dateExpression != null) {
           additionalWhere.append(KEY_DATE).append(" <= ").append(dateExpression);
         }
@@ -976,7 +978,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         qb = SupportSQLiteQueryBuilder.builder(TABLE_ATTACHMENTS);
         if (selection == null) {
           String uuidSelection = uri.getQueryParameter(KEY_UUID);
-          selection = Companion.LIVE_ATTACHMENT_SELECTION(uuidSelection != null);
+          selection = Companion.liveAttachmentSelection(uuidSelection != null);
           selectionArgs = uuidSelection != null ? new String[]{uuidSelection} : null;
         }
         break;
