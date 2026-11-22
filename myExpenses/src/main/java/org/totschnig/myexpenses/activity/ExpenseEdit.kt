@@ -640,14 +640,8 @@ open class ExpenseEdit :
             showPicturePopupMenu(view, R.menu.create_attachment_options) { item ->
                 trackCommand(item.itemId)
                 when (item.itemId) {
-                    R.id.PHOTO_COMMAND -> if (featureViewModel.isFeatureAvailable(
-                            this,
-                            Feature.CAPTURE
-                        )
-                    ) {
+                    R.id.PHOTO_COMMAND -> featureViewModel.requireFeature(this, Feature.CAPTURE) {
                         startCapture()
-                    } else {
-                        featureViewModel.requestFeature(this, Feature.CAPTURE)
                     }
 
                     R.id.ATTACH_COMMAND -> try {
