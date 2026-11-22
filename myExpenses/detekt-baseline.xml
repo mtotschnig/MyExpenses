@@ -690,11 +690,7 @@
     <ID>MaxLineLength:Archive.kt:"UPDATE $TABLE_TRANSACTIONS SET $KEY_PARENTID = null, $KEY_STATUS = $STATUS_NONE WHERE $KEY_PARENTID = $rowIdSubSelect "</ID>
     <ID>MaxLineLength:Archive.kt://If we archive a cash account, where we find multiple states (which can happen when user updates account type),</ID>
     <ID>MaxLineLength:Archive.kt:query(TABLE_ACCOUNT_TYPES, null, "$KEY_ROWID = (SELECT $KEY_TYPE FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = ?)", arrayOf(accountId))</ID>
-    <ID>MaxLineLength:BaseMyExpenses.kt:BaseMyExpenses$AccountGrouping.FLAG -&gt; it.flag.let { it.title(this@BaseMyExpenses) to it.id }</ID>
-    <ID>MaxLineLength:BaseMyExpenses.kt:BaseMyExpenses$AccountGrouping.TYPE -&gt; it.type.let { it.title(this@BaseMyExpenses) to it.id }</ID>
-    <ID>MaxLineLength:BaseMyExpenses.kt:BaseMyExpenses$futureCriterion = viewModel.futureCriterion.collectAsState(initial = FutureCriterion.EndOfDay).value</ID>
-    <ID>MaxLineLength:BaseMyExpenses.kt:BaseMyExpenses$is SQLiteDowngradeFailedException -&gt; "Database cannot be downgraded from a newer version. Please either uninstall MyExpenses, before reinstalling, or upgrade to a new version." to true</ID>
-    <ID>MaxLineLength:BaseMyExpenses.kt:BaseMyExpenses$message = getString(R.string.warning_link_transfer) + " " + getString(R.string.continue_confirmation)</ID>
+    <ID>MaxLineLength:BaseMyExpenses.kt:BaseMyExpenses$"Database cannot be downgraded from a newer version. Please either uninstall MyExpenses, before reinstalling, or upgrade to a new version."</ID>
     <ID>MaxLineLength:BasePreferenceIOBRFragmentTest.kt:BasePreferenceIOBRFragmentTest$assertThat(BasePreferenceIOBRFragment.isHttpUrlWithoutCredentials("http://user:pass@example.com/upload")).isFalse()</ID>
     <ID>MaxLineLength:BaseTransactionDatabase.kt:BaseTransactionDatabase$" LEFT JOIN $TABLE_PLAN_INSTANCE_STATUS ON $tableName.$KEY_ROWID = $TABLE_PLAN_INSTANCE_STATUS.$KEY_TRANSACTIONID"</ID>
     <ID>MaxLineLength:BaseTransactionDatabase.kt:BaseTransactionDatabase$", Tree.$KEY_PATH, Tree.$KEY_ICON, Tree.$KEY_TYPE, $KEY_COLOR, $KEY_CURRENCY, $KEY_SEALED, $KEY_EXCLUDE_FROM_TOTALS, $KEY_DYNAMIC, $KEY_IS_PORTFOLIO"</ID>
