@@ -2502,7 +2502,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     fun SupportSQLiteDatabase.insertOrReplaceEquivalentAmount(
         transactionId: Long,
         equivalentAmount: Long?
-    ) = if (isEligibleForEquivalentAmount(transactionId)) {
+    ) = if (equivalentAmount == null || isEligibleForEquivalentAmount(transactionId)) {
         val whereClause = "$KEY_TRANSACTIONID = ? AND $KEY_CURRENCY = ?"
         val whereArgs = arrayOf<Any>(transactionId, homeCurrency)
         if (equivalentAmount == null) {
