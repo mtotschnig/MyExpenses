@@ -215,6 +215,7 @@
     <ID>LargeClass:MyExpensesV2ViewModel.kt:MyExpensesV2ViewModel : MyExpensesViewModel</ID>
     <ID>LargeClass:PdfPrinter.kt:PdfPrinter</ID>
     <ID>LargeClass:QifParserTest.kt:QifParserTest</ID>
+    <ID>LargeClass:SplitCalculationBugsTest.kt:SplitCalculationBugsTest : BaseTestWithRepository</ID>
     <ID>LargeClass:SyncAdapter.kt:SyncAdapter : AbstractThreadedSyncAdapter</ID>
     <ID>LargeClass:TemplatesList.kt:TemplatesList : SortableListFragmentLoaderCallbacksOnDialogResultListener</ID>
     <ID>LargeClass:TransactionDelegate.kt:TransactionDelegate : OnItemSelectedListener</ID>
@@ -371,6 +372,8 @@
     <ID>LongMethod:SetupSyncDialogFragment.kt:@Composable private fun Account</ID>
     <ID>LongMethod:SetupSyncDialogFragment.kt:SetupSyncDialogFragment$@Composable override fun BuildContent</ID>
     <ID>LongMethod:SplitCalculationBugsTest.kt:SplitCalculationBugsTest$@Before fun setup</ID>
+    <ID>LongMethod:SplitCalculationBugsTest.kt:SplitCalculationBugsTest$@Test fun testGlobalDynamicOverrideWithStaticAccount</ID>
+    <ID>LongMethod:SplitCalculationBugsTest.kt:SplitCalculationBugsTest$@Test fun testGlobalStaticOverrideWithDynamicAccount</ID>
     <ID>LongMethod:SplitCalculationBugsTest.kt:SplitCalculationBugsTest$@Test fun testUpgradeTo193CleansUpExcessiveEquivalentAmounts</ID>
     <ID>LongMethod:SyncAdapter.kt:SyncAdapter$@SuppressLint("MissingPermission") override fun onPerformSync</ID>
     <ID>LongMethod:SyncAdapter.kt:SyncAdapter$@Throws(RemoteException::class) private fun getLocalChanges: List&lt;TransactionChange&gt;</ID>
