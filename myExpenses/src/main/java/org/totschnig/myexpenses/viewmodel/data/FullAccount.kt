@@ -340,7 +340,7 @@ data class FullAccount(
                 parentId = getLongIfExists(KEY_PARENTID),
                 isVisible = getBooleanIfExists(KEY_VISIBLE) ?: true,
                 portfolioRole = portfolioRole,
-                //in V2 this is only called for real accounts, in V1 we need to set isSingleCurrency to false for home aggregate
+                // in V2 this is only called for real accounts, in V1 we need to set isSingleCurrency to false for home aggregate
                 isSingleCurrency = !isHomeAggregate(id)
             )
         }

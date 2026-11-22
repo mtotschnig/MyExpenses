@@ -2139,6 +2139,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         upgradeTo192(db);
       }
 
+      if (oldVersion < 193) {
+        upgradeTo193(db);
+      }
+
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
       throw new SQLiteUpgradeFailedException(oldVersion, newVersion, e);
