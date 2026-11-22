@@ -7289,25 +7289,25 @@
         <error line="1137" column="101" source="standard:max-line-length" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/provider/BaseTransactionProvider.kt">
+        <error line="302" column="101" source="standard:max-line-length" />
         <error line="303" column="101" source="standard:max-line-length" />
-        <error line="304" column="101" source="standard:max-line-length" />
-        <error line="309" column="101" source="standard:max-line-length" />
-        <error line="312" column="101" source="standard:max-line-length" />
-        <error line="331" column="101" source="standard:max-line-length" />
-        <error line="333" column="100" source="standard:max-line-length" />
-        <error line="335" column="100" source="standard:max-line-length" />
-        <error line="337" column="100" source="standard:max-line-length" />
-        <error line="339" column="100" source="standard:max-line-length" />
-        <error line="469" column="13" source="standard:function-naming" />
+        <error line="308" column="101" source="standard:max-line-length" />
+        <error line="311" column="101" source="standard:max-line-length" />
+        <error line="330" column="101" source="standard:max-line-length" />
+        <error line="332" column="100" source="standard:max-line-length" />
+        <error line="334" column="100" source="standard:max-line-length" />
+        <error line="336" column="100" source="standard:max-line-length" />
+        <error line="338" column="100" source="standard:max-line-length" />
+        <error line="468" column="13" source="standard:function-naming" />
+        <error line="469" column="101" source="standard:max-line-length" />
         <error line="470" column="101" source="standard:max-line-length" />
-        <error line="471" column="101" source="standard:max-line-length" />
-        <error line="865" column="101" source="standard:max-line-length" />
-        <error line="962" column="101" source="standard:max-line-length" />
-        <error line="1084" column="101" source="standard:max-line-length" />
-        <error line="1216" column="101" source="standard:max-line-length" />
-        <error line="1354" column="101" source="standard:max-line-length" />
-        <error line="1373" column="101" source="standard:max-line-length" />
-        <error line="1392" column="101" source="standard:max-line-length" />
+        <error line="864" column="101" source="standard:max-line-length" />
+        <error line="961" column="101" source="standard:max-line-length" />
+        <error line="1083" column="101" source="standard:max-line-length" />
+        <error line="1215" column="101" source="standard:max-line-length" />
+        <error line="1353" column="101" source="standard:max-line-length" />
+        <error line="1372" column="101" source="standard:max-line-length" />
+        <error line="1391" column="101" source="standard:max-line-length" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/provider/ChangeLogTriggers.kt">
         <error line="126" column="5" source="standard:comment-spacing" />

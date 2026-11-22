@@ -12,7 +12,6 @@ import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteDatabase.CONFLICT_IGNORE
 import android.database.sqlite.SQLiteDatabase.CONFLICT_NONE
 import android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE
-import android.database.sqlite.SQLiteDoneException
 import android.net.Uri
 import android.os.Bundle
 import androidx.core.database.getIntOrNull
@@ -2418,33 +2417,35 @@ abstract class BaseTransactionProvider : ContentProvider() {
         }
     }
 
-    fun SupportSQLiteDatabase.isEligibleForEquivalentAmount(transactionId: Long): Boolean {
-        val sql =
-            "SELECT 1 FROM $TABLE_TRANSACTIONS JOIN $TABLE_ACCOUNTS ON $TABLE_TRANSACTIONS.$KEY_ACCOUNTID = $TABLE_ACCOUNTS.$KEY_ROWID WHERE $TABLE_TRANSACTIONS.$KEY_ROWID = ? AND $TABLE_TRANSACTIONS.$KEY_PARENTID IS NULL AND $TABLE_ACCOUNTS.$KEY_CURRENCY != ? AND $TABLE_ACCOUNTS.$KEY_DYNAMIC = 1"
-        return compileStatement(sql).use {
+    fun SupportSQLiteDatabase.isEligibleForEquivalentAmount(transactionId: Long) =
+        compileStatement(
+            """SELECT COUNT(*) FROM $TABLE_TRANSACTIONS JOIN $TABLE_ACCOUNTS ON
+            |$TABLE_TRANSACTIONS.$KEY_ACCOUNTID = $TABLE_ACCOUNTS.$KEY_ROWID
+            |WHERE $TABLE_TRANSACTIONS.$KEY_ROWID = ? AND $TABLE_TRANSACTIONS.$KEY_PARENTID IS NULL
+            |AND $TABLE_ACCOUNTS.$KEY_CURRENCY != ? AND $TABLE_ACCOUNTS.$KEY_DYNAMIC = 1"""
+                .trimMargin()
+        ).use {
             it.bindLong(1, transactionId)
             it.bindString(2, homeCurrency)
-            try {
-                it.simpleQueryForLong() == 1L
-            } catch (_: SQLiteDoneException) {
-                false
-            }
+            it.simpleQueryForLong() > 0L
         }
-    }
 
     fun SupportSQLiteDatabase.insertEquivalentAmount(
         transactionId: Long,
         equivalentAmount: Long
     ) {
-        if (!isEligibleForEquivalentAmount(transactionId)) return
-        insert(
-            TABLE_EQUIVALENT_AMOUNTS,
-            ContentValues(3).apply {
-                put(KEY_EQUIVALENT_AMOUNT, equivalentAmount)
-                put(KEY_TRANSACTIONID, transactionId)
-                put(KEY_CURRENCY, homeCurrency)
-            }
-        )
+        if (isEligibleForEquivalentAmount(transactionId)) {
+            insert(
+                TABLE_EQUIVALENT_AMOUNTS,
+                ContentValues(3).apply {
+                    put(KEY_EQUIVALENT_AMOUNT, equivalentAmount)
+                    put(KEY_TRANSACTIONID, transactionId)
+                    put(KEY_CURRENCY, homeCurrency)
+                }
+            )
+        } else {
+            report(IllegalArgumentException("Trying o insert unnecessary equivalent amount"))
+        }
     }
 
     /**
@@ -2500,10 +2501,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
     fun SupportSQLiteDatabase.insertOrReplaceEquivalentAmount(
         transactionId: Long,
         equivalentAmount: Long?
-    ): Int {
+    ) = if (isEligibleForEquivalentAmount(transactionId)) {
         val whereClause = "$KEY_TRANSACTIONID = ? AND $KEY_CURRENCY = ?"
         val whereArgs = arrayOf<Any>(transactionId, homeCurrency)
-        return if (equivalentAmount == null || !isEligibleForEquivalentAmount(transactionId)) {
+        if (equivalentAmount == null) {
             delete(
                 TABLE_EQUIVALENT_AMOUNTS,
                 whereClause,
@@ -2524,6 +2525,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 1
             }
         }
+    } else {
+        report(IllegalArgumentException("Trying o insert unnecessary equivalent amount"))
+        0
     }
 
     fun SupportSQLiteDatabase.insertOrReplaceEquivalentAmount(
