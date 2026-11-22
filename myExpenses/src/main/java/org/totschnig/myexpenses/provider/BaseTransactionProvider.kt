@@ -340,7 +340,13 @@ abstract class BaseTransactionProvider : ContentProvider() {
             KEY_SEALED -> checkSealedWithAlias(table)
 
             KEY_DISPLAY_AMOUNT -> if (expandDisplayAmount) {
-                "${getAmountHomeEquivalent(table, homeCurrency)} AS $it"
+                "${
+                    getAmountHomeEquivalent(
+                        table,
+                        homeCurrency,
+                        dynamicExchangeRatesDefault
+                    )
+                } AS $it"
             } else {
                 it
             }
@@ -355,7 +361,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 MAX(${checkForSealedAccount(table, TABLE_TRANSACTIONS, true)})
             """.trimIndent()
 
-            KEY_AMOUNT_HOME_EQUIVALENT -> getAmountHomeEquivalent(table, homeCurrency) + " AS $it"
+            KEY_AMOUNT_HOME_EQUIVALENT -> getAmountHomeEquivalent(
+                table,
+                homeCurrency,
+                dynamicExchangeRatesDefault
+            ) + " AS $it"
 
             KEY_CURRENCY -> "$table.$KEY_CURRENCY AS $KEY_CURRENCY"
 
@@ -465,12 +475,18 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
         protected const val URI_SEGMENT_GROUPS = "groups"
 
-        fun LIVE_ATTACHMENT_SELECTION(withUUIDSelection: Boolean = false) =
-            "EXISTS(SELECT 1 FROM $TABLE_TRANSACTION_ATTACHMENTS WHERE $KEY_ATTACHMENT_ID = $KEY_ROWID" +
-                (if (withUUIDSelection) " AND $KEY_TRANSACTIONID = (SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?)" else "") +
-                ")"
+        fun liveAttachmentSelection(withUUIDSelection: Boolean = false): String {
+            val selection = if (withUUIDSelection) {
+                " AND $KEY_TRANSACTIONID = (SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?)"
+            } else {
+                ""
+            }
+            return """EXISTS(SELECT 1 FROM $TABLE_TRANSACTION_ATTACHMENTS 
+                        |WHERE $KEY_ATTACHMENT_ID = $KEY_ROWID$selection)"""
+                .trimMargin()
+        }
 
-        val STALE_ATTACHMENT_SELECTION = "NOT ${LIVE_ATTACHMENT_SELECTION()}"
+        val STALE_ATTACHMENT_SELECTION = "NOT ${liveAttachmentSelection()}"
 
         fun defaultBudgetAllocationUri(accountSegment: String, grouping: Grouping): Uri =
             BUDGETS_URI.buildUpon()
@@ -646,7 +662,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         get() = currencyContext.homeCurrencyString
 
     val accountsWithExchangeRate: String
-        get() = exchangeRateJoin(accountWithTypeAndFlag, KEY_ROWID, homeCurrency, TABLE_ACCOUNTS)
+        get() = exchangeRateJoin(ACCOUNT_TYPE_WITH_FLAG, KEY_ROWID, homeCurrency, TABLE_ACCOUNTS)
 
     val budgetTableJoin =
         "$TABLE_BUDGETS LEFT JOIN $TABLE_ACCOUNTS ON ($KEY_ACCOUNTID = $TABLE_ACCOUNTS.$KEY_ROWID)"
@@ -720,7 +736,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             }
         }
 
-        val tableName = if (minimal) accountWithTypeAndFlag else CTE_TABLE_NAME_FULL_ACCOUNTS
+        val tableName = if (minimal) ACCOUNT_TYPE_WITH_FLAG else CTE_TABLE_NAME_FULL_ACCOUNTS
 
         val query = if (mergeAggregate == null) {
             SupportSQLiteQueryBuilder.builder(tableName)
@@ -861,7 +877,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "$aggregateFunction($KEY_EQUIVALENT_TRANSFERS) AS $KEY_EQUIVALENT_TRANSFERS",
                         "$aggregateFunction($KEY_TOTAL) AS $KEY_TOTAL",
                         "$aggregateFunction($KEY_EQUIVALENT_TOTAL) AS $KEY_EQUIVALENT_TOTAL",
-                        "0 AS $KEY_CLEARED_TOTAL", // we do not calculate cleared and reconciled totals for aggregate accounts
+                        // we do not calculate cleared and reconciled totals for aggregate accounts
+                        "0 AS $KEY_CLEARED_TOTAL",
                         "0 AS $KEY_RECONCILED_TOTAL",
                         "0 AS $KEY_USAGES",
                         aggregateColumn,
@@ -958,7 +975,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "$aggregateFunction($KEY_EQUIVALENT_TRANSFERS) AS $KEY_EQUIVALENT_TRANSFERS",
                         "0 AS $KEY_TOTAL",
                         "$aggregateFunction($KEY_EQUIVALENT_TOTAL) AS $KEY_EQUIVALENT_TOTAL",
-                        "0 AS $KEY_CLEARED_TOTAL", // we do not calculate cleared and reconciled totals for aggregate accounts
+                        // we do not calculate cleared and reconciled totals for aggregate accounts
+                        "0 AS $KEY_CLEARED_TOTAL",
                         "0 AS $KEY_RECONCILED_TOTAL",
                         "0 AS $KEY_USAGES",
                         aggregateColumn,
@@ -1078,12 +1096,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         prefHandler.putBoolean(PrefKey.AUTO_BACKUP_DIRTY, false)
                         false
                     } else {
-                        throw Throwable(
-                            "Unable to copy file from " +
-                                (if (copyPrefSuccess) preferencesDataStoreFile else sharedPrefFile).path +
-                                " to " +
-                                (if (copyPrefSuccess) backupDataStoreFile else backupPrefFile).path
-                        )
+                        val path1 =
+                            (if (copyPrefSuccess) preferencesDataStoreFile else sharedPrefFile).path
+                        val path2 =
+                            (if (copyPrefSuccess) backupDataStoreFile else backupPrefFile).path
+                        throw Throwable("Unable to copy file from $path1 to $path2")
                     }
             }
     }
@@ -1211,9 +1228,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
             accountId == HOME_AGGREGATE_ID -> "$KEY_CURRENCY = ?" to AGGREGATE_HOME_CURRENCY_CODE
 
-            else ->
-                "$KEY_CURRENCY = (select $KEY_CURRENCY from $TABLE_CURRENCIES where $KEY_ROWID = ?)" to
-                    -accountId
+            else -> {
+                "$KEY_CURRENCY = (select $KEY_CURRENCY from $TABLE_CURRENCIES where $KEY_ROWID = ?)" to -accountId
+            }
         }
         val group = uri.pathSegments[3]
 
@@ -1722,6 +1739,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             selection = selection,
             forHome = forHome,
             typeWithFallBack = typeWithFallBack,
+            dynamicExpression = dynamicExchangeRatesDefault,
             breakdownByAccount = breakdownByAccount,
             group = group,
             includeTransfers = includeTransfers,
