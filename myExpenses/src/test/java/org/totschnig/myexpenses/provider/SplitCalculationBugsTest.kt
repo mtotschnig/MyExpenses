@@ -248,8 +248,8 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
      * Tests that database migration upgradeTo193() deletes invalid equivalent_amounts rows:
      * - Rows for actual split parts (whose parent is a split transaction, cat_id = 0)
      * - Rows for home currency accounts (currency == homeCurrency)
-     * - Rows with equivalent_amount == 0 (leftover rows from UI bug)
      * AND preserves valid rows for:
+     * - Legitimate zero equivalent amount rows in foreign accounts (e.g. small foreign payment rounding to 0)
      * - Top-level split parents (parent_id IS NULL, cat_id = 0)
      * - Archived ordinary transactions (parent_id points to an archive row, cat_id != 0)
      * - Archived split parents (parent_id points to an archive row, cat_id == 0)
@@ -268,7 +268,7 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
         val usdTrans = repository.insertTransaction(usdAccountId, -5000)
 
         val zeroTrans =
-            repository.insertTransaction(foreignAccountId, -5000, categoryId = expenseCategory1)
+            repository.insertTransaction(foreignAccountId, -1, categoryId = expenseCategory1)
 
         // Create an archived ordinary transaction in dynamic EUR account
         val archivedOrdinaryTrans =
@@ -338,7 +338,7 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
                 put(KEY_CURRENCY, "USD")
             }
         )
-        // Invalid: zero equivalent amount row
+        // Legitimate zero equivalent amount row for small foreign payment
         db.insert(
             TABLE_EQUIVALENT_AMOUNTS,
             android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE,
@@ -370,7 +370,7 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
         )
 
         // Verify total equivalent_amounts count prior to upgradeTo193
-        // Should be: splitParentId + archivedSplitParent.id + archivedOrdinaryTrans.id + 3 invalid rows = 6 rows
+        // Should be: splitParentId + archivedSplitParent.id + archivedOrdinaryTrans.id + zeroTrans.id + 2 invalid rows = 6 rows
         db.query(table = TABLE_EQUIVALENT_AMOUNTS, columns = arrayOf(KEY_TRANSACTIONID))
             .useAndAssert {
                 hasCount(6)
@@ -381,11 +381,21 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
             db.upgradeTo193()
         }
 
-        // 4. Verify only the 3 valid rows remain in equivalent_amounts
+        // 4. Verify that only the 2 invalid rows (part1Id, usdTrans.id) were deleted, leaving 4 valid rows
         db.query(table = TABLE_EQUIVALENT_AMOUNTS, columns = arrayOf(KEY_TRANSACTIONID))
             .useAndAssert {
-                hasCount(3)
+                hasCount(4)
             }
+
+        // Verify specifically that zeroTrans still has its row
+        db.query(
+            table = TABLE_EQUIVALENT_AMOUNTS,
+            columns = arrayOf(KEY_TRANSACTIONID),
+            selection = "$KEY_TRANSACTIONID = ?",
+            selectionArgs = arrayOf(zeroTrans.id.toString())
+        ).useAndAssert {
+            hasCount(1)
+        }
 
         // Verify specifically that archivedOrdinaryTrans and archivedSplitParent still have their rows
         db.query(

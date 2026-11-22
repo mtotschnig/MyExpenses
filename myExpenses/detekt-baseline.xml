@@ -1014,6 +1014,7 @@
     <ID>MaxLineLength:Sort.kt:Sort.Companion$//returns null if the preferred Sort has null toOrderBy, otherwise the preferred Sort (with defaultOrderBy as secondary sort), otherwise the defaultOrderBy</ID>
     <ID>MaxLineLength:Sort.kt:Sort.Companion$val accountSortLabels = listOf(R.string.label, R.string.pref_sort_order_usages, R.string.pref_sort_order_last_used, R.string.pref_sort_order_custom)</ID>
     <ID>MaxLineLength:SplitCalculationBugsTest.kt:SplitCalculationBugsTest$// 3. Verify static foreign currency account transaction (dynamic = false, attempting non-null equivalentAmount insert):</ID>
+    <ID>MaxLineLength:SplitCalculationBugsTest.kt:SplitCalculationBugsTest$// Should be: splitParentId + archivedSplitParent.id + archivedOrdinaryTrans.id + zeroTrans.id + 2 invalid rows = 6 rows</ID>
     <ID>MaxLineLength:SplitPartRVAdapter.kt:SplitPartRVAdapter.ViewHolder$transaction.icon?.let { binding.icon.setImageDrawable(IIconInfo.resolveIcon(it)?.asDrawable(binding.root.context)) }</ID>
     <ID>MaxLineLength:SplitPartRVAdapter.kt:SplitPartRVAdapter.ViewHolder$transaction.isTransfer -&gt; getIndicatorPrefixForLabel(transaction.amount.amountMinor) + transaction.transferAccount</ID>
     <ID>MaxLineLength:StorageAccessFrameworkBackendProvider.kt:StorageAccessFrameworkBackendProvider$(contentResolver.openOutputStream(file.uri, "wt") ?: throw IOException("Failed to open output stream"))</ID>

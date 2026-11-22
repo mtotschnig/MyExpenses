@@ -1563,15 +1563,17 @@ abstract class BaseTransactionDatabase(
         execSQL(
             """
             DELETE FROM $TABLE_EQUIVALENT_AMOUNTS
-            WHERE $KEY_TRANSACTIONID IN (
-                SELECT t.$KEY_ROWID
+            WHERE EXISTS (
+                SELECT 1
                 FROM $TABLE_TRANSACTIONS t
                 JOIN $TABLE_ACCOUNTS a ON t.$KEY_ACCOUNTID = a.$KEY_ROWID
                 LEFT JOIN $TABLE_TRANSACTIONS p ON t.$KEY_PARENTID = p.$KEY_ROWID
-                WHERE p.$KEY_CATID = $SPLIT_CATID
-                   OR (a.$KEY_CURRENCY = '$homeCurrency' AND $TABLE_EQUIVALENT_AMOUNTS.$KEY_CURRENCY = '$homeCurrency')
-                   OR $TABLE_EQUIVALENT_AMOUNTS.$KEY_EQUIVALENT_AMOUNT = 0
-            )
+                WHERE t.$KEY_ROWID = $TABLE_EQUIVALENT_AMOUNTS.$KEY_TRANSACTIONID
+                  AND (
+                      p.$KEY_CATID = $SPLIT_CATID
+                      OR (a.$KEY_CURRENCY = '$homeCurrency' AND $TABLE_EQUIVALENT_AMOUNTS.$KEY_CURRENCY = '$homeCurrency')
+                  )
+            );
             """.trimIndent()
         )
     }
