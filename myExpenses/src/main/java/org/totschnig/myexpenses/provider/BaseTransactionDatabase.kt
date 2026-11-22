@@ -11,6 +11,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
 import java.util.Currency
 import kotlin.math.pow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Attribute
 import org.totschnig.myexpenses.db2.BankingAttribute
@@ -30,6 +32,7 @@ import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.dynamicExchangeRates
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -1558,6 +1561,8 @@ abstract class BaseTransactionDatabase(
     }
 
     fun SupportSQLiteDatabase.upgradeTo193() {
+        val dynamicExpr =
+            runBlocking { context.injector.preferencesDataStore().dynamicExchangeRates.first() }
         execSQL(
             """
             DELETE FROM $TABLE_EQUIVALENT_AMOUNTS
@@ -1567,9 +1572,14 @@ abstract class BaseTransactionDatabase(
                 JOIN $TABLE_ACCOUNTS a ON t.$KEY_ACCOUNTID = a.$KEY_ROWID
                 WHERE t.$KEY_ROWID = $TABLE_EQUIVALENT_AMOUNTS.$KEY_TRANSACTIONID
                   AND (
-                      t.$KEY_PARENTID IS NOT NULL
+                      EXISTS (
+                          SELECT 1
+                          FROM $TABLE_TRANSACTIONS p
+                          WHERE p.$KEY_ROWID = t.$KEY_PARENTID
+                            AND p.$KEY_CATID = $SPLIT_CATID
+                      )
                       OR a.$KEY_CURRENCY = $TABLE_EQUIVALENT_AMOUNTS.$KEY_CURRENCY
-                      OR a.$KEY_DYNAMIC = 0
+                      OR NOT ($dynamicExpr)
                   )
             );
             """.trimIndent()

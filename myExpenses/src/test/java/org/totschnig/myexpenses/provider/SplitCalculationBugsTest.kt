@@ -244,10 +244,14 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
     }
 
     /**
-     * Tests that database migration upgradeTo193() deletes all excessive/invalid equivalent_amounts rows:
-     * - Rows for split parts (parent_id IS NOT NULL)
+     * Tests that database migration upgradeTo193() deletes invalid equivalent_amounts rows:
+     * - Rows for actual split parts (whose parent is a split transaction, cat_id = 0)
      * - Rows for home currency accounts (currency == homeCurrency)
      * - Rows for static foreign currency accounts (dynamic == false)
+     * AND preserves valid rows for:
+     * - Top-level split parents (parent_id IS NULL, cat_id = 0)
+     * - Archived ordinary transactions (parent_id points to an archive row, cat_id != 0)
+     * - Archived split parents (parent_id points to an archive row, cat_id == 0)
      */
     @Test
     fun testUpgradeTo193CleansUpExcessiveEquivalentAmounts() {
@@ -258,7 +262,7 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
                 )!!.localContentProvider as TransactionProvider
                 ).openHelperForTest.writableDatabase
 
-        // 1. Manually insert invalid rows into equivalent_amounts
+        // 1. Setup accounts and transactions
         val staticEurAccountId =
             insertAccount("Static Account Migration Test", currency = "EUR", dynamic = false)
         val staticTrans = repository.insertTransaction(staticEurAccountId, -5000)
@@ -266,7 +270,65 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
         val usdAccountId = insertAccount("USD Account Migration Test", currency = "USD")
         val usdTrans = repository.insertTransaction(usdAccountId, -5000)
 
-        // Forcefully insert invalid rows into equivalent_amounts
+        // Create an archived ordinary transaction in dynamic EUR account
+        val archivedOrdinaryTrans =
+            repository.insertTransaction(foreignAccountId, -8000, categoryId = expenseCategory1)
+        val archiveRowId = ContentUris.parseId(
+            contentResolver.insert(
+                TransactionProvider.TRANSACTIONS_URI,
+                ContentValues().apply {
+                    put(KEY_ACCOUNTID, foreignAccountId)
+                    put(KEY_AMOUNT, -8000)
+                    put(KEY_DATE, System.currentTimeMillis() / 1000)
+                    put(KEY_VALUE_DATE, System.currentTimeMillis() / 1000)
+                    put(KEY_STATUS, STATUS_ARCHIVE)
+                    put(KEY_CR_STATUS, "UNRECONCILED")
+                    put(KEY_UUID, generateUuid())
+                }
+            )!!
+        )
+        // Mark ordinary transaction as archived (parent_id = archiveRowId, status = STATUS_ARCHIVED)
+        contentResolver.update(
+            TransactionProvider.TRANSACTIONS_URI,
+            ContentValues().apply {
+                put(KEY_PARENTID, archiveRowId)
+                put(KEY_STATUS, STATUS_ARCHIVED)
+            },
+            "$KEY_ROWID = ?",
+            arrayOf(archivedOrdinaryTrans.id.toString())
+        )
+
+        // Create an archived split parent transaction in dynamic EUR account
+        val archivedSplitParent = repository.createSplitTransaction(
+            Transaction(
+                accountId = foreignAccountId,
+                amount = -12000,
+                categoryId = SPLIT_CATID,
+                equivalentAmount = -18000,
+                uuid = generateUuid()
+            ),
+            listOf(
+                Transaction(
+                    accountId = foreignAccountId,
+                    amount = -12000,
+                    categoryId = expenseCategory1,
+                    uuid = generateUuid()
+                )
+            )
+        )
+        // Mark split parent as archived (parent_id = archiveRowId, status = STATUS_ARCHIVED)
+        contentResolver.update(
+            TransactionProvider.TRANSACTIONS_URI,
+            ContentValues().apply {
+                put(KEY_PARENTID, archiveRowId)
+                put(KEY_STATUS, STATUS_ARCHIVED)
+            },
+            "$KEY_ROWID = ?",
+            arrayOf(archivedSplitParent.data.id.toString())
+        )
+
+        // 2. Forcefully insert rows into equivalent_amounts
+        // Invalid: split child part
         db.insert(
             TABLE_EQUIVALENT_AMOUNTS,
             android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE,
@@ -276,6 +338,7 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
                 put(KEY_CURRENCY, "USD")
             }
         )
+        // Invalid: static account transaction
         db.insert(
             TABLE_EQUIVALENT_AMOUNTS,
             android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE,
@@ -285,6 +348,7 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
                 put(KEY_CURRENCY, "USD")
             }
         )
+        // Invalid: home currency transaction
         db.insert(
             TABLE_EQUIVALENT_AMOUNTS,
             android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE,
@@ -294,24 +358,52 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
                 put(KEY_CURRENCY, "USD")
             }
         )
+        // Valid: archived ordinary transaction equivalent amount
+        db.insert(
+            TABLE_EQUIVALENT_AMOUNTS,
+            android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE,
+            ContentValues(3).apply {
+                put(KEY_TRANSACTIONID, archivedOrdinaryTrans.id)
+                put(KEY_EQUIVALENT_AMOUNT, -12000)
+                put(KEY_CURRENCY, "USD")
+            }
+        )
 
-        // Verify invalid rows exist prior to upgradeTo193
+        // Verify total equivalent_amounts count prior to upgradeTo193
+        // Should be: splitParentId + archivedSplitParent.id + archivedOrdinaryTrans.id + 3 invalid rows = 6 rows
         db.query(table = TABLE_EQUIVALENT_AMOUNTS, columns = arrayOf(KEY_TRANSACTIONID))
             .useAndAssert {
-                hasCount(4) // splitParentId + 3 invalid rows
+                hasCount(6)
             }
 
-        // 2. Execute upgradeTo193()
+        // 3. Execute upgradeTo193()
         with(TransactionDatabase(application, prefHandler)) {
             db.upgradeTo193()
         }
 
-        // 3. Verify only the valid parent transaction remains in equivalent_amounts
+        // 4. Verify only the 3 valid rows remain in equivalent_amounts
         db.query(table = TABLE_EQUIVALENT_AMOUNTS, columns = arrayOf(KEY_TRANSACTIONID))
             .useAndAssert {
-                hasCount(1)
-                movesToFirst()
-                hasLong(0, splitParentId)
+                hasCount(3)
             }
+
+        // Verify specifically that archivedOrdinaryTrans and archivedSplitParent still have their rows
+        db.query(
+            table = TABLE_EQUIVALENT_AMOUNTS,
+            columns = arrayOf(KEY_TRANSACTIONID),
+            selection = "$KEY_TRANSACTIONID = ?",
+            selectionArgs = arrayOf(archivedOrdinaryTrans.id.toString())
+        ).useAndAssert {
+            hasCount(1)
+        }
+
+        db.query(
+            table = TABLE_EQUIVALENT_AMOUNTS,
+            columns = arrayOf(KEY_TRANSACTIONID),
+            selection = "$KEY_TRANSACTIONID = ?",
+            selectionArgs = arrayOf(archivedSplitParent.data.id.toString())
+        ).useAndAssert {
+            hasCount(1)
+        }
     }
 }

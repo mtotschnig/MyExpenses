@@ -7280,13 +7280,13 @@
         <error line="194" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/provider/BaseTransactionDatabase.kt">
-        <error line="854" column="101" source="standard:max-line-length" />
-        <error line="864" column="101" source="standard:max-line-length" />
-        <error line="879" column="101" source="standard:max-line-length" />
-        <error line="895" column="101" source="standard:max-line-length" />
-        <error line="900" column="101" source="standard:max-line-length" />
-        <error line="1062" column="101" source="standard:max-line-length" />
-        <error line="1137" column="101" source="standard:max-line-length" />
+        <error line="857" column="101" source="standard:max-line-length" />
+        <error line="867" column="101" source="standard:max-line-length" />
+        <error line="882" column="101" source="standard:max-line-length" />
+        <error line="898" column="101" source="standard:max-line-length" />
+        <error line="903" column="101" source="standard:max-line-length" />
+        <error line="1065" column="101" source="standard:max-line-length" />
+        <error line="1140" column="101" source="standard:max-line-length" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/provider/BaseTransactionProvider.kt">
         <error line="302" column="101" source="standard:max-line-length" />

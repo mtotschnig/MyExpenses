@@ -2421,8 +2421,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
         compileStatement(
             """SELECT COUNT(*) FROM $TABLE_TRANSACTIONS JOIN $TABLE_ACCOUNTS ON
             |$TABLE_TRANSACTIONS.$KEY_ACCOUNTID = $TABLE_ACCOUNTS.$KEY_ROWID
-            |WHERE $TABLE_TRANSACTIONS.$KEY_ROWID = ? AND $TABLE_TRANSACTIONS.$KEY_PARENTID IS NULL
-            |AND $TABLE_ACCOUNTS.$KEY_CURRENCY != ? AND $TABLE_ACCOUNTS.$KEY_DYNAMIC = 1"""
+            |WHERE $TABLE_TRANSACTIONS.$KEY_ROWID = ?
+            |AND NOT EXISTS (SELECT 1 FROM $TABLE_TRANSACTIONS p WHERE p.$KEY_ROWID = $TABLE_TRANSACTIONS.$KEY_PARENTID AND p.$KEY_CATID = $SPLIT_CATID)
+            |AND $TABLE_ACCOUNTS.$KEY_CURRENCY != ? AND $dynamicExchangeRatesDefault"""
                 .trimMargin()
         ).use {
             it.bindLong(1, transactionId)
