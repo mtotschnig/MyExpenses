@@ -190,10 +190,14 @@ abstract class MainDelegate(
                         }
                     // prefHandler.putString(PrefKey.LAST_ORIGINAL_CURRENCY, currency)
                 },
-                equivalentAmount = viewBinding.EquivalentAmount.getAmount(homeCurrency).getOrNull()
-                    ?.let {
-                        if (isIncome) it else -it
-                    }
+                equivalentAmount = if (viewBinding.EquivalentAmountRow.isVisible) {
+                    viewBinding.EquivalentAmount.getAmount(homeCurrency).getOrNull()
+                        ?.let {
+                            if (isIncome) it else -it
+                        }
+                } else {
+                    null
+                }
             )
         }
     }

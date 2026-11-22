@@ -371,6 +371,7 @@
     <ID>LongMethod:Scrollbar.kt:@Composable fun Scrollbar</ID>
     <ID>LongMethod:SetupSyncDialogFragment.kt:@Composable private fun Account</ID>
     <ID>LongMethod:SetupSyncDialogFragment.kt:SetupSyncDialogFragment$@Composable override fun BuildContent</ID>
+    <ID>LongMethod:SplitCalculationBugsTest.kt:SplitCalculationBugsTest$@Before fun setup</ID>
     <ID>LongMethod:SyncAdapter.kt:SyncAdapter$@SuppressLint("MissingPermission") override fun onPerformSync</ID>
     <ID>LongMethod:SyncAdapter.kt:SyncAdapter$@Throws(RemoteException::class) private fun getLocalChanges: List&lt;TransactionChange&gt;</ID>
     <ID>LongMethod:SyncBackendList.kt:SyncBackendList$override fun onContextItemSelected: Boolean</ID>
@@ -733,11 +734,17 @@
     <ID>MaxLineLength:BaseTransactionDatabase.kt:BaseTransactionDatabase$"update transactions set payee_id = null where parent_id in (select _id from transactions where cat_id = 0 and status != 4)"</ID>
     <ID>MaxLineLength:BaseTransactionDatabase.kt:BaseTransactionDatabase$"update transactions set transfer_account = (select account_id from transactions peer where _id = transactions.transfer_peer);"</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$ SELECT '</ID>
-    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$ | WHERE </ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"$KEY_ACCOUNTID IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_CURRENCY = ? AND $dynamicExchangeRatesDefault)"</ID>
-    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"(" + KEY_UUID + " IS NULL OR (" + KEY_TRANSFER_PEER + " IS NOT NULL AND (SELECT " + KEY_UUID + " from " + TABLE_TRANSACTIONS + " peer where " + KEY_TRANSFER_PEER + " = " + TABLE_TRANSACTIONS + "." + KEY_ROWID + ") is null )) AND ("</ID>
+    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"$aggregateFunction(CASE WHEN $KEY_TYPE = $FLAG_TRANSFER THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_TRANSFERS"</ID>
+    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"(select $KEY_BUDGET from $TABLE_BUDGET_ALLOCATIONS where $KEY_BUDGETID = ? AND $KEY_CATID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?),"</ID>
+    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"(select $KEY_BUDGET_ROLLOVER_NEXT from $TABLE_BUDGET_ALLOCATIONS where $KEY_BUDGETID = ? AND $KEY_CATID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?),"</ID>
+    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"(select $KEY_BUDGET_ROLLOVER_PREVIOUS from $TABLE_BUDGET_ALLOCATIONS where $KEY_BUDGETID = ? AND $KEY_CATID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?),"</ID>
+    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"(select $KEY_ONE_TIME from $TABLE_BUDGET_ALLOCATIONS where $KEY_BUDGETID = ? AND $KEY_CATID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?))"</ID>
+    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"(select count(distinct $KEY_CURRENCY) from $TABLE_ACCOUNTS WHERE $KEY_EXCLUDE_FROM_TOTALS = 0 AND $KEY_CURRENCY != '$homeCurrency') &gt; 0"</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"0 AS $KEY_CLEARED_TOTAL"</ID>
+    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"CASE WHEN $KEY_DYNAMIC THEN coalesce(market_rate, $KEY_EXCHANGE_RATE) ELSE $KEY_EXCHANGE_RATE END AS $KEY_EXCHANGE_RATE"</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"INSERT INTO $TABLE_ATTRIBUTES ($KEY_ATTRIBUTE_NAME, $KEY_CONTEXT) SELECT ?,? WHERE NOT EXISTS (SELECT 1 FROM $TABLE_ATTRIBUTES WHERE $KEY_ATTRIBUTE_NAME=? AND $KEY_CONTEXT = ? )"</ID>
+    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"INSERT OR REPLACE INTO $TABLE_BUDGET_ALLOCATIONS ($KEY_BUDGETID, $KEY_CATID, $KEY_YEAR, $KEY_SECOND_GROUP, $KEY_BUDGET_ROLLOVER_PREVIOUS, $KEY_BUDGET_ROLLOVER_NEXT, $KEY_BUDGET, $KEY_ONE_TIME) "</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"INSERT or REPLACE INTO $table SELECT DISTINCT ?, _id, ? FROM $TABLE_ATTRIBUTES WHERE $KEY_ATTRIBUTE_NAME = ? AND $KEY_CONTEXT = ?;"</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"SELECT $KEY_ROWID, (SELECT $KEY_ROWID FROM $TABLE_CATEGORIES target WHERE target.$KEY_PARENTID = ? AND target.$KEY_LABEL = $TABLE_CATEGORIES.$KEY_LABEL) AS peer FROM $TABLE_CATEGORIES WHERE $KEY_PARENTID = ? AND peer IS NOT NULL"</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"UPDATE $TABLE_ACCOUNTS SET $KEY_OPENING_BALANCE=$KEY_OPENING_BALANCE$operation$factor WHERE $KEY_CURRENCY=?"</ID>
@@ -746,34 +753,21 @@
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"UPDATE $TABLE_EQUIVALENT_AMOUNTS SET $KEY_EQUIVALENT_AMOUNT=$KEY_EQUIVALENT_AMOUNT$operation$factor WHERE $KEY_CURRENCY=?"</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"UPDATE $TABLE_TEMPLATES SET $KEY_AMOUNT=$KEY_AMOUNT$operation$factor WHERE $KEY_ACCOUNTID IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_CURRENCY=?)"</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"UPDATE $TABLE_TRANSACTIONS SET $KEY_AMOUNT=$KEY_AMOUNT$operation$factor WHERE $KEY_ACCOUNTID IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_CURRENCY=?)"</ID>
+    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"UPDATE $TABLE_TRANSACTIONS SET $KEY_PARENTID = null, $KEY_CR_STATUS = $crStatusSubSelect, $KEY_PAYEEID = $payeeIdSubSelect WHERE $KEY_PARENTID = ?"</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"UPDATE $TABLE_TRANSACTIONS SET $KEY_UUID = ? WHERE $KEY_ROWID = ? OR $KEY_TRANSFER_PEER = ?"</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"coalesce($KEY_ACCOUNTID, -(select $KEY_ROWID from $TABLE_CURRENCIES where $KEY_CODE = $TABLE_BUDGETS.$KEY_CURRENCY), ${HOME_AGGREGATE_ID}) AS $KEY_ACCOUNTID"</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$"select distinct transactions.parent_id from transactions left join transactions parent on transactions.parent_id = parent._id where transactions.parent_id is not null and parent.account_id != transactions.account_id"</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$*</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$* @param transactionId When we edit a transaction, we want it to not be included into the debt sum, since it can be changed in the UI, and the variable amount will be calculated by the UI</ID>
-    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$.</ID>
+    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$// before the last type, assuming that in many cases the last type will be the Other assetes/liabilities type</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$KEY_COMMENT -&gt; if (shortenComment) "case when instr($KEY_COMMENT, X'0A') &gt; 0 THEN substr($KEY_COMMENT, 1, instr($KEY_COMMENT, X'0A')-1) else $KEY_COMMENT end AS $it" else it</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$KEY_TRANSFER_AMOUNT -&gt; "CASE WHEN $KEY_TRANSFER_PEER THEN (SELECT $KEY_AMOUNT FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = $table.$KEY_TRANSFER_PEER) ELSE null END AS $it"</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$KEY_TRANSFER_PEER_IS_ARCHIVED -&gt; "(SELECT $KEY_STATUS FROM $TABLE_TRANSACTIONS peer WHERE peer.$KEY_ROWID = $table.$KEY_TRANSFER_PEER ) = $STATUS_ARCHIVED AS $it"</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$KEY_TRANSFER_PEER_IS_PORTFOLIO -&gt; "(SELECT $KEY_IS_PORTFOLIO FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = (SELECT $KEY_ACCOUNTID FROM $TABLE_TRANSACTIONS peer WHERE peer.$KEY_ROWID = $table.$KEY_TRANSFER_PEER)) != $PORTFOLIO_NONE AS $it"</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$KEY_TRANSFER_PEER_PARENT -&gt; "(SELECT $KEY_PARENTID FROM $TABLE_TRANSACTIONS peer WHERE peer.$KEY_ROWID = $table.$KEY_TRANSFER_PEER ) AS $it"</ID>
-    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$SupportSQLiteQueryBuilder.builder(if (breakdownByAccount) "with_market_rate" else CTE_TRANSACTION_GROUPS)</ID>
-    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$add("$aggregateFunction(CASE WHEN $KEY_TYPE = $FLAG_TRANSFER THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_TRANSFERS")</ID>
-    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$add("CASE WHEN $KEY_DYNAMIC THEN coalesce(market_rate, $KEY_EXCHANGE_RATE) ELSE $KEY_EXCHANGE_RATE END AS $KEY_EXCHANGE_RATE")</ID>
-    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$compileStatement("UPDATE $TABLE_TRANSACTIONS SET $KEY_PARENTID = null, $KEY_CR_STATUS = $crStatusSubSelect, $KEY_PAYEEID = $payeeIdSubSelect WHERE $KEY_PARENTID = ?")</ID>
-    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$dataStore.data.first()[prefHandler.getBooleanPreferencesKey(PrefKey.INVISIBLE_ACCOUNTS_ARE_AGGREGATED)] != false</ID>
-    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$dataStore.data.first()[prefHandler.getBooleanPreferencesKey(PrefKey.SORT_ACCOUNT_LIST_BY_FLAG_FIRST)] != false</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$get() = "CASE WHEN $TABLE_DEBTS.$KEY_CURRENCY == '$homeCurrency' AND $KEY_CURRENCY != '$homeCurrency' THEN $KEY_EQUIVALENT_AMOUNT ELSE $KEY_AMOUNT END"</ID>
-    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$if</ID>
-    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$if (uri.getQueryParameter(KEY_ACCOUNTID) == null &amp;&amp; uri.getQueryParameter(KEY_CURRENCY) == null) homeCurrency else null</ID>
-    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$if (withSum) "coalesce((SELECT sum(${debtEquivalentSumExpression}) FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_EQUIVALENT_SUM" else null</ID>
-    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$if (withSum) "coalesce((SELECT sum(${debtSumExpression}) FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_SUM" else null</ID>
-    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$projection.any { it.contains(KEY_EQUIVALENT_AMOUNT) }</ID>
-    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$statementBuilder.append("(select $KEY_BUDGET from $TABLE_BUDGET_ALLOCATIONS where $KEY_BUDGETID = ? AND $KEY_CATID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?),")</ID>
-    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$statementBuilder.append("(select $KEY_BUDGET_ROLLOVER_NEXT from $TABLE_BUDGET_ALLOCATIONS where $KEY_BUDGETID = ? AND $KEY_CATID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?),")</ID>
-    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$statementBuilder.append("(select $KEY_BUDGET_ROLLOVER_PREVIOUS from $TABLE_BUDGET_ALLOCATIONS where $KEY_BUDGETID = ? AND $KEY_CATID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?),")</ID>
-    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$statementBuilder.append("(select $KEY_ONE_TIME from $TABLE_BUDGET_ALLOCATIONS where $KEY_BUDGETID = ? AND $KEY_CATID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?))")</ID>
-    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$statementBuilder.append("INSERT OR REPLACE INTO $TABLE_BUDGET_ALLOCATIONS ($KEY_BUDGETID, $KEY_CATID, $KEY_YEAR, $KEY_SECOND_GROUP, $KEY_BUDGET_ROLLOVER_PREVIOUS, $KEY_BUDGET_ROLLOVER_NEXT, $KEY_BUDGET, $KEY_ONE_TIME) ")</ID>
+    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$if (withSum) "coalesce((SELECT sum($debtEquivalentSumExpression) FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_EQUIVALENT_SUM" else null</ID>
+    <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider$if (withSum) "coalesce((SELECT sum($debtSumExpression) FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_SUM" else null</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider.Companion$"exists (SELECT 1 FROM $TABLE_TRANSACTIONS WHERE $KEY_PAYEEID=$tableName.$KEY_ROWID) AS $KEY_MAPPED_TRANSACTIONS"</ID>
     <ID>MaxLineLength:BaseTransactionProvider.kt:BaseTransactionProvider.Companion$(if (withUUIDSelection) " AND $KEY_TRANSACTIONID = (SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?)" else "")</ID>
     <ID>MaxLineLength:BaseViewModel.kt:BaseViewModel$val SharingStarted.Companion.WhileSubscribedWithTimeout: SharingStarted get() = WhileSubscribed(stopTimeoutMillis = 5000)</ID>
@@ -811,22 +805,19 @@
     <ID>MaxLineLength:DateCriterion.kt:LocalDateSerializer$// Serial names of descriptors should be unique, so choose app-specific name in case some library also would declare a serializer for Date.</ID>
     <ID>MaxLineLength:DateCriterion.kt:LocalDateSerializer$override</ID>
     <ID>MaxLineLength:DateFormatPreference.kt:DateFormatPreference$override fun getDefaultValue: String?</ID>
-    <ID>MaxLineLength:DbConstants.kt: coalesce((SELECT </ID>
+    <ID>MaxLineLength:DbConstants.kt: |</ID>
+    <ID>MaxLineLength:DbConstants.kt:" LEFT JOIN $TABLE_PLAN_INSTANCE_STATUS ON $tableName.$KEY_ROWID = $TABLE_PLAN_INSTANCE_STATUS.$KEY_TRANSACTIONID"</ID>
+    <ID>MaxLineLength:DbConstants.kt:" SELECT $tableName.*, Tree.$KEY_PATH, Tree.$KEY_ICON, Tree.$KEY_TYPE, $TABLE_PAYEES.$KEY_PAYEE_NAME, $TABLE_PAYEES.$KEY_SHORT_NAME, $TABLE_METHODS.$KEY_LABEL AS $KEY_METHOD_LABEL, $TABLE_METHODS.$KEY_ICON AS $KEY_METHOD_ICON"</ID>
+    <ID>MaxLineLength:DbConstants.kt:" WHERE $WHERE_NOT_SPLIT AND ($KEY_PARENTID = $archiveId OR (SELECT $KEY_PARENTID FROM $TABLE_TRANSACTIONS parents WHERE $KEY_ROWID = $VIEW_WITH_ACCOUNT.$KEY_PARENTID) = $archiveId))"</ID>
+    <ID>MaxLineLength:DbConstants.kt:"$CTE_SEARCH AS (SELECT $forTable.*, $KEY_EXCHANGE_RATE, $KEY_EQUIVALENT_AMOUNT, $KEY_AMOUNT AS $KEY_DISPLAY_AMOUNT FROM "</ID>
+    <ID>MaxLineLength:DbConstants.kt:"$aggregateFunction(CASE WHEN effective_type = $FLAG_TRANSFER THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_TRANSFERS,"</ID>
     <ID>MaxLineLength:DbConstants.kt:"($KEY_OPENING_BALANCE + coalesce($KEY_CURRENT,0)) * CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN 1 WHEN $dynamicExpression THEN coalesce($CTE_LATEST_RATES.$KEY_VALUE,$KEY_EXCHANGE_RATE) ELSE $KEY_EXCHANGE_RATE END AS $KEY_EQUIVALENT_CURRENT_BALANCE"</ID>
     <ID>MaxLineLength:DbConstants.kt:"($KEY_OPENING_BALANCE + coalesce($KEY_TOTAL,0)) * CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN 1 WHEN $dynamicExpression THEN coalesce($CTE_LATEST_RATES.$KEY_VALUE,$KEY_EXCHANGE_RATE) ELSE $KEY_EXCHANGE_RATE END AS $KEY_EQUIVALENT_TOTAL"</ID>
-    <ID>MaxLineLength:DbConstants.kt:"(SELECT $KEY_BUDGET from Allocations WHERE $KEY_ONE_TIME = 0 AND (coalesce($KEY_YEAR,0) &lt; $year ${second?.let { " OR (coalesce($KEY_YEAR,0) = $year AND coalesce($KEY_SECOND_GROUP,0) &lt; $it)" } ?: ""}) ORDER BY $KEY_YEAR DESC ${if (second == null) "" else ", $KEY_SECOND_GROUP DESC"} LIMIT 1))"</ID>
-    <ID>MaxLineLength:DbConstants.kt:"(SELECT max($KEY_SEALED) FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = $baseTable.$KEY_ACCOUNTID OR $KEY_ROWID = $KEY_TRANSFER_ACCOUNT OR $KEY_ROWID in (SELECT $KEY_TRANSFER_ACCOUNT FROM $innerTable WHERE $KEY_PARENTID = $baseTable.$KEY_ROWID))"</ID>
-    <ID>MaxLineLength:DbConstants.kt:"CASE $KEY_TYPE WHEN $type THEN $KEY_DISPLAY_AMOUNT ELSE ${if (incomeType) "max" else "min"}($KEY_DISPLAY_AMOUNT, 0) END"</ID>
+    <ID>MaxLineLength:DbConstants.kt:",count(CASE WHEN $KEY_CATID &gt; 0 AND $WHERE_NOT_VOID AND effective_type != $FLAG_TRANSFER THEN 1 ELSE null END) as $KEY_MAPPED_CATEGORIES"</ID>
     <ID>MaxLineLength:DbConstants.kt:"CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN $KEY_OPENING_BALANCE ELSE $KEY_OPENING_BALANCE * $KEY_EXCHANGE_RATE END AS $KEY_EQUIVALENT_OPENING_BALANCE"</ID>
     <ID>MaxLineLength:DbConstants.kt:Grouping.MONTH -&gt; "date($dateCol, 'unixepoch', 'localtime', '-${DatabaseConstants.monthStartsOn - 1} day', 'start of month', '+1 month', '-1 day', '+${DatabaseConstants.monthStartsOn - 1} day')"</ID>
     <ID>MaxLineLength:DbConstants.kt:KEY_SUM_EXPENSES -&gt; "(SELECT $sumExpression FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_TYPE = $FLAG_EXPENSE) AS $KEY_SUM_EXPENSES"</ID>
     <ID>MaxLineLength:DbConstants.kt:KEY_SUM_INCOME -&gt; "(SELECT $sumExpression FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_TYPE = $FLAG_INCOME) AS $KEY_SUM_INCOME"</ID>
-    <ID>MaxLineLength:DbConstants.kt:append(" LEFT JOIN $TABLE_PLAN_INSTANCE_STATUS ON $tableName.$KEY_ROWID = $TABLE_PLAN_INSTANCE_STATUS.$KEY_TRANSACTIONID")</ID>
-    <ID>MaxLineLength:DbConstants.kt:append(" SELECT $tableName.*, Tree.$KEY_PATH, Tree.$KEY_ICON, Tree.$KEY_TYPE, $TABLE_PAYEES.$KEY_PAYEE_NAME, $TABLE_PAYEES.$KEY_SHORT_NAME, $TABLE_METHODS.$KEY_LABEL AS $KEY_METHOD_LABEL, $TABLE_METHODS.$KEY_ICON AS $KEY_METHOD_ICON")</ID>
-    <ID>MaxLineLength:DbConstants.kt:append(" WHERE $WHERE_NOT_SPLIT AND ${if (withFilter) WHERE_NOT_ARCHIVE else WHERE_NOT_ARCHIVED} AND $selection")</ID>
-    <ID>MaxLineLength:DbConstants.kt:append(" WHERE $WHERE_NOT_SPLIT AND ($KEY_PARENTID = $archiveId OR (SELECT $KEY_PARENTID FROM $TABLE_TRANSACTIONS parents WHERE $KEY_ROWID = $VIEW_WITH_ACCOUNT.$KEY_PARENTID) = $archiveId))")</ID>
-    <ID>MaxLineLength:DbConstants.kt:append("$aggregateFunction(CASE WHEN effective_type = $FLAG_TRANSFER THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_TRANSFERS,")</ID>
-    <ID>MaxLineLength:DbConstants.kt:append(",count(CASE WHEN $KEY_CATID &gt; 0 AND $WHERE_NOT_VOID AND effective_type != $FLAG_TRANSFER THEN 1 ELSE null END) as $KEY_MAPPED_CATEGORIES")</ID>
     <ID>MaxLineLength:DbConstants.kt:else -&gt; if (breakdownByAccount) "$KEY_YEAR, $KEY_SECOND_GROUP, $KEY_ACCOUNTID" else "$KEY_YEAR, $KEY_SECOND_GROUP"</ID>
     <ID>MaxLineLength:Debt.kt:amount = if (showEquivalentAmount.value) transaction.equivalentAmount else transaction.amount</ID>
     <ID>MaxLineLength:DebtActivity.kt:DebtActivity$(supportFragmentManager.findFragmentByTag(PartiesList.DIALOG_DEBT_DETAILS) as? DebtDetailsDialogFragment)?.dismiss()</ID>
@@ -1172,7 +1163,6 @@
     <ID>NewLineAtEndOfFile:BaseHelpTest.kt:org.totschnig.myexpenses.util.BaseHelpTest.kt</ID>
     <ID>NewLineAtEndOfFile:BasePreferenceIOBRFragment.kt:org.totschnig.myexpenses.fragment.preferences.BasePreferenceIOBRFragment.kt</ID>
     <ID>NewLineAtEndOfFile:BaseTestWithRepository.kt:org.totschnig.myexpenses.BaseTestWithRepository.kt</ID>
-    <ID>NewLineAtEndOfFile:BaseTransactionProvider.kt:org.totschnig.myexpenses.provider.BaseTransactionProvider.kt</ID>
     <ID>NewLineAtEndOfFile:BaseViewModel.kt:org.totschnig.myexpenses.viewmodel.BaseViewModel.kt</ID>
     <ID>NewLineAtEndOfFile:BaseViewModelTest.kt:org.totschnig.myexpenses.viewmodel.BaseViewModelTest.kt</ID>
     <ID>NewLineAtEndOfFile:BaseWidget.kt:org.totschnig.myexpenses.widget.BaseWidget.kt</ID>
@@ -1263,7 +1253,6 @@
     <ID>NewLineAtEndOfFile:DateFormatPreference.kt:org.totschnig.myexpenses.preference.DateFormatPreference.kt</ID>
     <ID>NewLineAtEndOfFile:DateTime.kt:org.totschnig.myexpenses.util.DateTime.kt</ID>
     <ID>NewLineAtEndOfFile:DateUtils.kt:org.totschnig.myexpenses.util.DateUtils.kt</ID>
-    <ID>NewLineAtEndOfFile:DbConstants.kt:org.totschnig.myexpenses.provider.DbConstants.kt</ID>
     <ID>NewLineAtEndOfFile:Debt.kt:org.totschnig.myexpenses.compose.Debt.kt</ID>
     <ID>NewLineAtEndOfFile:Debt.kt:org.totschnig.myexpenses.viewmodel.data.Debt.kt</ID>
     <ID>NewLineAtEndOfFile:DebtActivity.kt:org.totschnig.myexpenses.activity.DebtActivity.kt</ID>

@@ -17,7 +17,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 
 abstract class BaseTestWithRepository {
 
-    val application: MyApplication = ApplicationProvider.getApplicationContext<MyApplication>()
+    val application: MyApplication = ApplicationProvider.getApplicationContext()
 
     val currencyContext = application.appComponent.currencyContext()
 

@@ -35,7 +35,7 @@ import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 
-const val DATABASE_VERSION = 192
+const val DATABASE_VERSION = 193
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -1555,6 +1555,25 @@ abstract class BaseTransactionDatabase(
                 """.trimIndent()
             )
         }
+    }
+
+    fun SupportSQLiteDatabase.upgradeTo193() {
+        execSQL(
+            """
+            DELETE FROM $TABLE_EQUIVALENT_AMOUNTS
+            WHERE EXISTS (
+                SELECT 1
+                FROM $TABLE_TRANSACTIONS t
+                JOIN $TABLE_ACCOUNTS a ON t.$KEY_ACCOUNTID = a.$KEY_ROWID
+                WHERE t.$KEY_ROWID = $TABLE_EQUIVALENT_AMOUNTS.$KEY_TRANSACTIONID
+                  AND (
+                      t.$KEY_PARENTID IS NOT NULL
+                      OR a.$KEY_CURRENCY = $TABLE_EQUIVALENT_AMOUNTS.$KEY_CURRENCY
+                      OR a.$KEY_DYNAMIC = 0
+                  )
+            );
+            """.trimIndent()
+        )
     }
 
     protected fun SupportSQLiteDatabase.createOrRefreshAccountTriggers() {
