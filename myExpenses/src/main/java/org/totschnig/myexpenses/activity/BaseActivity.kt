@@ -328,7 +328,7 @@ abstract class BaseActivity :
                 startBanking()
             }
 
-            ContribFeature.WEB_UI -> featureViewModel.requireFeature(this, Feature.FINTS) {
+            ContribFeature.WEB_UI -> featureViewModel.requireFeature(this, Feature.WEBUI) {
                 activateWebUi()
             }
 
