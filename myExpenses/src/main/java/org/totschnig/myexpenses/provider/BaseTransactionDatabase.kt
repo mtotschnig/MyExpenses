@@ -1573,7 +1573,7 @@ abstract class BaseTransactionDatabase(
                 JOIN $TABLE_ACCOUNTS a ON t.$KEY_ACCOUNTID = a.$KEY_ROWID
                 LEFT JOIN $TABLE_TRANSACTIONS p ON t.$KEY_PARENTID = p.$KEY_ROWID
                 WHERE p.$KEY_CATID = $SPLIT_CATID
-                   OR a.$KEY_CURRENCY = '$homeCurrency'
+                   OR (a.$KEY_CURRENCY = '$homeCurrency' AND $TABLE_EQUIVALENT_AMOUNTS.$KEY_CURRENCY = '$homeCurrency')
                    OR NOT ($dynamicExpr)
             )
             """.trimIndent()
