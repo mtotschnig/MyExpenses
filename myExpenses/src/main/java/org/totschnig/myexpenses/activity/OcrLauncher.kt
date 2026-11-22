@@ -25,12 +25,8 @@ class OcrLauncher : ProtectedFragmentActivity() {
     }
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: ContribPayload?) {
-        if (feature == ContribFeature.OCR) {
-            if (featureViewModel.isFeatureAvailable(this, Feature.OCR)) {
-                startCapture()
-            } else {
-                featureViewModel.requestFeature(this, Feature.OCR)
-            }
+        featureViewModel.requireFeature(this, Feature.OCR) {
+            startCapture()
         }
     }
 

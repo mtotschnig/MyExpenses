@@ -80,6 +80,12 @@ import eltos.simpledialogfragment.form.AmountInputHostDialog
 import eltos.simpledialogfragment.form.Hint
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import eltos.simpledialogfragment.form.Spinner
+import java.math.BigDecimal
+import java.time.LocalDate
+import java.time.LocalTime
+import java.util.Locale
+import javax.inject.Inject
+import kotlin.math.sign
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -153,12 +159,6 @@ import org.totschnig.myexpenses.viewmodel.FeatureViewModel
 import org.totschnig.myexpenses.viewmodel.OcrViewModel
 import org.totschnig.myexpenses.viewmodel.data.EventObserver
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET_DATA_ENTRY
-import java.math.BigDecimal
-import java.time.LocalDate
-import java.time.LocalTime
-import java.util.Locale
-import javax.inject.Inject
-import kotlin.math.sign
 
 abstract class BaseActivity :
     AppCompatActivity(),
@@ -324,20 +324,12 @@ abstract class BaseActivity :
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: ContribPayload?) {
         when (feature) {
-            ContribFeature.BANKING -> {
-                if (featureViewModel.isFeatureAvailable(this, Feature.FINTS)) {
-                    startBanking()
-                } else {
-                    featureViewModel.requestFeature(this, Feature.FINTS)
-                }
+            ContribFeature.BANKING -> featureViewModel.requireFeature(this, Feature.FINTS) {
+                startBanking()
             }
 
-            ContribFeature.WEB_UI -> {
-                if (featureViewModel.isFeatureAvailable(this, Feature.WEBUI)) {
-                    activateWebUi()
-                } else {
-                    featureViewModel.requestFeature(this, Feature.WEBUI)
-                }
+            ContribFeature.WEB_UI -> featureViewModel.requireFeature(this, Feature.WEBUI) {
+                activateWebUi()
             }
 
             else -> {}
@@ -494,9 +486,10 @@ abstract class BaseActivity :
                                 getString(featureState.feature.labelResId)
                             )
                         )
-                        if (!featureViewModel.isFeatureAvailable(this, featureState.feature)) {
-                            featureViewModel.requestFeature(this, featureState.feature)
-                        } else {
+                        // after the dynamic feature module has been installed, we need to
+                        // check if data needed by the module (e.g. Tesseract) has been
+                        // downloaded
+                        featureViewModel.requireFeature(this, featureState.feature) {
                             onFeatureAvailable(featureState.feature)
                         }
                     }

@@ -69,4 +69,12 @@ class FeatureViewModel(application: Application) : AndroidViewModel(application)
     fun requireFeature(activity: BaseActivity, feature: Feature) {
         if (!isFeatureAvailable(activity, feature)) requestFeature(activity, feature)
     }
+
+    fun requireFeature(activity: BaseActivity, feature: Feature, onAvailable: () -> Unit) {
+        if (isFeatureAvailable(activity, feature)) {
+            onAvailable()
+        } else {
+            requestFeature(activity, feature)
+        }
+    }
 }
