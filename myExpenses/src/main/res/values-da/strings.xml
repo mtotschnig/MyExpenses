@@ -1005,4 +1005,5 @@
     <string name="search_fts_help_column">Tilføj et præfiks til søgeordet for at begrænse søgningen til en bestemt kolonne (f.eks. payee:føtex, category:mad, tag:arbejde). Tilgængelige: \'comment\' (noter), \'payee\' (modpart), \'category\' (kategori), \'tag\' (mærker), \'ref\' (referencenummer)</string>
     <string name="search_fts_error_malformed">Ufuldstændig søgeoperator eller manglende anførelsestegn</string>
     <string name="parent_category">Overordnet kategori</string>
+    <string name="pref_summary_gms_document_scanner">Brug Google Play Services dokumentscanner med automatisk beskæring og tekstforbedring</string>
 </resources>

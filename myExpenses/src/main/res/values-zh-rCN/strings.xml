@@ -965,4 +965,5 @@
     <string name="single_pane_view">单面板</string>
     <string name="split_pane_view">分屏视图</string>
     <string name="parent_category">上级类别</string>
+    <string name="pref_summary_gms_document_scanner">使用具有自动裁剪和文本增强功能的 Google Play 服务文档扫描仪</string>
 </resources>

@@ -1031,4 +1031,5 @@
     <string name="warning_nested_archives">Kho lưu trữ lồng nhau không được hỗ trợ.</string>
     <string name="warning_unarchive">Kho lưu trữ sẽ được giải nén. Tất cả các giao dịch sẽ được chèn lại vào danh sách.</string>
     <string name="webui_download_no_data">Sau khi in, xuất hoặc tạo bản sao lưu trong ứng dụng, các tệp sẽ có sẵn tại đây để tải xuống.</string>
+    <string name="pref_summary_gms_document_scanner">Sử dụng trình quét tài liệu Dịch vụ Google Play với tính năng tự động cắt và cải thiện văn bản</string>
 </resources>

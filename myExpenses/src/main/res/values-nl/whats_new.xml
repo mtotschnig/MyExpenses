@@ -14,4 +14,5 @@
     <string name="whats_new_402">Accounttypes kunnen worden aangepast</string>
     <string name="whats_new_403">Met accountvlaggen kun je de zichtbaarheid en prioriteit van je account aanpassen.</string>
     <string name="whats_new_407">Natuurlijk sorteren voor tags, categorieën, rekeningen en partijen.</string>
+    <string name="whats_new_415">Weeknummering voor wekelijkse transactiegroepering volgt nu regionale standaarden (bijv. ISO 8601).</string>
 </resources>

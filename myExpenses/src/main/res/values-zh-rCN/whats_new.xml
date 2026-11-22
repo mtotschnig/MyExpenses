@@ -12,4 +12,5 @@
     <string name="whats_new_402">可以自定义账户类型</string>
     <string name="whats_new_403">账户标志扩展了账户可见性和优先级的自定义。</string>
     <string name="whats_new_407">对标签、类别、账户、交易对象进行自然排序。</string>
+    <string name="whats_new_415">按周按交易分组的周编号现在遵循区域标准（例如 ISO 8601）。</string>
 </resources>

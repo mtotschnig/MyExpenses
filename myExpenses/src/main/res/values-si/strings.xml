@@ -357,4 +357,5 @@
     <string name="pref_tag_style_filled">සම්පූර්ණයෙන්ම වර්ණවත්</string>
     <string name="trade_additional_costs">අතිරේක පිරිවැය</string>
     <string name="contrib_feature_portfolio_tracking">පෝට්ෆෝලියෝ ලුහුබැඳීම</string>
+    <string name="pref_summary_gms_document_scanner">ස්වයංක්‍රීය කැපීම සහ පෙළ වැඩිදියුණු කිරීම සමඟ Google Play සේවා ලේඛන ස්කෑනරය භාවිතා කරන්න</string>
 </resources>

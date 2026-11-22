@@ -14,4 +14,5 @@
     <string name="whats_new_402">Kontotyper kan tilpasses</string>
     <string name="whats_new_403">Kontoflag udvider tilpasning af kontosynlighed og prioritet.</string>
     <string name="whats_new_407">Naturlig sortering af etiketter, kategorier, konti og parter.</string>
+    <string name="whats_new_415">Ugenummerering for ugentlig transaktionsgruppering følger nu regionale standarder (f.eks. ISO 8601).</string>
 </resources>

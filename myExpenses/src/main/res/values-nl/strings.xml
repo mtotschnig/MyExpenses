@@ -1006,4 +1006,5 @@
     <string name="trade_target_asset">Actief</string>
     <string name="trade_transfer">Overboeking</string>
     <string name="trade_withdraw">Opname</string>
+    <string name="pref_summary_gms_document_scanner">Gebruik de documentenscanner van Google Play-services met automatisch bijsnijden en tekstverbetering</string>
 </resources>

@@ -12,4 +12,5 @@
     <string name="whats_new_402">Các loại tài khoản có thể được tùy chỉnh</string>
     <string name="whats_new_403">Cờ tài khoản mở rộng tùy chỉnh khả năng hiển thị và mức độ ưu tiên của tài khoản.</string>
     <string name="whats_new_407">Sắp xếp tự nhiên cho các thẻ, phân loại, tài khoản và các bên.</string>
+    <string name="whats_new_415">Việc đánh số tuần cho nhóm giao dịch hàng tuần hiện tuân theo các tiêu chuẩn khu vực (ví dụ: ISO 8601).</string>
 </resources>

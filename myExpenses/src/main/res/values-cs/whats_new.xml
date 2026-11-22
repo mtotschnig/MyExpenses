@@ -13,4 +13,5 @@
     <string name="whats_new_402">Typy účtů lze přizpůsobit</string>
     <string name="whats_new_403">Příznaky účtu rozšiřují přizpůsobení viditelnosti a priority účtu.</string>
     <string name="whats_new_407">Přirozené řazení pro štítky, kategorie, účty a oddíly.</string>
+    <string name="whats_new_415">Číslování týdnů pro týdenní seskupování transakcí nyní odpovídá regionálním standardům (např. ISO 8601).</string>
 </resources>

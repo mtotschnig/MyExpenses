@@ -16,4 +16,5 @@
     <string name="whats_new_411_1">Transfery podzielone</string>
     <string name="whats_new_411_2">Transfery aktywów między portfelami</string>
     <string name="whats_new_411_3">Ekran historii dla rachunków agregowanych obecnie odzwierciedla zmiany wartości walut obcych</string>
+    <string name="whats_new_415">Numeracja tygodni dla tygodniowego grupowania transakcji jest teraz zgodna z normami regionalnymi (np. ISO 8601).</string>
 </resources>

@@ -974,4 +974,5 @@
     <string name="important_upgrade_information_heading">ព័ត៌​មាន​សំខាន់</string>
     <string name="single_pane_view">ផ្ទាំងតែមួយ</string>
     <string name="split_pane_view">ទិដ្ឋភាពបំបែក</string>
+    <string name="pref_summary_gms_document_scanner">ប្រើម៉ាស៊ីនស្កេនឯកសារ Google Play Services ជាមួយនឹងការកាត់តដោយស្វ័យប្រវត្តិ និងការកែលម្អអត្ថបទ</string>
 </resources>

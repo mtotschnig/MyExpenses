@@ -1046,4 +1046,5 @@
     <string name="help_floating_action_button">フローティングアクションボタン</string>
     <string name="single_pane_view">単一ペイン</string>
     <string name="split_pane_view">分割表示</string>
+    <string name="pref_summary_gms_document_scanner">自動トリミングとテキスト補正機能を備えたGoogle Play開発者サービスのドキュメントスキャナーを使用する</string>
 </resources>

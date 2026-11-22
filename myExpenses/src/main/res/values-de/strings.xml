@@ -1094,4 +1094,5 @@
     <string name="search_fts_help_column">Verwenden Sie ein Präfix für den Suchbegriff, um die Suche auf eine bestimmte Spalte zu beschränken (z. B. payee:aldi, category:Essen, tag:Arbeit). Verfügbare Begriffe: \'comment\' (Notizen), \'payee\' (Zahlungsempfänger), \'category\' (Kategorie), \'tag\' (Schlagworte), \'ref\' (Referenznummer)</string>
     <string name="search_fts_error_malformed">Unvollständiger Suchoperator oder nicht übereinstimmende Anführungszeichen</string>
     <string name="parent_category">Übergeordnete Kategorie</string>
+    <string name="pref_summary_gms_document_scanner">Dokumentenscanner der Google Play-Dienste mit automatischem Zuschneiden und Textverbesserung verwenden</string>
 </resources>

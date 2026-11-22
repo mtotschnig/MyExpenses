@@ -17,4 +17,5 @@
     <string name="whats_new_411_1">Transferencias divididas</string>
     <string name="whats_new_411_2">Transferencias de activos entre carteras</string>
     <string name="whats_new_411_3">La pantalla de historial para cuentas agregadas ahora refleja el cambio en el valor de las monedas extranjeras</string>
+    <string name="whats_new_415">La numeración de semanas para la agrupación semanal de transacciones ahora sigue los estándares regionales (p. ej., ISO 8601).</string>
 </resources>

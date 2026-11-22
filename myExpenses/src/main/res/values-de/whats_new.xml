@@ -17,4 +17,5 @@
     <string name="whats_new_411_1">Mehrteilige Umbuchungen</string>
     <string name="whats_new_411_2">Vermögensübertragungen zwischen Portfolios</string>
     <string name="whats_new_411_3">History Screen für aggregierte Konten spiegelt nun die Wertänderung von Fremdwährungen wider</string>
+    <string name="whats_new_415">Die Wochennummerierung für die wöchentliche Buchungsgruppierung folgt nun regionalen Standards (z. B. ISO 8601).</string>
 </resources>

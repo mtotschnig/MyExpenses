@@ -975,4 +975,5 @@
     <string name="search_full_text">搜尋所有欄位</string>
     <string name="search_fts_error_malformed">搜尋運算子不完整或未配對的引號</string>
     <string name="parent_category">父類別</string>
+    <string name="pref_summary_gms_document_scanner">使用具有自動裁切和文字增強功能的 Google Play 服務文件掃描器</string>
 </resources>

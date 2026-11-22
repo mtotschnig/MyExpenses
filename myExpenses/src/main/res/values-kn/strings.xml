@@ -841,4 +841,5 @@
     <string name="pref_tag_style_filled">ಪೂರ್ಣ ಬಣ್ಣದ</string>
     <string name="trade_additional_costs">ಹೆಚ್ಚುವರಿ ವೆಚ್ಚಗಳು</string>
     <string name="contrib_feature_portfolio_tracking">ಪೋರ್ಟ್‌ಫೋಲಿಯೊ ಟ್ರ್ಯಾಕಿಂಗ್</string>
+    <string name="pref_summary_gms_document_scanner">ಸ್ವಯಂಚಾಲಿತ ಕ್ರಾಪಿಂಗ್ ಮತ್ತು ಪಠ್ಯ ಸುಧಾರಣೆಯೊಂದಿಗೆ Google Play ಸೇವೆಗಳ ಡಾಕ್ಯುಮೆಂಟ್ ಸ್ಕ್ಯಾನರ್ ಬಳಸಿ</string>
 </resources>

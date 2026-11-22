@@ -1000,4 +1000,5 @@
     <string name="pref_tag_style_filled">Цалкам каляровы</string>
     <string name="trade_additional_costs">Дадатковыя выдаткі</string>
     <string name="contrib_feature_portfolio_tracking">Адсочванне партфеля</string>
+    <string name="pref_summary_gms_document_scanner">Выкарыстоўваць сканер дакументаў сэрвісаў Google Play з аўтаматычным абрэзаннем і паляпшэннем тэксту</string>
 </resources>

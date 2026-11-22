@@ -13,4 +13,5 @@
     <string name="whats_new_402">Tipurile de conturi pot fi personalizate</string>
     <string name="whats_new_403">Indicatoarele de cont extind personalizarea vizibilității și priorității contului.</string>
     <string name="whats_new_407">Sortare naturală pentru etichete, categorii, conturi și părți.</string>
+    <string name="whats_new_415">Numerotarea săptămânilor pentru gruparea săptămânală a tranzacțiilor respectă acum standardele regionale (de ex. ISO 8601).</string>
 </resources>

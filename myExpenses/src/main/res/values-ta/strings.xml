@@ -1037,4 +1037,5 @@
     <string name="pref_tag_style_filled">முழு வண்ணமயமான</string>
     <string name="trade_additional_costs">கூடுதல் செலவுகள்</string>
     <string name="contrib_feature_portfolio_tracking">போர்ட்ஃபோலியோ கண்காணிப்பு</string>
+    <string name="pref_summary_gms_document_scanner">தானியங்கி பயிர்செய்தல் மற்றும் உரை மேம்பாட்டுடன் கூகிள் প্লে சேவைகளின் ஆவண ஸ்கேனரைப் பயன்படுத்தவும்</string>
 </resources>

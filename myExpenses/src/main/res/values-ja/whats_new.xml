@@ -14,4 +14,5 @@
     <string name="whats_new_403">アカウントフラグは、アカウントの可視性と優先度のカスタマイズを拡張します。</string>
     <string name="whats_new_382">%1$s 機能は、ウィジェット %2$sから呼び出すことができます。</string>
     <string name="whats_new_407">タグ、分類、勘定、取引先の自然順ソート。</string>
+    <string name="whats_new_415">週ごとの取引グループ化における週番号の付け方が、地域標準（例：ISO 8601）に準拠するようになりました。</string>
 </resources>

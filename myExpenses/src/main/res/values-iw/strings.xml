@@ -1112,4 +1112,5 @@
     <string name="warning_transform_to_transfer">העסקה הנבחרת תוחלף בהעברה מ-%1$s ל-%2$s.</string>
     <string name="warning_unarchive">הארכיון יופרק. כל העסקאות הכלולות יוכנסו מחדש לרשימה.</string>
     <string name="warning_unlink_transfer">ההעברה הנבחרת תנותק: היא תוחלף בעסקאות רגילות בשני החשבונות.</string>
+    <string name="pref_summary_gms_document_scanner">שימוש בסורק המסמכים של שירותי Google Play עם חיתוך אוטומטי ושיפור טקסט</string>
 </resources>

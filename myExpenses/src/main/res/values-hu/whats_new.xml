@@ -13,4 +13,5 @@
     <string name="whats_new_402">A számlatípusok testreszabhatók</string>
     <string name="whats_new_403">A fiókjelzők kiterjesztik a fiók láthatóságának és prioritásának testreszabását.</string>
     <string name="whats_new_407">Természetes sorrend a címkék, kategóriák, számlák és résztvevők számára.</string>
+    <string name="whats_new_415">A heti tranzakció-csoportosítás hétszámozása mostantól a regionális szabványokat követi (pl. ISO 8601).</string>
 </resources>

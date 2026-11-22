@@ -964,4 +964,5 @@
     <string name="important_upgrade_information_heading">重要資訊</string>
     <string name="single_pane_view">單面板</string>
     <string name="split_pane_view">分割視圖</string>
+    <string name="pref_summary_gms_document_scanner">使用具有自動剪裁和文字增強功能的 Google Play 服務文件掃描器</string>
 </resources>

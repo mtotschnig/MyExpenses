@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="whats_new_415">按週進行交易分組的週編號現在遵循區域標準（例如 ISO 8601）。</string>
+</resources>

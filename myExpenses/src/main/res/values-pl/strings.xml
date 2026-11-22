@@ -1096,4 +1096,5 @@
         <item quantity="many">%d nieużywanych podmiotów zostanie usuniętych.</item>
         <item quantity="other">%d nieużywanych podmiotów zostanie usuniętych.</item>
     </plurals>
+    <string name="pref_summary_gms_document_scanner">Użyj skanera dokumentów Usług Google Play z automatycznym przycinaniem i ulepszaniem tekstu</string>
 </resources>

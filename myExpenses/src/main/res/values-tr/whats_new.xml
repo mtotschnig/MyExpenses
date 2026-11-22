@@ -17,4 +17,5 @@
     <string name="whats_new_411_1">Bölünmüş muameleler</string>
     <string name="whats_new_411_2">Portföyler arası varlık aktarımları</string>
     <string name="whats_new_411_3">Toplam hesaplar için Tarih Ekranı artık yabancı para birimlerinin değerindeki değişiklikleri yansıtıyor</string>
+    <string name="whats_new_415">Haftalık işlem gruplaması için hafta numaralandırması artık bölgesel standartları (örn. ISO 8601) takip ediyor.</string>
 </resources>

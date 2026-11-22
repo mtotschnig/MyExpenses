@@ -13,4 +13,5 @@
     <string name="whats_new_401">交易清單現在顯示拆分交易的更多詳細資訊。</string>
     <string name="whats_new_402">帳戶類型可自訂</string>
     <string name="whats_new_403">帳戶標誌擴展了帳戶可見性和優先級的自定義。</string>
+    <string name="whats_new_415">週交易分組的週編號現在遵循區域標準（例如 ISO 8601）。</string>
 </resources>

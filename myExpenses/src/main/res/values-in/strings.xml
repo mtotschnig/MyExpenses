@@ -952,4 +952,5 @@
     <string name="pref_tag_style_outline">Bingkai berwarna</string>
     <string name="pref_tag_style_filled">Berwarna penuh</string>
     <string name="trade_additional_costs">Biaya tambahan</string>
+    <string name="pref_summary_gms_document_scanner">Gunakan pemindai dokumen Layanan Google Play dengan pemotongan otomatis dan peningkatan teks</string>
 </resources>

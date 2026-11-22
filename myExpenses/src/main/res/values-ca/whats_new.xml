@@ -8,4 +8,5 @@
     <string name="whats_new_402">Els tipus de compte es poden personalitzar</string>
     <string name="whats_new_403">Els indicadors de compte amplien la personalització de la visibilitat i la prioritat del compte.</string>
     <string name="whats_new_407">Ordenació natural per a etiquetes, categories, comptes i tercers.</string>
+    <string name="whats_new_415">La numeració de setmanes per a l\'agrupament setmanal de transaccions ara segueix els estàndards regionals (p. ex., ISO 8601).</string>
 </resources>

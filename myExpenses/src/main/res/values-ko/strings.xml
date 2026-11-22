@@ -950,4 +950,5 @@
     <string name="important_upgrade_information_heading">중요한 정보</string>
     <string name="single_pane_view">단일 분할창</string>
     <string name="split_pane_view">분할 보기</string>
+    <string name="pref_summary_gms_document_scanner">자동 자르기 및 텍스트 향상 기능이 있는 Google Play 서비스 문서 스캐너 사용</string>
 </resources>

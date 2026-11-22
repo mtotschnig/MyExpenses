@@ -16,4 +16,5 @@
     <string name="whats_new_411_1">Višedjelni prijenosi</string>
     <string name="whats_new_411_2">Prijenosi imovine između portfelja</string>
     <string name="whats_new_411_3">Ekran povijesti za agregirane račune sada odražava promjenu vrijednosti stranih valuta</string>
+    <string name="whats_new_415">Numeriranje tjedana za tjedno grupiranje transakcija sada slijedi regionalne standarde (npr. ISO 8601).</string>
 </resources>

@@ -1151,4 +1151,5 @@
     <string name="search_fts_help_prefix">কফ* : কফ দিয়ে শুরু হওয়া শব্দগুলি খুঁজে বের করে (যেমন কফি, কফিশপ)</string>
     <string name="search_fts_help_column">নির্দিষ্ট কলামে অনুসন্ধান সীমাবদ্ধ করতে অনুসন্ধান শব্দের আগে প্রিফিক্স যুক্ত করুন (যেমন payee:ওয়ালমার্ট, category:খাবার, tag:কাজ)। উপলব্ধ: \'comment\' (নোট), \'payee\' (পক্ষ), \'category\' (বিভাগ), \'tag\' (ট্যাগ), \'ref\' (রেফারেন্স নম্বর)</string>
     <string name="search_fts_error_malformed">অসম্পূর্ণ অনুসন্ধান অপারেটর বা অমিল উদ্ধৃতি চিহ্ন</string>
+    <string name="pref_summary_gms_document_scanner">স্বয়ংক্রিয় ক্রপিং এবং টেক্সট এনহান্সমেন্ট সহ Google Play Services ডকুমেন্ট স্ক্যানার ব্যবহার করুন</string>
 </resources>

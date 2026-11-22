@@ -17,4 +17,5 @@
     <string name="whats_new_411_1">Trasferimenti frazionati</string>
     <string name="whats_new_411_2">Trasferimenti di attività tra portafogli</string>
     <string name="whats_new_411_3">Schermata Storia per i conti aggregati ora riflette la variazione del valore delle valute estere</string>
+    <string name="whats_new_415">La numerazione delle settimane per il raggruppamento settimanale delle transazioni ora segue gli standard regionali (ad es. ISO 8601).</string>
 </resources>

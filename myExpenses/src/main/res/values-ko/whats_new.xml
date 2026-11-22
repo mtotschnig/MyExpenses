@@ -17,4 +17,5 @@
     <string name="whats_new_411_1">분할 이체</string>
     <string name="whats_new_411_2">포트폴리오 간 자산 이체</string>
     <string name="whats_new_411_3">집계 계좌의 내역 화면에 외화 가치 변동이 반영됩니다.</string>
+    <string name="whats_new_415">주별 거래 그룹화의 주 번호 매기기가 이제 지역 표준(예: ISO 8601)을 따릅니다.</string>
 </resources>

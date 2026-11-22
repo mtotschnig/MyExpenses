@@ -1041,4 +1041,5 @@
     </plurals>
     <string name="warning_expense_category_credit">Está a atribuir uma categoria de despesa a uma transação de receita. Como consequência, a transação reduzirá a soma das suas despesas e, por predefinição, será mostrada a vermelho.</string>
     <string name="warning_income_category_debit">Está a atribuir uma categoria de receita a uma transação de despesa. Como consequência, a transação reduzirá a soma da sua receita e, por predefinição, será mostrada a verde.</string>
+    <string name="pref_summary_gms_document_scanner">Usar o scanner de documentos do Google Play Services com recorte automático e melhoria de texto</string>
 </resources>

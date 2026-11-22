@@ -5,4 +5,5 @@
     <string name="whats_new_400_1">Diruaren banaketa kontuen artean erakusten duen grafiko zirkularra</string>
     <string name="whats_new_401">Transakzioen zerrendak orain xehetasun gehiago ematen ditu zatitutako transakzioetarako.</string>
     <string name="whats_new_402">Kontu motak pertsonalizatu egin daitezke</string>
+    <string name="whats_new_415">Transakzioen asteko multzokatzearen aste-numerazioak eskualdeko estandarrak jarraitzen ditu orain (adib. ISO 8601).</string>
 </resources>

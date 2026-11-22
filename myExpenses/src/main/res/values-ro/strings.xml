@@ -1058,4 +1058,5 @@
     <string name="warning_nested_archives">Arhivele conținute nu sunt suportate.</string>
     <string name="warning_unarchive">Arhiva va fi despachetată. Toate tranzacțiile conținute vor fi reintroduse în listă.</string>
     <string name="webui_download_no_data">După imprimare, exportare sau crearea de copii de rezervă în aplicație, fișierele vor fi disponibile de aici.</string>
+    <string name="pref_summary_gms_document_scanner">Utilizați scanerul de documente Google Play Services cu decupare automată și îmbunătățire a textului</string>
 </resources>

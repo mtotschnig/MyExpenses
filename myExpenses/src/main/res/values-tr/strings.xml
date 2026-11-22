@@ -1094,4 +1094,5 @@
     <string name="full_text_search">Tam metin araması</string>
     <string name="search_full_text">Tüm alanlarda ara</string>
     <string name="search_fts_error_malformed">Eksik arama işleci veya eşleşmeyen tırnak işaretleri</string>
+    <string name="pref_summary_gms_document_scanner">Otomatik kırpma ve metin iyileştirme özellikli Google Play Hizmetleri belge tarayıcısını kullanın</string>
 </resources>

@@ -1111,4 +1111,5 @@
     <string name="remap_update_value_date">Também atualizar a data de valor</string>
     <string name="trade_add_cost">Adicionar custo</string>
     <string name="trade_transfer">Transferência</string>
+    <string name="pref_summary_gms_document_scanner">Usar o scanner de documentos do Google Play Services com recorte automático e aprimoramento de texto</string>
 </resources>

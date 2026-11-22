@@ -14,4 +14,5 @@
     <string name="whats_new_402">Jenis akun dapat disesuaikan</string>
     <string name="whats_new_403">Penanda akun memperluas penyesuaian visibilitas dan prioritas akun.</string>
     <string name="whats_new_407">Pengurutan alami untuk tag, kategori, akun, dan pihak.</string>
+    <string name="whats_new_415">Penomoran minggu untuk pengelompokan transaksi mingguan kini mengikuti standar regional (misalnya, ISO 8601).</string>
 </resources>

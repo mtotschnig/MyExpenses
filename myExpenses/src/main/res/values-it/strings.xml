@@ -1105,4 +1105,5 @@
     <string name="search_fts_help_column">Prefissa il termine di ricerca per limitarla a una colonna specifica (ad es. payee:supermercato, category:cibo, tag:lavoro). Disponibili: \'comment\' (note), \'payee\' (beneficiario), \'category\' (categoria), \'tag\' (tag), \'ref\' (numero di riferimento)</string>
     <string name="parent_category">Categoria superiore</string>
     <string name="search_fts_error_malformed">Operatore di ricerca incompleto o preventivi non corrispondenti</string>
+    <string name="pref_summary_gms_document_scanner">Usa lo scanner di documenti di Google Play Services con ritaglio automatico e miglioramento del testo</string>
 </resources>

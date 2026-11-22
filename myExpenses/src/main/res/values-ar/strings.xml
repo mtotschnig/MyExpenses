@@ -1169,4 +1169,5 @@
     <string name="search_full_text">البحث في جميع الحقول</string>
     <string name="search_fts_error_malformed">مشغل بحث غير مكتمل أو علامات تنصيص غير متطابقة</string>
     <string name="parent_category">الفئة الأصل</string>
+    <string name="pref_summary_gms_document_scanner">استخدام ماسح المستندات المدمج في خدمات Google Play مع قص تلقائي وتحسين النص</string>
 </resources>

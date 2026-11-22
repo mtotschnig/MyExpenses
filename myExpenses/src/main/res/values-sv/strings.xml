@@ -953,4 +953,5 @@
     <string name="pref_tag_style_filled">Helt färgad</string>
     <string name="trade_additional_costs">Ytterligare kostnader</string>
     <string name="contrib_feature_portfolio_tracking">Portföljspårning</string>
+    <string name="pref_summary_gms_document_scanner">Använd Google Play-tjänsters dokumentskanner med automatisk beskärning och textförbättring</string>
 </resources>

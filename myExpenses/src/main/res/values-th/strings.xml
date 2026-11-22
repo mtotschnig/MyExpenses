@@ -871,4 +871,5 @@
     <string name="pref_tag_style_filled">ลงสีเต็ม</string>
     <string name="trade_additional_costs">ค่าใช้จ่ายเพิ่มเติม</string>
     <string name="contrib_feature_portfolio_tracking">การติดตามพอร์ตโฟลิโอ</string>
+    <string name="pref_summary_gms_document_scanner">ใช้เครื่องสแกนเอกสาร Google Play Services พร้อมการครอบตัดอัตโนมัติและการปรับปรุงข้อความ</string>
 </resources>

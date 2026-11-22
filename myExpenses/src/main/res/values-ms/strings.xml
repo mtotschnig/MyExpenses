@@ -884,4 +884,5 @@
     <string name="pref_tag_style_filled">Berwarna penuh</string>
     <string name="trade_additional_costs">Kos tambahan</string>
     <string name="contrib_feature_portfolio_tracking">Penjejakan portfolio</string>
+    <string name="pref_summary_gms_document_scanner">Gunakan pengimbas dokumen Perkhidmatan Google Play dengan pemotongan automatik dan penambahbaikan teks</string>
 </resources>
