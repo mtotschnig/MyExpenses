@@ -192,7 +192,7 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
     }
 
     /**
-     * Tests that no excessive equivalent_amounts rows are created:
+     * Tests that no excessive equivalent_amounts rows are created even when equivalentAmount is supplied:
      * 1. Split parts (part1Id, part2Id) must NOT have rows in equivalent_amounts.
      * 2. Home currency (USD) transactions must NOT have rows in equivalent_amounts.
      * 3. Static foreign currency (EUR, dynamic = false) transactions must NOT have rows in equivalent_amounts.
@@ -215,9 +215,9 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
                 hasLong(0, splitParentId)
             }
 
-        // 2. Verify home currency account transaction:
+        // 2. Verify home currency account transaction (attempting non-null equivalentAmount insert):
         val usdAccountId = insertAccount("USD Account", currency = "USD")
-        val usdTrans = repository.insertTransaction(usdAccountId, -5000)
+        val usdTrans = repository.insertTransaction(usdAccountId, -5000, equivalentAmount = -5000)
 
         db.query(
             table = TABLE_EQUIVALENT_AMOUNTS,
@@ -228,10 +228,11 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
             hasCount(0)
         }
 
-        // 3. Verify static foreign currency account transaction (dynamic = false):
+        // 3. Verify static foreign currency account transaction (dynamic = false, attempting non-null equivalentAmount insert):
         val staticEurAccountId =
             insertAccount("Static EUR Account", currency = "EUR", dynamic = false)
-        val staticEurTrans = repository.insertTransaction(staticEurAccountId, -5000)
+        val staticEurTrans =
+            repository.insertTransaction(staticEurAccountId, -5000, equivalentAmount = -7500)
 
         db.query(
             table = TABLE_EQUIVALENT_AMOUNTS,
@@ -404,6 +405,74 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
             selectionArgs = arrayOf(archivedSplitParent.data.id.toString())
         ).useAndAssert {
             hasCount(1)
+        }
+    }
+
+    /**
+     * Tests that an archived ordinary transaction (whose parent_id points to an archive row)
+     * uses its own stored equivalent amount and is NOT treated as a split part.
+     */
+    @Test
+    fun testArchivedOrdinaryTransactionUsesOwnEquivalentAmountNotArchiveRate() {
+        // Create an ordinary transaction with custom stored equivalent amount = -7000 (-70.00 USD)
+        val trans =
+            repository.insertTransaction(foreignAccountId, -5000, categoryId = expenseCategory1)
+        val db =
+            (
+                contentResolver.acquireContentProviderClient(
+                    TransactionProvider.AUTHORITY
+                )!!.localContentProvider as TransactionProvider
+                ).openHelperForTest.writableDatabase
+
+        db.insert(
+            TABLE_EQUIVALENT_AMOUNTS,
+            android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE,
+            ContentValues(3).apply {
+                put(KEY_TRANSACTIONID, trans.id)
+                put(KEY_EQUIVALENT_AMOUNT, -7000)
+                put(KEY_CURRENCY, "USD")
+            }
+        )
+
+        // Create an archive container row (status = STATUS_ARCHIVE = 4) with amount = -100000
+        val archiveRowId = ContentUris.parseId(
+            contentResolver.insert(
+                TransactionProvider.TRANSACTIONS_URI,
+                ContentValues().apply {
+                    put(KEY_ACCOUNTID, foreignAccountId)
+                    put(KEY_AMOUNT, -100000)
+                    put(KEY_DATE, System.currentTimeMillis() / 1000)
+                    put(KEY_VALUE_DATE, System.currentTimeMillis() / 1000)
+                    put(KEY_STATUS, STATUS_ARCHIVE)
+                    put(KEY_CR_STATUS, "UNRECONCILED")
+                    put(KEY_UUID, generateUuid())
+                }
+            )!!
+        )
+
+        // Archive the transaction (set parent_id = archiveRowId, status = STATUS_ARCHIVED = 5)
+        contentResolver.update(
+            TransactionProvider.TRANSACTIONS_URI,
+            ContentValues().apply {
+                put(KEY_PARENTID, archiveRowId)
+                put(KEY_STATUS, STATUS_ARCHIVED)
+            },
+            "$KEY_ROWID = ?",
+            arrayOf(trans.id.toString())
+        )
+
+        // Query KEY_AMOUNT_HOME_EQUIVALENT for trans.id
+        contentResolver.query(
+            TransactionProvider.EXTENDED_URI,
+            arrayOf(KEY_AMOUNT_HOME_EQUIVALENT),
+            "$KEY_ROWID = ?",
+            arrayOf(trans.id.toString()),
+            null
+        ).useAndAssert {
+            hasCount(1)
+            movesToFirst()
+            // Must return trans's OWN stored equivalent amount (-7000), NOT calculated from archive parent
+            hasLong(0, -7000)
         }
     }
 }

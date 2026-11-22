@@ -621,7 +621,7 @@ WITH now as (
           THEN
             coalesce(
               CASE WHEN $dynamicExpression
-                THEN ${calcEquivalentAmountForSplitParts("base")}
+                THEN ${calcEquivalentAmountForSplitParts("base", homeCurrency)}
               END,
               coalesce($KEY_EXCHANGE_RATE, 1) * $KEY_AMOUNT
             )
@@ -738,8 +738,8 @@ WITH now as (
         CASE WHEN $KEY_CURRENCY != '$homeCurrency'
           THEN
             coalesce(
-              CASE WHEN $KEY_DYNAMIC
-                THEN ${calcEquivalentAmountForSplitParts("base")}
+              CASE WHEN $dynamicExpression
+                THEN ${calcEquivalentAmountForSplitParts("base", homeCurrency)}
               END,
               coalesce($KEY_EXCHANGE_RATE, 1) * $KEY_AMOUNT
             )
@@ -1123,12 +1123,8 @@ fun getAmountHomeEquivalent(
         forTable, homeCurrency)} END,coalesce($KEY_EXCHANGE_RATE,1) * $KEY_AMOUNT)) END AS integer)"""
 //@formatter:on
 
-fun calcEquivalentAmountForSplitParts(forTable: String, homeCurrency: String? = null) =
-    if (homeCurrency != null) {
-        "CASE WHEN $forTable.$KEY_PARENTID THEN (SELECT 1.0 * parent_eq.$KEY_EQUIVALENT_AMOUNT / parent.$KEY_AMOUNT FROM $TABLE_TRANSACTIONS parent LEFT JOIN $TABLE_EQUIVALENT_AMOUNTS parent_eq ON parent.$KEY_ROWID = parent_eq.$KEY_TRANSACTIONID AND parent_eq.$KEY_CURRENCY = '$homeCurrency' WHERE parent.$KEY_ROWID = $forTable.$KEY_PARENTID) * $forTable.$KEY_AMOUNT ELSE $KEY_EQUIVALENT_AMOUNT END"
-    } else {
-        "CASE WHEN $forTable.$KEY_PARENTID THEN (SELECT 1.0 * $KEY_EQUIVALENT_AMOUNT / $KEY_AMOUNT FROM $forTable parent WHERE $KEY_ROWID = $forTable.$KEY_PARENTID) * $KEY_AMOUNT ELSE $KEY_EQUIVALENT_AMOUNT END"
-    }
+fun calcEquivalentAmountForSplitParts(forTable: String, homeCurrency: String) =
+    "CASE WHEN EXISTS (SELECT 1 FROM $TABLE_TRANSACTIONS parent WHERE parent.$KEY_ROWID = $forTable.$KEY_PARENTID AND parent.$KEY_CATID = $SPLIT_CATID) THEN (SELECT 1.0 * parent_eq.$KEY_EQUIVALENT_AMOUNT / parent.$KEY_AMOUNT FROM $TABLE_TRANSACTIONS parent LEFT JOIN $TABLE_EQUIVALENT_AMOUNTS parent_eq ON parent.$KEY_ROWID = parent_eq.$KEY_TRANSACTIONID AND parent_eq.$KEY_CURRENCY = '$homeCurrency' WHERE parent.$KEY_ROWID = $forTable.$KEY_PARENTID) * $forTable.$KEY_AMOUNT ELSE $KEY_EQUIVALENT_AMOUNT END"
 
 fun getExchangeRate(forTable: String, accountIdColumn: String, homeCurrency: String) = """
     coalesce((SELECT $KEY_EXCHANGE_RATE FROM $TABLE_ACCOUNT_EXCHANGE_RATES WHERE $KEY_ACCOUNTID = $forTable.$accountIdColumn AND $KEY_CURRENCY_SELF=$forTable.$KEY_CURRENCY AND $KEY_CURRENCY_OTHER='$homeCurrency'), 1)

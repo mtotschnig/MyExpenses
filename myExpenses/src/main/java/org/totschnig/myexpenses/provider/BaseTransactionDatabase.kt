@@ -1563,25 +1563,19 @@ abstract class BaseTransactionDatabase(
     fun SupportSQLiteDatabase.upgradeTo193() {
         val dynamicExpr =
             runBlocking { context.injector.preferencesDataStore().dynamicExchangeRates.first() }
+        val homeCurrency = context.injector.currencyContext().homeCurrencyString
         execSQL(
             """
             DELETE FROM $TABLE_EQUIVALENT_AMOUNTS
-            WHERE EXISTS (
-                SELECT 1
+            WHERE $KEY_TRANSACTIONID IN (
+                SELECT t.$KEY_ROWID
                 FROM $TABLE_TRANSACTIONS t
                 JOIN $TABLE_ACCOUNTS a ON t.$KEY_ACCOUNTID = a.$KEY_ROWID
-                WHERE t.$KEY_ROWID = $TABLE_EQUIVALENT_AMOUNTS.$KEY_TRANSACTIONID
-                  AND (
-                      EXISTS (
-                          SELECT 1
-                          FROM $TABLE_TRANSACTIONS p
-                          WHERE p.$KEY_ROWID = t.$KEY_PARENTID
-                            AND p.$KEY_CATID = $SPLIT_CATID
-                      )
-                      OR a.$KEY_CURRENCY = $TABLE_EQUIVALENT_AMOUNTS.$KEY_CURRENCY
-                      OR NOT ($dynamicExpr)
-                  )
-            );
+                LEFT JOIN $TABLE_TRANSACTIONS p ON t.$KEY_PARENTID = p.$KEY_ROWID
+                WHERE p.$KEY_CATID = $SPLIT_CATID
+                   OR a.$KEY_CURRENCY = '$homeCurrency'
+                   OR NOT ($dynamicExpr)
+            )
             """.trimIndent()
         )
     }
