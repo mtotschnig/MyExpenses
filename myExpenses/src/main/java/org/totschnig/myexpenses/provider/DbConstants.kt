@@ -73,11 +73,15 @@ val Uri.accountSelector: String
                 "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_EXCLUDE_FROM_TOTALS=0 " +
                     "AND $KEY_PARENTID IS NULL " +
                     (
-                        getQueryParameter(KEY_CURRENCY)?.let { "AND $KEY_CURRENCY = '$it'" }
+                        getQueryParameter(KEY_CURRENCY)?.let {
+                            "AND $KEY_CURRENCY = '$it'"
+                        }
                             ?: ""
                         ) +
                     (
-                        getQueryParameter(KEY_ACCOUNT_TYPE)?.let { "AND $KEY_TYPE = $it" }
+                        getQueryParameter(KEY_ACCOUNT_TYPE)?.let {
+                            "AND $KEY_TYPE = $it"
+                        }
                             ?: ""
                         ) +
                     (getQueryParameter(KEY_FLAG)?.let { "AND $KEY_FLAG = $it" } ?: "") +
@@ -899,13 +903,20 @@ fun buildSearchCte(
     """base AS (SELECT $forTable.*, $KEY_EXCHANGE_RATE, $KEY_EQUIVALENT_AMOUNT FROM ${
         exchangeRateJoin(forTable, KEY_ACCOUNTID, homeCurrency)
     }${equivalentAmountJoin(homeCurrency)}),
-    |$CTE_SEARCH AS (SELECT base.*, ${getAmountCalculation(homeCurrency, "base")} AS $KEY_DISPLAY_AMOUNT FROM base)""".trimMargin()
+    |$CTE_SEARCH AS (SELECT base.*, ${
+        getAmountCalculation(
+            homeCurrency,
+            "base"
+        )
+    } AS $KEY_DISPLAY_AMOUNT FROM base)
+    """.trimMargin()
 } else {
-    "$CTE_SEARCH AS (SELECT $forTable.*, $KEY_EXCHANGE_RATE, $KEY_EQUIVALENT_AMOUNT, $KEY_AMOUNT AS $KEY_DISPLAY_AMOUNT FROM " + exchangeRateJoin(
-        forTable,
-        KEY_ACCOUNTID,
-        homeCurrency
-    ) + equivalentAmountJoin(homeCurrency) + ")"
+    "$CTE_SEARCH AS (SELECT $forTable.*, $KEY_EXCHANGE_RATE, $KEY_EQUIVALENT_AMOUNT, $KEY_AMOUNT AS $KEY_DISPLAY_AMOUNT FROM " +
+        exchangeRateJoin(
+            forTable,
+            KEY_ACCOUNTID,
+            homeCurrency
+        ) + equivalentAmountJoin(homeCurrency) + ")"
 }
 
 fun buildTransactionGroupCte(
@@ -926,7 +937,9 @@ fun buildTransactionGroupCte(
     return buildString {
         // Base view of transactions with their historical equivalent amounts
         if (forHome != null) {
-            append("WITH base AS (SELECT $VIEW_WITH_ACCOUNT.*, $KEY_EXCHANGE_RATE, $KEY_EQUIVALENT_AMOUNT FROM ")
+            append(
+                "WITH base AS (SELECT $VIEW_WITH_ACCOUNT.*, $KEY_EXCHANGE_RATE, $KEY_EQUIVALENT_AMOUNT FROM "
+            )
             append(exchangeRateJoin(VIEW_WITH_ACCOUNT, KEY_ACCOUNTID, forHome))
             append(equivalentAmountJoin(forHome))
             append("), $CTE_SEARCH AS (SELECT base.*, $typeWithFallBack AS effective_type, ")
@@ -1104,8 +1117,10 @@ fun archiveSumCTE(
 fun getAmountHomeEquivalent(
     forTable: String,
     homeCurrency: String,
-    currencyTable: String = forTable) =
-    """cast(CASE WHEN $currencyTable.$KEY_CURRENCY = '$homeCurrency' THEN $KEY_AMOUNT ELSE round(coalesce(CASE WHEN $KEY_DYNAMIC THEN ${calcEquivalentAmountForSplitParts(forTable, homeCurrency)} END,coalesce($KEY_EXCHANGE_RATE,1) * $KEY_AMOUNT)) END AS integer)"""
+    currencyTable: String = forTable
+) =
+    """cast(CASE WHEN $currencyTable.$KEY_CURRENCY = '$homeCurrency' THEN $KEY_AMOUNT ELSE round(coalesce(CASE WHEN $KEY_DYNAMIC THEN ${calcEquivalentAmountForSplitParts(
+        forTable, homeCurrency)} END,coalesce($KEY_EXCHANGE_RATE,1) * $KEY_AMOUNT)) END AS integer)"""
 //@formatter:on
 
 fun calcEquivalentAmountForSplitParts(forTable: String, homeCurrency: String? = null) =

@@ -805,7 +805,6 @@
     <ID>MaxLineLength:DateCriterion.kt:LocalDateSerializer$// Serial names of descriptors should be unique, so choose app-specific name in case some library also would declare a serializer for Date.</ID>
     <ID>MaxLineLength:DateCriterion.kt:LocalDateSerializer$override</ID>
     <ID>MaxLineLength:DateFormatPreference.kt:DateFormatPreference$override fun getDefaultValue: String?</ID>
-    <ID>MaxLineLength:DbConstants.kt: |</ID>
     <ID>MaxLineLength:DbConstants.kt:" LEFT JOIN $TABLE_PLAN_INSTANCE_STATUS ON $tableName.$KEY_ROWID = $TABLE_PLAN_INSTANCE_STATUS.$KEY_TRANSACTIONID"</ID>
     <ID>MaxLineLength:DbConstants.kt:" SELECT $tableName.*, Tree.$KEY_PATH, Tree.$KEY_ICON, Tree.$KEY_TYPE, $TABLE_PAYEES.$KEY_PAYEE_NAME, $TABLE_PAYEES.$KEY_SHORT_NAME, $TABLE_METHODS.$KEY_LABEL AS $KEY_METHOD_LABEL, $TABLE_METHODS.$KEY_ICON AS $KEY_METHOD_ICON"</ID>
     <ID>MaxLineLength:DbConstants.kt:" WHERE $WHERE_NOT_SPLIT AND ($KEY_PARENTID = $archiveId OR (SELECT $KEY_PARENTID FROM $TABLE_TRANSACTIONS parents WHERE $KEY_ROWID = $VIEW_WITH_ACCOUNT.$KEY_PARENTID) = $archiveId))"</ID>

@@ -7363,34 +7363,24 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/provider/DbConstants.kt">
         <error line="73" column="101" source="standard:max-line-length" />
-        <error line="109" column="11" source="standard:property-naming" />
-        <error line="134" column="11" source="standard:property-naming" />
-        <error line="165" column="101" source="standard:max-line-length" />
-        <error line="530" column="101" source="standard:max-line-length" />
-        <error line="663" column="101" source="standard:max-line-length" />
-        <error line="771" column="11" source="standard:property-naming" />
-        <error line="902" column="60" source="standard:argument-list-wrapping" />
-        <error line="902" column="74" source="standard:argument-list-wrapping" />
-        <error line="902" column="80" source="standard:argument-list-wrapping" />
-        <error line="902" column="101" source="standard:max-line-length" />
-        <error line="902" column="116" source="standard:wrapping" />
-        <error line="904" column="101" source="standard:max-line-length" />
-        <error line="904" column="129" source="standard:binary-expression-wrapping" />
-        <error line="929" column="20" source="standard:argument-list-wrapping" />
-        <error line="929" column="101" source="standard:max-line-length" />
-        <error line="929" column="113" source="standard:argument-list-wrapping" />
-        <error line="1013" column="101" source="standard:max-line-length" />
-        <error line="1071" column="101" source="standard:max-line-length" />
-        <error line="1072" column="101" source="standard:max-line-length" />
-        <error line="1107" column="36" source="standard:wrapping" />
-        <error line="1107" column="37" source="standard:parameter-list-wrapping" />
-        <error line="1108" column="171" source="standard:argument-list-wrapping" />
-        <error line="1108" column="181" source="standard:argument-list-wrapping" />
-        <error line="1108" column="193" source="standard:argument-list-wrapping" />
-        <error line="1109" column="1" source="standard:comment-spacing" />
-        <error line="1138" column="101" source="standard:max-line-length" />
-        <error line="1139" column="101" source="standard:max-line-length" />
-        <error line="1140" column="101" source="standard:max-line-length" />
+        <error line="113" column="11" source="standard:property-naming" />
+        <error line="138" column="11" source="standard:property-naming" />
+        <error line="169" column="101" source="standard:max-line-length" />
+        <error line="534" column="101" source="standard:max-line-length" />
+        <error line="667" column="101" source="standard:max-line-length" />
+        <error line="775" column="11" source="standard:property-naming" />
+        <error line="914" column="101" source="standard:max-line-length" />
+        <error line="1026" column="101" source="standard:max-line-length" />
+        <error line="1084" column="101" source="standard:max-line-length" />
+        <error line="1085" column="101" source="standard:max-line-length" />
+        <error line="1122" column="171" source="standard:paren-spacing" />
+        <error line="1123" column="19" source="standard:argument-list-wrapping" />
+        <error line="1123" column="30" source="standard:wrapping" />
+        <error line="1123" column="31" source="standard:argument-list-wrapping" />
+        <error line="1124" column="1" source="standard:comment-spacing" />
+        <error line="1153" column="101" source="standard:max-line-length" />
+        <error line="1154" column="101" source="standard:max-line-length" />
+        <error line="1155" column="101" source="standard:max-line-length" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/provider/MoreDbUtils.kt">
         <error line="3" column="1" source="standard:import-ordering" />
