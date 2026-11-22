@@ -858,7 +858,7 @@
     <ID>MaxLineLength:FontAwesomeIcons.kt:"house-flood-water-circle-arrow-right" to IconInfo('\ue50f', R.string.fa_house_flood_water_circle_arrow_right_label, false)</ID>
     <ID>MaxLineLength:FontAwesomeIcons.kt:"person-walking-dashed-line-arrow-right" to IconInfo('\ue553', R.string.fa_person_walking_dashed_line_arrow_right_label, false)</ID>
     <ID>MaxLineLength:FormAccentUtil.kt:if</ID>
-    <ID>MaxLineLength:FullAccount.kt:FullAccount.Companion$//in V2 this is only called for real accounts, in V1 we need to set isSingleCurrency to false for home aggregate</ID>
+    <ID>MaxLineLength:FullAccount.kt:FullAccount.Companion$// in V2 this is only called for real accounts, in V1 we need to set isSingleCurrency to false for home aggregate</ID>
     <ID>MaxLineLength:FullAccount.kt:FullAccount.Companion$balanceType = if (portfolioRole == PORTFOLIO_CONTAINER) BalanceType.VALUATION else getEnumIfExists(KEY_BALANCE_TYPE, BalanceType.CURRENT)</ID>
     <ID>MaxLineLength:GroupQueryBreakdownTest.kt:GroupQueryBreakdownTest$// date(date, 'unixepoch', 'localtime', '-${monthDelta} day', 'start of month', '+1 month', '-1 day', '+${monthDelta} day')</ID>
     <ID>MaxLineLength:GroupedSpinnerAdapter.kt:GroupedSpinnerAdapter$fun getFirstSelectable: IndexedValue&lt;SpinnerItem&gt;?</ID>
@@ -1013,6 +1013,7 @@
     <ID>MaxLineLength:SimpleCriterion.kt:SimpleCriterion$return "($selection OR exists(select 1 from $TABLE_TRANSACTIONS parents WHERE $KEY_ROWID = $tableName.$KEY_PARENTID AND ($selection)))"</ID>
     <ID>MaxLineLength:Sort.kt:Sort.Companion$//returns null if the preferred Sort has null toOrderBy, otherwise the preferred Sort (with defaultOrderBy as secondary sort), otherwise the defaultOrderBy</ID>
     <ID>MaxLineLength:Sort.kt:Sort.Companion$val accountSortLabels = listOf(R.string.label, R.string.pref_sort_order_usages, R.string.pref_sort_order_last_used, R.string.pref_sort_order_custom)</ID>
+    <ID>MaxLineLength:SplitCalculationBugsTest.kt:SplitCalculationBugsTest$// 3. Verify static foreign currency account transaction (dynamic = false, attempting non-null equivalentAmount insert):</ID>
     <ID>MaxLineLength:SplitPartRVAdapter.kt:SplitPartRVAdapter.ViewHolder$transaction.icon?.let { binding.icon.setImageDrawable(IIconInfo.resolveIcon(it)?.asDrawable(binding.root.context)) }</ID>
     <ID>MaxLineLength:SplitPartRVAdapter.kt:SplitPartRVAdapter.ViewHolder$transaction.isTransfer -&gt; getIndicatorPrefixForLabel(transaction.amount.amountMinor) + transaction.transferAccount</ID>
     <ID>MaxLineLength:StorageAccessFrameworkBackendProvider.kt:StorageAccessFrameworkBackendProvider$(contentResolver.openOutputStream(file.uri, "wt") ?: throw IOException("Failed to open output stream"))</ID>

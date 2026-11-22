@@ -7280,13 +7280,13 @@
         <error line="194" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/provider/BaseTransactionDatabase.kt">
-        <error line="857" column="101" source="standard:max-line-length" />
-        <error line="867" column="101" source="standard:max-line-length" />
-        <error line="882" column="101" source="standard:max-line-length" />
-        <error line="898" column="101" source="standard:max-line-length" />
-        <error line="903" column="101" source="standard:max-line-length" />
-        <error line="1065" column="101" source="standard:max-line-length" />
-        <error line="1140" column="101" source="standard:max-line-length" />
+        <error line="855" column="101" source="standard:max-line-length" />
+        <error line="865" column="101" source="standard:max-line-length" />
+        <error line="880" column="101" source="standard:max-line-length" />
+        <error line="896" column="101" source="standard:max-line-length" />
+        <error line="901" column="101" source="standard:max-line-length" />
+        <error line="1063" column="101" source="standard:max-line-length" />
+        <error line="1138" column="101" source="standard:max-line-length" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/provider/BaseTransactionProvider.kt">
         <error line="302" column="101" source="standard:max-line-length" />
@@ -7378,9 +7378,9 @@
         <error line="1123" column="30" source="standard:wrapping" />
         <error line="1123" column="31" source="standard:argument-list-wrapping" />
         <error line="1124" column="1" source="standard:comment-spacing" />
-        <error line="1153" column="101" source="standard:max-line-length" />
-        <error line="1154" column="101" source="standard:max-line-length" />
-        <error line="1155" column="101" source="standard:max-line-length" />
+        <error line="1149" column="101" source="standard:max-line-length" />
+        <error line="1150" column="101" source="standard:max-line-length" />
+        <error line="1151" column="101" source="standard:max-line-length" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/provider/MoreDbUtils.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -12945,7 +12945,6 @@
         <error line="339" column="116" source="standard:argument-list-wrapping" />
         <error line="339" column="134" source="standard:argument-list-wrapping" />
         <error line="339" column="153" source="standard:argument-list-wrapping" />
-        <error line="343" column="17" source="standard:comment-spacing" />
         <error line="365" column="1" source="standard:no-consecutive-blank-lines" />
         <error line="384" column="1" source="standard:no-blank-line-before-rbrace" />
         <error line="389" column="35" source="standard:trailing-comma-on-declaration-site" />

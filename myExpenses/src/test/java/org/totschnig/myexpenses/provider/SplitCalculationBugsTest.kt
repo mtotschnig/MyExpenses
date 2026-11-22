@@ -248,7 +248,7 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
      * Tests that database migration upgradeTo193() deletes invalid equivalent_amounts rows:
      * - Rows for actual split parts (whose parent is a split transaction, cat_id = 0)
      * - Rows for home currency accounts (currency == homeCurrency)
-     * - Rows for static foreign currency accounts (dynamic == false)
+     * - Rows with equivalent_amount == 0 (leftover rows from UI bug)
      * AND preserves valid rows for:
      * - Top-level split parents (parent_id IS NULL, cat_id = 0)
      * - Archived ordinary transactions (parent_id points to an archive row, cat_id != 0)
@@ -264,12 +264,11 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
                 ).openHelperForTest.writableDatabase
 
         // 1. Setup accounts and transactions
-        val staticEurAccountId =
-            insertAccount("Static Account Migration Test", currency = "EUR", dynamic = false)
-        val staticTrans = repository.insertTransaction(staticEurAccountId, -5000)
-
         val usdAccountId = insertAccount("USD Account Migration Test", currency = "USD")
         val usdTrans = repository.insertTransaction(usdAccountId, -5000)
+
+        val zeroTrans =
+            repository.insertTransaction(foreignAccountId, -5000, categoryId = expenseCategory1)
 
         // Create an archived ordinary transaction in dynamic EUR account
         val archivedOrdinaryTrans =
@@ -339,13 +338,13 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
                 put(KEY_CURRENCY, "USD")
             }
         )
-        // Invalid: static account transaction
+        // Invalid: zero equivalent amount row
         db.insert(
             TABLE_EQUIVALENT_AMOUNTS,
             android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE,
             ContentValues(3).apply {
-                put(KEY_TRANSACTIONID, staticTrans.id)
-                put(KEY_EQUIVALENT_AMOUNT, -7500)
+                put(KEY_TRANSACTIONID, zeroTrans.id)
+                put(KEY_EQUIVALENT_AMOUNT, 0)
                 put(KEY_CURRENCY, "USD")
             }
         )

@@ -11,8 +11,6 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
 import java.util.Currency
 import kotlin.math.pow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Attribute
 import org.totschnig.myexpenses.db2.BankingAttribute
@@ -1561,8 +1559,6 @@ abstract class BaseTransactionDatabase(
     }
 
     fun SupportSQLiteDatabase.upgradeTo193() {
-        val dynamicExpr =
-            runBlocking { context.injector.preferencesDataStore().dynamicExchangeRates.first() }
         val homeCurrency = context.injector.currencyContext().homeCurrencyString
         execSQL(
             """
@@ -1574,7 +1570,7 @@ abstract class BaseTransactionDatabase(
                 LEFT JOIN $TABLE_TRANSACTIONS p ON t.$KEY_PARENTID = p.$KEY_ROWID
                 WHERE p.$KEY_CATID = $SPLIT_CATID
                    OR (a.$KEY_CURRENCY = '$homeCurrency' AND $TABLE_EQUIVALENT_AMOUNTS.$KEY_CURRENCY = '$homeCurrency')
-                   OR NOT ($dynamicExpr)
+                   OR $TABLE_EQUIVALENT_AMOUNTS.$KEY_EQUIVALENT_AMOUNT = 0
             )
             """.trimIndent()
         )
