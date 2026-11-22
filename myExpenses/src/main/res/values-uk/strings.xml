@@ -1085,4 +1085,15 @@
     <string name="trade_add_cost">Додати вартість</string>
     <string name="single_pane_view">Одна панель</string>
     <string name="split_pane_view">Розділений вигляд</string>
+    <string name="pick_image_intent_chooser_title">Завжди пропонувати вибір програм</string>
+    <string name="pref_title_gms_document_scanner">Використовувати сканер документів</string>
+    <string name="pref_summary_gms_document_scanner">Використовувати сканер документів Сервісів Google Play з автоматичним обрізанням та покращенням тексту</string>
+    <string name="full_text_search">Повнотекстовий пошук</string>
+    <string name="search_full_text">Пошук у всіх полях</string>
+    <string name="search_fts_help_and">кава чай: знаходить транзакції як з кавою, так і з чаєм</string>
+    <string name="search_fts_help_not">кава-чай: знаходить транзакції з кавою, але без чаю</string>
+    <string name="search_fts_help_or">кава OR чай: знаходить транзакції з кавою або чаєм</string>
+    <string name="search_fts_help_phrase">\"кава та чай\": знаходить точну фразу «кава та чай»</string>
+    <string name="search_fts_help_prefix">кав* : знаходить слова, що починаються на кав (наприклад, кава, кав\'ярня)</string>
+    <string name="parent_category">Батьківська категорія</string>
 </resources>
