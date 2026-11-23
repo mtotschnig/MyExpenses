@@ -81,6 +81,8 @@ fun AccountsScreen(
 
     val canCreatePortfolio by viewModel.canCreatePortfolio.collectAsState()
     val premiumNudgeDismissed by viewModel.premiumNudgeDismissed.asState()
+    val dynamicExchangeRatesPerAccount by
+        viewModel.dynamicExchangeRatesPerAccount.collectAsState(true)
 
     fun navigateToAccount(id: Long) {
         viewModel.selectAccount(id)
@@ -223,7 +225,8 @@ fun AccountsScreen(
                 bankIcon = bankIcon,
                 showPremiumNudge = !canCreatePortfolio && !premiumNudgeDismissed,
                 onUpgrade = { onEvent(AppEvent.ShowUpgrade(ContribFeature.PORTFOLIO)) },
-                onDismissPremiumNudge = viewModel::dismissPremiumNudge
+                onDismissPremiumNudge = viewModel::dismissPremiumNudge,
+                isDynamicExchangeRatesPerAccount = dynamicExchangeRatesPerAccount
             )
         }
     }

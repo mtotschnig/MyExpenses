@@ -2,9 +2,7 @@ package org.totschnig.myexpenses.compose.accounts
 
 import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -132,7 +130,8 @@ fun AccountListV2(
     flags: List<AccountFlag> = emptyList(),
     showPremiumNudge: Boolean = false,
     onUpgrade: () -> Unit = {},
-    onDismissPremiumNudge: () -> Unit = {}
+    onDismissPremiumNudge: () -> Unit = {},
+    isDynamicExchangeRatesPerAccount: Boolean = true
 ) {
     val context = LocalContext.current
     val collapsedGroupIds =
@@ -222,7 +221,8 @@ fun AccountListV2(
                             },
                             onEvent = onEvent,
                             flags = flags,
-                            bankIcon = bankIcon
+                            bankIcon = bankIcon,
+                            isDynamicExchangeRatesPerAccount = isDynamicExchangeRatesPerAccount
                         )
                     }
                 }
@@ -318,7 +318,8 @@ fun AccountCardV2(
     onToggleExpand: () -> Unit = {},
     onEvent: AccountEventHandler,
     flags: List<AccountFlag> = emptyList(),
-    bankIcon: @Composable ((Modifier, Long) -> Unit)? = null
+    bankIcon: @Composable ((Modifier, Long) -> Unit)? = null,
+    isDynamicExchangeRatesPerAccount: Boolean = true
 ) {
     val format = LocalCurrencyFormatter.current
     val activatedBackgroundColor = MaterialTheme.colorScheme.secondaryContainer
@@ -519,7 +520,8 @@ fun AccountCardV2(
                             homeCurrency = homeCurrency,
                             account = account,
                             onEvent = onEvent,
-                            flags = flags
+                            flags = flags,
+                            isDynamicExchangeRatesPerAccount = isDynamicExchangeRatesPerAccount
                         )
                     )
                 }
@@ -901,7 +903,8 @@ private fun accountMenu(
     homeCurrency: CurrencyUnit,
     account: FullAccount,
     onEvent: AccountEventHandler,
-    flags: List<AccountFlag>
+    flags: List<AccountFlag>,
+    isDynamicExchangeRatesPerAccount: Boolean = true
 ) = buildList {
     if (account.id > 0) {
         if (!account.sealed) {
@@ -944,7 +947,7 @@ private fun accountMenu(
                 onEvent(AccountEvent.ToggleExcludeFromTotals, account)
             }
         )
-        if (account.currency != homeCurrency.code) {
+        if (isDynamicExchangeRatesPerAccount && account.currency != homeCurrency.code) {
             add(
                 CheckableMenuEntry(
                     label = R.string.dynamic_exchange_rate,
@@ -955,24 +958,6 @@ private fun accountMenu(
                 }
             )
         }
-    }
-}
-
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun SumRow(label: Int, formattedAmount: String, modifier: Modifier = Modifier) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            stringResource(label),
-            Modifier
-                .weight(1f)
-                .basicMarquee(iterations = 1),
-            maxLines = 1
-        )
-        Text(formattedAmount, modifier)
     }
 }
 
