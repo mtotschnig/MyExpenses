@@ -19,8 +19,8 @@ import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.db2.transactionExists
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
@@ -90,10 +90,14 @@ class MyExpensesViewModelTest : BaseViewModelTest() {
             categoryId = categoryId
         )
         repository.insertTransfer(
-            account1.id, account2.id, transferP
+            account1.id,
+            account2.id,
+            transferP
         )
         repository.insertTransfer(
-            account1.id, account2.id, -transferN
+            account1.id,
+            account2.id,
+            -transferN
         )
     }
 
@@ -106,21 +110,21 @@ class MyExpensesViewModelTest : BaseViewModelTest() {
 
     private fun getTotalAccountBalance(account: Account) =
         repository.loadAccount(account.id)!!.openingBalance +
-                repository.getTransactionSum(account)
+            repository.getTransactionSum(account)
 
     private fun getReconciledAccountBalance(account: Account) =
         repository.loadAccount(account.id)!!.openingBalance +
-                repository.getTransactionSum(
-                    account,
-                    CrStatusCriterion(listOf(CrStatus.RECONCILED))
-                )
+            repository.getTransactionSum(
+                account,
+                CrStatusCriterion(listOf(CrStatus.RECONCILED))
+            )
 
     private fun getClearedAccountBalance(account: Account) =
         repository.loadAccount(account.id)!!.openingBalance +
-                repository.getTransactionSum(
-                    account,
-                    CrStatusCriterion(listOf(CrStatus.CLEARED))
-                )
+            repository.getTransactionSum(
+                account,
+                CrStatusCriterion(listOf(CrStatus.CLEARED))
+            )
 
     @Test
     fun testReset() {
@@ -132,7 +136,6 @@ class MyExpensesViewModelTest : BaseViewModelTest() {
         assertThat(getTotalAccountBalance(account1)).isEqualTo(initialTotalBalance)
     }
 
-
     @Test
     fun testResetWithFilterUpdateBalance() {
         insertData()
@@ -140,7 +143,7 @@ class MyExpensesViewModelTest : BaseViewModelTest() {
         assertThat(count()).isEqualTo(6)
         val filter = CategoryCriterion(TEST_CAT, categoryId)
         viewModel.reset(account1, filter, EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null)
-        assertThat(count()).isEqualTo(5) //1 Transaction deleted
+        assertThat(count()).isEqualTo(5) // 1 Transaction deleted
         assertThat(getTotalAccountBalance(account1)).isEqualTo(initialTotalBalance)
     }
 
@@ -155,7 +158,7 @@ class MyExpensesViewModelTest : BaseViewModelTest() {
         val filter = CategoryCriterion(TEST_CAT, categoryId)
         viewModel.reset(account1, filter, EXPORT_HANDLE_DELETED_CREATE_HELPER, null)
 
-        assertThat(count()).isEqualTo(6) //-1 Transaction deleted;+1 helper
+        assertThat(count()).isEqualTo(6) // -1 Transaction deleted;+1 helper
         assertThat(count(condition = "$KEY_CATID=$categoryId")).isEqualTo(0)
         assertThat(count(condition = "$KEY_STATUS=$STATUS_HELPER")).isEqualTo(1)
         assertThat(getTotalAccountBalance(account1)).isEqualTo(initialTotalBalance)
@@ -183,7 +186,9 @@ class MyExpensesViewModelTest : BaseViewModelTest() {
         assertThat(count(condition = "$KEY_CR_STATUS = '${CrStatus.CLEARED.name}'")).isEqualTo(4)
         assertThat(count(condition = "$KEY_CR_STATUS = '${CrStatus.RECONCILED.name}'")).isEqualTo(0)
         assertThat(viewModel.balanceAccount(account1.id, true).getOrAwaitValue().isSuccess).isTrue()
-        assertThat(count(condition = "$KEY_CR_STATUS != '${CrStatus.UNRECONCILED.name}'")).isEqualTo(
+        assertThat(
+            count(condition = "$KEY_CR_STATUS != '${CrStatus.UNRECONCILED.name}'")
+        ).isEqualTo(
             0
         )
         assertThat(count(condition = "$KEY_CR_STATUS = '${CrStatus.UNRECONCILED.name}'")).isEqualTo(
@@ -213,7 +218,8 @@ class MyExpensesViewModelTest : BaseViewModelTest() {
             label = "Account 2",
             openingBalance = openingBalance,
             currency = CurrencyUnit.DebugInstance.code,
-            type = repository.findAccountType(PREDEFINED_NAME_CASH)!!
+            type = repository.findAccountType(PREDEFINED_NAME_CASH)!!,
+            dynamicExchangeRates = true
         )
             .createIn(repository)
         val split = repository.createSplitTransaction(
@@ -223,7 +229,8 @@ class MyExpensesViewModelTest : BaseViewModelTest() {
                 categoryId = SPLIT_CATID,
                 equivalentAmount = 5000,
                 uuid = generateUuid()
-            ), listOf(
+            ),
+            listOf(
                 Transaction(
                     accountId = account.id,
                     amount = 6000,
@@ -288,8 +295,10 @@ class MyExpensesViewModelTest : BaseViewModelTest() {
         )
 
         val result = repository.createDualSplitTransaction(
-            parentA, listOf(partA to partB),
-            parentB, listOf(partB to partA)
+            parentA,
+            listOf(partA to partB),
+            parentB,
+            listOf(partB to partA)
         )
         val idA = result.first.data.id
         val idB = result.second.data.id

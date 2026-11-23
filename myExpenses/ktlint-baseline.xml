@@ -1811,9 +1811,6 @@
         <error line="43" column="69" source="standard:argument-list-wrapping" />
         <error line="46" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/main/java/org/totschnig/myexpenses/activity/Help.kt">
-        <error line="26" column="1" source="standard:final-newline" />
-    </file>
     <file name="src/main/java/org/totschnig/myexpenses/activity/HistoryActivity.kt">
         <error line="16" column="1" source="standard:final-newline" />
     </file>
@@ -13483,12 +13480,6 @@
         <error line="159" column="1" source="standard:no-blank-line-before-rbrace" />
         <error line="160" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/test/java/org/totschnig/myexpenses/activity/ManagePartiesTest.kt">
-        <error line="48" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="54" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="62" column="92" source="standard:op-spacing" />
-        <error line="64" column="1" source="standard:final-newline" />
-    </file>
     <file name="src/test/java/org/totschnig/myexpenses/db2/RepositoryBudgetTest.kt">
         <error line="95" column="15" source="standard:wrapping" />
         <error line="95" column="16" source="standard:argument-list-wrapping" />
@@ -14500,35 +14491,6 @@
         <error line="45" column="104" source="standard:argument-list-wrapping" />
         <error line="117" column="14" source="standard:trailing-comma-on-call-site" />
         <error line="120" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/test/java/org/totschnig/myexpenses/viewmodel/MyExpensesViewModelTest.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="93" column="26" source="standard:argument-list-wrapping" />
-        <error line="93" column="39" source="standard:argument-list-wrapping" />
-        <error line="96" column="26" source="standard:argument-list-wrapping" />
-        <error line="96" column="39" source="standard:argument-list-wrapping" />
-        <error line="109" column="1" source="standard:indent" />
-        <error line="113" column="1" source="standard:indent" />
-        <error line="114" column="1" source="standard:indent" />
-        <error line="115" column="1" source="standard:indent" />
-        <error line="116" column="1" source="standard:indent" />
-        <error line="120" column="1" source="standard:indent" />
-        <error line="121" column="1" source="standard:indent" />
-        <error line="122" column="1" source="standard:indent" />
-        <error line="123" column="1" source="standard:indent" />
-        <error line="135" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="143" column="42" source="standard:comment-spacing" />
-        <error line="158" column="42" source="standard:comment-spacing" />
-        <error line="186" column="20" source="standard:argument-list-wrapping" />
-        <error line="186" column="26" source="standard:argument-list-wrapping" />
-        <error line="186" column="89" source="standard:argument-list-wrapping" />
-        <error line="186" column="90" source="standard:argument-list-wrapping" />
-        <error line="186" column="101" source="standard:max-line-length" />
-        <error line="226" column="15" source="standard:wrapping" />
-        <error line="226" column="16" source="standard:argument-list-wrapping" />
-        <error line="291" column="22" source="standard:argument-list-wrapping" />
-        <error line="292" column="22" source="standard:argument-list-wrapping" />
-        <error line="309" column="1" source="standard:final-newline" />
     </file>
     <file name="src/test/java/org/totschnig/myexpenses/viewmodel/NaturalSortTest.kt">
         <error line="3" column="1" source="standard:import-ordering" />

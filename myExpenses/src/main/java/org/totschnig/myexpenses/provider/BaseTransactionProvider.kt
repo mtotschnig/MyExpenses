@@ -2463,7 +2463,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 }
             )
         } else {
-            report(IllegalArgumentException("Trying o insert unnecessary equivalent amount"))
+            CrashHandler.throwOrReport(
+                IllegalArgumentException("Trying to insert unnecessary equivalent amount")
+            )
         }
     }
 

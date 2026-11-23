@@ -299,7 +299,6 @@
     <ID>LongMethod:FilterDialog.kt:@OptIn(ExperimentalMaterial3Api::class) @Suppress( "MaxLineLength", "ktlint:standard:max-line-length", "ktlint:standard:argument-list-wrapping" ) @Composable fun FilterDialog</ID>
     <ID>LongMethod:FilterHandler.kt:@Composable fun FilterHandler</ID>
     <ID>LongMethod:FloatingActionButtonMenu.kt:@Composable fun &lt;T : FabMenuAction&gt; FloatingActionButtonMenu</ID>
-    <ID>LongMethod:HelpDialogFragment.kt:HelpDialogFragment$private fun populateContent</ID>
     <ID>LongMethod:HelpDialogHelper.kt:HelpDialogHelper$fun resolveStringOrArray</ID>
     <ID>LongMethod:HelpDialogHelperTest.kt:HelpDialogHelperTest$@Test fun testHelpStringResExists</ID>
     <ID>LongMethod:HistoryChart.kt:HistoryChart$override fun onCreateView: View</ID>
@@ -1296,7 +1295,6 @@
     <ID>NewLineAtEndOfFile:GroupedSpinnerAdapter.kt:org.totschnig.myexpenses.adapter.GroupedSpinnerAdapter.kt</ID>
     <ID>NewLineAtEndOfFile:Grouping.kt:org.totschnig.myexpenses.model.Grouping.kt</ID>
     <ID>NewLineAtEndOfFile:HeaderPreference.kt:org.totschnig.myexpenses.preference.HeaderPreference.kt</ID>
-    <ID>NewLineAtEndOfFile:Help.kt:org.totschnig.myexpenses.activity.Help.kt</ID>
     <ID>NewLineAtEndOfFile:HelpDialogHelperTest.kt:org.totschnig.myexpenses.util.HelpDialogHelperTest.kt</ID>
     <ID>NewLineAtEndOfFile:HistoryAccountInfo.kt:org.totschnig.myexpenses.viewmodel.data.HistoryAccountInfo.kt</ID>
     <ID>NewLineAtEndOfFile:HistoryActivity.kt:org.totschnig.myexpenses.activity.HistoryActivity.kt</ID>
@@ -1335,7 +1333,6 @@
     <ID>NewLineAtEndOfFile:ManageCurrencies.kt:org.totschnig.myexpenses.activity.ManageCurrencies.kt</ID>
     <ID>NewLineAtEndOfFile:ManageMethods.kt:org.totschnig.myexpenses.activity.ManageMethods.kt</ID>
     <ID>NewLineAtEndOfFile:ManageParties.kt:org.totschnig.myexpenses.activity.ManageParties.kt</ID>
-    <ID>NewLineAtEndOfFile:ManagePartiesTest.kt:org.totschnig.myexpenses.activity.ManagePartiesTest.kt</ID>
     <ID>NewLineAtEndOfFile:ManageTags.kt:org.totschnig.myexpenses.activity.ManageTags.kt</ID>
     <ID>NewLineAtEndOfFile:ManageTemplates.kt:org.totschnig.myexpenses.activity.ManageTemplates.kt</ID>
     <ID>NewLineAtEndOfFile:MaterialSpinnerAdapter.kt:org.totschnig.myexpenses.adapter.MaterialSpinnerAdapter.kt</ID>
@@ -1352,7 +1349,6 @@
     <ID>NewLineAtEndOfFile:MyApplicationExt.kt:org.totschnig.myexpenses.MyApplicationExt.kt</ID>
     <ID>NewLineAtEndOfFile:MyBackupAgent.kt:org.totschnig.myexpenses.MyBackupAgent.kt</ID>
     <ID>NewLineAtEndOfFile:MyExpensesV2.kt:org.totschnig.myexpenses.activity.MyExpensesV2.kt</ID>
-    <ID>NewLineAtEndOfFile:MyExpensesViewModelTest.kt:org.totschnig.myexpenses.viewmodel.MyExpensesViewModelTest.kt</ID>
     <ID>NewLineAtEndOfFile:MyTextWatcher.kt:org.totschnig.myexpenses.ui.MyTextWatcher.kt</ID>
     <ID>NewLineAtEndOfFile:NestedScrollableHost.kt:org.totschnig.myexpenses.ui.NestedScrollableHost.kt</ID>
     <ID>NewLineAtEndOfFile:NetworkModule.kt:org.totschnig.myexpenses.di.NetworkModule.kt</ID>
