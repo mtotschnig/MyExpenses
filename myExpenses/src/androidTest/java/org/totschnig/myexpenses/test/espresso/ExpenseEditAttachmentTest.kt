@@ -75,7 +75,7 @@ class ExpenseEditAttachmentTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldLoadAttachments() {
-        account1 = buildAccount(ACCOUNT_LABEL_1)
+        account1 = buildAccount(ACCOUNT_LABEL_1, dynamicExchangeRates = true, currency = "DKK")
         val transaction = repository.insertTransaction(
             accountId = account1.id,
             amount = 100,

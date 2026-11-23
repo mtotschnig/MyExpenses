@@ -19,6 +19,7 @@ import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.google.common.truth.Truth.assertThat
+import java.time.LocalDateTime
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assume
@@ -60,7 +61,6 @@ import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.debugAttachment
 import org.totschnig.myexpenses.testutils.isOrchestrated
 import org.totschnig.shared_test.TransactionData
-import java.time.LocalDateTime
 
 @TestShard3
 class MyExpensesCabTest : BaseMyExpensesTest() {
@@ -87,7 +87,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
                 amount = -100L * i,
                 date = LocalDateTime.now().minusMinutes(i.toLong()),
                 payeeId = partyId,
-                categoryId = categoryId,
+                categoryId = categoryId
             ).id
             repository.saveTagsForTransaction(listOf(tagId), id)
             repository.addDebugAttachment(id)
@@ -244,7 +244,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
             expectedAmount = -100L,
             expectedCategory = categoryId,
             expectedParty = partyId,
-            expectedTags = listOf(TAG_LABEL),
+            expectedTags = listOf(TAG_LABEL)
         )
     }
 
@@ -350,7 +350,6 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
         )
     }
 
-
     @Test
     fun cabIsRestoredAfterOrientationChange() {
         doLaunch()
@@ -379,7 +378,9 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
         doLaunch()
         val transferAccount = buildAccount("Test account 2")
         clickContextItem(R.string.menu_transform_to_transfer)
-        composeTestRule.onNode(hasAnyAncestor(hasTestTag(TEST_TAG_SELECT_DIALOG)) and hasText("Test account 2"))
+        composeTestRule.onNode(
+            hasAnyAncestor(hasTestTag(TEST_TAG_SELECT_DIALOG)) and hasText("Test account 2")
+        )
             .performClick()
         onView(withId(android.R.id.button1)).perform(click())
         onView(withId(android.R.id.button1)).perform(click())
@@ -428,7 +429,10 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
         ).id
         val currencyId = contentResolver.query(
             TransactionProvider.CURRENCIES_URI.buildUpon().appendPath(homeCurrency.code).build(),
-            null, null, null, null
+            null,
+            null,
+            null,
+            null
         )!!.use {
             it.moveToFirst()
             it.getLong(KEY_ROWID)

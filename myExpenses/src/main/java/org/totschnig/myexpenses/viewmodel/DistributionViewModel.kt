@@ -32,7 +32,9 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
     DistributionViewModelBase<Account>(application, savedStateHandle) {
 
     enum class SumLineBehaviour {
-        WithoutTotal, PercentageTotal, PercentageExpense
+        WithoutTotal,
+        PercentageTotal,
+        PercentageExpense
     }
 
     private val sumLineBehaviourPrefKey = stringPreferencesKey("sumLineBehaviour")
@@ -46,13 +48,16 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
     suspend fun cycleSumLineBehaviour() {
         dataStore.edit {
             it[sumLineBehaviourPrefKey] =
-                SumLineBehaviour.entries[(it.sumLineBehaviour.ordinal + 1) % SumLineBehaviour.entries.size].name
+                SumLineBehaviour.entries[
+                    (it.sumLineBehaviour.ordinal + 1) %
+                        SumLineBehaviour.entries.size
+                ].name
         }
     }
 
     private fun getGroupingPrefKey(account: Account) =
         stringPreferencesKey(
-            "distributionGrouping_" + when(account.accountGrouping) {
+            "distributionGrouping_" + when (account.accountGrouping) {
                 AccountGrouping.NONE -> HOME_AGGREGATE_ID
                 AccountGrouping.CURRENCY -> account.currency
                 AccountGrouping.FLAG -> account.flagId
@@ -99,13 +104,24 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
     private val expenseFlagPrefKey = booleanPreferencesKey(SHOW_EXPENSE_KEY)
     override val aggregateNeutralPrefKey = booleanPreferencesKey("distributionAggregateNeutral")
 
+    val initialTypeFlags: Pair<Boolean, Boolean>
+        get() {
+            val showIncome = savedStateHandle.get<Boolean>(SHOW_INCOME_KEY) ?: false
+            val showExpense =
+                if (!showIncome) true else savedStateHandle.get<Boolean>(SHOW_EXPENSE_KEY) ?: true
+            return showIncome to showExpense
+        }
 
     val typeFlags: Flow<Pair<Boolean, Boolean>> by lazy {
         dataStore.data.map { preferences: Preferences ->
             val showIncome = preferences[incomeFlagPrefKey]
                 ?: savedStateHandle.get<Boolean>(SHOW_INCOME_KEY) ?: false
-            val showExpense = if (!showIncome) true else preferences[expenseFlagPrefKey]
-                ?: savedStateHandle.get<Boolean>(SHOW_EXPENSE_KEY) ?: true
+            val showExpense = if (!showIncome) {
+                true
+            } else {
+                preferences[expenseFlagPrefKey]
+                    ?: savedStateHandle.get<Boolean>(SHOW_EXPENSE_KEY) ?: true
+            }
             showIncome to showExpense
         }
     }
@@ -137,21 +153,20 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
         }
     }
 
-
     val categoryTreeForExpenses by lazy { categoryFlow(false) }
     val categoryTreeForIncome by lazy { categoryFlow(true) }
 
     val combinedCategoryTree by lazy {
         combine(categoryTreeForIncome, categoryTreeForExpenses) { income, expense ->
-            if (income == Category.LOADING || expense == Category.LOADING)
+            if (income == Category.LOADING || expense == Category.LOADING) {
                 Category.LOADING
-            else
+            } else {
                 Category(
                     children = listOf(income, expense)
                 )
+            }
         }
     }
-
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun categoryFlow(isIncome: Boolean) = combine(
@@ -172,7 +187,6 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
             idMapper = { if (isIncome) it else -it }
         )
     }.map { it.sortChildrenBySumRecursive() }
-
 
     fun clearFilter() {
         _whereFilter.update { null }

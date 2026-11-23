@@ -15,6 +15,7 @@ import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.google.common.truth.Truth.assertThat
+import java.util.Currency
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.containsString
 import org.junit.After
@@ -38,7 +39,6 @@ import org.totschnig.myexpenses.testutils.TestShard3
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.isOrchestrated
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
-import java.util.Currency
 
 @TestShard3
 class GrandTotalDistributionTest : BaseUiTest<DistributionActivity>() {
@@ -83,11 +83,13 @@ class GrandTotalDistributionTest : BaseUiTest<DistributionActivity>() {
         account2 = buildAccount("Test account 1", currency = currency2.code)
         additionalFixture()
         testScenario =
-            ActivityScenario.launch(Intent(targetContext, DistributionActivity::class.java).apply {
-                putExtra(KEY_ACCOUNTID, HOME_AGGREGATE_ID)
-                putExtra(DistributionViewModel.SHOW_INCOME_KEY, showIncome)
-                putExtra(DistributionViewModel.SHOW_EXPENSE_KEY, showExpense)
-            })
+            ActivityScenario.launch(
+                Intent(targetContext, DistributionActivity::class.java).apply {
+                    putExtra(KEY_ACCOUNTID, HOME_AGGREGATE_ID)
+                    putExtra(DistributionViewModel.SHOW_INCOME_KEY, showIncome)
+                    putExtra(DistributionViewModel.SHOW_EXPENSE_KEY, showExpense)
+                }
+            )
     }
 
     private fun fixtureWithMappedTransactions(
@@ -153,7 +155,11 @@ class GrandTotalDistributionTest : BaseUiTest<DistributionActivity>() {
     fun testColorCommand() {
         launchWithContextCommand(R.string.color, null) {
             testScenario.onActivity {
-                assertThat(it.supportFragmentManager.findFragmentByTag(ProtectedFragmentActivity.EDIT_COLOR_DIALOG)).isNotNull()
+                assertThat(
+                    it.supportFragmentManager.findFragmentByTag(
+                        ProtectedFragmentActivity.EDIT_COLOR_DIALOG
+                    )
+                ).isNotNull()
             }
         }
     }
@@ -185,5 +191,4 @@ class GrandTotalDistributionTest : BaseUiTest<DistributionActivity>() {
 
     private fun onContextMenu(@StringRes menuItemId: Int) =
         composeTestRule.onNodeWithText(getString(menuItemId)).performClick()
-
 }

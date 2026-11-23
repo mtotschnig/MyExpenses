@@ -8,6 +8,12 @@ import android.content.ContentValues
 import android.os.Bundle
 import androidx.annotation.VisibleForTesting
 import androidx.core.os.BundleCompat
+import java.math.BigDecimal
+import java.math.RoundingMode
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.Locale
+import kotlin.math.absoluteValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.db2.Repository.Companion.RECORD_SEPARATOR
@@ -92,16 +98,10 @@ import org.totschnig.myexpenses.viewmodel.data.CostLeg
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.viewmodel.data.Trade
 import org.totschnig.myexpenses.viewmodel.data.TradeType
-import java.math.BigDecimal
-import java.math.RoundingMode
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.util.Locale
-import kotlin.math.absoluteValue
 
 fun Transaction.asContentValues(
     withUuid: Boolean = true,
-    withCrStatus: Boolean = true,
+    withCrStatus: Boolean = true
 ) = ContentValues().apply {
     put(KEY_COMMENT, comment)
     put(KEY_DATE, date)
@@ -134,7 +134,7 @@ data class RepositoryTransaction(
     val data: Transaction,
     val transferPeer: Transaction? = null,
     val splitParts: List<RepositoryTransaction>? = null,
-    val tags: List<Tag>? = null,
+    val tags: List<Tag>? = null
 ) {
     val id = data.id
     val isTransfer = transferPeer != null
@@ -176,10 +176,10 @@ data class RepositoryTransaction(
     }
 }
 
-fun Repository.createTransaction(repositoryTransaction: RepositoryTransaction): RepositoryTransaction {
+fun Repository.createTransaction(repositoryTransaction: RepositoryTransaction):
+    RepositoryTransaction {
     val dualSplitCandidate = repositoryTransaction.isDualSplitCandidate()
     return when {
-
         dualSplitCandidate != null -> {
             val repoTrans2 = repositoryTransaction.toDualSplitSide2(dualSplitCandidate)
             createDualSplitTransaction(
@@ -204,7 +204,8 @@ fun Repository.createTransaction(repositoryTransaction: RepositoryTransaction): 
     }
 }
 
-fun Repository.updateTransaction(repositoryTransaction: RepositoryTransaction): Array<ContentProviderResult> {
+fun Repository.updateTransaction(repositoryTransaction: RepositoryTransaction):
+    Array<ContentProviderResult> {
     val targetAccountId = repositoryTransaction.isDualSplitCandidate()
     val existingSiblingParentId = findSiblingParentId(repositoryTransaction.id)
 
@@ -213,7 +214,9 @@ fun Repository.updateTransaction(repositoryTransaction: RepositoryTransaction): 
             val repoTrans2 = repositoryTransaction.toDualSplitSide2(targetAccountId).let {
                 if (existingSiblingParentId != null) {
                     it.copy(data = it.data.copy(id = existingSiblingParentId))
-                } else it
+                } else {
+                    it
+                }
             }
             updateDualSplitTransaction(repositoryTransaction, repoTrans2)
         }
@@ -234,9 +237,21 @@ fun Repository.updateTransaction(repositoryTransaction: RepositoryTransaction): 
                     ContentUris.withAppendedId(TRANSACTIONS_URI, existingSiblingParentId)
                 ).build()
             )
-            updateSplitTransaction(repositoryTransaction.copy(splitParts = repositoryTransaction.splitParts?.map {
-                it.copy(transferPeer = it.transferPeer?.copy(parentId = it.transferPeer.parentId.takeIf { it != existingSiblingParentId }))
-            }), operations)
+            updateSplitTransaction(
+                repositoryTransaction.copy(
+                    splitParts = repositoryTransaction.splitParts?.map {
+                        it.copy(
+                            transferPeer = it.transferPeer?.copy(
+                                parentId = it.transferPeer.parentId.takeIf {
+                                    it !=
+                                        existingSiblingParentId
+                                }
+                            )
+                        )
+                    }
+                ),
+                operations
+            )
         }
 
         repositoryTransaction.isTransfer -> updateTransfer(
@@ -270,7 +285,7 @@ fun Repository.createTransaction(transaction: Transaction): RepositoryTransactio
 }
 
 fun Repository.updateTransaction(
-    transaction: Transaction,
+    transaction: Transaction
 ) = contentResolver.applyBatch(
     AUTHORITY,
     ArrayList<ContentProviderOperation>().apply {
@@ -286,7 +301,7 @@ fun Repository.updateTransaction(
 
 fun Repository.createTransfer(
     sourceTransaction: Transaction,
-    destinationTransaction: Transaction,
+    destinationTransaction: Transaction
 ): RepositoryTransaction {
     require(sourceTransaction.date == destinationTransaction.date)
     requireNotNull(sourceTransaction.uuid)
@@ -314,15 +329,15 @@ fun Repository.createTransfer(
 
 fun Repository.updateTransfer(
     sourceTransaction: Transaction,
-    destinationTransaction: Transaction,
+    destinationTransaction: Transaction
 ): Array<ContentProviderResult> {
     require(
         sourceTransaction.transferAccountId == destinationTransaction.accountId &&
-                sourceTransaction.accountId == destinationTransaction.transferAccountId
+            sourceTransaction.accountId == destinationTransaction.transferAccountId
     )
     require(
         sourceTransaction.transferPeerId == destinationTransaction.id &&
-                sourceTransaction.id == destinationTransaction.transferPeerId
+            sourceTransaction.id == destinationTransaction.transferPeerId
     )
 
     val operations = ArrayList<ContentProviderOperation>()
@@ -372,7 +387,7 @@ fun Repository.updateTransfer(
 @VisibleForTesting
 fun Repository.createSplitTransaction(
     parentTransaction: Transaction,
-    splitTransactions: List<Transaction>,
+    splitTransactions: List<Transaction>
 ): RepositoryTransaction = createSplitTransaction(
     parentTransaction,
     splitTransactions.map { it to null }
@@ -382,15 +397,28 @@ fun Repository.createSplitTransaction(
 @JvmName("createSplitTransactionWithTransfers")
 fun Repository.createSplitTransaction(
     parentTransaction: Transaction,
-    splitParts: List<Pair<Transaction, Transaction?>>,
+    splitParts: List<Pair<Transaction, Transaction?>>
 ): RepositoryTransaction {
     // --- Validation ---
     require(parentTransaction.isSplit) { "Parent transaction must be a split." }
-    require(splitParts.sumOf { it.first.amount } == parentTransaction.amount) { "Sum of splits must equal parent amount." }
-    require(splitParts.all { it.first.date == parentTransaction.date && (it.second == null || it.second!!.date == parentTransaction.date) }) {
+    require(
+        splitParts.sumOf {
+            it.first.amount
+        } == parentTransaction.amount
+    ) { "Sum of splits must equal parent amount." }
+    require(
+        splitParts.all {
+            it.first.date == parentTransaction.date &&
+                (it.second == null || it.second!!.date == parentTransaction.date)
+        }
+    ) {
         "Split transactions date must match parent date."
     }
-    require(splitParts.all { it.first.accountId == parentTransaction.accountId }) { "All splits must be in the same account." }
+    require(
+        splitParts.all {
+            it.first.accountId == parentTransaction.accountId
+        }
+    ) { "All splits must be in the same account." }
 
     requireNotNull(parentTransaction.uuid)
     require(splitParts.all { it.second == null || it.second?.uuid == it.first.uuid })
@@ -465,7 +493,8 @@ fun Repository.createSplitTransaction(
                     id = sourceId,
                     parentId = parentId,
                     transferPeerId = peerId
-                ), peer.copy(
+                ),
+                peer.copy(
                     id = peerId,
                     transferPeerId = sourceId
                 )
@@ -483,7 +512,7 @@ fun Repository.createDualSplitTransaction(
     parent1: Transaction,
     parts1: List<Pair<Transaction, Transaction?>>,
     parent2: Transaction,
-    parts2: List<Pair<Transaction, Transaction?>>,
+    parts2: List<Pair<Transaction, Transaction?>>
 ): Pair<RepositoryTransaction, RepositoryTransaction> {
     require(parent1.isSplit && parent2.isSplit)
     val operations = ArrayList<ContentProviderOperation>()
@@ -591,7 +620,8 @@ fun Repository.createDualSplitTransaction(
                 id = id,
                 parentId = p1Id,
                 transferPeerId = peer?.id
-            ), peer
+            ),
+            peer
         )
     }
 
@@ -608,17 +638,18 @@ fun Repository.createDualSplitTransaction(
                 id = id,
                 parentId = p2Id,
                 transferPeerId = peer?.id
-            ), peer
+            ),
+            peer
         )
     }
 
     return RepositoryTransaction(parent1.copy(id = p1Id), splitParts = enrichedParts1) to
-            RepositoryTransaction(parent2.copy(id = p2Id), splitParts = enrichedParts2)
+        RepositoryTransaction(parent2.copy(id = p2Id), splitParts = enrichedParts2)
 }
 
 fun Repository.updateDualSplitTransaction(
     repoTrans1: RepositoryTransaction,
-    repoTrans2: RepositoryTransaction,
+    repoTrans2: RepositoryTransaction
 ): Array<ContentProviderResult> {
     val operations = ArrayList<ContentProviderOperation>()
     val processedPeerIds = mutableSetOf<Long>()
@@ -680,7 +711,9 @@ fun Repository.updateDualSplitTransaction(
                 val uuid = transaction.data.uuid
                 if (peerBackRefs.containsKey(uuid)) {
                     builder.withValueBackReference(KEY_TRANSFER_PEER, peerBackRefs[uuid]!!)
-                } else if (transaction.transferPeer?.id != null && transaction.transferPeer.id != 0L) {
+                } else if (transaction.transferPeer?.id != null &&
+                    transaction.transferPeer.id != 0L
+                ) {
                     builder.withValue(KEY_TRANSFER_PEER, transaction.transferPeer.id)
                 }
 
@@ -723,17 +756,25 @@ fun Repository.updateDualSplitTransaction(
 
 fun Repository.updateSplitTransaction(
     repositoryTransaction: RepositoryTransaction,
-    operationsIn: ArrayList<ContentProviderOperation>? = null,
+    operationsIn: ArrayList<ContentProviderOperation>? = null
 ): Array<ContentProviderResult> {
     // --- Validation ---
     val parentTransaction = repositoryTransaction.data
     require(parentTransaction.isSplit) { "Parent transaction must be a split." }
     val splitParts = repositoryTransaction.splitParts!!
-    require(splitParts.sumOf { it.data.amount } == parentTransaction.amount) { "Sum of splits must equal parent amount." }
+    require(
+        splitParts.sumOf {
+            it.data.amount
+        } == parentTransaction.amount
+    ) { "Sum of splits must equal parent amount." }
     require(splitParts.all { it.data.date == parentTransaction.date }) {
         "Split transactions date must match parent date."
     }
-    require(splitParts.all { it.data.accountId == parentTransaction.accountId }) { "All splits must be in the same account." }
+    require(
+        splitParts.all {
+            it.data.accountId == parentTransaction.accountId
+        }
+    ) { "All splits must be in the same account." }
 
     val operations = operationsIn ?: ArrayList()
 
@@ -785,7 +826,8 @@ fun Repository.updateSplitTransaction(
                             transaction.data.asContentValues()
                                 .apply {
                                     put(KEY_PARENTID, parentTransaction.id)
-                                })
+                                }
+                        )
                         .build()
                 )
             }
@@ -815,11 +857,11 @@ fun Repository.updateSplitTransaction(
 suspend fun Repository.loadTransactions(
     accountId: Long,
     limit: Int? = 200,
-    withTags: Boolean = false,
+    withTags: Boolean = false
 ): List<Transaction> {
     val filter = FilterPersistence(
         dataStore = dataStore,
-        prefKey = MyExpensesViewModel.prefNameForCriteria(accountId),
+        prefKey = MyExpensesViewModel.prefNameForCriteria(accountId)
     ).getValue()?.let {
         it.getSelectionForParents() to it.getSelectionArgs(false)
     }
@@ -839,7 +881,7 @@ fun Repository.loadTransaction(
     transactionId: Long,
     withTransfer: Boolean = true,
     withTags: Boolean = false,
-    extended: Boolean = false,
+    extended: Boolean = false
 ): RepositoryTransaction = contentResolver.query(
     ContentUris.withAppendedId(if (extended) EXTENDED_URI else TRANSACTIONS_URI, transactionId),
     if (extended) Transaction.projectionExtended else Transaction.projection,
@@ -847,34 +889,56 @@ fun Repository.loadTransaction(
     null,
     null
 )!!.use { cursor ->
-    if (cursor.moveToFirst()) Transaction.fromCursor(cursor).let {
-        RepositoryTransaction(
-            data = it,
-            transferPeer = if (withTransfer && it.transferPeerId != null) loadTransaction(
-                it.transferPeerId,
-                false
-            ).data else null,
-            splitParts = if (it.isSplit) loadSplitParts(it.id).map { split ->
-                RepositoryTransaction(
-                    split,
-                    transferPeer = if (withTransfer && split.transferPeerId != null) loadTransaction(
-                        split.transferPeerId,
+    if (cursor.moveToFirst()) {
+        Transaction.fromCursor(cursor).let {
+            RepositoryTransaction(
+                data = it,
+                transferPeer = if (withTransfer && it.transferPeerId != null) {
+                    loadTransaction(
+                        it.transferPeerId,
                         false
-                    ).data else null,
-                    tags = if (withTags) loadTagsForTransaction(split.id) else null
-                )
-            } else null,
-            tags = if (withTags) loadTagsForTransaction(transactionId) else null
-        )
-    } else
+                    ).data
+                } else {
+                    null
+                },
+                splitParts = if (it.isSplit) {
+                    loadSplitParts(it.id).map { split ->
+                        RepositoryTransaction(
+                            split,
+                            transferPeer = if (withTransfer &&
+                                split.transferPeerId != null
+                            ) {
+                                loadTransaction(
+                                    split.transferPeerId,
+                                    false
+                                ).data
+                            } else {
+                                null
+                            },
+                            tags = if (withTags) loadTagsForTransaction(split.id) else null
+                        )
+                    }
+                } else {
+                    null
+                },
+                tags = if (withTags) loadTagsForTransaction(transactionId) else null
+            )
+        }
+    } else {
         throw IllegalArgumentException("Transaction not found")
+    }
 }
 
 fun Repository.loadSplitParts(transactionId: Long): List<Transaction> =
     contentResolver.query(
         TRANSACTIONS_URI.buildUpon().appendQueryParameter(
-            KEY_PARENTID, transactionId.toString()
-        ).build(), Transaction.projection, null, null, null
+            KEY_PARENTID,
+            transactionId.toString()
+        ).build(),
+        Transaction.projection,
+        null,
+        null,
+        null
     )!!.useAndMapToList {
         Transaction.fromCursor(it)
     }
@@ -895,7 +959,11 @@ fun Repository.findSiblingParentId(parentId: Long): Long? {
 
 @VisibleForTesting
 fun Repository.transactionExists(transactionId: Long) = contentResolver.query(
-    ContentUris.withAppendedId(TRANSACTIONS_URI, transactionId), null, null, null, null
+    ContentUris.withAppendedId(TRANSACTIONS_URI, transactionId),
+    null,
+    null,
+    null,
+    null
 )!!.use {
     it.count == 1
 }
@@ -906,7 +974,7 @@ fun Repository.getTransactionSum(account: DataBaseAccount, filter: Criterion? = 
 fun Repository.getTransactionSum(
     id: Long,
     currency: String? = null,
-    filter: Criterion? = null,
+    filter: Criterion? = null
 ): Long {
     var selection =
         "$KEY_ACCOUNTID = ? AND $WHERE_NOT_SPLIT_PART AND $WHERE_NOT_VOID"
@@ -927,15 +995,19 @@ fun Repository.getTransactionSum(
     }
 }
 
-
 fun Repository.archive(
     accountId: Long,
-    range: Pair<LocalDate, LocalDate>,
-) = contentResolver.call(TransactionProvider.DUAL_URI, METHOD_ARCHIVE, null, Bundle().apply {
-    putLong(KEY_ACCOUNTID, accountId)
-    putSerializable(KEY_START, range.first)
-    putSerializable(KEY_END, range.second)
-})!!.getLong(KEY_TRANSACTIONID)
+    range: Pair<LocalDate, LocalDate>
+) = contentResolver.call(
+    TransactionProvider.DUAL_URI,
+    METHOD_ARCHIVE,
+    null,
+    Bundle().apply {
+        putLong(KEY_ACCOUNTID, accountId)
+        putSerializable(KEY_START, range.first)
+        putSerializable(KEY_END, range.second)
+    }
+)!!.getLong(KEY_TRANSACTIONID)
 
 fun Repository.unarchive(id: Long) {
     val ops = ArrayList<ContentProviderOperation>().apply {
@@ -963,7 +1035,7 @@ fun Repository.unarchive(id: Long) {
 
 fun Repository.canBeArchived(
     accountId: Long,
-    range: Pair<LocalDate, LocalDate>,
+    range: Pair<LocalDate, LocalDate>
 ) = BundleCompat.getParcelable(
     contentResolver.call(
         TransactionProvider.DUAL_URI,
@@ -973,11 +1045,14 @@ fun Repository.canBeArchived(
             putLong(KEY_ACCOUNTID, accountId)
             putSerializable(KEY_START, range.first)
             putSerializable(KEY_END, range.second)
-        })!!, KEY_RESULT, ArchiveInfo::class.java
+        }
+    )!!,
+    KEY_RESULT,
+    ArchiveInfo::class.java
 )!!
 
 fun Repository.countTransactionsPerAccount(
-    accountId: Long,
+    accountId: Long
 ) = count(
     TRANSACTIONS_URI,
     "$KEY_ACCOUNTID = ? AND $KEY_PARENTID is null",
@@ -999,7 +1074,7 @@ fun Repository.getPayeeForTransaction(id: Long) = contentResolver.findBySelectio
 private fun ContentResolver.findBySelection(
     selection: String,
     selectionArgs: Array<String>,
-    column: String,
+    column: String
 ) =
     query(
         TRANSACTIONS_URI
@@ -1014,23 +1089,25 @@ private fun ContentResolver.findBySelection(
         if (it.moveToFirst()) it.getLong(0) else null
     } ?: -1
 
-fun Repository.calculateSplitSummary(id: Long): List<Pair<String, String?>>? {
-    return contentResolver.query(
+fun Repository.calculateSplitSummary(id: Long): List<Pair<String, String?>>? =
+    contentResolver.query(
         TransactionProvider.CATEGORIES_URI.buildUpon()
             .appendQueryParameter(KEY_TRANSACTIONID, id.toString()).build(),
-        arrayOf(KEY_LABEL, KEY_ICON), null, null, null
+        arrayOf(KEY_LABEL, KEY_ICON),
+        null,
+        null,
+        null
     )
         ?.useAndMapToList {
             it.getString(KEY_LABEL) to it.getStringOrNull(KEY_ICON)
         }?.takeIf { it.isNotEmpty() }
-}
 
 fun Repository.loadTrade(transactionId: Long): Trade? =
     loadTrades(listOf(transactionId)).firstOrNull()
 
 fun Repository.loadTrades(
     transactionIds: List<Long>,
-    sortOrder: Pair<String, SortDirection>? = null,
+    sortOrder: Pair<String, SortDirection>? = null
 ): List<Trade> {
     if (transactionIds.isEmpty()) return emptyList()
 
@@ -1064,7 +1141,9 @@ fun Repository.loadTrades(
         var cashPart: Pair<Transaction, Transaction>? = null
         var fundingPart: Pair<Transaction, Transaction?>
 
-        val untransferredParts = parts.filter { it.transferPeerId == null && it.transferAccountId == null }.sortedBy { it.id }
+        val untransferredParts =
+            parts.filter { it.transferPeerId == null && it.transferAccountId == null }
+                .sortedBy { it.id }
 
         // Load all transfer peers once to identify roles
         val transferPeers = parts.filter { it.transferPeerId != null }
@@ -1078,10 +1157,15 @@ fun Repository.loadTrades(
             transferPeers.find { it.second.portfolioRole == PORTFOLIO_NONE }
         } else {
             transferPeers.find { it.second.portfolioRole != PORTFOLIO_ASSET }
-        } ?: ((untransferredParts.firstOrNull()?: return@mapNotNull null) to null)
+        } ?: ((untransferredParts.firstOrNull() ?: return@mapNotNull null) to null)
 
         // Identify additional cost parts (negative amount, no transfer account)
-        val costParts = untransferredParts.filter { it != fundingPart.first && it.transferAccountId == null && it.amount < 0 }.sortedBy { it.id }
+        val costParts =
+            untransferredParts.filter {
+                it != fundingPart.first && it.transferAccountId == null &&
+                    it.amount < 0
+            }
+                .sortedBy { it.id }
         val additionalCosts = costParts.map { costPart ->
             CostLeg(
                 amount = Money(currencyContext[parentCurrency], costPart.amount).absolute(),
@@ -1091,9 +1175,15 @@ fun Repository.loadTrades(
             )
         }
         val totalFee = if (additionalCosts.isNotEmpty()) {
-            additionalCosts.fold(Money(currencyContext[parentCurrency], 0L)) { acc, leg -> acc + leg.amount }
-        } else null
-
+            additionalCosts.fold(
+                Money(
+                    currencyContext[parentCurrency],
+                    0L
+                )
+            ) { acc, leg -> acc + leg.amount }
+        } else {
+            null
+        }
 
         if (assetPart != null) {
             // --- Buy/Sell/Transfer Trade ---
@@ -1116,7 +1206,9 @@ fun Repository.loadTrades(
                 Money(currencyContext[parentCurrency], assetPart.first.amount).absolute()
             val price = if (quantity.amountMajor > BigDecimal.ZERO) {
                 principal.amountMajor.divide(quantity.amountMajor, 8, RoundingMode.HALF_UP)
-            } else BigDecimal.ZERO
+            } else {
+                BigDecimal.ZERO
+            }
 
             Trade(
                 id = parent.id,
@@ -1142,7 +1234,6 @@ fun Repository.loadTrades(
             val principal =
                 Money(currencyContext[parentCurrency], cashPart.first.amount).absolute()
 
-
             Trade(
                 id = parent.id,
                 type = tradeType,
@@ -1158,13 +1249,19 @@ fun Repository.loadTrades(
                 currency = parentCurrency,
                 portfolioId = parent.accountId
             )
-        } else null
+        } else {
+            null
+        }
     }.let {
         if (sortOrder?.first == KEY_AMOUNT) {
-            if (sortOrder.second == SortDirection.DESC)
-                it.sortedByDescending { it.principal.amountMinor.absoluteValue } else
+            if (sortOrder.second == SortDirection.DESC) {
+                it.sortedByDescending { it.principal.amountMinor.absoluteValue }
+            } else {
                 it.sortedBy { it.principal.amountMinor.absoluteValue }
-        } else it
+            }
+        } else {
+            it
+        }
     }
 }
 
@@ -1182,7 +1279,7 @@ fun Repository.insertTransaction(
     comment: String? = null,
     methodId: Long? = null,
     referenceNumber: String? = null,
-    debtId: Long? = null,
+    debtId: Long? = null
 ): RepositoryTransaction = createTransaction(
     Transaction(
         accountId = accountId,
@@ -1214,7 +1311,7 @@ fun Repository.insertTransfer(
     date: LocalDateTime = LocalDateTime.now(),
     payeeId: Long? = null,
     comment: String? = null,
-    uuid: String = generateUuid(),
+    uuid: String = generateUuid()
 ): RepositoryTransaction = createTransfer(
     Transaction(
         accountId = accountId,
@@ -1227,7 +1324,8 @@ fun Repository.insertTransfer(
         payeeId = payeeId,
         comment = comment,
         uuid = uuid
-    ), Transaction(
+    ),
+    Transaction(
         accountId = transferAccountId,
         transferAccountId = accountId,
         amount = transferAmount,
@@ -1260,12 +1358,12 @@ private fun getTransferOperations(
     parentBackRefIndex: Int? = null,
     parentId: Long? = null,
     peerParentBackRefIndex: Int? = null,
-    peerParentId: Long? = null,
+    peerParentId: Long? = null
 ): List<ContentProviderOperation> {
     // The builder for the source transaction, which may or may not be linked to a parent.
     require(
         source.transferAccountId == destination.accountId &&
-                source.accountId == destination.transferAccountId
+            source.accountId == destination.transferAccountId
     ) { "Account IDs must match." }
     require(source.date == destination.date)
 
@@ -1294,9 +1392,9 @@ private fun getTransferOperations(
                     withValue(KEY_PARENTID, peerParentId)
                 }
             }
-            .build(),
+            .build()
 
-        //the source is updated by trigger TRANSFER_PEER_TRIGGER
+        // the source is updated by trigger TRANSFER_PEER_TRIGGER
     )
 }
 
@@ -1333,7 +1431,10 @@ fun Repository.groupToSplitTransaction(ids: LongArray): Result<Boolean> {
             .appendQueryParameter(QUERY_PARAMETER_GROUP_BY, groupBy)
             .appendQueryParameter(QUERY_PARAMETER_DISTINCT, "1")
             .build(),
-        projection, null, null, null
+        projection,
+        null,
+        null,
+        null
     )!!.use { cursor ->
 
         when (cursor.count) {
@@ -1345,10 +1446,12 @@ fun Repository.groupToSplitTransaction(ids: LongArray): Result<Boolean> {
                     currencyUnit,
                     cursor.getLong(KEY_AMOUNT)
                 )
-                val equivalentAmount = Money(
-                    currencyContext.homeCurrencyUnit,
-                    cursor.getLong(KEY_EQUIVALENT_AMOUNT)
-                )
+                val equivalentAmount = cursor.getLongOrNull(KEY_EQUIVALENT_AMOUNT)?.let {
+                    Money(
+                        currencyContext.homeCurrencyUnit,
+                        it
+                    )
+                }
                 val payeeId = cursor.getLongOrNull(KEY_PAYEEID)
                 val date = cursor.getLong(KEY_DATE)
                 val crStatus =
@@ -1364,7 +1467,7 @@ fun Repository.groupToSplitTransaction(ids: LongArray): Result<Boolean> {
                     uuid = generateUuid(),
                     payeeId = payeeId,
                     crStatus = crStatus,
-                    equivalentAmount = equivalentAmount.amountMinor
+                    equivalentAmount = equivalentAmount?.amountMinor
                 )
                 val operations = ArrayList<ContentProviderOperation>()
                 operations.add(
@@ -1377,11 +1480,13 @@ fun Repository.groupToSplitTransaction(ids: LongArray): Result<Boolean> {
 
                 operations.add(
                     ContentProviderOperation.newUpdate(TRANSACTIONS_URI)
-                        .withValues(ContentValues().apply {
-                            put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
-                            put(KEY_DATE, parent.date)
-                            putNull(KEY_PAYEEID)
-                        })
+                        .withValues(
+                            ContentValues().apply {
+                                put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
+                                put(KEY_DATE, parent.date)
+                                putNull(KEY_PAYEEID)
+                            }
+                        )
                         .withValueBackReference(KEY_PARENTID, 0)
                         .withSelection(where, selectionArgs)
                         .withExpectedCount(count)
@@ -1396,7 +1501,8 @@ fun Repository.groupToSplitTransaction(ids: LongArray): Result<Boolean> {
                     "Transactions (${ids.joinToString()}) not found"
                 ).also {
                     CrashHandler.report(it)
-                })
+                }
+            )
 
             else -> Result.success(false)
         }
@@ -1405,20 +1511,22 @@ fun Repository.groupToSplitTransaction(ids: LongArray): Result<Boolean> {
 
 suspend fun Repository.checkSealedStatus(
     itemIds: List<Long>,
-    withTransfer: Boolean,
+    withTransfer: Boolean
 ) = if (itemIds.isEmpty()) {
     CrashHandler.throwOrReport("Called with empty list")
     Result.success(
         SealedCheckResult(hasSealedAccount = false, hasSealedDebt = false)
     )
-} else performSealedCheck(
-    selection = "$KEY_ROWID IN (${itemIds.joinToString(",") { "?" }})",
-    args = itemIds.map { it.toString() }.toTypedArray(),
-    withTransfer = withTransfer
-)
+} else {
+    performSealedCheck(
+        selection = "$KEY_ROWID IN (${itemIds.joinToString(",") { "?" }})",
+        args = itemIds.map { it.toString() }.toTypedArray(),
+        withTransfer = withTransfer
+    )
+}
 
 suspend fun Repository.checkSealedStatus(
-    accountId: Long,
+    accountId: Long
 ) = performSealedCheck(
     selection = "$KEY_ACCOUNTID = ?",
     args = arrayOf(accountId.toString()),
@@ -1427,13 +1535,13 @@ suspend fun Repository.checkSealedStatus(
 
 data class SealedCheckResult(
     val hasSealedAccount: Boolean,
-    val hasSealedDebt: Boolean,
+    val hasSealedDebt: Boolean
 )
 
 private suspend fun Repository.performSealedCheck(
     selection: String,
     args: Array<String>,
-    withTransfer: Boolean,
+    withTransfer: Boolean
 ): Result<SealedCheckResult> = withContext(Dispatchers.IO) {
     val projection = arrayOf(
         if (withTransfer) KEY_HAS_SEALED_ACCOUNT_WITH_TRANSFER else KEY_HAS_SEALED_ACCOUNT,
@@ -1443,7 +1551,10 @@ private suspend fun Repository.performSealedCheck(
         contentResolver.query(
             TRANSACTIONS_URI.buildUpon().appendQueryParameter(QUERY_PARAMETER_INCLUDE_ALL, "1")
                 .build(),
-            projection, selection, args, null
+            projection,
+            selection,
+            args,
+            null
         )?.use { cursor ->
             if (cursor.moveToFirst()) {
                 val hasSealedAccount = cursor.getBoolean(0)
@@ -1469,7 +1580,7 @@ private suspend fun Repository.performSealedCheck(
  * @return Result containing a list of all transfer account IDs linked to the parts of those splits
  */
 suspend fun Repository.checkTransferAccountOfSplitParts(
-    itemIds: List<Long>,
+    itemIds: List<Long>
 ): Result<List<Long>> = withContext(Dispatchers.IO) {
     if (itemIds.isEmpty()) {
         return@withContext Result.success(emptyList())
@@ -1477,7 +1588,11 @@ suspend fun Repository.checkTransferAccountOfSplitParts(
 
     val projection = arrayOf("DISTINCT $KEY_TRANSFER_ACCOUNT")
     val selection =
-        "$KEY_TRANSFER_ACCOUNT IS NOT NULL AND $KEY_PARENTID IN (${itemIds.joinToString(",") { "?" }})"
+        "$KEY_TRANSFER_ACCOUNT IS NOT NULL AND $KEY_PARENTID IN (${
+            itemIds.joinToString(",") {
+                "?"
+            }
+        })"
     val args = itemIds.map { it.toString() }.toTypedArray()
 
     try {
@@ -1494,7 +1609,9 @@ suspend fun Repository.checkTransferAccountOfSplitParts(
             }
             Result.success(ids)
         }
-            ?: Result.failure(Exception("Error while checking transfer account of split parts: Cursor null"))
+            ?: Result.failure(
+                Exception("Error while checking transfer account of split parts: Cursor null")
+            )
     } catch (e: Exception) {
         CrashHandler.report(e)
         Result.failure(e)
