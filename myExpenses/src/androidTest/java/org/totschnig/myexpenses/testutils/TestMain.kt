@@ -54,7 +54,7 @@ abstract class TestMain(locale: String?) : BaseMyExpensesTest() {
     }
 
     fun runScenario(scenario: String) {
-        loadFixture(scenario == "2")
+        loadFixture(scenario)
         scenario(scenario)
     }
 
@@ -188,15 +188,30 @@ abstract class TestMain(locale: String?) : BaseMyExpensesTest() {
                 takeScreenshot("2_edit")
             }
 
+            // Illustrating implementation of https://github.com/mtotschnig/MyExpenses/issues/675
+            "3" -> {
+                navigateToTransactions()
+                takeScreenshot("week_numbers")
+            }
+
             else -> {
                 throw IllegalArgumentException("Unknown scenario" + BuildConfig.TEST_SCENARIO)
             }
         }
     }
 
-    private fun loadFixture(withPicture: Boolean) {
+    private fun loadFixture(scenario: String) {
         unlock()
-        app.fixture.setup(withPicture, repository, app.appComponent.plannerUtils(), homeCurrency)
+        when (scenario) {
+            "3" -> {
+                app.fixture.setupWeekNumberingYearTurnFixture(repository, homeCurrency)
+            }
+
+            else -> {
+                app.fixture.setup(scenario == "2", repository, plannerUtils, homeCurrency)
+            }
+        }
+
         prefHandler.putInt(PrefKey.CURRENT_VERSION, versionNumber)
         prefHandler.putInt(PrefKey.FIRST_INSTALL_VERSION, versionNumber)
         launch(app.fixture.account1.id)

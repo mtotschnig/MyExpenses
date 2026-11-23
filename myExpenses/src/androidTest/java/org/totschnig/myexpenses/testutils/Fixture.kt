@@ -7,7 +7,15 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
+import androidx.lifecycle.SavedStateHandle
 import com.google.common.truth.Truth
+import java.math.BigDecimal
+import java.math.RoundingMode
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.concurrent.ThreadLocalRandom
+import kotlinx.coroutines.runBlocking
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
@@ -17,8 +25,6 @@ import org.totschnig.myexpenses.db2.createSplitTransaction
 import org.totschnig.myexpenses.db2.createTemplate
 import org.totschnig.myexpenses.db2.deletePlan
 import org.totschnig.myexpenses.db2.entities.Recurrence
-import androidx.lifecycle.SavedStateHandle
-import kotlinx.coroutines.runBlocking
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.db2.findAccountType
@@ -53,6 +59,7 @@ import org.totschnig.myexpenses.provider.PORTFOLIO_CONTAINER
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.test.R as RT
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
@@ -60,13 +67,6 @@ import org.totschnig.myexpenses.viewmodel.data.FundingSource
 import org.totschnig.myexpenses.viewmodel.data.TradeIntent
 import org.totschnig.myexpenses.viewmodel.data.TradeType
 import timber.log.Timber
-import java.math.BigDecimal
-import java.math.RoundingMode
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.concurrent.ThreadLocalRandom
-import org.totschnig.myexpenses.test.R as RT
 
 val debugAttachment: Uri = Uri.parse("file:///android_asset/screenshot.jpg")
 
@@ -120,43 +120,82 @@ class Fixture(inst: Instrumentation) {
         val foreignCurrency =
             currencyContext[if (defaultCurrency.code == "GBP") "EUR" else "GBP"]
         // relative to EUR (in case of GBP) or GBP (in all other cases)
-        val exchangeRate = when(defaultCurrency.code) {
+        val exchangeRate = when (defaultCurrency.code) {
             "USD" -> 1.33
+
             "EUR" -> 1.19
+
             "GBP" -> 0.84
+
             "SAR" -> 5.01
+
             "BRL" -> 6.73
+
             "PLN" -> 5.18
+
             "RUB" -> 111.87
+
             "CZK" -> 28.85
+
             "RON" -> 6.3
+
             "HUF" -> 430.95
+
             "ILS" -> 4.13
+
             "TRY" -> 65.51
+
             "TWD" -> 43.25
+
             "DKK" -> 8.86
+
             "JPY" -> 210.51
+
             "KHR" -> 5421.09
+
             "INR" -> 126.57
-            "KRW" ->  1774.56
-            "MYR" ->  5.44
+
+            "KRW" -> 1774.56
+
+            "MYR" -> 5.44
+
             "LKR" -> 441.73
+
             "VND" -> 34514.50
-            "CNY" ->  8.9
+
+            "CNY" -> 8.9
+
             "BYN" -> 4.02
+
             "BDT" -> 164.07
+
             "CAD" -> 1.88
+
             "SGD" -> 1.71
+
             "ZAR" -> 21.97
+
             "MXN" -> 24.6
+
             "IDR" -> 24061.04
+
             "HKD" -> 10.46
+
             "AUD" -> 1.92
+
             "SEK" -> 13.24
+
             "THB" -> 44.92
+
             "UAH" -> 60.13
+
             "PKR" -> 368.93
-            else -> throw IllegalArgumentException("Exchange rate missing for: ${defaultCurrency.code}")
+
+            "IRR" -> 2521924.84
+
+            else -> throw IllegalArgumentException(
+                "Exchange rate missing for: ${defaultCurrency.code}"
+            )
         }
         val accountTypeCash = repository.findAccountType(PREDEFINED_NAME_CASH)!!
         val accountTypeBank = repository.findAccountType(PREDEFINED_NAME_BANK)!!
@@ -199,12 +238,31 @@ class Fixture(inst: Instrumentation) {
         // Setup Portfolio Account with Gold, Bitcoin, and MSCI World ETF holdings
         val gold = currencyContext["XAU"]
         val btc = CurrencyUnit("BTC", "₿", 8, "Bitcoin", CommodityType.CRYPTO)
-        val msci = CurrencyUnit("IWDA", "IWDA", 2, "iShares Core MSCI World ETF", CommodityType.SECURITY)
+        val msci =
+            CurrencyUnit("IWDA", "IWDA", 2, "iShares Core MSCI World ETF", CommodityType.SECURITY)
 
         runBlocking {
-            repository.insertCurrency(gold.code, gold.symbol, gold.description, gold.fractionDigits, gold.commodityType)
-            repository.insertCurrency(btc.code, btc.symbol, btc.description, btc.fractionDigits, btc.commodityType)
-            repository.insertCurrency(msci.code, msci.symbol, msci.description, msci.fractionDigits, msci.commodityType)
+            repository.insertCurrency(
+                gold.code,
+                gold.symbol,
+                gold.description,
+                gold.fractionDigits,
+                gold.commodityType
+            )
+            repository.insertCurrency(
+                btc.code,
+                btc.symbol,
+                btc.description,
+                btc.fractionDigits,
+                btc.commodityType
+            )
+            repository.insertCurrency(
+                msci.code,
+                msci.symbol,
+                msci.description,
+                msci.fractionDigits,
+                msci.commodityType
+            )
         }
 
         val accountTypeInvestment = repository.findAccountType(PREDEFINED_NAME_INVESTMENT)!!
@@ -227,19 +285,24 @@ class Fixture(inst: Instrumentation) {
         val viewModel = MyExpensesV2ViewModel(appContext, SavedStateHandle())
         appContext.appComponent.inject(viewModel)
 
-        val currencyFactor = BigDecimal(when (defaultCurrency.code) {
-            "JPY" -> 170.0
-            "KRW" -> 1600.0
-            "VND" -> 30000.0
-            "HUF" -> 400.0
-            "CZK" -> 25.0
-            "INR" -> 100.0
-            else -> 1.0
-        })
+        val currencyFactor = BigDecimal(
+            when (defaultCurrency.code) {
+                "JPY" -> 170.0
+                "KRW" -> 1600.0
+                "VND" -> 30000.0
+                "HUF" -> 400.0
+                "CZK" -> 25.0
+                "INR" -> 100.0
+                else -> 1.0
+            }
+        )
 
-        val goldPrice = BigDecimal("2450.00").multiply(currencyFactor).setScale(2, RoundingMode.HALF_UP)
-        val btcPrice = BigDecimal("62000.00").multiply(currencyFactor).setScale(2, RoundingMode.HALF_UP)
-        val msciPrice = BigDecimal("92.40").multiply(currencyFactor).setScale(2, RoundingMode.HALF_UP)
+        val goldPrice =
+            BigDecimal("2450.00").multiply(currencyFactor).setScale(2, RoundingMode.HALF_UP)
+        val btcPrice =
+            BigDecimal("62000.00").multiply(currencyFactor).setScale(2, RoundingMode.HALF_UP)
+        val msciPrice =
+            BigDecimal("92.40").multiply(currencyFactor).setScale(2, RoundingMode.HALF_UP)
 
         val goldQuantity = BigDecimal("5.00")
         val btcQuantity = BigDecimal("0.85")
@@ -249,7 +312,8 @@ class Fixture(inst: Instrumentation) {
         val btcPrincipal = btcQuantity.multiply(btcPrice)
         val msciPrincipal = msciQuantity.multiply(msciPrice)
 
-        val initialDeposit = BigDecimal("110000.00").multiply(currencyFactor).setScale(2, RoundingMode.HALF_UP)
+        val initialDeposit =
+            BigDecimal("110000.00").multiply(currencyFactor).setScale(2, RoundingMode.HALF_UP)
 
         val now = LocalDateTime.now()
 
@@ -306,11 +370,11 @@ class Fixture(inst: Instrumentation) {
 
         val johnDoe = appContext.getString(R.string.testData_templatePayee)
 
-        //set up categories
+        // set up categories
         setUpCategories(appContext.contentResolver)
-        //set up transactions
+        // set up transactions
         val offset = LocalDateTime.now().minusMinutes(1)
-        //are used twice
+        // are used twice
         val mainCat1 = findCat(
             testContext.getString(RT.string.testData_transaction1MainCat),
             null
@@ -329,7 +393,7 @@ class Fixture(inst: Instrumentation) {
         )
         repeat(14) {
             val offset = offset.minusDays(it.toLong())
-            //Transaction 1
+            // Transaction 1
             val builder = TransactionBuilder()
                 .accountId(account1.id)
                 .amount(-random(12000))
@@ -345,7 +409,7 @@ class Fixture(inst: Instrumentation) {
                 repository.addDebugAttachment(transaction)
             }
 
-            //Transaction 2
+            // Transaction 2
             TransactionBuilder()
                 .accountId(account1.id)
                 .amount(-random(2200L))
@@ -398,34 +462,38 @@ class Fixture(inst: Instrumentation) {
                 .date(offset.minusHours(15))
                 .persist()
 
-            //Salary
+            // Salary
             TransactionBuilder()
                 .accountId(account3.id)
                 .amount(200000)
                 .date(offset.minusHours(18))
                 .persist()
 
-            //Transfer
+            // Transfer
             repository.insertTransfer(
-                accountId = account1.id, transferAccountId = account3.id, amount = 25000, date = offset
+                accountId = account1.id,
+                transferAccountId = account3.id,
+                amount = 25000,
+                date = offset
             )
         }
 
-        //Second account foreign Currency
+        // Second account foreign Currency
         TransactionBuilder()
             .accountId(account2.id)
             .amount(-random(34567))
             .date(offset)
             .persist()
 
-        //Transaction 8: Split
+        // Transaction 8: Split
         val split = repository.createSplitTransaction(
             Transaction(
                 accountId = account1.id,
                 amount = -8967L,
                 categoryId = SPLIT_CATID,
                 uuid = generateUuid()
-            ), listOf(
+            ),
+            listOf(
                 Transaction(
                     accountId = account1.id,
                     categoryId = mainCat2,
@@ -448,8 +516,8 @@ class Fixture(inst: Instrumentation) {
             plannerUtils.createPlanner(true)
         ).isNotEqualTo(INVALID_CALENDAR_ID)
 
-        //createPlanner sets up a new plan, mPlannerCalendarId is only set in onSharedPreferenceChanged
-        //if it has not been called yet, when we save our plan, saving fails.
+        // createPlanner sets up a new plan, mPlannerCalendarId is only set in onSharedPreferenceChanged
+        // if it has not been called yet, when we save our plan, saving fails.
         try {
             Thread.sleep(1000)
         } catch (e: InterruptedException) {
@@ -505,6 +573,118 @@ class Fixture(inst: Instrumentation) {
         setCategoryBudget(budgetId, mainCat6, 20000)
     }
 
+    @Suppress("ktlint:standard:property-naming")
+    fun setupWeekNumberingYearTurnFixture(
+        repository: Repository,
+        defaultCurrency: CurrencyUnit
+    ) {
+        this.repository = repository
+        if (!::account1.isInitialized) {
+            val accountTypeCash = repository.findAccountType(PREDEFINED_NAME_CASH)!!
+            account1 = Account(
+                label = appContext.getString(R.string.testData_account1Label),
+                currency = defaultCurrency.code,
+                openingBalance = 90000,
+                description = appContext.getString(R.string.testData_account1Description),
+                type = accountTypeCash,
+                syncAccountName = syncAccount1
+            ).createIn(repository)
+            repository.setGrouping(account1.id, Grouping.WEEK)
+            setUpCategories(appContext.contentResolver)
+        }
+
+        val currentYear = LocalDate.now().year
+        val lastYear = currentYear - 1
+
+        val mainCat1 = findCat(testContext.getString(RT.string.testData_transaction1MainCat), null)
+        val mainCat2 = findCat(testContext.getString(RT.string.testData_transaction2MainCat), null)
+        val mainCat3 = findCat(testContext.getString(RT.string.testData_transaction3MainCat), null)
+        val mainCat6 = findCat(testContext.getString(RT.string.testData_transaction6MainCat), null)
+
+        // Last year - Week 51
+        val dateW51_1 = LocalDateTime.of(lastYear, 12, 19, 10, 15)
+        val dateW51_2 = LocalDateTime.of(lastYear, 12, 22, 14, 30)
+
+        // Last year - Week 52 / Holiday Season
+        val dateW52_1 = LocalDateTime.of(lastYear, 12, 25, 11, 0)
+        val dateW52_2 = LocalDateTime.of(lastYear, 12, 28, 18, 45)
+        val dateW52_3 = LocalDateTime.of(lastYear, 12, 31, 21, 30)
+
+        // Current year - Week 1 / New Year
+        val dateW1_1 = LocalDateTime.of(currentYear, 1, 1, 12, 0)
+        val dateW1_2 = LocalDateTime.of(currentYear, 1, 4, 15, 20)
+        val dateW1_3 = LocalDateTime.of(currentYear, 1, 6, 9, 45)
+
+        // Current year - Week 2
+        val dateW2_1 = LocalDateTime.of(currentYear, 1, 9, 13, 10)
+        val dateW2_2 = LocalDateTime.of(currentYear, 1, 12, 17, 0)
+
+        listOf(
+            // Week 51 (Last Year)
+            TransactionBuilder()
+                .accountId(account1.id)
+                .amount(-4500L)
+                .catId(findCat(RT.string.testData_transaction2SubCat, mainCat2))
+                .date(dateW51_1)
+                .comment(appContext.getString(R.string.testData_transaction2Comment)),
+            TransactionBuilder()
+                .accountId(account1.id)
+                .amount(-3200L)
+                .catId(findCat(RT.string.testData_transaction3SubCat, mainCat3))
+                .date(dateW51_2),
+
+            // Week 52 (Last Year)
+            TransactionBuilder()
+                .accountId(account1.id)
+                .amount(-12500L)
+                .catId(mainCat6)
+                .date(dateW52_1)
+                .payee("Santa's Workshop")
+                .comment("Holiday Gifts"),
+            TransactionBuilder()
+                .accountId(account1.id)
+                .amount(-6800L)
+                .catId(findCat(RT.string.testData_transaction2SubCat, mainCat2))
+                .date(dateW52_2),
+            TransactionBuilder()
+                .accountId(account1.id)
+                .amount(-8900L)
+                .catId(findCat(RT.string.testData_transaction4SubCat, mainCat2))
+                .date(dateW52_3)
+                .comment("New Year's Eve Party"),
+
+            // Week 1 (Current Year)
+            TransactionBuilder()
+                .accountId(account1.id)
+                .amount(250000L)
+                .date(dateW1_1)
+                .payee(appContext.getString(R.string.testData_templatePayee))
+                .comment("New Year Bonus"),
+            TransactionBuilder()
+                .accountId(account1.id)
+                .amount(-5200L)
+                .catId(findCat(RT.string.testData_transaction2SubCat, mainCat2))
+                .date(dateW1_2),
+            TransactionBuilder()
+                .accountId(account1.id)
+                .amount(-1800L)
+                .catId(findCat(RT.string.testData_transaction1SubCat, mainCat1))
+                .date(dateW1_3),
+
+            // Week 2 (Current Year)
+            TransactionBuilder()
+                .accountId(account1.id)
+                .amount(-7400L)
+                .catId(findCat(RT.string.testData_transaction3SubCat, mainCat3))
+                .date(dateW2_1),
+            TransactionBuilder()
+                .accountId(account1.id)
+                .amount(-4100L)
+                .catId(findCat(RT.string.testData_transaction4SubCat, mainCat2))
+                .date(dateW2_2)
+        ).forEach { it.persist() }
+    }
+
     private fun setCategoryBudget(budgetId: Long, categoryId: Long, amount: Long) {
         val result = appContext.contentResolver.update(
             BaseTransactionProvider.budgetAllocationUri(budgetId, categoryId),
@@ -513,14 +693,17 @@ class Fixture(inst: Instrumentation) {
                 put(KEY_YEAR, LocalDate.now().year)
                 put(KEY_SECOND_GROUP, 0)
                 put(KEY_ONE_TIME, 0)
-            }, null, null
+            },
+            null,
+            null
         )
         Timber.d("Insert category budget: %d", result)
     }
 
-    private fun findCat(resId: Int, parent: Long): Long {
-        return findCat(testContext.getString(resId), parent)
-    }
+    private fun findCat(resId: Int, parent: Long): Long = findCat(
+        testContext.getString(resId),
+        parent
+    )
 
     private fun findCat(label: String, parent: Long?): Long {
         val result = repository.findCategory(label, parent)
@@ -530,9 +713,7 @@ class Fixture(inst: Instrumentation) {
         return result
     }
 
-    private fun random(n: Long): Long {
-        return ThreadLocalRandom.current().nextLong(n)
-    }
+    private fun random(n: Long): Long = ThreadLocalRandom.current().nextLong(n)
 
     private inner class TransactionBuilder {
         private var accountId: Long = 0
