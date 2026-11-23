@@ -112,7 +112,7 @@ sealed class Screen(
     val icon: ImageVector,
     @param:StringRes val resourceId: Int,
     val paneRole: ThreePaneScaffoldRole,
-    val testTag: String,
+    val testTag: String
 ) {
     object Accounts : Screen(
         icon = Icons.Default.AccountBalance,
@@ -134,7 +134,7 @@ sealed class AppEvent {
     object CreatePortfolio : AppEvent()
     data class CreateTransaction(
         val action: Action,
-        val transferEnabled: Boolean = true,
+        val transferEnabled: Boolean = true
     ) : AppEvent()
 
     data class SetAccountGrouping(val newGrouping: AccountGrouping<*>) : AppEvent()
@@ -164,7 +164,6 @@ suspend fun ThreePaneScaffoldNavigator<*>.navigateToRoot(pane: ThreePaneScaffold
     }
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun MainScreenAdaptive(
@@ -182,10 +181,15 @@ fun MainScreenAdaptive(
     adView: @Composable (MutableState<Boolean>) -> Unit,
     isNavigationVisible: Boolean,
     isCurrencyUsed: suspend (String) -> Boolean = { false },
-    onCreateAsset: suspend (code: String, symbol: String, fractionDigits: Int, label: String?, commodityType: CommodityType) -> CurrencyUnit? = { _, _, _, _, _ -> null },
-    pageContent: @Composable (pageAccount: PageAccount, isCurrent: Boolean) -> Unit,
+    onCreateAsset: suspend (
+        code: String,
+        symbol: String,
+        fractionDigits: Int,
+        label: String?,
+        commodityType: CommodityType
+    ) -> CurrencyUnit? = { _, _, _, _, _ -> null },
+    pageContent: @Composable (pageAccount: PageAccount, isCurrent: Boolean) -> Unit
 ) {
-
     LaunchedEffect(Unit) {
         viewModel.setStartFilter()
     }
@@ -208,7 +212,9 @@ fun MainScreenAdaptive(
         preferredNavModeLoadingState !is PreferenceState.Loaded ||
         accountGroupingLoadingState !is PreferenceState.Loaded ||
         mainMenuLoadingState !is PreferenceState.Loaded
-    ) return
+    ) {
+        return
+    }
 
     val forcedAccountPanelState = forcedAccountPanelLoadingState.value
     val preferredNavMode = preferredNavModeLoadingState.value.validate(isTablet)
@@ -227,13 +233,15 @@ fun MainScreenAdaptive(
                     AccountPanelState.EXPANDED -> 2
                     AccountPanelState.COLLAPSED -> 1
                     AccountPanelState.DEFAULT -> maxHorizontalPartitions
-                },
+                }
             )
         },
         initialDestinationHistory = listOf(
             ThreePaneScaffoldDestinationItem(
                 pane = when (viewModel.startScreen) {
-                    StartScreen.Accounts, StartScreen.BalanceSheet -> ListDetailPaneScaffoldRole.List
+                    StartScreen.Accounts, StartScreen.BalanceSheet ->
+                        ListDetailPaneScaffoldRole.List
+
                     else -> ListDetailPaneScaffoldRole.Detail
                 }
             )
@@ -259,10 +267,20 @@ fun MainScreenAdaptive(
 
     val calculatedLayoutType = NavigationSuiteScaffoldDefaults.navigationSuiteType(adaptiveInfo)
     val layoutType = when (preferredNavMode) {
-        MenuItem.NavigationMode.DEFAULT -> calculatedLayoutType // should not happen
-        MenuItem.NavigationMode.FIXED_BOTTOM -> calculatedLayoutType // which is either ShortNavigationBarCompact or ShortNavigationBarMedium for phone
-        MenuItem.NavigationMode.TOGGLEABLE_RAIL -> if (isNavigationVisible) NavigationSuiteType.NavigationRail else NavigationSuiteType.None
+        MenuItem.NavigationMode.DEFAULT -> calculatedLayoutType
+
+        // should not happen
+        MenuItem.NavigationMode.FIXED_BOTTOM -> calculatedLayoutType
+
+        // which is either ShortNavigationBarCompact or ShortNavigationBarMedium for phone
+        MenuItem.NavigationMode.TOGGLEABLE_RAIL -> if (isNavigationVisible) {
+            NavigationSuiteType.NavigationRail
+        } else {
+            NavigationSuiteType.None
+        }
+
         MenuItem.NavigationMode.ALWAYS_RAIL -> NavigationSuiteType.WideNavigationRailCollapsed
+
         MenuItem.NavigationMode.ADAPTIVE -> if (isLandscape) {
             NavigationSuiteType.WideNavigationRailCollapsed
         } else {
@@ -276,13 +294,16 @@ fun MainScreenAdaptive(
     val fontScale = LocalDensity.current.fontScale
 
     val splitMenu = isPhone && (
-            layoutType.isBar() ||
-                    isLandscape ||
-                    (isRail && fontScale >= 1.3f && isAdLoaded.value)
-            )
+        layoutType.isBar() ||
+            isLandscape ||
+            (isRail && fontScale >= 1.3f && isAdLoaded.value)
+        )
 
-    val maxQuickItems = if (
-        (layoutType == NavigationSuiteType.ShortNavigationBarMedium) || isRail) 2 else 1
+    val maxQuickItems = if (layoutType == NavigationSuiteType.ShortNavigationBarMedium || isRail) {
+        2
+    } else {
+        1
+    }
 
     val quickItems = menuConfig.take(maxQuickItems)
     val overflowItems = menuConfig.drop(maxQuickItems)
@@ -292,10 +313,37 @@ fun MainScreenAdaptive(
     fun MenuItem.onMenuItemClicked() {
         val tag = when (this) {
             MenuItem.WebUI -> !isWebUiActive
-            MenuItem.Help -> when (navigator.currentDestination?.pane) {
-                ListDetailPaneScaffoldRole.List -> if (viewModel.currentAccountsTab.value == AccountsScreenTab.BALANCE_SHEET) HELP_VARIANT_BALANCE_SHEET else HELP_VARIANT_ACCOUNTS
-                ListDetailPaneScaffoldRole.Detail -> if ((viewModel.accountList.value.find { it.id == selectedAccountId } as? FullAccount)?.isPortfolio == true) HELP_VARIANT_PORTFOLIO else HELP_VARIANT_TRANSACTIONS
-                else -> null
+
+            MenuItem.Help -> {
+                val listVariant =
+                    if (viewModel.currentAccountsTab.value ==
+                        AccountsScreenTab.BALANCE_SHEET
+                    ) {
+                        HELP_VARIANT_BALANCE_SHEET
+                    } else {
+                        HELP_VARIANT_ACCOUNTS
+                    }
+                val detailVariant =
+                    if ((
+                            viewModel.accountList.value.find {
+                                it.id == selectedAccountId
+                            } as? FullAccount
+                            )?.isPortfolio ==
+                        true
+                    ) {
+                        HELP_VARIANT_PORTFOLIO
+                    } else {
+                        HELP_VARIANT_TRANSACTIONS
+                    }
+                if (is2Pane) {
+                    "$listVariant,$detailVariant"
+                } else {
+                    when (navigator.currentDestination?.pane) {
+                        ListDetailPaneScaffoldRole.List -> listVariant
+                        ListDetailPaneScaffoldRole.Detail -> detailVariant
+                        else -> null
+                    }
+                }
             }
 
             else -> null
@@ -337,10 +385,18 @@ fun MainScreenAdaptive(
                     item(
                         icon = {
                             Icon(
-                                imageVector = if (is2Pane) Icons.Outlined.CropLandscape else PaneSplit,
+                                imageVector = if (is2Pane) {
+                                    Icons.Outlined.CropLandscape
+                                } else {
+                                    PaneSplit
+                                },
                                 contentDescription = stringResource(
-                                        if (is2Pane) R.string.single_pane_view else R.string.split_pane_view
-                                    )
+                                    if (is2Pane) {
+                                        R.string.single_pane_view
+                                    } else {
+                                        R.string.split_pane_view
+                                    }
+                                )
                             )
                         },
                         selected = false,
@@ -368,9 +424,12 @@ fun MainScreenAdaptive(
                             )
                         },
                         selected = false,
-                        onClick = { onAppEvent(AppEvent.ToggleNavigation) }, // The IconButton handles the click
+                        onClick = {
+                            // The IconButton handles the click
+                            onAppEvent(AppEvent.ToggleNavigation)
+                        },
                         label = null, // Optional, can be null
-                        alwaysShowLabel = false,
+                        alwaysShowLabel = false
                     )
                 }
                 if (!is2Pane) {
@@ -408,14 +467,17 @@ fun MainScreenAdaptive(
                     )
                 }
                 if (splitMenu) {
-
                     if (overflowItems.isNotEmpty()) {
                         item(
                             selected = showBottomSheet,
                             onClick = { showBottomSheet = true },
                             icon = { Icon(Icons.Default.MoreHoriz, null) },
                             label = {
-                                NavigationItem(stringResource(com.android.setupwizardlib.R.string.suw_more_button_label))
+                                NavigationItem(
+                                    stringResource(
+                                        com.android.setupwizardlib.R.string.suw_more_button_label
+                                    )
+                                )
                             },
                             modifier = Modifier.testTag(TEST_TAG_NAV_OVERFLOW)
                         )
@@ -423,7 +485,6 @@ fun MainScreenAdaptive(
                 }
             }
         ) {
-
             BackHandler(enabled = !is2Pane && navigator.canNavigateBack()) {
                 scope.launch {
                     navigator.navigateBack()
@@ -431,9 +492,14 @@ fun MainScreenAdaptive(
             }
 
             val customInsets = with(ScaffoldDefaults.contentWindowInsets) {
-                if (layoutType.isBar()) only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top) else this
+                if (layoutType.isBar()) {
+                    only(
+                        WindowInsetsSides.Horizontal + WindowInsetsSides.Top
+                    )
+                } else {
+                    this
+                }
             }
-
 
             val navigationIcon =
                 if (toggleableRail && !isNavigationVisible) {
@@ -471,7 +537,11 @@ fun MainScreenAdaptive(
                                 flags = flags,
                                 bankIcon = bankIcon,
                                 windowInsets = with(customInsets) {
-                                    if (is2Pane) only(WindowInsetsSides.Vertical + WindowInsetsSides.Start) else this
+                                    if (is2Pane) {
+                                        only(WindowInsetsSides.Vertical + WindowInsetsSides.Start)
+                                    } else {
+                                        this
+                                    }
                                 }
                             ) {
                                 scope.launch {
@@ -482,13 +552,11 @@ fun MainScreenAdaptive(
                     }
                 },
                 detailPane = {
-
                     PaneSurface(
                         isRail = isRail,
                         extraPadding = true
                     ) {
                         AnimatedPane {
-
                             TransactionScreen(
                                 containerColor = Color.Transparent,
                                 availableFilters = availableFilters,
@@ -520,10 +588,14 @@ fun MainScreenAdaptive(
                                     }
                                 },
                                 windowInsets = with(customInsets) {
-                                    if (is2Pane) only(WindowInsetsSides.Vertical + WindowInsetsSides.End) else this
+                                    if (is2Pane) {
+                                        only(WindowInsetsSides.Vertical + WindowInsetsSides.End)
+                                    } else {
+                                        this
+                                    }
                                 },
                                 isFramed = isRail,
-                                navigationIcon = navigationIcon,
+                                navigationIcon = navigationIcon
                             )
                         }
                     }
@@ -538,7 +610,6 @@ fun MainScreenAdaptive(
             sheetState = sheetState,
             contentWindowInsets = { WindowInsets.navigationBars }
         ) {
-
             overflowItems
                 .forEach {
                     ListItem(
@@ -553,37 +624,37 @@ fun MainScreenAdaptive(
                             Icon(
                                 if (it == MenuItem.WebUI) {
                                     rememberVectorPainter(
-                                        if (isWebUiActive) Icons.Filled.CheckBox
-                                        else Icons.Filled.CheckBoxOutlineBlank
+                                        if (isWebUiActive) {
+                                            Icons.Filled.CheckBox
+                                        } else {
+                                            Icons.Filled.CheckBoxOutlineBlank
+                                        }
                                     )
-                                } else it.painter,
+                                } else {
+                                    it.painter
+                                },
                                 contentDescription = null
                             )
-                        },
+                        }
                     )
                 }
         }
     }
 }
 
-private fun NavigationSuiteType.isBar(): Boolean {
-    return this == NavigationSuiteType.NavigationBar ||
-            this == NavigationSuiteType.ShortNavigationBarMedium ||
-            this == NavigationSuiteType.ShortNavigationBarCompact
-}
+private fun NavigationSuiteType.isBar(): Boolean = this == NavigationSuiteType.NavigationBar ||
+    this == NavigationSuiteType.ShortNavigationBarMedium ||
+    this == NavigationSuiteType.ShortNavigationBarCompact
 
-private fun NavigationSuiteType.isRail(): Boolean {
-    return this == NavigationSuiteType.NavigationRail ||
-            this == NavigationSuiteType.WideNavigationRailCollapsed ||
-            this == NavigationSuiteType.WideNavigationRailExpanded
-}
-
+private fun NavigationSuiteType.isRail(): Boolean = this == NavigationSuiteType.NavigationRail ||
+    this == NavigationSuiteType.WideNavigationRailCollapsed ||
+    this == NavigationSuiteType.WideNavigationRailExpanded
 
 @Composable
 private fun PaneSurface(
     isRail: Boolean,
     extraPadding: Boolean = false,
-    content: @Composable () -> Unit,
+    content: @Composable () -> Unit
 ) {
     Surface(
         modifier = Modifier
@@ -597,7 +668,9 @@ private fun PaneSurface(
                 width = 1.dp,
                 color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
             )
-        } else null,
+        } else {
+            null
+        },
         content = content
     )
 }

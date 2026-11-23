@@ -66,7 +66,6 @@
     <ID>CyclomaticComplexMethod:ExportViewModel.kt:ExportViewModel$fun startExport</ID>
     <ID>CyclomaticComplexMethod:FilterDialog.kt:@OptIn(ExperimentalMaterial3Api::class) @Suppress( "MaxLineLength", "ktlint:standard:max-line-length", "ktlint:standard:argument-list-wrapping" ) @Composable fun FilterDialog</ID>
     <ID>CyclomaticComplexMethod:Grouping.kt:Grouping$fun getDisplayTitle: String</ID>
-    <ID>CyclomaticComplexMethod:HelpDialogFragment.kt:HelpDialogFragment$override fun onCreateDialog: Dialog</ID>
     <ID>CyclomaticComplexMethod:HelpDialogHelper.kt:HelpDialogHelper$@Throws(Resources.NotFoundException::class) fun getStringOrThrowIf0: CharSequence</ID>
     <ID>CyclomaticComplexMethod:HelpDialogHelper.kt:HelpDialogHelper$fun resolveStringOrArray</ID>
     <ID>CyclomaticComplexMethod:HistoryChart.kt:HistoryChart$override fun onLoadFinished</ID>
@@ -168,6 +167,7 @@
     <ID>EmptyFunctionBlock:ExportDialogFragment.kt:ExportDialogFragment.DateFormatWatcher${}</ID>
     <ID>EmptyFunctionBlock:ExtendProLicenceDialogFragment.kt:ExtendProLicenceDialogFragment${ }</ID>
     <ID>EmptyFunctionBlock:FloatSeekBarPreference.kt:FloatSeekBarPreference${}</ID>
+    <ID>EmptyFunctionBlock:HelpDialogFragment.kt:HelpDialogFragment.&lt;no name provided&gt;${}</ID>
     <ID>EmptyFunctionBlock:HistoryChart.kt:HistoryChart.&lt;no name provided&gt;${}</ID>
     <ID>EmptyFunctionBlock:LegacyPasswordPreferenceDialogFragmentCompat.kt:LegacyPasswordPreferenceDialogFragmentCompat${ }</ID>
     <ID>EmptyFunctionBlock:MethodEdit.kt:MethodEdit.&lt;no name provided&gt;${}</ID>
@@ -299,7 +299,7 @@
     <ID>LongMethod:FilterDialog.kt:@OptIn(ExperimentalMaterial3Api::class) @Suppress( "MaxLineLength", "ktlint:standard:max-line-length", "ktlint:standard:argument-list-wrapping" ) @Composable fun FilterDialog</ID>
     <ID>LongMethod:FilterHandler.kt:@Composable fun FilterHandler</ID>
     <ID>LongMethod:FloatingActionButtonMenu.kt:@Composable fun &lt;T : FabMenuAction&gt; FloatingActionButtonMenu</ID>
-    <ID>LongMethod:HelpDialogFragment.kt:HelpDialogFragment$override fun onCreateDialog: Dialog</ID>
+    <ID>LongMethod:HelpDialogFragment.kt:HelpDialogFragment$private fun populateContent</ID>
     <ID>LongMethod:HelpDialogHelper.kt:HelpDialogHelper$fun resolveStringOrArray</ID>
     <ID>LongMethod:HelpDialogHelperTest.kt:HelpDialogHelperTest$@Test fun testHelpStringResExists</ID>
     <ID>LongMethod:HistoryChart.kt:HistoryChart$override fun onCreateView: View</ID>
@@ -888,12 +888,6 @@
     <ID>MaxLineLength:ImportTradesDialog.kt:finalQuantity = Money.buildWithMajor(asset, total.divide(price, 10, roundingMode), roundingMode).getOrThrow()</ID>
     <ID>MaxLineLength:ImportTradesDialog.kt:parseResult?.takeIf { it.intents.isEmpty() &amp;&amp; it.parseFailures == 0 &amp;&amp; it.missingAssets.isEmpty() &amp;&amp; it.fatalError == null }</ID>
     <ID>MaxLineLength:LazyFontSelector.kt:LazyFontSelector$//Log.d("MyExpenses","Character " + c + " was found in font " + currentFont.getBaseFont().getPostscriptFontName());</ID>
-    <ID>MaxLineLength:MainScreen.kt:ListDetailPaneScaffoldRole.Detail -&gt; if ((viewModel.accountList.value.find { it.id == selectedAccountId } as? FullAccount)?.isPortfolio == true) HELP_VARIANT_PORTFOLIO else HELP_VARIANT_TRANSACTIONS</ID>
-    <ID>MaxLineLength:MainScreen.kt:ListDetailPaneScaffoldRole.List -&gt; if (viewModel.currentAccountsTab.value == AccountsScreenTab.BALANCE_SHEET) HELP_VARIANT_BALANCE_SHEET else HELP_VARIANT_ACCOUNTS</ID>
-    <ID>MaxLineLength:MainScreen.kt:MenuItem.NavigationMode.FIXED_BOTTOM -&gt; calculatedLayoutType</ID>
-    <ID>MaxLineLength:MainScreen.kt:MenuItem.NavigationMode.TOGGLEABLE_RAIL -&gt; if (isNavigationVisible) NavigationSuiteType.NavigationRail else NavigationSuiteType.None</ID>
-    <ID>MaxLineLength:MainScreen.kt:NavigationItem(stringResource(com.android.setupwizardlib.R.string.suw_more_button_label))</ID>
-    <ID>MaxLineLength:MainScreen.kt:onCreateAsset: suspend (code: String, symbol: String, fractionDigits: Int, label: String?, commodityType: CommodityType) -&gt; CurrencyUnit? = { _, _, _, _, _ -&gt; null }</ID>
     <ID>MaxLineLength:ManageAccountFlags.kt:bottom = paddingValues.calculateBottomPadding() + dimensionResource(R.dimen.fab_related_bottom_padding)</ID>
     <ID>MaxLineLength:ManageAccountFlags.kt:contentDescription = stringResource(id = androidx.appcompat.R.string.abc_action_bar_up_description)</ID>
     <ID>MaxLineLength:ManageAccountTypes.kt:bottom = paddingValues.calculateBottomPadding() + dimensionResource(R.dimen.fab_related_bottom_padding)</ID>
@@ -1334,7 +1328,6 @@
     <ID>NewLineAtEndOfFile:LicenceValidationViewModel.kt:org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel.kt</ID>
     <ID>NewLineAtEndOfFile:LocalizedFormatEditTextPreference.kt:org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference.kt</ID>
     <ID>NewLineAtEndOfFile:MainPreferenceFragment.kt:org.totschnig.myexpenses.fragment.preferences.MainPreferenceFragment.kt</ID>
-    <ID>NewLineAtEndOfFile:MainScreen.kt:org.totschnig.myexpenses.compose.main.MainScreen.kt</ID>
     <ID>NewLineAtEndOfFile:Manage.kt:org.totschnig.myexpenses.activity.Manage.kt</ID>
     <ID>NewLineAtEndOfFile:ManageAccountTypes.kt:org.totschnig.myexpenses.activity.ManageAccountTypes.kt</ID>
     <ID>NewLineAtEndOfFile:ManageCategories.kt:org.totschnig.myexpenses.activity.ManageCategories.kt</ID>

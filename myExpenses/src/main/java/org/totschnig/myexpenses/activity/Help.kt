@@ -17,10 +17,14 @@ package org.totschnig.myexpenses.activity
 import android.os.Bundle
 import org.totschnig.myexpenses.dialog.HelpDialogFragment
 
+private const val FRAGMENT_TAG = "HELP"
+
 class Help : ProtectedFragmentActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        HelpDialogFragment.newInstance(intent.extras).show(supportFragmentManager, "HELP")
+        if (supportFragmentManager.findFragmentByTag(FRAGMENT_TAG) == null) {
+            HelpDialogFragment.newInstance(intent.extras).show(supportFragmentManager, FRAGMENT_TAG)
+        }
     }
 }
