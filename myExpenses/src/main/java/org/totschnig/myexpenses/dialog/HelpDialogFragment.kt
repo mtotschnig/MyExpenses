@@ -154,9 +154,7 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
         val savedSelectedVariant = savedInstanceState?.getString(KEY_SELECTED_VARIANT)
         val rawVariant = args.getString(KEY_VARIANT)
         val variantsList = if (!rawVariant.isNullOrEmpty()) rawVariant.split(",") else emptyList()
-        val currentVariant = savedSelectedVariant
-            ?.takeIf { it in variantsList } ?: variantsList.firstOrNull()
-        variant = currentVariant
+        variant = savedSelectedVariant?.takeIf { it in variantsList } ?: variantsList.firstOrNull()
 
         if (context == null) return onError("context extra missing")
         Timber.d("Help for $context / $rawVariant")
@@ -164,51 +162,10 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
             HelpDialogBinding.inflate(it)
         }
         try {
-            if (variantsList.size > 1) {
-                binding.tabLayout.visibility = View.VISIBLE
-                binding.tabLayout.removeAllTabs()
-                var tabToSelect: TabLayout.Tab? = null
-                for (v in variantsList) {
-                    val titleResId = helper.resolveString("help_" + context + "_" + v + "_title")
-                    val tabTitle = if (titleResId != 0) getString(titleResId) else v
-                    val tab = binding.tabLayout.newTab().setText(tabTitle).setTag(v)
-                    binding.tabLayout.addTab(tab)
-                    if (v == currentVariant) {
-                        tabToSelect = tab
-                    }
-                }
-                binding.tabLayout.addOnTabSelectedListener(object :
-                    TabLayout.OnTabSelectedListener {
-                    override fun onTabSelected(tab: TabLayout.Tab) {
-                        val selectedVariant = tab.tag as? String ?: return
-                        variant = selectedVariant
-                        populateContent(selectedVariant)
-                    }
-
-                    override fun onTabUnselected(tab: TabLayout.Tab) {}
-                    override fun onTabReselected(tab: TabLayout.Tab) {}
-                })
-                tabToSelect?.select()
-            } else {
-                binding.tabLayout.visibility = View.GONE
-            }
-
+            setupTabLayout(variantsList, variant)
             populateContent(variant)
+            val title = resolveDialogTitle(args, variantsList)
 
-            val title = args.getString(KEY_TITLE) ?: if (variantsList.size > 1) {
-                getString(R.string.menu_help)
-            } else {
-                val titleResId = if (variant != null) {
-                    helper.resolveString("help_" + context + "_" + variant + "_title")
-                } else {
-                    0
-                }
-                if (titleResId == 0) {
-                    helper.getStringOrThrowIf0("help_" + context + "_title")
-                } else {
-                    getString(titleResId)
-                }
-            }
             return builder.setTitle(title)
                 .setIcon(R.drawable.ic_menu_help)
                 .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
@@ -223,6 +180,53 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
             return onError("Error generating Help dialog")
         }
     }
+
+    private fun setupTabLayout(variantsList: List<String>, currentVariant: String?) {
+        if (variantsList.size <= 1) {
+            binding.tabLayout.visibility = View.GONE
+            return
+        }
+        binding.tabLayout.visibility = View.VISIBLE
+        binding.tabLayout.removeAllTabs()
+        var tabToSelect: TabLayout.Tab? = null
+        for (v in variantsList) {
+            val titleResId = helper.resolveString("help_" + context + "_" + v + "_title")
+            val tabTitle = if (titleResId != 0) getString(titleResId) else v
+            val tab = binding.tabLayout.newTab().setText(tabTitle).setTag(v)
+            binding.tabLayout.addTab(tab)
+            if (v == currentVariant) {
+                tabToSelect = tab
+            }
+        }
+        binding.tabLayout.addOnTabSelectedListener(object :
+            TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                val selectedVariant = tab.tag as? String ?: return
+                variant = selectedVariant
+                populateContent(selectedVariant)
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+        })
+        tabToSelect?.select()
+    }
+
+    private fun resolveDialogTitle(args: Bundle, variantsList: List<String>): CharSequence =
+        args.getString(KEY_TITLE) ?: if (variantsList.size > 1) {
+            getString(R.string.menu_help)
+        } else {
+            val titleResId = if (variant != null) {
+                helper.resolveString("help_" + context + "_" + variant + "_title")
+            } else {
+                0
+            }
+            if (titleResId == 0) {
+                helper.getStringOrThrowIf0("help_" + context + "_title")
+            } else {
+                getString(titleResId)
+            }
+        }
 
     private fun populateContent(currentVariant: String?) {
         populateScreenInfo(currentVariant)
