@@ -225,7 +225,40 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
     }
 
     private fun populateContent(currentVariant: String?) {
-        val res = resources
+        populateScreenInfo(currentVariant)
+        populateSection(
+            currentVariant,
+            "formfields",
+            "form",
+            binding.formFieldsHeading,
+            binding.formFieldsContainer
+        )
+        populateSection(
+            currentVariant,
+            "menuitems",
+            "menu",
+            binding.menuCommandsHeading,
+            binding.menuCommandsContainer
+        )
+        populateSection(
+            currentVariant,
+            "fabactions",
+            "fab",
+            binding.fabActionsHeading,
+            binding.fabActionsContainer
+        )
+        populateSection(
+            currentVariant,
+            "cabitems",
+            "cab",
+            binding.cabCommandsHeading,
+            binding.cabCommandsContainer,
+            binding.cabCommandsHelp
+        )
+        binding.aboutscrollview.scrollTo(0, 0)
+    }
+
+    private fun populateScreenInfo(currentVariant: String?) {
         var resIdString = "help_" + context + "_info"
         var screenInfo = helper.resolveStringOrArray(resIdString, true)
         if (currentVariant != null) {
@@ -250,70 +283,34 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
             binding.screenInfo.text = screenInfo
             binding.screenInfo.movementMethod = LinkMovementMethod.getInstance()
         }
+    }
 
-        // Form entries
-        val formResId = findComponentArray(currentVariant, "formfields")
-        val menuItems = ArrayList<String>()
-        if (formResId != 0) {
-            menuItems.addAll(listOf(*res.getStringArray(formResId)))
-        }
-        binding.formFieldsContainer.removeAllViews()
-        if (menuItems.isEmpty()) {
-            binding.formFieldsHeading.visibility = View.GONE
+    private fun populateSection(
+        currentVariant: String?,
+        arrayType: String,
+        prefix: String,
+        heading: View,
+        container: ViewGroup,
+        helpTextHint: View? = null
+    ) {
+        val resId = findComponentArray(currentVariant, arrayType)
+        val items = if (resId != 0) resources.getStringArray(resId) else emptyArray()
+        container.removeAllViews()
+        if (items.isEmpty()) {
+            heading.visibility = View.GONE
+            helpTextHint?.visibility = View.GONE
         } else {
-            binding.formFieldsHeading.visibility = View.VISIBLE
-            handleMenuItems(currentVariant, menuItems, "form", binding.formFieldsContainer)
+            heading.visibility = View.VISIBLE
+            if (helpTextHint != null) {
+                helpTextHint.visibility =
+                    if (showLongTapHint(buildComponentName(currentVariant, arrayType))) {
+                        View.VISIBLE
+                    } else {
+                        View.GONE
+                    }
+            }
+            handleMenuItems(currentVariant, ArrayList(items.toList()), prefix, container)
         }
-
-        // Menu items
-        val menuResId = findComponentArray(currentVariant, "menuitems")
-        menuItems.clear()
-        if (menuResId != 0) menuItems.addAll(listOf(*res.getStringArray(menuResId)))
-        binding.menuCommandsContainer.removeAllViews()
-        if (menuItems.isEmpty()) {
-            binding.menuCommandsHeading.visibility = View.GONE
-        } else {
-            binding.menuCommandsHeading.visibility = View.VISIBLE
-            handleMenuItems(currentVariant, menuItems, "menu", binding.menuCommandsContainer)
-        }
-
-        // FAB actions
-        val fabResId = findComponentArray(currentVariant, "fabactions")
-        menuItems.clear()
-        if (fabResId != 0) menuItems.addAll(listOf(*res.getStringArray(fabResId)))
-        binding.fabActionsContainer.removeAllViews()
-        if (menuItems.isEmpty()) {
-            binding.fabActionsHeading.visibility = View.GONE
-        } else {
-            binding.fabActionsHeading.visibility = View.VISIBLE
-            handleMenuItems(currentVariant, menuItems, "fab", binding.fabActionsContainer)
-        }
-
-        // Contextual action bar
-        val cabResId = findComponentArray(currentVariant, "cabitems")
-        menuItems.clear()
-        if (cabResId != 0) menuItems.addAll(listOf(*res.getStringArray(cabResId)))
-        binding.cabCommandsContainer.removeAllViews()
-        if (menuItems.isEmpty()) {
-            binding.cabCommandsHeading.visibility = View.GONE
-            binding.cabCommandsHelp.visibility = View.GONE
-        } else {
-            binding.cabCommandsHeading.visibility = View.VISIBLE
-            binding.cabCommandsHelp.visibility =
-                if (showLongTapHint(
-                        buildComponentName(
-                            currentVariant,
-                            "cabitems"
-                        )
-                    )
-                ) {
-                    View.VISIBLE
-                } else {
-                    View.GONE
-                }
-            handleMenuItems(currentVariant, menuItems, "cab", binding.cabCommandsContainer)
-        }
-        binding.aboutscrollview.scrollTo(0, 0)
     }
 
     private fun onError(message: String) = MaterialAlertDialogBuilder(requireActivity())

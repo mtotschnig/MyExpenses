@@ -299,9 +299,7 @@ fun MainScreenAdaptive(
             (isRail && fontScale >= 1.3f && isAdLoaded.value)
         )
 
-    val maxQuickItems = if ((layoutType == NavigationSuiteType.ShortNavigationBarMedium) ||
-        isRail
-    ) {
+    val maxQuickItems = if (layoutType == NavigationSuiteType.ShortNavigationBarMedium || isRail) {
         2
     } else {
         1
