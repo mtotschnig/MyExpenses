@@ -37,6 +37,7 @@ import timber.log.Timber
  *
  * @author Michael Totschnig
  */
+@Suppress("TooManyFunctions")
 class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
 
     lateinit var helper: HelpDialogHelper
