@@ -23,6 +23,7 @@ import android.text.method.LinkMovementMethod
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.tabs.TabLayout
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.HelpDialogActionRowBinding
 import org.totschnig.myexpenses.databinding.HelpDialogBinding
@@ -141,97 +142,57 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val ctx = requireActivity()
-        val res = resources
         val args = requireArguments()
         helper = HelpDialogHelper(ctx, args.getCharSequence(KEY_EXTRA))
         context = args.getString(KEY_CONTEXT)
-        variant = args.getString(KEY_VARIANT)
+        val rawVariant = args.getString(KEY_VARIANT)
+        val variantsList = if (!rawVariant.isNullOrEmpty()) rawVariant.split(",") else emptyList()
+        variant = variantsList.firstOrNull()
+
         if (context == null) return onError("context extra missing")
-        Timber.d("Help for $context / $variant")
+        Timber.d("Help for $context / $rawVariant")
         val builder = initBuilder {
             HelpDialogBinding.inflate(it)
         }
         try {
-            var resIdString = "help_" + context + "_info"
-            var screenInfo = helper.resolveStringOrArray(resIdString, true)
-            if (variant != null) {
-                resIdString = "help_" + context + "_" + variant + "_info"
-                val variantInfo = helper.resolveStringOrArray(resIdString, true)
-                if (!TextUtils.isEmpty(variantInfo)) {
-                    screenInfo = if (!TextUtils.isEmpty(screenInfo)) {
-                        TextUtils.concat(
-                            screenInfo,
-                            "\n",
-                            variantInfo
-                        )
-                    } else {
-                        variantInfo
-                    }
+            if (variantsList.size > 1) {
+                binding.tabLayout.visibility = View.VISIBLE
+                binding.tabLayout.removeAllTabs()
+                for (v in variantsList) {
+                    val titleResId = helper.resolveString("help_" + context + "_" + v + "_title")
+                    val tabTitle = if (titleResId != 0) getString(titleResId) else v
+                    binding.tabLayout.addTab(binding.tabLayout.newTab().setText(tabTitle).setTag(v))
                 }
-            }
-            if (TextUtils.isEmpty(screenInfo)) {
-                binding.screenInfo.visibility = View.GONE
+                binding.tabLayout.addOnTabSelectedListener(object :
+                    TabLayout.OnTabSelectedListener {
+                    override fun onTabSelected(tab: TabLayout.Tab) {
+                        val selectedVariant = tab.tag as? String ?: return
+                        variant = selectedVariant
+                        populateContent(selectedVariant)
+                    }
+
+                    override fun onTabUnselected(tab: TabLayout.Tab) {}
+                    override fun onTabReselected(tab: TabLayout.Tab) {}
+                })
             } else {
-                binding.screenInfo.text = screenInfo
-                binding.screenInfo.movementMethod = LinkMovementMethod.getInstance()
+                binding.tabLayout.visibility = View.GONE
             }
 
-            // Form entries
-            val formResId = findComponentArray("formfields")
-            val menuItems = ArrayList<String>()
-            if (formResId != 0) {
-                menuItems.addAll(listOf(*res.getStringArray(formResId)))
-            }
-            if (menuItems.isEmpty()) {
-                binding.formFieldsHeading.visibility = View.GONE
-            } else {
-                handleMenuItems(menuItems, "form", binding.formFieldsContainer)
-            }
+            populateContent(variant)
 
-            // Menu items
-            val menuResId = findComponentArray("menuitems")
-            menuItems.clear()
-            if (menuResId != 0) menuItems.addAll(listOf(*res.getStringArray(menuResId)))
-            if (menuItems.isEmpty()) {
-                binding.menuCommandsHeading.visibility = View.GONE
+            val title = args.getString(KEY_TITLE) ?: if (variantsList.size > 1) {
+                getString(R.string.menu_help)
             } else {
-                handleMenuItems(menuItems, "menu", binding.menuCommandsContainer)
-            }
-
-            // FAB actions
-            val fabResId = findComponentArray("fabactions")
-            menuItems.clear()
-            if (fabResId != 0) menuItems.addAll(listOf(*res.getStringArray(fabResId)))
-            if (menuItems.isEmpty()) {
-                binding.fabActionsHeading.visibility = View.GONE
-            } else {
-                handleMenuItems(menuItems, "fab", binding.fabActionsContainer)
-            }
-
-            // Contextual action bar
-            val cabResId = findComponentArray("cabitems")
-            menuItems.clear()
-            if (cabResId != 0) menuItems.addAll(listOf(*res.getStringArray(cabResId)))
-            if (menuItems.isEmpty()) {
-                binding.cabCommandsHeading.visibility = View.GONE
-            } else {
-                handleMenuItems(menuItems, "cab", binding.cabCommandsContainer)
-            }
-            if (menuItems.isEmpty() || !showLongTapHint(buildComponentName("cabitems"))) {
-                binding.cabCommandsHelp.visibility = View.GONE
-            }
-            val titleResId =
-                if (variant !=
-                    null
-                ) {
+                val titleResId = if (variant != null) {
                     helper.resolveString("help_" + context + "_" + variant + "_title")
                 } else {
                     0
                 }
-            val title = args.getString(KEY_TITLE) ?: if (titleResId == 0) {
-                helper.getStringOrThrowIf0("help_" + context + "_title")
-            } else {
-                getString(titleResId)
+                if (titleResId == 0) {
+                    helper.getStringOrThrowIf0("help_" + context + "_title")
+                } else {
+                    getString(titleResId)
+                }
             }
             return builder.setTitle(title)
                 .setIcon(R.drawable.ic_menu_help)
@@ -246,6 +207,98 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
             CrashHandler.report(e)
             return onError("Error generating Help dialog")
         }
+    }
+
+    private fun populateContent(currentVariant: String?) {
+        val res = resources
+        var resIdString = "help_" + context + "_info"
+        var screenInfo = helper.resolveStringOrArray(resIdString, true)
+        if (currentVariant != null) {
+            resIdString = "help_" + context + "_" + currentVariant + "_info"
+            val variantInfo = helper.resolveStringOrArray(resIdString, true)
+            if (!TextUtils.isEmpty(variantInfo)) {
+                screenInfo = if (!TextUtils.isEmpty(screenInfo)) {
+                    TextUtils.concat(
+                        screenInfo,
+                        "\n",
+                        variantInfo
+                    )
+                } else {
+                    variantInfo
+                }
+            }
+        }
+        if (TextUtils.isEmpty(screenInfo)) {
+            binding.screenInfo.visibility = View.GONE
+        } else {
+            binding.screenInfo.visibility = View.VISIBLE
+            binding.screenInfo.text = screenInfo
+            binding.screenInfo.movementMethod = LinkMovementMethod.getInstance()
+        }
+
+        // Form entries
+        val formResId = findComponentArray(currentVariant, "formfields")
+        val menuItems = ArrayList<String>()
+        if (formResId != 0) {
+            menuItems.addAll(listOf(*res.getStringArray(formResId)))
+        }
+        binding.formFieldsContainer.removeAllViews()
+        if (menuItems.isEmpty()) {
+            binding.formFieldsHeading.visibility = View.GONE
+        } else {
+            binding.formFieldsHeading.visibility = View.VISIBLE
+            handleMenuItems(currentVariant, menuItems, "form", binding.formFieldsContainer)
+        }
+
+        // Menu items
+        val menuResId = findComponentArray(currentVariant, "menuitems")
+        menuItems.clear()
+        if (menuResId != 0) menuItems.addAll(listOf(*res.getStringArray(menuResId)))
+        binding.menuCommandsContainer.removeAllViews()
+        if (menuItems.isEmpty()) {
+            binding.menuCommandsHeading.visibility = View.GONE
+        } else {
+            binding.menuCommandsHeading.visibility = View.VISIBLE
+            handleMenuItems(currentVariant, menuItems, "menu", binding.menuCommandsContainer)
+        }
+
+        // FAB actions
+        val fabResId = findComponentArray(currentVariant, "fabactions")
+        menuItems.clear()
+        if (fabResId != 0) menuItems.addAll(listOf(*res.getStringArray(fabResId)))
+        binding.fabActionsContainer.removeAllViews()
+        if (menuItems.isEmpty()) {
+            binding.fabActionsHeading.visibility = View.GONE
+        } else {
+            binding.fabActionsHeading.visibility = View.VISIBLE
+            handleMenuItems(currentVariant, menuItems, "fab", binding.fabActionsContainer)
+        }
+
+        // Contextual action bar
+        val cabResId = findComponentArray(currentVariant, "cabitems")
+        menuItems.clear()
+        if (cabResId != 0) menuItems.addAll(listOf(*res.getStringArray(cabResId)))
+        binding.cabCommandsContainer.removeAllViews()
+        if (menuItems.isEmpty()) {
+            binding.cabCommandsHeading.visibility = View.GONE
+            binding.cabCommandsHelp.visibility = View.GONE
+        } else {
+            binding.cabCommandsHeading.visibility = View.VISIBLE
+            binding.cabCommandsHelp.visibility =
+                if (showLongTapHint(
+                        buildComponentName(
+                            currentVariant,
+                            "cabitems"
+                        )
+                    )
+                ) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                }
+            handleMenuItems(currentVariant, menuItems, "cab", binding.cabCommandsContainer)
+        }
+        binding.aboutscrollview.scrollTo(0, 0)
     }
 
     private fun onError(message: String) = MaterialAlertDialogBuilder(requireActivity())
@@ -265,17 +318,19 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
             "MyExpensesV2_transactions_cabitems"
         )
 
-    private fun findComponentArray(type: String) =
-        helper.resolveArray(buildComponentName(type)).takeIf { it != 0 || variant == null }
+    private fun findComponentArray(currentVariant: String?, type: String) =
+        helper.resolveArray(buildComponentName(currentVariant, type))
+            .takeIf { it != 0 || currentVariant == null }
             ?: helper.resolveArray(context + "_" + type)
 
-    private fun buildComponentName(type: String): String = if (variant !=
-        null
-    ) {
-        context + "_" + variant + "_" + type
-    } else {
-        context + "_" + type
-    }
+    private fun buildComponentName(currentVariant: String?, type: String): String =
+        if (currentVariant !=
+            null
+        ) {
+            context + "_" + currentVariant + "_" + type
+        } else {
+            context + "_" + type
+        }
 
     /**
      * @param menuItems list of menuItems to be displayed
@@ -285,6 +340,7 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
      */
     @Throws(Resources.NotFoundException::class)
     private fun handleMenuItems(
+        currentVariant: String?,
         menuItems: ArrayList<String>,
         prefix: String,
         container: ViewGroup
@@ -313,7 +369,7 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
             // we look for a help text specific to the variant first, then to the activity
             // and last a generic one
             // We look for an array first, which allows us to compose messages of parts
-            val helpText = variant?.let {
+            val helpText = currentVariant?.let {
                 helper.resolveStringOrArray(
                     prefix + "_" + context + "_" + it + "_" + item + "_help_text",
                     false
