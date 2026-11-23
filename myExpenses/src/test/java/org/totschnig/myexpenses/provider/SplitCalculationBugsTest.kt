@@ -5,6 +5,7 @@ import android.content.ContentValues
 import androidx.datastore.preferences.core.edit
 import java.time.LocalDate
 import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertThrows
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -53,8 +54,8 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
 
         // Create a split transaction in EUR account:
         // Parent: -100 EUR (-10000 minor units), equivalent = -15000 (-150.00 USD)
-        // Part 1: -60 EUR (-6000 minor units), equivalent = -9000 (-90.00 USD)
-        // Part 2: -40 EUR (-4000 minor units), equivalent = -6000 (-60.00 USD)
+        // Part 1: -60 EUR (-6000 minor units), equivalent = null (dynamic calculation from parent)
+        // Part 2: -40 EUR (-4000 minor units), equivalent = null (dynamic calculation from parent)
         val split = repository.createSplitTransaction(
             Transaction(
                 accountId = foreignAccountId,
@@ -68,14 +69,12 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
                     accountId = foreignAccountId,
                     amount = -6000,
                     categoryId = expenseCategory1,
-                    equivalentAmount = -9000,
                     uuid = generateUuid()
                 ),
                 Transaction(
                     accountId = foreignAccountId,
                     amount = -4000,
                     categoryId = expenseCategory2,
-                    equivalentAmount = -6000,
                     uuid = generateUuid()
                 )
             )
@@ -195,10 +194,11 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
     }
 
     /**
-     * Tests that no excessive equivalent_amounts rows are created even when equivalentAmount is supplied:
+     * Tests that no excessive equivalent_amounts rows are created:
      * 1. Split parts (part1Id, part2Id) must NOT have rows in equivalent_amounts.
      * 2. Home currency (USD) transactions must NOT have rows in equivalent_amounts.
      * 3. Static foreign currency (EUR, dynamic = false) transactions must NOT have rows in equivalent_amounts.
+     * Also asserts that attempting to supply unnecessary equivalent amounts throws IllegalArgumentException.
      */
     @Test
     fun testNoExcessiveEquivalentAmountsForSplitPartsOrHomeCurrencyAccount() {
@@ -218,9 +218,9 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
                 hasLong(0, splitParentId)
             }
 
-        // 2. Verify home currency account transaction (attempting non-null equivalentAmount insert):
+        // 2. Verify home currency account transaction:
         val usdAccountId = insertAccount("USD Account", currency = "USD")
-        val usdTrans = repository.insertTransaction(usdAccountId, -5000, equivalentAmount = -5000)
+        val usdTrans = repository.insertTransaction(usdAccountId, -5000)
 
         db.query(
             table = TABLE_EQUIVALENT_AMOUNTS,
@@ -231,11 +231,15 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
             hasCount(0)
         }
 
-        // 3. Verify static foreign currency account transaction (dynamic = false, attempting non-null equivalentAmount insert):
+        // Attempting to supply equivalentAmount on home currency account throws IllegalArgumentException
+        assertThrows(IllegalArgumentException::class.java) {
+            repository.insertTransaction(usdAccountId, -5000, equivalentAmount = -5000)
+        }
+
+        // 3. Verify static foreign currency account transaction (dynamic = false):
         val staticEurAccountId =
             insertAccount("Static EUR Account", currency = "EUR", dynamic = false)
-        val staticEurTrans =
-            repository.insertTransaction(staticEurAccountId, -5000, equivalentAmount = -7500)
+        val staticEurTrans = repository.insertTransaction(staticEurAccountId, -5000)
 
         db.query(
             table = TABLE_EQUIVALENT_AMOUNTS,
@@ -244,6 +248,11 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
             selectionArgs = arrayOf(staticEurTrans.id.toString())
         ).useAndAssert {
             hasCount(0)
+        }
+
+        // Attempting to supply equivalentAmount on static foreign account throws IllegalArgumentException
+        assertThrows(IllegalArgumentException::class.java) {
+            repository.insertTransaction(staticEurAccountId, -5000, equivalentAmount = -7500)
         }
     }
 
@@ -522,14 +531,12 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
                         accountId = staticAccountId,
                         amount = -6000,
                         categoryId = expenseCategory1,
-                        equivalentAmount = -12000,
                         uuid = generateUuid()
                     ),
                     Transaction(
                         accountId = staticAccountId,
                         amount = -4000,
                         categoryId = expenseCategory2,
-                        equivalentAmount = -8000,
                         uuid = generateUuid()
                     )
                 )
@@ -664,7 +671,6 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
                     accountId = dynamicAccountId,
                     amount = -10000,
                     categoryId = SPLIT_CATID,
-                    equivalentAmount = -20000,
                     uuid = generateUuid()
                 ),
                 listOf(
@@ -672,14 +678,12 @@ class SplitCalculationBugsTest : BaseTestWithRepository() {
                         accountId = dynamicAccountId,
                         amount = -6000,
                         categoryId = expenseCategory1,
-                        equivalentAmount = -12000,
                         uuid = generateUuid()
                     ),
                     Transaction(
                         accountId = dynamicAccountId,
                         amount = -4000,
                         categoryId = expenseCategory2,
-                        equivalentAmount = -8000,
                         uuid = generateUuid()
                     )
                 )
