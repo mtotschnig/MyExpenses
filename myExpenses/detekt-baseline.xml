@@ -3,7 +3,6 @@
   <ManuallySuppressedIssues/>
   <CurrentIssues>
     <ID>ComplexCondition:AccountList.kt:account.sealed || account.excludeFromTotals || account.dynamic || account.flag.icon != null</ID>
-    <ID>ComplexCondition:AccountList.kt:showEquivalent &amp;&amp; isFx &amp;&amp; account.equivalentOpeningBalance != 0L &amp;&amp; account.initialExchangeRate != null</ID>
     <ID>ComplexCondition:AmountEdit.kt:input.all { it.isDigit() || it == decimalSeparator || (it == '-' &amp;&amp; allowNegative) } &amp;&amp; decimalSeparatorCount &lt;= (if (fractionDigits == 0) 0 else 1) &amp;&amp; (decimalSeparatorCount == 0 || input.substringAfter(decimalSeparator).length &lt;= fractionDigits) &amp;&amp; input.lastIndexOf('-') &lt;= 0</ID>
     <ID>ComplexCondition:BackupSourcesDialogFragment.kt:BackupSourcesDialogFragment$typeParts[0] == "application" &amp;&amp; ((typeParts[1] == "zip") || (typeParts[1]) == "octet-stream") &amp;&amp; (extension == "" || extension == "zip" || extension == "enc")</ID>
     <ID>ComplexCondition:CategoryDelegate.kt:CategoryDelegate$withAutoFill &amp;&amp; !isTemplate &amp;&amp; !isSplitPart &amp;&amp; shouldStartAutoFillWithFocus(prefHandler)</ID>
@@ -26,7 +25,6 @@
     <ID>CyclomaticComplexMethod:AbstractExporter.kt:AbstractExporter$@Throws(IOException::class) open fun export: Result&lt;DocumentFile&gt;</ID>
     <ID>CyclomaticComplexMethod:AccountList.kt:@Composable fun AccountCardV2</ID>
     <ID>CyclomaticComplexMethod:AccountList.kt:@Composable fun AccountSummaryV2</ID>
-    <ID>CyclomaticComplexMethod:AccountList.kt:@OptIn(ExperimentalFoundationApi::class) @Composable fun AccountCard</ID>
     <ID>CyclomaticComplexMethod:AmountEdit.kt:@Composable fun AmountEdit</ID>
     <ID>CyclomaticComplexMethod:BackupRestoreActivity.kt:BackupRestoreActivity$public override fun onCreate</ID>
     <ID>CyclomaticComplexMethod:BalanceSheet.kt:@OptIn(ExperimentalMaterial3Api::class) @Composable fun ColumnScope.BalanceSheetViewInner</ID>
@@ -227,7 +225,6 @@
     <ID>LongMethod:AccountList.kt:@Composable fun AccountListV2</ID>
     <ID>LongMethod:AccountList.kt:@Composable fun AccountSummaryV2</ID>
     <ID>LongMethod:AccountList.kt:@Composable fun PortfolioInventory</ID>
-    <ID>LongMethod:AccountList.kt:@OptIn(ExperimentalFoundationApi::class) @Composable fun AccountCard</ID>
     <ID>LongMethod:AccountListDisplayConfigurationDialogFragment.kt:AccountListDisplayConfigurationDialogFragment$@Composable override fun ColumnScope.MainContent</ID>
     <ID>LongMethod:AccountsScreen.kt:@Composable fun AccountsScreen</ID>
     <ID>LongMethod:Archive.kt:fun SupportSQLiteDatabase.archive: Long</ID>
@@ -415,9 +412,6 @@
     <ID>LoopWithTooManyJumpStatements:SyncAdapter.kt:SyncAdapter$do</ID>
     <ID>LoopWithTooManyJumpStatements:TransactionList.kt:while</ID>
     <ID>MagicNumber:AbstractSyncBackendProvider.kt:AbstractSyncBackendProvider$10</ID>
-    <ID>MagicNumber:AccountList.kt:4</ID>
-    <ID>MagicNumber:AccountList.kt:5</ID>
-    <ID>MagicNumber:AccountList.kt:5f</ID>
     <ID>MagicNumber:AccountList.kt:8</ID>
     <ID>MagicNumber:AccountWidgetService.kt:AccountRemoteViewsFactory.Companion$48</ID>
     <ID>MagicNumber:Amount.kt:8000</ID>
@@ -678,9 +672,6 @@
     <ID>MaxLineLength:AbstractSyncBackendProvider.kt:AbstractSyncBackendProvider$protected</ID>
     <ID>MaxLineLength:AbstractSyncBackendProvider.kt:AbstractSyncBackendProvider$val attachment = childrenForCollection(attachmentDir).find { nameForResource(it)?.startsWith(uuid) == true } ?: throw FileNotFoundException()</ID>
     <ID>MaxLineLength:AbstractSyncBackendViewModel.kt:AbstractSyncBackendViewModel$abstract fun accountMetadata: LiveData&lt;Result&lt;List&lt;Result&lt;AccountMetaData&gt;&gt;&gt;&gt;?</ID>
-    <ID>MaxLineLength:AccountList.kt:"1 $accountCurrencyIsolated = ${fXFormat.format(realRate)} $homeCurrencyIsolated ($dateFormatted)"</ID>
-    <ID>MaxLineLength:AccountList.kt:if</ID>
-    <ID>MaxLineLength:AccountList.kt:if (grouping == AccountGrouping.CURRENCY) it.effectiveBalance else it.equivalentEffectiveBalance</ID>
     <ID>MaxLineLength:AccountMetaData.kt:AccountMetaData.Companion$exchangeRate = if (homeCurrency != null &amp;&amp; homeCurrency != accountCurrency) account.exchangeRate else null</ID>
     <ID>MaxLineLength:AccountMetaData.kt:AccountMetaData.Companion$exchangeRateOtherCurrency = if (homeCurrency != null &amp;&amp; homeCurrency != accountCurrency) homeCurrency else null</ID>
     <ID>MaxLineLength:AccountSumTest.kt:AccountSumTest$hasLong(KEY_CURRENT_BALANCE, openingBalance + income1 + income2 - expense1 - expense2 + transferP - transferN)</ID>
@@ -1120,7 +1111,6 @@
     <ID>NewLineAtEndOfFile:AccountFlagsViewModel.kt:org.totschnig.myexpenses.viewmodel.AccountFlagsViewModel.kt</ID>
     <ID>NewLineAtEndOfFile:AccountFutureCriterionTest.kt:org.totschnig.myexpenses.provider.AccountFutureCriterionTest.kt</ID>
     <ID>NewLineAtEndOfFile:AccountGrouping.kt:org.totschnig.myexpenses.model.AccountGrouping.kt</ID>
-    <ID>NewLineAtEndOfFile:AccountList.kt:org.totschnig.myexpenses.compose.accounts.AccountList.kt</ID>
     <ID>NewLineAtEndOfFile:AccountMetaDataDialogFragment.kt:org.totschnig.myexpenses.dialog.AccountMetaDataDialogFragment.kt</ID>
     <ID>NewLineAtEndOfFile:AccountMinimal.kt:org.totschnig.myexpenses.viewmodel.data.AccountMinimal.kt</ID>
     <ID>NewLineAtEndOfFile:AccountRemovedReceiver.kt:org.totschnig.myexpenses.service.AccountRemovedReceiver.kt</ID>
