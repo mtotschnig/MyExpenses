@@ -25,7 +25,7 @@
     <string name="account_type_investment">سرمایه‌گذاری</string>
     <string name="already_defined">%1$s  تعریف شده</string>
     <string name="amount">مقدار</string>
-    <string name="app_name">My Expenses</string>
+    <string name="app_name">هزینه‌های من</string>
     <string name="backup_success">پایگاه داده و ترجیحات به صورت موفقیت آمیز روی %1$s نوشته شده است</string>
     <string name="category">دسته بندی</string>
     <string name="contrib_feature_ad_free_label">بدون تبلیغ</string>
