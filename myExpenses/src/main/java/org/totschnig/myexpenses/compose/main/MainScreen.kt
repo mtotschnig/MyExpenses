@@ -338,13 +338,7 @@ fun MainScreenAdaptive(
                         HELP_VARIANT_TRANSACTIONS
                     }
                 if (is2Pane) {
-                    val primaryVariant = when (navigator.currentDestination?.pane) {
-                        ListDetailPaneScaffoldRole.List -> listVariant
-                        else -> detailVariant
-                    }
-                    val secondaryVariant =
-                        if (primaryVariant == listVariant) detailVariant else listVariant
-                    "$primaryVariant,$secondaryVariant"
+                    "$listVariant,$detailVariant"
                 } else {
                     when (navigator.currentDestination?.pane) {
                         ListDetailPaneScaffoldRole.List -> listVariant
