@@ -971,14 +971,6 @@
     <ID>MaxLineLength:RepositoryBudget.kt:listOfNotNull(budgetId.toString(), categoryId.toString(), period?.first?.toString(), period?.second?.toString()).toTypedArray()</ID>
     <ID>MaxLineLength:RepositoryPaymentMethod.kt:"(select count(*) from $TABLE_TRANSACTIONS WHERE $KEY_METHODID=$TABLE_METHODS.$KEY_ROWID) AS $KEY_MAPPED_TRANSACTIONS"</ID>
     <ID>MaxLineLength:RepositoryTransaction.kt:*</ID>
-    <ID>MaxLineLength:RepositoryTransaction.kt:it.copy(transferPeer = it.transferPeer?.copy(parentId = it.transferPeer.parentId.takeIf { it != existingSiblingParentId }))</ID>
-    <ID>MaxLineLength:RepositoryTransaction.kt:require</ID>
-    <ID>MaxLineLength:RepositoryTransaction.kt:require(splitParts.all { it.data.accountId == parentTransaction.accountId }) { "All splits must be in the same account." }</ID>
-    <ID>MaxLineLength:RepositoryTransaction.kt:require(splitParts.all { it.first.accountId == parentTransaction.accountId }) { "All splits must be in the same account." }</ID>
-    <ID>MaxLineLength:RepositoryTransaction.kt:require(splitParts.sumOf { it.data.amount } == parentTransaction.amount) { "Sum of splits must equal parent amount." }</ID>
-    <ID>MaxLineLength:RepositoryTransaction.kt:require(splitParts.sumOf { it.first.amount } == parentTransaction.amount) { "Sum of splits must equal parent amount." }</ID>
-    <ID>MaxLineLength:RepositoryTransaction.kt:val costParts = untransferredParts.filter { it != fundingPart.first &amp;&amp; it.transferAccountId == null &amp;&amp; it.amount &lt; 0 }.sortedBy { it.id }</ID>
-    <ID>MaxLineLength:RepositoryTransaction.kt:val untransferredParts = parts.filter { it.transferPeerId == null &amp;&amp; it.transferAccountId == null }.sortedBy { it.id }</ID>
     <ID>MaxLineLength:RestoreActivity.kt:RestoreActivity$message = "The module required for database encryption has not yet been downloaded from Play Store. Please try again!"</ID>
     <ID>MaxLineLength:RestoreFromCloudDialogFragment.kt:RestoreFromCloudDialogFragment$if (binding.passwordLayout.passwordLayout.visibility == View.VISIBLE) binding.passwordLayout.passwordEdit.text.toString() else null</ID>
     <ID>MaxLineLength:RestoreViewModel.kt:RestoreViewModel$CalendarContract.Events.CALENDAR_ID + " = ? AND " + CalendarContract.Events.DESCRIPTION</ID>
@@ -993,7 +985,6 @@
     <ID>MaxLineLength:SimpleCriterion.kt:SimpleCriterion$return "($selection OR exists(select 1 from $TABLE_TRANSACTIONS parents WHERE $KEY_ROWID = $tableName.$KEY_PARENTID AND ($selection)))"</ID>
     <ID>MaxLineLength:Sort.kt:Sort.Companion$//returns null if the preferred Sort has null toOrderBy, otherwise the preferred Sort (with defaultOrderBy as secondary sort), otherwise the defaultOrderBy</ID>
     <ID>MaxLineLength:Sort.kt:Sort.Companion$val accountSortLabels = listOf(R.string.label, R.string.pref_sort_order_usages, R.string.pref_sort_order_last_used, R.string.pref_sort_order_custom)</ID>
-    <ID>MaxLineLength:SplitCalculationBugsTest.kt:SplitCalculationBugsTest$// 3. Verify static foreign currency account transaction (dynamic = false, attempting non-null equivalentAmount insert):</ID>
     <ID>MaxLineLength:SplitCalculationBugsTest.kt:SplitCalculationBugsTest$// Should be: splitParentId + archivedSplitParent.id + archivedOrdinaryTrans.id + zeroTrans.id + 2 invalid rows = 6 rows</ID>
     <ID>MaxLineLength:SplitPartRVAdapter.kt:SplitPartRVAdapter.ViewHolder$transaction.icon?.let { binding.icon.setImageDrawable(IIconInfo.resolveIcon(it)?.asDrawable(binding.root.context)) }</ID>
     <ID>MaxLineLength:SplitPartRVAdapter.kt:SplitPartRVAdapter.ViewHolder$transaction.isTransfer -&gt; getIndicatorPrefixForLabel(transaction.amount.amountMinor) + transaction.transferAccount</ID>
@@ -1246,7 +1237,6 @@
     <ID>NewLineAtEndOfFile:DisplayDebt.kt:org.totschnig.myexpenses.viewmodel.data.DisplayDebt.kt</ID>
     <ID>NewLineAtEndOfFile:DisplayProgress.kt:org.totschnig.myexpenses.util.ui.DisplayProgress.kt</ID>
     <ID>NewLineAtEndOfFile:DistributionAccountInfo.kt:org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo.kt</ID>
-    <ID>NewLineAtEndOfFile:DistributionActivity.kt:org.totschnig.myexpenses.activity.DistributionActivity.kt</ID>
     <ID>NewLineAtEndOfFile:DistributionBaseActivity.kt:org.totschnig.myexpenses.activity.DistributionBaseActivity.kt</ID>
     <ID>NewLineAtEndOfFile:DistributionHelper.kt:org.totschnig.myexpenses.util.distrib.DistributionHelper.kt</ID>
     <ID>NewLineAtEndOfFile:DistributionHelperTest.kt:org.totschnig.myexpenses.util.DistributionHelperTest.kt</ID>
@@ -1445,7 +1435,6 @@
     <ID>NewLineAtEndOfFile:RepositoryPrices.kt:org.totschnig.myexpenses.db2.RepositoryPrices.kt</ID>
     <ID>NewLineAtEndOfFile:RepositoryTags.kt:org.totschnig.myexpenses.db2.RepositoryTags.kt</ID>
     <ID>NewLineAtEndOfFile:RepositoryTagsTest.kt:org.totschnig.myexpenses.db2.RepositoryTagsTest.kt</ID>
-    <ID>NewLineAtEndOfFile:RepositoryTransaction.kt:org.totschnig.myexpenses.db2.RepositoryTransaction.kt</ID>
     <ID>NewLineAtEndOfFile:ResourceStorage.kt:org.totschnig.myexpenses.sync.ResourceStorage.kt</ID>
     <ID>NewLineAtEndOfFile:ResourceStorageTest.kt:org.totschnig.myexpenses.sync.ResourceStorageTest.kt</ID>
     <ID>NewLineAtEndOfFile:RestoreActivity.kt:org.totschnig.myexpenses.activity.RestoreActivity.kt</ID>
@@ -1545,7 +1534,6 @@
     <ID>NewLineAtEndOfFile:TransactionDetailViewModel.kt:org.totschnig.myexpenses.viewmodel.TransactionDetailViewModel.kt</ID>
     <ID>NewLineAtEndOfFile:TransactionEditData.kt:org.totschnig.myexpenses.viewmodel.data.TransactionEditData.kt</ID>
     <ID>NewLineAtEndOfFile:TransactionList.kt:org.totschnig.myexpenses.compose.transactions.TransactionList.kt</ID>
-    <ID>NewLineAtEndOfFile:TransactionListComposeDialogFragment.kt:org.totschnig.myexpenses.dialog.TransactionListComposeDialogFragment.kt</ID>
     <ID>NewLineAtEndOfFile:TransactionMapper.kt:org.totschnig.myexpenses.viewmodel.data.mapper.TransactionMapper.kt</ID>
     <ID>NewLineAtEndOfFile:TransactionPagingSource.kt:org.totschnig.myexpenses.adapter.TransactionPagingSource.kt</ID>
     <ID>NewLineAtEndOfFile:TransactionProviderBaseTest.kt:org.totschnig.myexpenses.provider.TransactionProviderBaseTest.kt</ID>
