@@ -44,7 +44,7 @@
     <string name="licence_status_free">Free</string>
     <string name="contrib_key">Contrib Key</string>
     <string name="extended_key">Extended Key</string>
-    <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
+    <!-- Placeholder: 1 will be replaced with either My Expenses Contrib Key or My Expenses Extended Key -->
     <string name="contrib_key_requires">Requires %1$s.</string>
     <string name="currency">Currency</string>
     <string name="current_balance">Current balance</string>

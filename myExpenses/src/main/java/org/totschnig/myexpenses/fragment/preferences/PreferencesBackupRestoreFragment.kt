@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.Keep
 import androidx.preference.Preference
+import com.google.android.material.snackbar.Snackbar
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BackupRestoreActivity
 import org.totschnig.myexpenses.activity.BaseActivity.Companion.RESULT_RESTORE_OK
@@ -13,6 +14,7 @@ import org.totschnig.myexpenses.preference.AccountPreference
 import org.totschnig.myexpenses.preference.AccountPreference.Companion.SYNCHRONIZATION_NONE
 import org.totschnig.myexpenses.preference.PopupMenuPreference
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.ui.SnackbarAction
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 @Keep
@@ -73,7 +75,11 @@ class PreferencesBackupRestoreFragment : BasePreferenceIOBRFragment() {
             !licenceHandler.hasAccessTo(ContribFeature.SYNCHRONIZATION)
         ) {
             preferenceActivity.showSnackBar(
-                ContribFeature.SYNCHRONIZATION.fullInfo(requireContext())
+                message = ContribFeature.SYNCHRONIZATION.fullInfo(requireContext()),
+                duration = Snackbar.LENGTH_INDEFINITE,
+                snackBarAction = SnackbarAction(getString(R.string.buy)) {
+                    preferenceActivity.contribFeatureRequested(ContribFeature.SYNCHRONIZATION)
+                }
             )
         }
     }
