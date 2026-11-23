@@ -885,4 +885,6 @@
     <string name="trade_additional_costs">Kos tambahan</string>
     <string name="contrib_feature_portfolio_tracking">Penjejakan portfolio</string>
     <string name="pref_summary_gms_document_scanner">Gunakan pengimbas dokumen Perkhidmatan Google Play dengan pemotongan automatik dan penambahbaikan teks</string>
+    <string name="pick_image_intent_chooser_title">Sentiasa tawarkan pemilih aplikasi</string>
+    <string name="pref_title_gms_document_scanner">Guna Pengimbas Dokumen</string>
 </resources>

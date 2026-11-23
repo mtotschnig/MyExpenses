@@ -1107,4 +1107,6 @@
     <string name="split_pane_view">Разделенный вид</string>
     <string name="trade_add_cost">Добавить расходы</string>
     <string name="pref_summary_gms_document_scanner">Использовать сканер документов Сервисов Google Play с автоматической обрезкой и улучшением текста</string>
+    <string name="pick_image_intent_chooser_title">Всегда предлагать выбор приложения</string>
+    <string name="pref_title_gms_document_scanner">Использовать сканер документов</string>
 </resources>

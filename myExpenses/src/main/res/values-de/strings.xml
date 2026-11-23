@@ -1095,4 +1095,6 @@
     <string name="search_fts_error_malformed">Unvollständiger Suchoperator oder nicht übereinstimmende Anführungszeichen</string>
     <string name="parent_category">Übergeordnete Kategorie</string>
     <string name="pref_summary_gms_document_scanner">Dokumentenscanner der Google Play-Dienste mit automatischem Zuschneiden und Textverbesserung verwenden</string>
+    <string name="pick_image_intent_chooser_title">Immer App-Auswahl anbieten</string>
+    <string name="pref_title_gms_document_scanner">Dokumentenscanner verwenden</string>
 </resources>

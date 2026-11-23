@@ -358,4 +358,6 @@
     <string name="trade_additional_costs">අතිරේක පිරිවැය</string>
     <string name="contrib_feature_portfolio_tracking">පෝට්ෆෝලියෝ ලුහුබැඳීම</string>
     <string name="pref_summary_gms_document_scanner">ස්වයංක්‍රීය කැපීම සහ පෙළ වැඩිදියුණු කිරීම සමඟ Google Play සේවා ලේඛන ස්කෑනරය භාවිතා කරන්න</string>
+    <string name="pick_image_intent_chooser_title">සෑම විටම යෙදුම් තේරීම ලබා දෙන්න</string>
+    <string name="pref_title_gms_document_scanner">ලේඛන ස්කෑනරය භාවිතා කරන්න</string>
 </resources>

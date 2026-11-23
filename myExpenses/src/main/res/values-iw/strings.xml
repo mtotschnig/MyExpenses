@@ -1113,4 +1113,6 @@
     <string name="warning_unarchive">הארכיון יופרק. כל העסקאות הכלולות יוכנסו מחדש לרשימה.</string>
     <string name="warning_unlink_transfer">ההעברה הנבחרת תנותק: היא תוחלף בעסקאות רגילות בשני החשבונות.</string>
     <string name="pref_summary_gms_document_scanner">שימוש בסורק המסמכים של שירותי Google Play עם חיתוך אוטומטי ושיפור טקסט</string>
+    <string name="pick_image_intent_chooser_title">הצע תמיד בחירת אפליקציה</string>
+    <string name="pref_title_gms_document_scanner">שימוש בסורק מסמכים</string>
 </resources>

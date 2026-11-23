@@ -280,4 +280,6 @@
         <item quantity="one">Merkelappen %1$s er knyttet til %2$d transaksjon. Skal den slettes?</item>
         <item quantity="other">Merkelappen %1$s er knyttet til %2$d transaksjoner. Skal den slettes?</item>
     </plurals>
+    <string name="pick_image_intent_chooser_title">Tilby alltid appvelger</string>
+    <string name="pref_title_gms_document_scanner">Bruk dokumentskanner</string>
 </resources>

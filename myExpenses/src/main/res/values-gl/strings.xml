@@ -244,4 +244,6 @@
         <item quantity="one">A etiqueta %1$s está asignada a %2$d transacción. Debe eliminarse?</item>
         <item quantity="other">A etiqueta %1$s está asignada a %2$d transaccións. Debe eliminarse?</item>
     </plurals>
+    <string name="pick_image_intent_chooser_title">Ofrecer sempre o selector de aplicacións</string>
+    <string name="pref_title_gms_document_scanner">Usar o escáner de documentos</string>
 </resources>

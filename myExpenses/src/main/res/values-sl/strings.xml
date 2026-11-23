@@ -32,4 +32,6 @@
         <item quantity="few">Oznaka %1$s je povezana z %2$d transakcijami. Ali naj se izbriše?</item>
         <item quantity="other">Oznaka %1$s je povezana z %2$d transakcijami. Ali naj se izbriše?</item>
     </plurals>
+    <string name="pick_image_intent_chooser_title">Vedno ponudi izbiro aplikacije</string>
+    <string name="pref_title_gms_document_scanner">Uporabi skener dokumentov</string>
 </resources>

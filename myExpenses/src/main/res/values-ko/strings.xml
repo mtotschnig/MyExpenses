@@ -951,4 +951,6 @@
     <string name="single_pane_view">단일 분할창</string>
     <string name="split_pane_view">분할 보기</string>
     <string name="pref_summary_gms_document_scanner">자동 자르기 및 텍스트 향상 기능이 있는 Google Play 서비스 문서 스캐너 사용</string>
+    <string name="pick_image_intent_chooser_title">항상 앱 선택기 제공</string>
+    <string name="pref_title_gms_document_scanner">문서 스캐너 사용</string>
 </resources>

@@ -1111,4 +1111,6 @@
     <string name="search_fts_error_malformed">Operador de búsqueda incompleto o comillas sin cerrar</string>
     <string name="parent_category">Categoría principal</string>
     <string name="pref_summary_gms_document_scanner">Usar el escáner de documentos de Google Play Services con recorte automático y mejora de texto</string>
+    <string name="pick_image_intent_chooser_title">Ofrecer siempre el selector de aplicaciones</string>
+    <string name="pref_title_gms_document_scanner">Usar escáner de documentos</string>
 </resources>

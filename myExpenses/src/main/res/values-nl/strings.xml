@@ -1007,4 +1007,6 @@
     <string name="trade_transfer">Overboeking</string>
     <string name="trade_withdraw">Opname</string>
     <string name="pref_summary_gms_document_scanner">Gebruik de documentenscanner van Google Play-services met automatisch bijsnijden en tekstverbetering</string>
+    <string name="pick_image_intent_chooser_title">Altijd app-kiezer aanbieden</string>
+    <string name="pref_title_gms_document_scanner">Gebruik documentenscanner</string>
 </resources>

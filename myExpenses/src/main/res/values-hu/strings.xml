@@ -1093,4 +1093,6 @@
     <string name="split_pane_view">Osztott nézet</string>
     <string name="trade_add_cost">Költség hozzáadása</string>
     <string name="pref_summary_gms_document_scanner">Használja a Google Play-szolgáltatások dokumentum-szkennerét automatikus körülvágással és szövegjavítással</string>
+    <string name="pick_image_intent_chooser_title">Mindig ajánlja fel az alkalmazásválasztót</string>
+    <string name="pref_title_gms_document_scanner">Dokumentum-szkenner használata</string>
 </resources>
