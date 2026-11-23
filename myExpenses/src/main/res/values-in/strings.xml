@@ -953,4 +953,6 @@
     <string name="pref_tag_style_filled">Berwarna penuh</string>
     <string name="trade_additional_costs">Biaya tambahan</string>
     <string name="pref_summary_gms_document_scanner">Gunakan pemindai dokumen Layanan Google Play dengan pemotongan otomatis dan peningkatan teks</string>
+    <string name="pick_image_intent_chooser_title">Selalu tawarkan pemilih aplikasi</string>
+    <string name="pref_title_gms_document_scanner">Gunakan Pemindai Dokumen</string>
 </resources>

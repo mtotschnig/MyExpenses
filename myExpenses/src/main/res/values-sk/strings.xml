@@ -49,4 +49,6 @@
         <item quantity="many">Štítok %1$s je priradený k %2$d transakcii. Má sa vymazať?</item>
         <item quantity="other">Štítok %1$s je priradený k %2$d transakciám. Má sa vymazať?</item>
     </plurals>
+    <string name="pick_image_intent_chooser_title">Vždy ponúknuť výber aplikácie</string>
+    <string name="pref_title_gms_document_scanner">Použiť skener dokumentov</string>
 </resources>

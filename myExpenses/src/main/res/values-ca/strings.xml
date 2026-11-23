@@ -1030,4 +1030,6 @@
     <string name="single_pane_view">Panell únic</string>
     <string name="split_pane_view">Vista dividida</string>
     <string name="pref_summary_gms_document_scanner">Utilitza el escàner de documents de Google Play Services amb retallat automàtic i millora de text</string>
+    <string name="pick_image_intent_chooser_title">Ofereix sempre el selector d\'aplicacions</string>
+    <string name="pref_title_gms_document_scanner">Utilitza l\'escàner de documents</string>
 </resources>

@@ -596,4 +596,6 @@
     <string name="trade_additional_costs">Kostu gehigarriak</string>
     <string name="contrib_feature_portfolio_tracking">Portafolioaren jarraipena</string>
     <string name="pref_summary_gms_document_scanner">Erabili Google Play Zerbitzuen dokumentu-eskanerra mozketa automatikoarekin eta testu-hobekuntzarekin</string>
+    <string name="pick_image_intent_chooser_title">Eskaini beti aplikazio-hautatzailea</string>
+    <string name="pref_title_gms_document_scanner">Erabili dokumentu-eskanerra</string>
 </resources>

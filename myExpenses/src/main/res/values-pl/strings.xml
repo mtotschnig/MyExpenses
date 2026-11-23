@@ -1097,4 +1097,6 @@
         <item quantity="other">%d nieużywanych podmiotów zostanie usuniętych.</item>
     </plurals>
     <string name="pref_summary_gms_document_scanner">Użyj skanera dokumentów Usług Google Play z automatycznym przycinaniem i ulepszaniem tekstu</string>
+    <string name="pick_image_intent_chooser_title">Zawsze oferuj wybór aplikacji</string>
+    <string name="pref_title_gms_document_scanner">Użyj skanera dokumentów</string>
 </resources>

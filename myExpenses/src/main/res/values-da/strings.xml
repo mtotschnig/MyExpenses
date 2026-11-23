@@ -1006,4 +1006,6 @@
     <string name="search_fts_error_malformed">Ufuldstændig søgeoperator eller manglende anførelsestegn</string>
     <string name="parent_category">Overordnet kategori</string>
     <string name="pref_summary_gms_document_scanner">Brug Google Play Services dokumentscanner med automatisk beskæring og tekstforbedring</string>
+    <string name="pick_image_intent_chooser_title">Tilbyd altid app-vælger</string>
+    <string name="pref_title_gms_document_scanner">Brug dokumentscanner</string>
 </resources>

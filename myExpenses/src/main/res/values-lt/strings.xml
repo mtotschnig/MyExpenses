@@ -124,4 +124,6 @@
         <item quantity="many">Žyma %1$s susieta su %2$d operacijos. Ar ją ištrinti?</item>
         <item quantity="other">Žyma %1$s susieta su %2$d operacijų. Ar ją ištrinti?</item>
     </plurals>
+    <string name="pick_image_intent_chooser_title">Visada siūlyti programos pasirinkimą</string>
+    <string name="pref_title_gms_document_scanner">Naudoti dokumentų skenerį</string>
 </resources>

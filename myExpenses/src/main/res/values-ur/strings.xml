@@ -768,4 +768,6 @@
     <string name="trade_additional_costs">اضافی اخراجات</string>
     <string name="contrib_feature_portfolio_tracking">پورٹ فولیو ٹریکنگ</string>
     <string name="pref_summary_gms_document_scanner">خودکار کراپنگ اور ٹیکسٹ میں بہتری کے ساتھ گوگل پلے سروسز کا دستاویز اسکینر استعمال کریں</string>
+    <string name="pick_image_intent_chooser_title">ہمیشہ ایپ انتخاب کنندہ کی پیشکش کریں</string>
+    <string name="pref_title_gms_document_scanner">ڈاکیومنٹ اسکینر کا استعمال کریں</string>
 </resources>

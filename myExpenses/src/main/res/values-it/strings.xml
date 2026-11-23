@@ -1106,4 +1106,6 @@
     <string name="parent_category">Categoria superiore</string>
     <string name="search_fts_error_malformed">Operatore di ricerca incompleto o preventivi non corrispondenti</string>
     <string name="pref_summary_gms_document_scanner">Usa lo scanner di documenti di Google Play Services con ritaglio automatico e miglioramento del testo</string>
+    <string name="pick_image_intent_chooser_title">Proponi sempre il selettore app</string>
+    <string name="pref_title_gms_document_scanner">Usa scanner di documenti</string>
 </resources>

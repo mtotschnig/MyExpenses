@@ -1038,4 +1038,6 @@
     <string name="trade_additional_costs">கூடுதல் செலவுகள்</string>
     <string name="contrib_feature_portfolio_tracking">போர்ட்ஃபோலியோ கண்காணிப்பு</string>
     <string name="pref_summary_gms_document_scanner">தானியங்கி பயிர்செய்தல் மற்றும் உரை மேம்பாட்டுடன் கூகிள் প্লে சேவைகளின் ஆவண ஸ்கேனரைப் பயன்படுத்தவும்</string>
+    <string name="pick_image_intent_chooser_title">எப்போதும் பயன்பாட்டுத் தேர்வியை வழங்கவும்</string>
+    <string name="pref_title_gms_document_scanner">ஆவண ஸ்கேனரைப் பயன்படுத்தவும்</string>
 </resources>

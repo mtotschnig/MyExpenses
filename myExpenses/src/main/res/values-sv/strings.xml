@@ -954,4 +954,6 @@
     <string name="trade_additional_costs">Ytterligare kostnader</string>
     <string name="contrib_feature_portfolio_tracking">Portföljspårning</string>
     <string name="pref_summary_gms_document_scanner">Använd Google Play-tjänsters dokumentskanner med automatisk beskärning och textförbättring</string>
+    <string name="pick_image_intent_chooser_title">Erbjud alltid appväljare</string>
+    <string name="pref_title_gms_document_scanner">Använd dokumentskanner</string>
 </resources>

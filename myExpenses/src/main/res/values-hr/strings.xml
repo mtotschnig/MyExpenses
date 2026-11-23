@@ -1050,4 +1050,6 @@
     <string name="search_fts_error_malformed">Nekompletan operator pretraživanja ili neupareni navodnici</string>
     <string name="parent_category">Nadređena kategorija</string>
     <string name="pref_summary_gms_document_scanner">Upotrijebite skener dokumenata Google Play usluga s automatskim obrezivanjem i poboljšanjem teksta</string>
+    <string name="pick_image_intent_chooser_title">Uvijek ponudi odabir aplikacije</string>
+    <string name="pref_title_gms_document_scanner">Upotrijebite skener dokumenata</string>
 </resources>
