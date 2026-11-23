@@ -1095,4 +1095,6 @@
     <string name="search_fts_error_malformed">Непълен оператор за търсене или несъответстващи кавички</string>
     <string name="parent_category">Родителска категория</string>
     <string name="pref_summary_gms_document_scanner">Използване на скенера за документи на Google Play Services с автоматично изрязване и подобряване на текста</string>
+    <string name="pref_title_gms_document_scanner">Използвай скенер на документи</string>
+    <string name="pick_image_intent_chooser_title">Винаги предлагай избор на приложение</string>
 </resources>
