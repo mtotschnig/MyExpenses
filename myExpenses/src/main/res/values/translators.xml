@@ -28,6 +28,7 @@
 
     <string-array name="translators_bn">
         <item>Istiaque</item>
+        <item>Manas Kumar Manna</item>
     </string-array>
 
     <string-array name="translators_ca">
@@ -77,6 +78,15 @@
     <string-array name="translators_eu">
         <item>Osoitz</item>
         <item>Albiz Aranberri</item>
+    </string-array>
+
+    <string-array name="translators_fa">
+        <item>Habenula</item>
+        <item>Alireza Ghaffari</item>
+        <item>amirhossein parhizgar</item>
+        <item>judy abort</item>
+        <item>khompare</item>
+        <item>John</item>
     </string-array>
 
     <string-array name="translators_fr">
@@ -236,6 +246,7 @@
         <item>mauron</item>
         <item>Caner Başaran</item>
         <item>Oğuz Ersen</item>
+        <item>Çınar ÖZEL</item>
     </string-array>
 
     <string-array name="translators_uk">
