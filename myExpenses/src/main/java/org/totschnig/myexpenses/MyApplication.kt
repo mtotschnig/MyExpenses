@@ -31,6 +31,10 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
+import java.io.IOException
+import java.util.Locale
+import java.util.function.Consumer
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.collectLatest
@@ -82,12 +86,10 @@ import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET_DATA_ENTRY
 import org.totschnig.myexpenses.widget.WidgetObserver.Companion.register
 import org.totschnig.myexpenses.widget.onConfigurationChanged
 import timber.log.Timber
-import java.io.IOException
-import java.util.Locale
-import java.util.function.Consumer
-import javax.inject.Inject
 
-open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceChangeListener,
+open class MyApplication :
+    Application(),
+    SharedPreferences.OnSharedPreferenceChangeListener,
     DefaultLifecycleObserver {
     lateinit var appComponent: AppComponent
 
@@ -160,7 +162,6 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
         Timber.i("Signal: Initial launch was for system preferences.")
     }
 
-
     override fun onCreate() {
         if (BuildConfig.DEBUG) {
             enableStrictMode()
@@ -178,20 +179,22 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
             register(this)
         }
         licenceHandler.init()
+        appComponent.ocrFeature()?.init(this)
         currencyContext.preload()
         NotificationBuilderWrapper.createChannels(this)
         if (BuildConfig.DEBUG) {
-            contentResolver.persistedUriPermissions.forEach(Consumer { uriPermission: UriPermission? ->
-                Timber.d(
-                    "persisted permissions: %s",
-                    uriPermission
-                )
-            })
+            contentResolver.persistedUriPermissions.forEach(
+                Consumer { uriPermission: UriPermission? ->
+                    Timber.d(
+                        "persisted permissions: %s",
+                        uriPermission
+                    )
+                }
+            )
         }
     }
 
     override fun onCreate(owner: LifecycleOwner) {
-
         MainScope().launch {
             dataStore.isWebUiActive.distinctUntilChanged().collectLatest { isDesired ->
                 if (isDesired) {
@@ -258,7 +261,8 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
                 prefHandler.getBoolean(PrefKey.DEBUG_LOGGING, BuildConfig.DEBUG)
             val crashReportEnabled = prefHandler.getBoolean(PrefKey.CRASHREPORT_ENABLED, true)
 
-            loggingSetupMutex.withLock { // Critical section protected by the Mutex
+            loggingSetupMutex.withLock {
+                // Critical section protected by the Mutex
                 Timber.uprootAll()
                 if (debugLoggingEnabled) {
                     Timber.plant(Timber.DebugTree())
@@ -297,12 +301,12 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
             val isDataEntryEnabled =
                 prefHandler.getBoolean(PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET, false)
             val isStartFromWidget = ctx.intent.getBooleanExtra(
-                EXTRA_START_FROM_WIDGET_DATA_ENTRY, false
+                EXTRA_START_FROM_WIDGET_DATA_ENTRY,
+                false
             )
             if (!isDataEntryEnabled || !isStartFromWidget) {
                 setLastPause()
             }
-
         }
     }
 
@@ -326,10 +330,13 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
     fun shouldLock(ctx: Activity?): Boolean {
         if (ctx is OnboardingActivity) return false
         if (!isProtected) return false
-        val isStartFromWidget = (ctx == null
-                || ctx.intent.getBooleanExtra(
-            EXTRA_START_FROM_WIDGET_DATA_ENTRY, false
-        ))
+        val isStartFromWidget = (
+            ctx == null ||
+                ctx.intent.getBooleanExtra(
+                    EXTRA_START_FROM_WIDGET_DATA_ENTRY,
+                    false
+                )
+            )
         Timber.i("reading last pause : %d", lastPause / 1000000)
         val isPostDelay = System.nanoTime() - lastPause > prefHandler.getInt(
             PrefKey.PROTECTION_DELAY_SECONDS,
@@ -355,8 +362,8 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
                 }
             if (componentName == null) {
                 IWebInputService.report(Exception("$action for Web User Interface failed"))
-                //Since trying to start the WebUI failed, it is likely that the STOP_ACTION triggered by
-                //onSharedPreferenceChanged listener might also fail
+                // Since trying to start the WebUI failed, it is likely that the STOP_ACTION triggered by
+                // onSharedPreferenceChanged listener might also fail
                 try {
                     disableWebUi()
                 } catch (e: Exception) {
@@ -376,7 +383,7 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
 
     override fun onSharedPreferenceChanged(
         sharedPreferences: SharedPreferences,
-        key: String?,
+        key: String?
     ) {
         if (key == null) return
         if (key != prefHandler.getKey(PrefKey.AUTO_BACKUP_DIRTY)) {
@@ -388,7 +395,7 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
             }
 
             prefHandler.matches(key, PrefKey.WEBUI_PASSWORD, PrefKey.WEBUI_HTTPS) -> {
-                //WebInputService only "restarts" if it is actually started
+                // WebInputService only "restarts" if it is actually started
                 controlWebUi(RESTART_ACTION)
             }
 
@@ -460,7 +467,7 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
         const val KEY_NOTIFICATION_ID = "notification_id"
         const val INVOICES_EMAIL = "billing@myexpenses.mobi"
         private val currentProcessName: String?
-            //from ACRA
+            // from ACRA
             get() = try {
                 StreamReader("/proc/self/cmdline").read().trim()
             } catch (_: IOException) {

@@ -20,6 +20,8 @@ interface OcrFeature {
         fun intent() = Intent(ACTION).setType(MIME_TYPE)
     }
 
+    fun init(context: Context) {}
+
     fun showPreview(scanUri: Uri, fragmentManager: FragmentManager) {}
 
     fun registerCaptureLaunchers(
