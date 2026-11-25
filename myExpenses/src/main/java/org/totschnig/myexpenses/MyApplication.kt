@@ -330,12 +330,10 @@ open class MyApplication :
     fun shouldLock(ctx: Activity?): Boolean {
         if (ctx is OnboardingActivity) return false
         if (!isProtected) return false
-        val isStartFromWidget = (
-            ctx == null ||
-                ctx.intent.getBooleanExtra(
-                    EXTRA_START_FROM_WIDGET_DATA_ENTRY,
-                    false
-                )
+        val isStartFromWidget = ctx == null ||
+            ctx.intent.getBooleanExtra(
+                EXTRA_START_FROM_WIDGET_DATA_ENTRY,
+                false
             )
         Timber.i("reading last pause : %d", lastPause / 1000000)
         val isPostDelay = System.nanoTime() - lastPause > prefHandler.getInt(
