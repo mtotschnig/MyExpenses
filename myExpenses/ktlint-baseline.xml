@@ -1143,33 +1143,6 @@
         <error line="57" column="13" source="standard:backing-property-naming" />
         <error line="57" column="43" source="standard:final-newline" />
     </file>
-    <file name="src/main/java/org/totschnig/myexpenses/MyApplication.kt">
-        <error line="17" column="1" source="standard:import-ordering" />
-        <error line="90" column="27" source="standard:wrapping" />
-        <error line="90" column="42" source="standard:wrapping" />
-        <error line="163" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="184" column="61" source="standard:wrapping" />
-        <error line="184" column="72" source="standard:function-literal" />
-        <error line="184" column="101" source="standard:max-line-length" />
-        <error line="184" column="102" source="standard:function-literal" />
-        <error line="189" column="13" source="standard:wrapping" />
-        <error line="194" column="1" source="standard:no-empty-first-line-in-method-block" />
-        <error line="261" column="40" source="standard:function-literal" />
-        <error line="300" column="53" source="standard:argument-list-wrapping" />
-        <error line="305" column="1" source="standard:no-blank-line-before-rbrace" />
-        <error line="329" column="34" source="standard:wrapping" />
-        <error line="330" column="1" source="standard:indent" />
-        <error line="330" column="17" source="standard:chain-wrapping" />
-        <error line="331" column="1" source="standard:indent" />
-        <error line="331" column="49" source="standard:argument-list-wrapping" />
-        <error line="332" column="1" source="standard:indent" />
-        <error line="332" column="9" source="standard:wrapping" />
-        <error line="358" column="17" source="standard:comment-spacing" />
-        <error line="359" column="17" source="standard:comment-spacing" />
-        <error line="379" column="21" source="standard:trailing-comma-on-declaration-site" />
-        <error line="391" column="17" source="standard:comment-spacing" />
-        <error line="463" column="13" source="standard:comment-spacing" />
-    </file>
     <file name="src/main/java/org/totschnig/myexpenses/MyApplicationExt.kt">
         <error line="10" column="56" source="standard:final-newline" />
     </file>

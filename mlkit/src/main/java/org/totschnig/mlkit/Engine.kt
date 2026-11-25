@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.annotation.Keep
-import com.google.mlkit.common.MlKit
+import org.totschnig.ocr.initMlKit
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizerOptionsInterface
@@ -52,11 +52,7 @@ object Engine : org.totschnig.ocr.MlkitEngine {
 
     override suspend fun run(uri: Uri, context: Context, prefHandler: PrefHandler): Text =
         withContext(Dispatchers.Default) {
-            try {
-                MlKit.initialize(context)
-            } catch (_: IllegalStateException) {
-                // Already initialized
-            }
+            context.initMlKit()
             val image =
                 if (uri.isDebugAsset) {
                     InputImage.fromBitmap(

@@ -10,7 +10,6 @@ import androidx.annotation.Keep
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.preference.ListPreference
-import com.google.mlkit.common.MlKit
 import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanning
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult
@@ -32,6 +31,10 @@ data class GmsCaptureBinding(
 @Keep
 class OcrFeatureImpl(val prefHandler: PrefHandler) : OcrFeature() {
     private val gmsBindings = HashMap<BaseActivity, GmsCaptureBinding>()
+
+    override fun init(context: Context) {
+        context.initMlKit()
+    }
 
     override fun registerCaptureLaunchers(
         activity: BaseActivity,
@@ -72,11 +75,7 @@ class OcrFeatureImpl(val prefHandler: PrefHandler) : OcrFeature() {
     ) {
         val gmsBinding = gmsBindings[activity]
         if (gmsBinding != null && prefHandler.getBoolean(PrefKey.GMS_DOCUMENT_SCANNER, true)) {
-            try {
-                MlKit.initialize(activity.applicationContext)
-            } catch (_: IllegalStateException) {
-                // Already initialized
-            }
+            activity.initMlKit()
 
             try {
                 val options = GmsDocumentScannerOptions.Builder()
