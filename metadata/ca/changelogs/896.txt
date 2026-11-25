@@ -1,0 +1,5 @@
+• La numeració de setmanes per a l'agrupament setmanal de transaccions ara segueix els estàndards regionals (p. ex., ISO 8601).
+• Traducció : persa
+
+https://github.com/users/mtotschnig/projects/201
+https://mastodon.social/@myexpenses/117666892389833057

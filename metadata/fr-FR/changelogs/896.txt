@@ -1,0 +1,5 @@
+• Le numéro de semaine pour le regroupement des transactions hebdomadaires suit désormais les normes régionales (par ex., ISO 8601).
+• Traduction : persan
+
+https://github.com/users/mtotschnig/projects/201
+https://mastodon.social/@myexpenses/117666892389833057

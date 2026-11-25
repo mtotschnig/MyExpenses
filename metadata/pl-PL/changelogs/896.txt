@@ -1,0 +1,5 @@
+• Numeracja tygodni dla tygodniowego grupowania transakcji jest teraz zgodna z normami regionalnymi (np. ISO 8601).
+• Tłumaczenie : perski
+
+https://github.com/users/mtotschnig/projects/201
+https://mastodon.social/@myexpenses/117666892389833057

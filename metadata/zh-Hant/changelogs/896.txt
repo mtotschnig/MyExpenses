@@ -1,0 +1,5 @@
+• 週交易分組的週編號現在遵循區域標準（例如 ISO 8601）。
+• 翻譯 : 波斯文
+
+https://github.com/users/mtotschnig/projects/201
+https://mastodon.social/@myexpenses/117666892389833057

@@ -1,0 +1,5 @@
+• 週ごとの取引グループ化における週番号の付け方が、地域標準（例：ISO 8601）に準拠するようになりました。
+• 翻訳 : ペルシア語
+
+https://github.com/users/mtotschnig/projects/201
+https://mastodon.social/@myexpenses/117666892389833057

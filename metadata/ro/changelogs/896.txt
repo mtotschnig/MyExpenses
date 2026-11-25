@@ -1,0 +1,5 @@
+• Numerotarea săptămânilor pentru gruparea săptămânală a tranzacțiilor respectă acum standardele regionale (de ex. ISO 8601).
+• Traducere : persană
+
+https://github.com/users/mtotschnig/projects/201
+https://mastodon.social/@myexpenses/117666892389833057

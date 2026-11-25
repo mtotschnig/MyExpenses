@@ -1,0 +1,5 @@
+• 주별 거래 그룹화의 주 번호 매기기가 이제 지역 표준(예: ISO 8601)을 따릅니다.
+• 번역 : 페르시아어
+
+https://github.com/users/mtotschnig/projects/201
+https://mastodon.social/@myexpenses/117666892389833057

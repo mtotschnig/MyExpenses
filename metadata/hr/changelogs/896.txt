@@ -1,0 +1,5 @@
+• Numeriranje tjedana za tjedno grupiranje transakcija sada slijedi regionalne standarde (npr. ISO 8601).
+• Prijevod : perzijski
+
+https://github.com/users/mtotschnig/projects/201
+https://mastodon.social/@myexpenses/117666892389833057

@@ -1,0 +1,5 @@
+• A numeração de semanas para o agrupamento semanal de transações segue agora os padrões regionais (ex.: ISO 8601).
+• Tradução : persa
+
+https://github.com/users/mtotschnig/projects/201
+https://mastodon.social/@myexpenses/117666892389833057

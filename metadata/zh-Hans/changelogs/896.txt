@@ -1,0 +1,5 @@
+• 按周按交易分组的周编号现在遵循区域标准（例如 ISO 8601）。
+• 翻译 : 波斯语
+
+https://github.com/users/mtotschnig/projects/201
+https://mastodon.social/@myexpenses/117666892389833057

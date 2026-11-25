@@ -1,0 +1,5 @@
+• Penomoran minggu untuk pengelompokan transaksi mingguan kini mengikuti standar regional (misalnya, ISO 8601).
+• Terjemahan : Persia
+
+https://github.com/users/mtotschnig/projects/201
+https://mastodon.social/@myexpenses/117666892389833057

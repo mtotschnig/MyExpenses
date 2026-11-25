@@ -1,0 +1,5 @@
+• Číslování týdnů pro týdenní seskupování transakcí nyní odpovídá regionálním standardům (např. ISO 8601).
+• Překlad : perština
+
+https://github.com/users/mtotschnig/projects/201
+https://mastodon.social/@myexpenses/117666892389833057
