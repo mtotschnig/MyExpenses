@@ -13,7 +13,12 @@ plugins {
 }
 
 ext {
-    resConfig = ['en', 'en-rGB', 'ar', 'be', 'bg', 'bn', 'ca', 'cs', 'da', 'de', 'de-rDE', 'el', 'es', 'eu', 'fa', 'fr', 'fr-rCA', "in", 'iw', 'hr', 'hu', 'it', 'ja', 'km', 'kn', 'ko', 'ms', 'nl', 'pl', 'pt-rBR', 'pt-rPT', 'ro', 'ru', 'si', 'sv', 'ta', 'te', 'th', 'tr', 'uk', 'ur', 'vi', 'zh-rCN', 'zh-rHK', 'zh-rTW']
+    resConfig = [
+            'en', 'en-rGB', 'ar', 'be', 'bg', 'bn', 'ca', 'cs', 'da', 'de', 'de-rDE', 'el', 'es',
+            'eu', 'fa', 'fr', 'fr-rCA', 'hr', 'hu', "in", 'it', 'iw', 'ja', 'km', 'kn', 'ko', 'ms',
+            'nl', 'pl', 'pt-rBR', 'pt-rPT', 'ro', 'ru', 'si', 'sv', 'ta', 'te', 'th', 'tr', 'uk',
+            'ur', 'vi', 'zh-rCN', 'zh-rHK', 'zh-rTW'
+    ]
     versionCode = 896
     versionName = '4.1.5'
     compileSdkVersion = 37
