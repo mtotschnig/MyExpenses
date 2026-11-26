@@ -136,6 +136,120 @@ amazon:
   en: "www.amazon.com"
   pt: "www.amazon.com.br"
 versions:
+  -   - 4.1.5
+      - '2026-11-24'
+      - ar: 'ترقيم الأسابيع لتجميع المعاملات الأسبوعية يتبع الآن المعايير الإقليمية
+          (على سبيل المثال، ISO 8601). استخدام ماسح المستندات المدمج في خدمات Google
+          Play مع قص تلقائي وتحسين النص. الترجمة : الفارسية'
+        bg: 'Номерирането на седмиците за седмичното групиране на транзакции вече
+          следва регионалните стандарти (напр. ISO 8601). Използване на скенера за
+          документи на Google Play Services с автоматично изрязване и подобряване
+          на текста. Превод : персийски'
+        ca: 'La numeració de setmanes per a l''agrupament setmanal de transaccions
+          ara segueix els estàndards regionals (p. ex., ISO 8601). Utilitza el escàner
+          de documents de Google Play Services amb retallat automàtic i millora de
+          text. Traducció : persa'
+        cs: 'Číslování týdnů pro týdenní seskupování transakcí nyní odpovídá regionálním
+          standardům (např. ISO 8601). Použít skener dokumentů Služeb Google Play
+          s automatickým ořezem a vylepšením textu. Překlad : perština'
+        da: 'Ugenummerering for ugentlig transaktionsgruppering følger nu regionale
+          standarder (f.eks. ISO 8601). Brug Google Play Services dokumentscanner
+          med automatisk beskæring og tekstforbedring. Oversættelse : persisk'
+        de: 'Die Wochennummerierung für die wöchentliche Buchungsgruppierung folgt
+          nun regionalen Standards (z. B. ISO 8601). Dokumentenscanner der Google
+          Play-Dienste mit automatischem Zuschneiden und Textverbesserung verwenden.
+          Übersetzung : Persisch'
+        el: 'Η αρίθμηση εβδομάδων για την εβδομαδιαία ομαδοποίηση συναλλαγών ακολουθεί
+          πλέον τα περιφερειακά πρότυπα (π.χ. ISO 8601). Χρήση του σαρωτή εγγράφων
+          των Υπηρεσιών Google Play με αυτόματη περικοπή και βελτίωση κειμένου. Μετάφραση
+          : Περσικά'
+        es: 'La numeración de semanas para la agrupación semanal de transacciones
+          ahora sigue los estándares regionales (p. ej., ISO 8601). Usar el escáner
+          de documentos de Google Play Services con recorte automático y mejora de
+          texto. Traducción : persa'
+        eu: 'Transakzioen asteko multzokatzearen aste-numerazioak eskualdeko estandarrak
+          jarraitzen ditu orain (adib. ISO 8601). Erabili Google Play Zerbitzuen
+          dokumentu-eskanerra mozketa automatikoarekin eta testu-hobekuntzarekin.
+          Itzulpena : persiera'
+        fr: 'Le numéro de semaine pour le regroupement des transactions hebdomadaires
+          suit désormais les normes régionales (par ex., ISO 8601). Utilise le scanner
+          de documents avec recadrage automatique et amélioration de texte des Google
+          Play Services. Traduction : persan'
+        hr: 'Numeriranje tjedana za tjedno grupiranje transakcija sada slijedi regionalne
+          standarde (npr. ISO 8601). Upotrijebite skener dokumenata Google Play usluga
+          s automatskim obrezivanjem i poboljšanjem teksta. Prijevod : perzijski'
+        hu: 'A heti tranzakció-csoportosítás hétszámozása mostantól a regionális szabványokat
+          követi (pl. ISO 8601). Használja a Google Play-szolgáltatások dokumentum-szkennerét
+          automatikus körülvágással és szövegjavítással. Fordítás : perzsa'
+        it: 'La numerazione delle settimane per il raggruppamento settimanale delle
+          transazioni ora segue gli standard regionali (ad es. ISO 8601). Usa lo
+          scanner di documenti di Google Play Services con ritaglio automatico e miglioramento
+          del testo. Traduzione : persiano'
+        iw: 'מספור השבועות עבור הקבצת עסקאות שבועית עוקב כעת אחר תקנים אזוריים (למשל,
+          ISO 8601). שימוש בסורק המסמכים של שירותי Google Play עם חיתוך אוטומטי ושיפור
+          טקסט. תרגום : פרסית'
+        ja: '週ごとの取引グループ化における週番号の付け方が、地域標準（例：ISO 8601）に準拠するようになりました。 自動トリミングとテキスト補正機能を備えたGoogle
+          Play開発者サービスのドキュメントスキャナーを使用する。 翻訳 : ペルシア語'
+        km: 'ការវាយលេខសប្តាហ៍សម្រាប់ការប្រមូលផ្តុំប្រតិបត្តិការប្រចាំសប្តាហ៍ឥឡូវនេះអនុវត្តតាមស្តង់ដារតំបន់
+          (ឧទាហរណ៍ ISO 8601)។. ប្រើម៉ាស៊ីនស្កេនឯកសារ Google Play Services ជាមួយនឹងការកាត់តដោយស្វ័យប្រវត្តិ
+          និងការកែលម្អអត្ថបទ. ការបកប្រែ : ភឺសៀន'
+        kn: 'ವಾರದ ವಹಿವಾಟು ಗುಂಪುಗಾರಿಕೆಗಾಗಿ ವಾರದ ಸಂಖ್ಯೆಯು ಈಗ ಪ್ರಾದೇಶಿಕ ಮಾನದಂಡಗಳನ್ನು
+          ಅನುಸರಿಸುತ್ತದೆ (ಉದಾ. ISO 8601). ಸ್ವಯಂಚಾಲಿತ ಕ್ರಾಪಿಂಗ್ ಮತ್ತು ಪಠ್ಯ ಸುಧಾರಣೆಯೊಂದಿಗೆ
+          Google Play ಸೇವೆಗಳ ಡಾಕ್ಯುಮೆಂಟ್ ಸ್ಕ್ಯಾನರ್ ಬಳಸಿ. ಅನುವಾದ : ಪರ್ಶಿಯನ್'
+        ko: '주별 거래 그룹화의 주 번호 매기기가 이제 지역 표준(예: ISO 8601)을 따릅니다. 자동 자르기 및 텍스트 향상 기능이
+          있는 Google Play 서비스 문서 스캐너 사용. 번역 : 페르시아어'
+        ms: 'Pennomboran minggu untuk pengelompokan transaksi mingguan kini mengikut
+          piawaian wilayah (cth., ISO 8601). Gunakan pengimbas dokumen Perkhidmatan
+          Google Play dengan pemotongan automatik dan penambahbaikan teks. Terjemahan
+          : Parsi'
+        nl: 'Weeknummering voor wekelijkse transactiegroepering volgt nu regionale
+          standaarden (bijv. ISO 8601). Gebruik de documentenscanner van Google Play-services
+          met automatisch bijsnijden en tekstverbetering. Vertaling : Perzisch'
+        pl: 'Numeracja tygodni dla tygodniowego grupowania transakcji jest teraz zgodna
+          z normami regionalnymi (np. ISO 8601). Użyj skanera dokumentów Usług Google
+          Play z automatycznym przycinaniem i ulepszaniem tekstu. Tłumaczenie : perski'
+        pt: 'A numeração de semanas para o agrupamento semanal de transações agora
+          segue os padrões regionais (ex.: ISO 8601). Usar o scanner de documentos
+          do Google Play Services com recorte automático e aprimoramento de texto.
+          Tradução : persa'
+        ro: 'Numerotarea săptămânilor pentru gruparea săptămânală a tranzacțiilor
+          respectă acum standardele regionale (de ex. ISO 8601). Utilizați scanerul
+          de documente Google Play Services cu decupare automată și îmbunătățire a
+          textului. Traducere : persană'
+        ru: 'Нумерация недель для еженедельной группировки транзакций теперь соответствует
+          региональным стандартам (например, ISO 8601). Использовать сканер документов
+          Сервисов Google Play с автоматической обрезкой и улучшением текста. Перевод
+          : персидский'
+        si: 'සතිපතා ගනුදෙනු කාණ්ඩගත කිරීම සඳහා සති අංකනය දැන් කලාපීය ප්‍රමිති (උදා.
+          ISO 8601) අනුගමනය කරයි. ස්වයංක්‍රීය කැපීම සහ පෙළ වැඩිදියුණු කිරීම සමඟ Google
+          Play සේවා ලේඛන ස්කෑනරය භාවිතා කරන්න. පරිවර්තනය : පර්සියානු'
+        ta: 'வாராந்திர பரிவர்த்தனை குழுவாக்கத்திற்கான வார எண்கள் இப்போது பிராந்திய
+          தரநிலைகளைப் பின்பற்றுகின்றன (எ.கா. ISO 8601). தானியங்கி பயிர்செய்தல் மற்றும்
+          உரை மேம்பாட்டுடன் கூகிள் প্লে சேவைகளின் ஆவண ஸ்கேனரைப் பயன்படுத்தவும். மொழிபெயர்ப்பு
+          : பெர்ஷியன்'
+        te: 'వారం వారీ లావాదేవీల సమూహీకరణ కోసం వారం సంఖ్యలు ఇప్పుడు ప్రాంతీయ ప్రమాణాలను
+          పాటిస్తాయి (ఉదా. ISO 8601). ఆటోమేటిక్ క్రాపింగ్ మరియు టెక్స్ట్ మెరుగుదలతో
+          Google Play సేవల డాక్యుమెంట్ స్కానర్‌ను ఉపయోగించండి. అనువాదం : పర్షియన్'
+        tr: 'Haftalık işlem gruplaması için hafta numaralandırması artık bölgesel
+          standartları (örn. ISO 8601) takip ediyor. Otomatik kırpma ve metin iyileştirme
+          özellikli Google Play Hizmetleri belge tarayıcısını kullanın. Çeviri : Farsça'
+        uk: 'Нумерація тижнів для щотижневого групування транзакцій тепер відповідає
+          регіональним стандартам (наприклад, ISO 8601). Використовувати сканер документів
+          Сервісів Google Play з автоматичним обрізанням та покращенням тексту. Переклад
+          : перська'
+        vi: 'Việc đánh số tuần cho nhóm giao dịch hàng tuần hiện tuân theo các tiêu
+          chuẩn khu vực (ví dụ: ISO 8601). Sử dụng trình quét tài liệu Dịch vụ Google
+          Play với tính năng tự động cắt và cải thiện văn bản. Dịch thuật : Tiếng
+          Ba Tư'
+        zh-CN: '按周按交易分组的周编号现在遵循区域标准（例如 ISO 8601。使用具有自动裁剪和文本增强功能的 Google Play 服务文档扫描仪。
+          翻译 : 波斯语'
+        zh-TW: '週交易分組的週編號現在遵循區域標準（例如 ISO 8601。使用具有自動裁切和文字增強功能的 Google Play 服務文件掃描器。
+          翻譯 : 波斯文'
+        en: 'Week numbering for weekly transaction grouping now follows regional standards
+          (e.g., ISO 8601). Use Google Play Services document scanner with automatic
+          cropping and text enhancement. Translation : Persian'
+      - github2: '201'
+        mastodon: '117666892389833057'
   -   - 4.1.4
       - '2026-11-15'
       - ar: البحث في النص الكامل
