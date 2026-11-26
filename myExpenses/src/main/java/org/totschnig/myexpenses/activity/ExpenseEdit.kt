@@ -1005,7 +1005,6 @@ open class ExpenseEdit :
             methodRowBinding,
             injector
         )
-        setupObservers(newInstance)
         if (intent.getBooleanExtra(KEY_CREATE_TEMPLATE, false)) {
             createTemplate = true
             delegate.setCreateTemplate(true)
@@ -1017,6 +1016,7 @@ open class ExpenseEdit :
             null,
             withAutoFill
         )
+        setupObservers(newInstance)
         if (accountsLoaded) {
             delegate.setAccount(newInstance)
         }
