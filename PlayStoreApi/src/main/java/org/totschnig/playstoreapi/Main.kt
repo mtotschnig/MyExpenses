@@ -155,7 +155,10 @@ fun parseSelectedSkus(args: Array<String>): List<String>? {
         return raw.split(",").map { it.trim() }.filter { it.isNotEmpty() }
     }
     val index = args.indexOfFirst { it == "--skus" || it == "--sku" }
-    if (index != -1 && index + 1 < args.size) {
+    if (index != -1) {
+        require(index + 1 < args.size && !args[index + 1].startsWith("--")) {
+            "--skus/--sku requires a value"
+        }
         return args[index + 1].split(",").map { it.trim() }.filter { it.isNotEmpty() }
     }
     return null
