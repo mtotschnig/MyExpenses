@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="professional_benefit_1">Web UI, สแกนใบเสร็จ OCR &amp; หมวดหมู่</string>
+    <string name="professional_benefit_2">กราฟประวัติ, การตั้งงบ &amp; พอร์ตโฟลิโอ</string>
+    <string name="professional_benefit_3">ซิงค์คลาวด์, CSV &amp; แอดออนทั้งหมด</string>
+    <string name="professional_benefit_4">ไม่มีโฆษณา + บริการช่วยเหลือพิเศษ</string>
+    <string name="professional_description">เข้าถึงครบทุกฟังก์ชัน: บัญชีและแผนไม่จำกัด, ซิงค์คลาวด์, สแกนใบเสร็จ OCR, Web UI บนเดสก์ท็อป, งบประมาณ, กราฟ, ส่งออก PDF, ไม่มีโฆษณาและซัพพอร์ตพิเศษ</string>
+    <string name="professional_title">คีย์ระดับมืออาชีพ</string>
+    <string name="sku_premium_title">คีย์สนับสนุน</string>
+    <string name="sku_premium_description">สิทธิ์การใช้งานตลอดชีพ: ปลดล็อกบัญชีไม่จำกัด, แผนประจำ, ธุรกรรมย่อย, กราฟวงกลม, พิมพ์ PDF และลบโฆษณาออกทั้งหมด</string>
+    <string name="sku_extended_title">คีย์ส่วนขยาย</string>
+    <string name="sku_extended_description">รวมการซิงค์คลาวด์, นำเข้า/ส่งออก CSV, บัญชีและแผนไม่จำกัด, ธุรกรรมย่อย, กราฟวงกลม, พิมพ์ PDF และลบโฆษณาออกทั้งหมด</string>
+    <string name="sku_premium2extended_title">อัปเกรดจาก Contrib เป็น Extended</string>
+    <string name="sku_premium2extended_description">สำหรับผู้ใช้ Contrib คีย์: อัปเกรดสิทธิ์การใช้งานของคุณเพื่อปลดล็อกการซิงค์คลาวด์และการนำเข้า/ส่งออก CSV</string>
+</resources>

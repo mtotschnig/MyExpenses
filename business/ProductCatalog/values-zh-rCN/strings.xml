@@ -2,7 +2,6 @@
 <resources>
     <string name="budget_title">预算编制</string>
     <string name="ocr_title">扫描收据</string>
-    <string name="professional_benefit_3">对程序开发者的未来蓝图进行投票</string>
     <string name="history_title">收支历史图表</string>
     <string name="history_description">了解您的财务状况如何随着时间变化</string>
     <string name="webui_title">网络的用户界面</string>
@@ -11,8 +10,6 @@
     <string name="splittemplate_description">无限数量的模板和拆分交易计划</string>
     <string name="ocr_description">自动提取金额、日期和收款人</string>
     <string name="webui_description">使用桌面浏览器输入数据</string>
-    <string name="professional_benefit_1">解锁所有高级功能</string>
-    <string name="professional_benefit_2">电子邮件支持</string>
     <string name="accountsunlimited_title">无限数量的账户</string>
     <string name="accountsunlimited_description">解锁创建多于五个账户的能力。</string>
     <string name="adfree_title">无广告</string>
@@ -31,4 +28,16 @@
     <string name="plansunlimited_title">无限数量的收支计划</string>
     <string name="print_title">打印</string>
     <string name="plansunlimited_description">解锁为循环交易创建三个以上计划的功能。</string>
+    <string name="professional_benefit_1">Web 界面、OCR 票据扫描与类别树</string>
+    <string name="professional_benefit_2">历史演变图表、预算管理与投资组合</string>
+    <string name="professional_benefit_3">包含云端同步、CSV 导入及所有附加功能</string>
+    <string name="professional_benefit_4">无广告体验与优先电子邮件支持</string>
+    <string name="professional_description">全功能体验：无限账户与计划、云端同步、OCR 票据扫描、Web 桌面端、预算管理、统计图表、PDF 导出、类别树、无广告及优先支持。</string>
+    <string name="professional_title">专业版密钥(Professional Key)</string>
+    <string name="sku_premium_title">贡献版密钥(Contrib Key)</string>
+    <string name="sku_premium_description">一次性买断许可证：解锁无限账户、定期计划、拆分交易、饼图统计、PDF 打印并移除所有广告。</string>
+    <string name="sku_extended_title">扩展版密钥</string>
+    <string name="sku_extended_description">包含多设备云端同步、CSV 导入与导出、无限账户与计划、拆分交易、统计图表、PDF 打印、类别管理及无广告体验。</string>
+    <string name="sku_premium2extended_title">Contrib 升级至 Extended</string>
+    <string name="sku_premium2extended_description">适用于 Contrib 密钥用户：升级您的许可证，以解锁多设备云端同步与 CSV 电子表格导入/导出功能。</string>
 </resources>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="history_title">Graf historie</string>
-    <string name="professional_benefit_2">Emailová podpora</string>
     <string name="accountsunlimited_title">Neomezený počet účtů</string>
     <string name="accountsunlimited_description">Odemknutí možnosti vytvořit více než pět účtů.</string>
     <string name="adfree_title">Bez reklam</string>
@@ -13,6 +12,16 @@
     <string name="budget_title">Rozpočty</string>
     <string name="ocr_title">Skenovat fakturu</string>
     <string name="webui_title">Webové uživatelské rozhraní</string>
-    <string name="professional_benefit_1">Odemkněte všechny prémiové funkce</string>
-    <string name="professional_benefit_3">Hlasovací právo o plánu rozvoje</string>
+    <string name="professional_benefit_1">Webové rozhraní, OCR sken a Strom kat.</string>
+    <string name="professional_benefit_2">Grafy historie, Rozpočet a Portfolio</string>
+    <string name="professional_benefit_3">Včetně Cloud synchro, CSV a doplňků</string>
+    <string name="professional_benefit_4">Bez reklam + Prioritní podpora</string>
+    <string name="professional_description">Plný přístup: neomezené účty a plány, cloud synchro, OCR sken, webové rozhraní, rozpočty, grafy, PDF export, strom kategorií, bez reklam a prioritní podpora.</string>
+    <string name="professional_title">Profesionální klíč</string>
+    <string name="sku_premium_title">Klíč Contrib</string>
+    <string name="sku_premium_description">Jednorázová licence odemykající neomezené účty, plány, rozdělené transakce, koláčové grafy, PDF tisk a odstranění reklam.</string>
+    <string name="sku_extended_title">Rozšířený klíč</string>
+    <string name="sku_extended_description">Zahrnuje cloudovou synchronizaci, CSV import/export, neomezené účty a plány, rozdělené transakce, koláčové grafy, PDF tisk, správu kategorií a odstranění reklam.</string>
+    <string name="sku_premium2extended_title">Upgrade z Contrib na Extended</string>
+    <string name="sku_premium2extended_description">Pro vlastníky Klíče Contrib: vylepšete svou licenci pro odemknutí cloudové synchronizace a CSV importu/exportu.</string>
 </resources>

@@ -10,9 +10,6 @@
     <string name="ocr_description">Estrai automaticamente l\'importo, la data ed il beneficiario</string>
     <string name="webui_title">Interfaccia utente Web</string>
     <string name="webui_description">Usa il tuo browser desktop per l'inserimento dei dati</string>
-    <string name="professional_benefit_2">Supporto email</string>
-    <string name="professional_benefit_3">Votare sulla roadmap di sviluppo</string>
-    <string name="professional_benefit_1">Sblocca tutte le funzionalità premium</string>
     <string name="accountsunlimited_title">Numero illimitato di conti</string>
     <string name="accountsunlimited_description">Sbloccare la possibilità di creare più di cinque conti.</string>
     <string name="adfree_title">Nessun annuncio</string>
@@ -31,4 +28,16 @@
     <string name="splittransaction_title">Operazione frazionata</string>
     <string name="synchronization_title">Sincronizzazione cloud</string>
     <string name="distribution_title">Grafico a torta</string>
+    <string name="professional_benefit_1">Web UI, Scansione OCR &amp; Categorie</string>
+    <string name="professional_benefit_2">Grafici storici, Budget &amp; Portafoglio</string>
+    <string name="professional_benefit_3">Sync Cloud, Importa CSV &amp; tutti add-on</string>
+    <string name="professional_benefit_4">Nessun annuncio + Supporto prioritario</string>
+    <string name="professional_description">Accesso completo: conti e piani illimitati, sync cloud, scansione OCR, interfaccia Web, budget, grafici storici e a torta, stampa PDF, albero categorie, nessun annuncio e supporto prioritario.</string>
+    <string name="professional_title">Licenza Professionale</string>
+    <string name="sku_premium_title">Licenza Contributore</string>
+    <string name="sku_premium_description">Licenza permanente che sblocca conti illimitati, piani ricorrenti, transazioni frazionate, grafici a torta, stampa PDF e rimuove tutti gli annunci.</string>
+    <string name="sku_extended_title">Licenza Funzionalità Estese</string>
+    <string name="sku_extended_description">Include sincronizzazione Cloud, import/export CSV, conti e piani illimitati, transazioni frazionate, grafici a torta, stampa PDF, gestione categorie e nessun annuncio.</string>
+    <string name="sku_premium2extended_title">Aggiornamento da Contrib a Extended</string>
+    <string name="sku_premium2extended_description">Per i possessori di Chiave Contrib: aggiorna la licenza per sbloccare la sincronizzazione Cloud multi-dispositivo e l'import/export di fogli CSV.</string>
 </resources>

@@ -10,9 +10,6 @@
     <string name="splittransaction_title">Opdel transaktion</string>
     <string name="synchronization_title">Cloud-synkronisering</string>
     <string name="synchronization_description">Data kan synkroniseres mellem flere enheder.</string>
-    <string name="professional_benefit_1">Lås op for alle premiumfunktioner</string>
-    <string name="professional_benefit_3">Stemmeret på udviklingsplan</string>
-    <string name="professional_benefit_2">E-mail support</string>
     <string name="splittemplate_title">Opdelingsskabelon</string>
     <string name="splittemplate_description">Ubegrænset antal skabeloner og planer for opdelte transaktioner</string>
     <string name="history_title">Historikdiagram</string>
@@ -31,4 +28,16 @@
     <string name="csvimport_description">Sofistikeret, brugerdefinerbar CSV-import (regnearksprogrammer)</string>
     <string name="distribution_title">Cirkeldiagram</string>
     <string name="splittransaction_description">En enkelt transaktion kan opdeles i flere dele (kategorier og overførsler).</string>
+    <string name="professional_benefit_1">Webgrænseflade, OCR-scanning &amp; Træ</string>
+    <string name="professional_benefit_2">Historie-graf, Budgettering &amp; Portefølje</string>
+    <string name="professional_benefit_3">Sky-synkronisering, CSV &amp; alle add-ons</string>
+    <string name="professional_benefit_4">Ingen annoncer + Prioriteret support</string>
+    <string name="professional_description">Fuld adgang: ubegrænsede konti &amp; planer, sky-synkronisering, OCR-scanning, webgrænseflade, budgettering, grafer, PDF-eksport, kategoritræ, ingen annoncer &amp; prioriteret support.</string>
+    <string name="professional_title">Professionel Nøgle</string>
+    <string name="sku_premium_title">Bidragsnøgle</string>
+    <string name="sku_premium_description">Engangslicens der låser op for ubegrænsede konti, planer, opdelte transaktioner, cirkeldiagrammer, PDF-udskrivning og reklamefri brug.</string>
+    <string name="sku_extended_title">Udvidet Nøgle</string>
+    <string name="sku_extended_description">Inkluderer sky-synkronisering, CSV-import/eksport, ubegrænsede konti og planer, opdelte transaktioner, cirkeldiagrammer, PDF-udskrivning og ingen annoncer.</string>
+    <string name="sku_premium2extended_title">Opgradering fra Contrib til Extended</string>
+    <string name="sku_premium2extended_description">For Contrib-nøgleejere: opgrader din licens for at låse op for sky-synkronisering på tværs af enheder og CSV-import/eksport.</string>
 </resources>

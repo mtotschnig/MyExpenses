@@ -8,9 +8,6 @@
     <string name="ocr_description">Pakk ut beløp, dato og betaler automatisk</string>
     <string name="webui_title">Vev-brukergrensesnitt</string>
     <string name="webui_description">Bruk skrivebordsnettleser for datainntasting</string>
-    <string name="professional_benefit_1">Lås opp alle premiumsfunksjoner</string>
-    <string name="professional_benefit_2">E-poststøtte</string>
-    <string name="professional_benefit_3">Avgi din stemme på utviklingsplanen</string>
     <string name="ocr_title">Skann kvittering</string>
     <string name="splittemplate_title">Delt mal</string>
     <string name="synchronization_title">Sky-synkronisering</string>
@@ -19,4 +16,16 @@
     <string name="csvimport_title">CSV-import</string>
     <string name="plansunlimited_title">Ubegrenset antall planer</string>
     <string name="print_title">Skriv ut</string>
+    <string name="professional_benefit_1">Webgrensesnitt, OCR-skanning &amp; Tre</string>
+    <string name="professional_benefit_2">Historikkdiagram, Budsjett &amp; Portefølje</string>
+    <string name="professional_benefit_3">Sky-synkronisering, CSV &amp; alle tillegg</string>
+    <string name="professional_benefit_4">Reklamefri + Prioritert støtte</string>
+    <string name="professional_description">Full tilgang: ubegrensede kontoer &amp; planer, sky-synkronisering, OCR-skanning, webgrensesnitt, budsjett, diagrammer, PDF-eksport, kategoritre, reklamefri &amp; prioritert støtte.</string>
+    <string name="professional_title">Profesjonell nøkkel</string>
+    <string name="sku_premium_title">Contrib Key</string>
+    <string name="sku_premium_description">Engangslysens som låser opp ubegrensede kontoer, planer, delte transaksjoner, kakediagrammer, PDF-utskrift og fjerner reklame.</string>
+    <string name="sku_extended_title">Extended Key</string>
+    <string name="sku_extended_description">Inkluderer sky-synkronisering, CSV-import/eksport, ubegrensede kontoer &amp; planer, delte transaksjoner, kakediagrammer, PDF-utskrift og reklamefri bruk.</string>
+    <string name="sku_premium2extended_title">Oppgradering fra Contrib til Extended</string>
+    <string name="sku_premium2extended_description">For Contrib-nøkkeleiere: oppgrader lisensen din for å låse opp sky-synkronisering og CSV-import/eksport.</string>
 </resources>

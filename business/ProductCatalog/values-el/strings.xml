@@ -4,8 +4,6 @@
     <string name="history_title">Γράφημα ιστορικού</string>
     <string name="budget_title">Προϋπολογισμός</string>
     <string name="ocr_title">Σάρωση απόδειξης</string>
-    <string name="professional_benefit_2">Υποστήριξη ηλεκτρονικού ταχυδρομείου</string>
-    <string name="professional_benefit_3">Δικαίωμα ψήφου για τον χάρτη πορείας</string>
     <string name="accountsunlimited_title">Απεριόριστος αριθμός λογαριασμών</string>
     <string name="accountsunlimited_description">Ξεκλειδώστε τη δυνατότητα δημιουργίας περισσότερων από πέντε λογαριασμών.</string>
     <string name="adfree_title">Χωρίς διαφημίσεις</string>
@@ -16,7 +14,6 @@
     <string name="splittransaction_title">Διαίρεση συναλλαγής</string>
     <string name="distribution_description">Οπτικοποιήστε τη στατιστική κατανομή των συναλλαγών ανά κατηγορία σε διαφορετικές περιόδους (έτη, μήνες, εβδομάδες, ημέρες)</string>
     <string name="csvimport_description">Εξελιγμένη, προσαρμόσιμη εισαγωγή CSV (εφαρμογές υπολογιστικών φύλλων)</string>
-    <string name="professional_benefit_1">Ξεκλειδώστε όλες τις premium λειτουργίες</string>
     <string name="webui_description">Χρησιμοποιήστε το πρόγραμμα περιήγησης του υπολογιστή σας για εισαγωγή δεδομένων</string>
     <string name="ocr_description">Αυτόματη εξαγωγή ποσού, ημερομηνίας και δικαιούχου</string>
     <string name="adfree_description">Χωρίς διαφημίσεις.</string>
@@ -31,4 +28,16 @@
     <string name="print_description">Εκτύπωση της λίστας συναλλαγών σε αρχείο PDF</string>
     <string name="budget_description">Καθορίστε τα ποσά που σκοπεύετε να ξοδέψετε σε ετήσιους, μηνιαίους ή εβδομαδιαίους προϋπολογισμούς</string>
     <string name="categorytree_description">Αυθαίρετα βαθιά ιεραρχία κατηγοριών</string>
+    <string name="professional_benefit_1">Web UI, Σάρωση αποδείξεων &amp; Δέντρο</string>
+    <string name="professional_benefit_2">Ιστορικό γραφημάτων, Προϋπολογισμός</string>
+    <string name="professional_benefit_3">Συγχρονισμός Cloud, CSV &amp; όλα πρόσθετα</string>
+    <string name="professional_benefit_4">Χωρίς διαφημίσεις + Υποστήριξη</string>
+    <string name="professional_description">Πλήρης πρόσβαση: απεριόριστοι λογαριασμοί, συγχρονισμός Cloud, σάρωση OCR, Web UI, προϋπολογισμός, γραφήματα, εξαγωγή PDF, δέντρο κατηγοριών, χωρίς διαφημίσεις &amp; υποστήριξη.</string>
+    <string name="professional_title">Επαγγελματικό κλειδί</string>
+    <string name="sku_premium_title">Contrib κλειδί</string>
+    <string name="sku_premium_description">Άδεια εφάπαξ: ξεκλειδώνει απεριόριστους λογαριασμούς, σχέδια, διαχωρισμένες συναλλαγές, γραφήματα πίτας, εκτύπωση PDF και κατάργηση διαφημίσεων.</string>
+    <string name="sku_extended_title">Κλειδί Εκτεταμένης λειτουργίας</string>
+    <string name="sku_extended_description">Περιλαμβάνει συγχρονισμό Cloud, εισαγωγή/εξαγωγή CSV, απεριόριστους λογαριασμούς &amp; σχέδια, διαχωρισμένες συναλλαγές, γραφήματα, εκτύπωση PDF &amp; χωρίς διαφημίσεις.</string>
+    <string name="sku_premium2extended_title">Αναβάθμιση από Contrib σε Extended</string>
+    <string name="sku_premium2extended_description">Για κατόχους Κλειδιού Contrib: αναβαθμίστε την άδειά σας για ξεκλείδωμα συγχρονισμού Cloud και εισαγωγής/εξαγωγής CSV.</string>
 </resources>

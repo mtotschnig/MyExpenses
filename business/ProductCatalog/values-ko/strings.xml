@@ -28,7 +28,16 @@
     <string name="splittransaction_description">단일 거래를 여러 부분(카테고리 및 이체)으로 분할할 수 있습니다.</string>
     <string name="synchronization_title">클라우드 동기화</string>
     <string name="synchronization_description">여러 기기 간에 데이터를 동기화할 수 있습니다.</string>
-    <string name="professional_benefit_1">모든 프리미엄 기능 잠금 해제</string>
-    <string name="professional_benefit_2">이메일 지원</string>
-    <string name="professional_benefit_3">개발 로드맵에 바로 투표</string>
+    <string name="professional_benefit_1">웹 UI, 영수증 OCR 스캔 및 카테고리 트리</string>
+    <string name="professional_benefit_2">히스토리 차트, 예산 관리 및 포트폴리오</string>
+    <string name="professional_benefit_3">클라우드 동기화, CSV 및 모든 추가 기능</string>
+    <string name="professional_benefit_4">광고 없음 + 우선 지원</string>
+    <string name="professional_description">전체 기능 액세스: 무제한 계좌 및 계획, 클라우드 동기화, 영수증 OCR 스캔, 웹 UI, 예산 관리, 차트, PDF 내보내기, 카테고리 트리, 광고 없음 및 우선 지원.</string>
+    <string name="professional_title">프로페셔널 키</string>
+    <string name="sku_premium_title">기부 확인 키</string>
+    <string name="sku_premium_description">평생 라이선스: 무제한 계좌 및 계획, 분할 트랜잭션, 원형 차트, PDF 인쇄 및 모든 광고 제거.</string>
+    <string name="sku_extended_title">확장 키</string>
+    <string name="sku_extended_description">멀티 디바이스 클라우드 동기화, CSV 가져오기/내보내기, 무제한 계좌 및 계획, 분할 트랜잭션, 원형 차트, PDF 인쇄, 카테고리 관리 및 광고 없음 포함.</string>
+    <string name="sku_premium2extended_title">Contrib에서 Extended로 업그레이드</string>
+    <string name="sku_premium2extended_description">Contrib 키 소유자용: 멀티 디바이스 클라우드 동기화 및 CSV 스프레드시트 가져오기/내보내기 기능을 해제하려면 라이선스를 업그레이드하세요.</string>
 </resources>

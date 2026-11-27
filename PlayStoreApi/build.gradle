@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     id 'application'
     id 'kotlin'
@@ -8,13 +10,18 @@ java {
     targetCompatibility = JavaVersion.VERSION_21
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_21
+    }
+}
+
 application {
     mainClass.set('org.totschnig.playstoreapi.Main')
 }
 
-
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:2.0.21"
-    implementation 'com.google.apis:google-api-services-androidpublisher:v3-rev20241016-2.0.0'
-    implementation 'com.google.http-client:google-http-client-gson:1.44.1'
+    implementation libs.kotlin.stdlib
+    implementation libs.google.api.services.androidpublisher
+    implementation libs.google.http.client.gson
 }

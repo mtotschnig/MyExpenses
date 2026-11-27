@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="professional_benefit_1">అన్ని ప్రీమియం ఫీచర్లను అన్ లాక్ చేయండి</string>
-    <string name="professional_benefit_2">ఇమెయిల్ మద్దతు</string>
-    <string name="professional_benefit_3">అభివృద్ధి రోడ్ మ్యాప్ పై ఓటు హక్కు</string>
+    <string name="professional_title">ప్రొఫెషనల్ కీ</string>
+    <string name="professional_benefit_1">Web UI, OCR రసీదు స్కాన్ &amp; వర్గం చెట్టు</string>
+    <string name="professional_benefit_2">చరిత్ర చార్ట్‌లు, బడ్జెట్ &amp; போర్ట్‌</string>
+    <string name="professional_benefit_3">క్లౌడ్ సింక్, CSV &amp; అన్ని ఫీచర్లు</string>
+    <string name="professional_benefit_4">ప్రకటనలు లేవు + ప్రాధాన్యత మద్దతు</string>
+    <string name="professional_description">పూర్తి యాక్సెస్: అపరిమిత ఖాతాలు &amp; ప్రణాళికలు, క్లౌడ్ సింక్, OCR రసీదు స్కాన్, Web UI, బడ్జెట్, చార్ట్‌లు, PDF ఎగుమతి, ప్రకటనలు లేవు &amp; మద్దతు.</string>
+    <string name="sku_premium_title">కంట్రిబ్యూట్ కీ</string>
+    <string name="sku_premium_description">అపరిమిత ఖాతాలు, పునరావృత ప్రణాళికలు, విభజించబడిన లావాదేవీలు, చార్ట్‌లు, PDF ప్రింటింగ్ మరియు ప్రకటనల రహిత అనుభవాన్ని అన్‌లాక్ చేసే లైసెన్స్.</string>
+    <string name="sku_extended_title">విస్తరించిన కీ</string>
+    <string name="sku_extended_description">క్లౌడ్ సింక్, CSV దిగుమతి/ఎగుమతి, అపరిమిత ఖాతాలు &amp; ప్రణాళికలు, విభజించబడిన లావాదేవీలు, చార్ట్‌లు, PDF ప్రింటింగ్, వర్గం నిర్వహణ &amp; ప్రకటనలు లేవు.</string>
+    <string name="sku_premium2extended_title">కంట్రిబ్యూట్ నుండి విస్తరించిన కీకి అప్‌గ్రేడ్</string>
+    <string name="sku_premium2extended_description">కంట్రిబ్యూట్ కీ యజమానుల కోసం: పరికరాల్లో క్లౌడ్ సింక్ మరియు CSV దిగుమతి/ఎగుమతి సామర్థ్యాలను అన్‌లాక్ చేయడానికి మీ లైసెన్స్‌ను అప్‌గ్రేడ్ చేయండి.</string>
 </resources>

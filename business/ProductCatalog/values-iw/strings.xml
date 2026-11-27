@@ -8,8 +8,6 @@
     <string name="ocr_title">סריקת קבלה</string>
     <string name="ocr_description">חילוץ אוטומטי של הסכום, התאריך והמקבל</string>
     <string name="webui_title">מנשק משתמש דרך הדפדפן</string>
-    <string name="professional_benefit_2">תמיכה דרך דוא״ל</string>
-    <string name="professional_benefit_3">זכות הצבעה על מפת דרכים לפיתוח היישומון</string>
     <string name="accountsunlimited_description">פתיחת האפשרות ליצירת יותר מחמישה חשבונות.</string>
     <string name="accountsunlimited_title">מספר חשבונות בלתי מוגבל</string>
     <string name="categorytree_description">היררכיית קטגוריות עמוקה שרירותית</string>
@@ -22,7 +20,6 @@
     <string name="adfree_description">אין פרסומות.</string>
     <string name="csvimport_description">ייבוא מתוחכם ומתואם של CSV (יישומי גיליונות נתונים)</string>
     <string name="distribution_title">תרשים עוגה</string>
-    <string name="professional_benefit_1">פתיחת כל יכולות הפרימיום</string>
     <string name="categorytree_title">עץ קטגוריות</string>
     <string name="splittemplate_title">תבנית פיצול</string>
     <string name="splittransaction_description">ניתן לפצל עסקה בודדת למספר חלקים (קטגוריות והעברות).</string>
@@ -31,4 +28,16 @@
     <string name="print_description">הדפסת רשימת העסקאות לקובץ PDF</string>
     <string name="synchronization_description">ניתן לסנכרן נתונים בין מספר מכשירים.</string>
     <string name="webui_description">דפדפן שולחן העבודה שלך יכול לשמש להזנת נתונים</string>
+    <string name="professional_benefit_1">ממשק אינטרנט, סריקת קבלות ועץ קטגוריות</string>
+    <string name="professional_benefit_2">תרשים היסטוריה, תקציבים ופורטפוליו</string>
+    <string name="professional_benefit_3">סנכרון ענן, ייבוא CSV וכל התוספות</string>
+    <string name="professional_benefit_4">ללא פרסומות + תמיכה בעדיפות</string>
+    <string name="professional_description">גישה מלאה: חשבונות ותוכניות ללא הגבלה, סנכרון ענן, סריקת קבלות, ממשק אינטרנט, תקציבים, תרשימים, ייצוא PDF, עץ קטגוריות, ללא פרסומות ותמיכה בעדיפות.</string>
+    <string name="professional_title">מפתח מקצועי</string>
+    <string name="sku_premium_title">מפתח תורם</string>
+    <string name="sku_premium_description">רישיון חד-פעמי הפותח חשבונות ללא הגבלה, תוכניות, עסקאות מפוצלות, תרשימי עוגה, הדפסת PDF והסרת פרסומות.</string>
+    <string name="sku_extended_title">מפתח מורחב</string>
+    <string name="sku_extended_description">כולל סנכרון ענן, ייבוא/ייצוא CSV, חשבונות ותוכניות ללא הגבלה, עסקאות מפוצלות, תרשימי עוגה, הדפסת PDF וללא פרסומות.</string>
+    <string name="sku_premium2extended_title">שדרוג מ-Contrib ל-Extended</string>
+    <string name="sku_premium2extended_description">לבעלי מפתח Contrib: שדרגו את הרישיון כדי לפתוח סנכרון ענן בין מכשירים וייבוא/ייצוא CSV.</string>
 </resources>

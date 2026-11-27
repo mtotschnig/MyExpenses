@@ -10,9 +10,6 @@
     <string name="ocr_description">Extraire automatiquement le montant, la date et le bénéficiaire</string>
     <string name="webui_title">Interface utilisateur Web</string>
     <string name="webui_description">Utilisez votre navigateur de PC pour la saisie de données</string>
-    <string name="professional_benefit_1">Débloquez les fonctionnalités premium</string>
-    <string name="professional_benefit_2">Assistance par e-mail</string>
-    <string name="professional_benefit_3">Voter sur la feuille de route</string>
     <string name="categorytree_title">Arborescence des catégories</string>
     <string name="csvimport_title">Import CSV</string>
     <string name="accountsunlimited_title">Nombre illimité de comptes</string>
@@ -31,4 +28,16 @@
     <string name="distribution_title">Diagramme circulaire</string>
     <string name="distribution_description">Visualisez la distribution statistique des opérations par catégorie sur différentes périodes (années, mois, semaines, jours)</string>
     <string name="plansunlimited_description">Déverrouiller la possibilité de créer plus de trois plans pour les transactions récurrentes.</string>
+    <string name="professional_benefit_1">Interface Web, Scanner reçu &amp; Catégories</string>
+    <string name="professional_benefit_2">Historique, Budgétisation &amp; Portefeuille</string>
+    <string name="professional_benefit_3">Sync cloud, Import CSV &amp; tous modules</string>
+    <string name="professional_benefit_4">Sans pub + assistance prioritaire</string>
+    <string name="professional_description">Accès complet: comptes &amp; échéances illimités, sync cloud, scanner OCR, interface Web, budgétisation, graphiques, export PDF, arborescence catégories, sans pub &amp; assistance prioritaire.</string>
+    <string name="professional_title">Clé professionnelle</string>
+    <string name="sku_premium_title">Clé Contrib</string>
+    <string name="sku_premium_description">Licence permanente débloquant comptes illimités, échéances, opérations ventilées, diagrammes circulaires, impression PDF et suppression des publicités.</string>
+    <string name="sku_extended_title">Clé étendue</string>
+    <string name="sku_extended_description">Inclut la synchronisation cloud, l'import/export CSV, les comptes &amp; échéances illimités, les opérations ventilées, diagrammes, l'impression PDF et la suppression des publicités.</string>
+    <string name="sku_premium2extended_title">Mise à niveau Contrib vers Extended</string>
+    <string name="sku_premium2extended_description">Pour les détenteurs d'une clé Contrib: mettez à niveau votre licence pour débloquer la synchronisation cloud multi-appareils et l'import/export CSV.</string>
 </resources>

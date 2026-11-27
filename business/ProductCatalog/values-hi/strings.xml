@@ -1,2 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="professional_benefit_1">Web UI, OCR receipt scan &amp; Category tree</string>
+    <string name="professional_benefit_2">History charts, Budgeting &amp; Portfolio</string>
+    <string name="professional_benefit_3">Includes Cloud Sync, CSV &amp; all add-ons</string>
+    <string name="professional_benefit_4">Ad-free experience + priority support</string>
+    <string name="professional_description">All-inclusive access: unlimited accounts &amp; plans, cloud sync, OCR receipt scanning, desktop Web UI, budgeting, pie &amp; history charts, PDF export, category tree, ad-free &amp; priority support.</string>
+    <string name="sku_premium_title">योगदान कुंजी</string>
+    <string name="sku_premium_description">One-time license unlocking unlimited accounts, recurring plans, split transactions, pie charts, PDF printing, and removing all ads.</string>
+    <string name="sku_extended_title">विस्तारित कुंजी</string>
+    <string name="sku_extended_description">Includes Cloud Synchronization, CSV import &amp; export, unlimited accounts &amp; plans, split transactions, pie chart distribution, PDF printing, category management &amp; an ad-free experience.</string>
+    <string name="sku_premium2extended_title">Contrib to Extended Upgrade</string>
+    <string name="sku_premium2extended_description">For Contrib Key owners: upgrade your license to unlock Cloud Synchronization across devices and CSV spreadsheet import/export capabilities.</string>
+</resources>

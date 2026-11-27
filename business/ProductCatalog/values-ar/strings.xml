@@ -8,8 +8,6 @@
     <string name="budget_description">حدد المبلغ الذي تنوي إنفاقه في الميزانيات السنوية أو الشهرية أو الأسبوعية</string>
     <string name="ocr_title">مسح الإيصال ضوئياً</string>
     <string name="ocr_description">استخراج المبلغ والتاريخ والمدفوع لأمره تلقائيًا</string>
-    <string name="professional_benefit_2">دعم البريد الإلكتروني</string>
-    <string name="professional_benefit_3">حق التصويت على  مخططات التنمية</string>
     <string name="accountsunlimited_title">عدد حسابات غير محدود</string>
     <string name="accountsunlimited_description">فتح القدرة على إنشاء أكثر من خمسة حسابات.</string>
     <string name="adfree_title">بدون إعلانات</string>
@@ -23,7 +21,6 @@
     <string name="webui_description">استعمل متصفح الشبكة من الحاسوب لإدخال البيانات</string>
     <string name="distribution_description">عرض إحصائي للمعاملات حسب الصّنف خلال دورات مختلفة( سنة، شهر، أسبوع، أيام)</string>
     <string name="csvimport_description">استيراد ملف CSV متطور وقابل للتعديل</string>
-    <string name="professional_benefit_1">فتح جميع الميزات المتميزة</string>
     <string name="synchronization_description">إمكانية مزامنة الداتا إلى عدة أحهزة.</string>
     <string name="categorytree_title">فروع التصنيفات</string>
     <string name="distribution_title">مخطط دائري</string>
@@ -31,4 +28,16 @@
     <string name="categorytree_description">التسلسل الهرمي للفئة العميقة</string>
     <string name="splittransaction_description">عملية واحدة يمكن تقسيمها إلى عدة أجزاء (فئات و تحويلات).</string>
     <string name="print_description">طباعة قائمة المعاملات إلى ملف PDF</string>
+    <string name="professional_benefit_1">واجهة الويب، مسح الفواتير وشجرة الفئات</string>
+    <string name="professional_benefit_2">المخطط الزمني، الميزانيات والمحفظة</string>
+    <string name="professional_benefit_3">تزامن سحابي، استيراد CSV وكافة الميزات</string>
+    <string name="professional_benefit_4">بدون إعلانات + دعم الأولوية</string>
+    <string name="professional_description">وصول شامل: حسابات وخطط غير محدودة، تزامن سحابي، مسح الفواتير، واجهة الويب، الميزانيات، المخططات، تصدير PDF، شجرة الفئات، بدون إعلانات ودعم الأولوية.</string>
+    <string name="professional_title">المفتاح شامل</string>
+    <string name="sku_premium_title">مفتاح المساهمة</string>
+    <string name="sku_premium_description">ترخيص لمرة واحدة يفتح حسابات غير محدودة، خطط مكررة، معاملات مقسمة، مخططات دائري، طباعة PDF وإزالة الإعلانات.</string>
+    <string name="sku_extended_title">مفتاح موسع</string>
+    <string name="sku_extended_description">يتضمن المزامنة السحابية، استيراد وتصدير CSV، حسابات وخطط غير محدودة، معاملات مقسمة، مخططات دائري، طباعة PDF وبدون إعلانات.</string>
+    <string name="sku_premium2extended_title">ترقية من Contrib إلى Extended</string>
+    <string name="sku_premium2extended_description">لأصحاب مفتاح Contrib: قم بزيادة ترخيصك لفتح المزامنة السحابية عبر الأجهزة واستيراد/تصدير ملفات CSV.</string>
 </resources>

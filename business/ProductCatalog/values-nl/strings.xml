@@ -20,9 +20,6 @@
     <string name="splittransaction_description">Eén transactie kan worden opgesplitst in meerdere delen (categorieën en overboekingen).</string>
     <string name="synchronization_title">Cloud synchronisatie</string>
     <string name="synchronization_description">Gegevens kunnen worden gesynchroniseerd tussen meerdere apparaten.</string>
-    <string name="professional_benefit_1">Ontgrendel alle premiumfuncties</string>
-    <string name="professional_benefit_2">E-mail ondersteuning</string>
-    <string name="professional_benefit_3">Stemrecht op ontwikkelingsroutekaart</string>
     <string name="splittemplate_description">Onbeperkt aantal sjablonen en plannen voor gesplitste transacties</string>
     <string name="budget_description">Bepaal hoeveel je van plan bent uit te geven in jaarlijkse, maandelijkse of wekelijkse budgetten</string>
     <string name="categorytree_title">Categorie Boom</string>
@@ -31,4 +28,16 @@
     <string name="adfree_description">Geen advertenties.</string>
     <string name="csvimport_title">CSV-import</string>
     <string name="splittransaction_title">Gesplitste transactie</string>
+    <string name="professional_benefit_1">Web-interface, OCR-bon scannen &amp; Boom</string>
+    <string name="professional_benefit_2">Historie, Budgettering &amp; Portfolio</string>
+    <string name="professional_benefit_3">Inclusief Cloud-sync, CSV &amp; alle add-ons</string>
+    <string name="professional_benefit_4">Reclamevrij + Prioriteitsondersteuning</string>
+    <string name="professional_description">Volledige toegang: onbeperkte rekeningen &amp; plannen, cloud-sync, OCR-bon scannen, web-interface, budgettering, grafieken, PDF-export, categorieënstructuur, reclamevrij &amp; prioriteitssupport.</string>
+    <string name="professional_title">Professionele Sleutel</string>
+    <string name="sku_premium_title">Bijdragen Sleutel</string>
+    <string name="sku_premium_description">Eenmalige licentie voor onbeperkte rekeningen, terugkerende plannen, gesplitste transacties, cirkeldiagrammen, PDF-afdrukken en reclamevrij gebruik.</string>
+    <string name="sku_extended_title">Uitgebreide Sleutel</string>
+    <string name="sku_extended_description">Inclusief Cloud-synchronisatie, CSV-import &amp; -export, onbeperkte rekeningen &amp; plannen, gesplitste transacties, grafieken, PDF-afdrukken, categoriebeheer &amp; reclamevrij gebruik.</string>
+    <string name="sku_premium2extended_title">Upgrade van Contrib naar Extended</string>
+    <string name="sku_premium2extended_description">Voor bezitters van de Contrib-sleutel: upgrade uw licentie voor Cloud-synchronisatie tussen meerdere apparaten en CSV-import/export.</string>
 </resources>

@@ -8,10 +8,7 @@
     <string name="budget_description">Defina cuánto prevé gastar en presupuestos anual, mensual o semanalmente </string>
     <string name="ocr_title">Escanear recibo</string>
     <string name="ocr_description">Extrae automáticamente el importe, la fecha y el acreedor</string>
-    <string name="professional_benefit_2">Soporte por correo electrónico</string>
-    <string name="professional_benefit_3">Participar en la ruta de desarrollo</string>
     <string name="webui_description">Utilice su navegador para introducir los datos</string>
-    <string name="professional_benefit_1">Desbloquea todas las funciones premium</string>
     <string name="webui_title">Interfaz de usuario web</string>
     <string name="accountsunlimited_title">Número de cuentas ilimitadas</string>
     <string name="accountsunlimited_description">Desbloquear la capacidad de crear más de cinco cuentas.</string>
@@ -31,4 +28,16 @@
     <string name="print_title">Imprimir</string>
     <string name="splittransaction_title">Dividir la transacción</string>
     <string name="synchronization_title">Sincronización con la nube</string>
+    <string name="professional_benefit_1">Interfaz Web, Escáner OCR y Árbol cat.</string>
+    <string name="professional_benefit_2">Gráficos, Presupuestos y Portafolio</string>
+    <string name="professional_benefit_3">Sincro Cloud, Import CSV y complementos</string>
+    <string name="professional_benefit_4">Sin anuncios + Soporte prioritario</string>
+    <string name="professional_description">Acceso completo: cuentas e itinerarios ilimitados, sincro cloud, escáner OCR, interfaz Web, presupuestos, gráficos, exportar PDF, árbol de categorías, sin anuncios y soporte prioritario.</string>
+    <string name="professional_title">Llave Profesional</string>
+    <string name="sku_premium_title">Clave Contrib</string>
+    <string name="sku_premium_description">Licencia permanente para desbloquear cuentas ilimitadas, planes recurrentes, transacciones divididas, gráficos de sectores, impresión PDF y sin anuncios.</string>
+    <string name="sku_extended_title">Clave Extendida</string>
+    <string name="sku_extended_description">Incluye Sincronización Cloud, importación/exportación CSV, cuentas e itinerarios ilimitados, transacciones divididas, gráficos de sectores, impresión PDF y sin anuncios.</string>
+    <string name="sku_premium2extended_title">Actualización de Contrib a Extended</string>
+    <string name="sku_premium2extended_description">Para propietarios de la Clave Contrib: actualice su licencia para desbloquear la Sincronización Cloud entre dispositivos y la importación/exportación CSV.</string>
 </resources>

@@ -22,13 +22,22 @@
     <string name="splittransaction_description">Una única transacció es pot dividir en múltiples parts (categories i transferències).</string>
     <string name="synchronization_title">Sincronització al núvol</string>
     <string name="synchronization_description">Les dades es poden sincronitzar entre diversos dispositius.</string>
-    <string name="professional_benefit_1">Desbloqueja totes les funcions prèmium</string>
-    <string name="professional_benefit_2">Suport per correu electrònic</string>
-    <string name="professional_benefit_3">Full de ruta de desenvolupament</string>
     <string name="splittemplate_description">Nombre il·limitat de plantilles i plans per a les operacions desglossades</string>
     <string name="budget_description">Defineix quin pressupsot vols gastar anualment, mensual o setmanal</string>
     <string name="distribution_title">Diagrama circular</string>
     <string name="webui_description">Empreu el navegador de l\'escriptori per a l\'entrada de dades</string>
     <string name="plansunlimited_description">Desbloqueja la capacitat de crear més de tres plans per a operacions recurrents.</string>
     <string name="print_description">Imprimeix la llista d\'operacions a un fitxer PDF</string>
+    <string name="professional_benefit_1">Interfície Web, Escàner OCR i Arbre</string>
+    <string name="professional_benefit_2">Gràfic històric, Pressupostos i Portaf.</string>
+    <string name="professional_benefit_3">Sincro núvol, Importació CSV i tot</string>
+    <string name="professional_benefit_4">Sense anuncis + Suport prioritari</string>
+    <string name="professional_description">Accés complet: comptes i plans il·limitats, sincro núvol, escàner OCR, interfície Web, pressupostos, gràfics, exportació PDF, arbre de categories, sense anuncis i suport prioritari.</string>
+    <string name="professional_title">Clau professional</string>
+    <string name="sku_premium_title">Clau del Contribuïdor</string>
+    <string name="sku_premium_description">Llicència permanent que desbloqueja comptes il·limitats, plans recurrents, operacions dividides, gràfics de sectors, impressió PDF i sense anuncis.</string>
+    <string name="sku_extended_title">Clau estesa</string>
+    <string name="sku_extended_description">Inclou sincronització al núvol, importació/exportació CSV, comptes i plans il·limitats, operacions dividides, gràfics de sectors, impressió PDF i sense anuncis.</string>
+    <string name="sku_premium2extended_title">Actualització de Contrib a Extended</string>
+    <string name="sku_premium2extended_description">Per a propietaris de la Clau Contrib: actualitzeu la vostra llicència per desbloquejar la sincronització al núvol i la importació/exportació CSV.</string>
 </resources>

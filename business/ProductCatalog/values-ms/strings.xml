@@ -6,8 +6,6 @@
     <string name="history_description">Fahami bagaimana situasi kewangan anda berubah mengikut masa</string>
     <string name="budget_title">Pembelanjawan</string>
     <string name="budget_description">Takrif berapa banyak yang anda mahu belanja dalam tempoh bajet tahunan, bulanan atau mingguan</string>
-    <string name="professional_benefit_2">Sokongan emel</string>
-    <string name="professional_benefit_3">Hak mengundi dalam peta jalan</string>
     <string name="accountsunlimited_description">Buka kunci keupayaan untuk membuat lebih daripada lima akaun.</string>
     <string name="accountsunlimited_title">Bilangan akaun tidak terhad</string>
     <string name="adfree_title">Tanpa iklan</string>
@@ -17,5 +15,16 @@
     <string name="splittransaction_title">Transaksi pengasingan</string>
     <string name="synchronization_title">Penyegerakan awan</string>
     <string name="ocr_title">Imbas resit</string>
-    <string name="professional_benefit_1">Buka kunci semua ciri premium</string>
+    <string name="professional_title">Kunci profesional</string>
+    <string name="professional_benefit_1">UI Web, imbasan resit OCR &amp; Pokok</string>
+    <string name="professional_benefit_2">Carta sejarah, Penganggaran &amp; Portfolio</string>
+    <string name="professional_benefit_3">Penyelarasan Cloud, CSV &amp; semua fungsi</string>
+    <string name="professional_benefit_4">Tanpa iklan + sokongan keutamaan</string>
+    <string name="professional_description">Akses lengkap: akaun &amp; pelan tanpa had, penyelarasan cloud, imbasan OCR, UI web, penganggaran, carta, eksport PDF, tanpa iklan &amp; sokongan keutamaan.</string>
+    <string name="sku_premium_title">Kunci Sumbang</string>
+    <string name="sku_premium_description">Lesen sekali beli yang membuka akaun tanpa had, pelan berulang, transaksi berasingan, carta pai, cetakan PDF, dan alih keluar semua iklan.</string>
+    <string name="sku_extended_title">Kunci Lanjutan</string>
+    <string name="sku_extended_description">Termasuk penyelarasan Cloud, import/eksport CSV, akaun &amp; pelan tanpa had, transaksi berasingan, carta pai, cetakan PDF, pengurusan kategori &amp; tanpa iklan.</string>
+    <string name="sku_premium2extended_title">Naik Taraf Kunci Sumbang ke Lanjutan</string>
+    <string name="sku_premium2extended_description">Untuk pemilik Kunci Sumbang: naik taraf lesen anda untuk membuka penyelarasan Cloud merentasi peranti dan keupayaan import/eksport CSV.</string>
 </resources>

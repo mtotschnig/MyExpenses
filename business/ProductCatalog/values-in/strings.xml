@@ -28,7 +28,16 @@
     <string name="splittransaction_description">Satu transaksi dapat dibagi menjadi beberapa bagian (kategori dan transfer).</string>
     <string name="synchronization_title">Sinkronisasi cloud</string>
     <string name="synchronization_description">Data dapat disinkronkan antar beberapa perangkat.</string>
-    <string name="professional_benefit_1">Buka semua fitur premium</string>
-    <string name="professional_benefit_2">Dukungan email</string>
-    <string name="professional_benefit_3">Hak suara pada peta jalan pengembangan</string>
+    <string name="professional_benefit_1">Antarmuka Web, Pindai Struk OCR &amp; Pohon</string>
+    <string name="professional_benefit_2">Grafik riwayat, Anggaran &amp; Portofolio</string>
+    <string name="professional_benefit_3">Sinkronisasi Cloud, CSV &amp; semua fitur</string>
+    <string name="professional_benefit_4">Tanpa iklan + Dukungan prioritas</string>
+    <string name="professional_description">Akses penuh: akun &amp; rencana tak terbatas, sinkronisasi cloud, pindai OCR, antarmuka web, anggaran, grafik, ekspor PDF, pohon kategori, tanpa iklan dan dukungan prioritas.</string>
+    <string name="professional_title">Kunci Profesional</string>
+    <string name="sku_premium_title">Kunci Kontribusi</string>
+    <string name="sku_premium_description">Lisensi sekali beli: membuka akun tak terbatas, rencana berulang, transaksi pembagian, grafik pai, cetak PDF, dan tanpa iklan.</string>
+    <string name="sku_extended_title">Kunci Ekstensi</string>
+    <string name="sku_extended_description">Mencakup sinkronisasi Cloud, impor/ekspor CSV, akun &amp; rencana tak terbatas, transaksi pembagian, grafik pai, cetak PDF, manajemen kategori, dan tanpa iklan.</string>
+    <string name="sku_premium2extended_title">Tingkatkan dari Contrib ke Extended</string>
+    <string name="sku_premium2extended_description">Untuk pemilik Kunci Contrib: tingkatkan lisensi Anda untuk membuka sinkronisasi Cloud dan impor/ekspor CSV.</string>
 </resources>
