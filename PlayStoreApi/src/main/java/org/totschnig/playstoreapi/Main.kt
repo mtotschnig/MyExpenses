@@ -148,7 +148,7 @@ fun parseCatalog(
     return result
 }
 
-fun parseSelectedSkus(args: Array<String>): List<String>? {
+fun parseSelectedSkus(args: Array<String>): List<String> {
     val prefixArg = args.firstOrNull { it.startsWith("--skus=") || it.startsWith("--sku=") }
     if (prefixArg != null) {
         val raw = prefixArg.substringAfter("=")
@@ -161,44 +161,36 @@ fun parseSelectedSkus(args: Array<String>): List<String>? {
         }
         return args[index + 1].split(",").map { it.trim() }.filter { it.isNotEmpty() }
     }
-    return null
-}
-
-private fun isSubscriptionSku(sku: String): Boolean =
-    sku.equals("sku_professional_yearly", ignoreCase = true) ||
-        sku.equals("sku_professional_monthly", ignoreCase = true) ||
-        sku.equals("subscription", ignoreCase = true) ||
-        sku.equals("pro", ignoreCase = true) ||
-        sku.equals("professional", ignoreCase = true)
-
-private fun resolveTargetSkus(selectedSkus: List<String>?): Pair<List<String>, List<String>> {
-    if (selectedSkus == null) {
-        return Pair(ALL_SUBSCRIPTION_SKUS, ALL_IN_APP_SKUS)
-    }
-
-    val subSkus = mutableListOf<String>()
-    if (selectedSkus.any { it.equals("sku_professional_yearly", ignoreCase = true) }) {
-        subSkus.add("sku_professional_yearly")
-    }
-    if (selectedSkus.any { it.equals("sku_professional_monthly", ignoreCase = true) }) {
-        subSkus.add("sku_professional_monthly")
-    }
-    if (selectedSkus.any { isSubscriptionSku(it) }) {
-        ALL_SUBSCRIPTION_SKUS.forEach { if (!subSkus.contains(it)) subSkus.add(it) }
-    }
-
-    val inAppSkus = selectedSkus.filter { !isSubscriptionSku(it) }
-    return Pair(subSkus, inAppSkus)
+    return emptyList()
 }
 
 class Main {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
+            val selectedSkus = parseSelectedSkus(args)
+            if (selectedSkus.isEmpty()) {
+                println("No SKUs specified. Specify SKUs to update using --skus=<sku1,sku2,...>")
+                println("Available Subscriptions: ${ALL_SUBSCRIPTION_SKUS.joinToString()}")
+                println("Available In-App Products: ${ALL_IN_APP_SKUS.joinToString()}")
+                println("Add --dry-run for a dry run.")
+                return
+            }
+
+            val targetSubSkus = ALL_SUBSCRIPTION_SKUS.filter { selectedSkus.contains(it) }
+            val targetInAppSkus = ALL_IN_APP_SKUS.filter { selectedSkus.contains(it) }
+
+            val unknownSkus = selectedSkus.filter {
+                !ALL_SUBSCRIPTION_SKUS.contains(it) && !ALL_IN_APP_SKUS.contains(it)
+            }
+            if (unknownSkus.isNotEmpty()) {
+                println(
+                    "Warning: The following requested SKUs are not recognized: ${unknownSkus.joinToString()}"
+                )
+            }
+
             val dryRun = args.contains("--dry-run") || args.contains("--dump")
             val catalogData = parseCatalog()
-            val (targetSubSkus, targetInAppSkus) = resolveTargetSkus(parseSelectedSkus(args))
-
             println("Parsed ProductCatalog for ${catalogData.size} target locales.")
 
             if (dryRun) {
@@ -208,11 +200,17 @@ class Main {
             }
 
             println("=== UPDATING PLAY STORE VIA GOOGLE PLAY DEVELOPER API ===")
+            val failedSkus = mutableListOf<String>()
+
             if (targetSubSkus.isNotEmpty()) {
-                updateSubscriptions(catalogData, targetSubSkus)
+                failedSkus.addAll(updateSubscriptions(catalogData, targetSubSkus))
             }
             if (targetInAppSkus.isNotEmpty()) {
-                updateInAppProducts(catalogData, targetInAppSkus)
+                failedSkus.addAll(updateInAppProducts(catalogData, targetInAppSkus))
+            }
+
+            if (failedSkus.isNotEmpty()) {
+                error("Failed to update ${failedSkus.size} SKU(s): ${failedSkus.joinToString()}")
             }
         }
     }
@@ -298,45 +296,52 @@ fun buildOneTimeProductListings(
 fun updateSubscriptions(
     catalogData: Map<String, Map<String, String>>,
     targetSubSkus: List<String> = ALL_SUBSCRIPTION_SKUS
-) {
+): List<String> {
     val service: AndroidPublisher = AndroidPublisherHelper.init()
     val subs = service.monetization().subscriptions()
-val listings = buildSubscriptionListings(catalogData)
+    val listings = buildSubscriptionListings(catalogData)
+
+    val failedSkus = mutableListOf<String>()
     if (listings.isEmpty()) {
-        println("Skipping subscriptions: no localized listings found.")
-        return
-    }
-    targetSubSkus.forEach { sku ->
-        try {
-            println(
-                "Patching subscription '$sku' with ${listings.size} localized listings..."
-            )
-            subs.patch(
-                PACKAGE_NAME,
-                sku,
-                Subscription().setListings(listings)
-            ).also {
-                it.updateMask = "listings"
-                it.regionsVersionVersion = "2022/02"
-            }.execute()
-            println("Subscription $sku updated successfully.")
-        } catch (e: Exception) {
-            println("Error updating subscription $sku: ${e.message}")
+        println("Error updating subscriptions: no localized listings found in ProductCatalog.")
+        failedSkus.addAll(targetSubSkus)
+    } else {
+        targetSubSkus.forEach { sku ->
+            try {
+                println(
+                    "Patching subscription '$sku' with ${listings.size} localized listings..."
+                )
+                subs.patch(
+                    PACKAGE_NAME,
+                    sku,
+                    Subscription().setListings(listings)
+                ).also {
+                    it.updateMask = "listings"
+                    it.regionsVersionVersion = "2022/02"
+                }.execute()
+                println("Subscription $sku updated successfully.")
+            } catch (e: Exception) {
+                println("Error updating subscription $sku: ${e.message}")
+                failedSkus.add(sku)
+            }
         }
     }
+    return failedSkus
 }
 
 fun updateInAppProducts(
     catalogData: Map<String, Map<String, String>>,
     targetSkus: List<String> = ALL_IN_APP_SKUS
-) {
+): List<String> {
     val service: AndroidPublisher = AndroidPublisherHelper.init()
     val oneTimeProducts = service.monetization().onetimeproducts()
+    val failedSkus = mutableListOf<String>()
 
     targetSkus.forEach { sku ->
         val listings = buildOneTimeProductListings(sku, catalogData)
         if (listings.isEmpty()) {
-            println("Skipping SKU '$sku': no localized listings found.")
+            println("Error updating one-time product $sku: no localized listings found in ProductCatalog.")
+            failedSkus.add(sku)
             return@forEach
         }
 
@@ -356,6 +361,8 @@ fun updateInAppProducts(
             println("One-time product '$sku' updated successfully.")
         } catch (e: Exception) {
             println("Error updating one-time product $sku: ${e.message}")
+            failedSkus.add(sku)
         }
     }
+    return failedSkus
 }

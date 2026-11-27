@@ -3,10 +3,9 @@
   <ManuallySuppressedIssues/>
   <CurrentIssues>
     <ID>NestedBlockDepth:Main.kt:fun parseCatalog: Map&lt;String, Map&lt;String, String&gt;&gt;</ID>
-    <ID>ReturnCount:Main.kt:fun parseSelectedSkus: List&lt;String&gt;?</ID>
+    <ID>ReturnCount:Main.kt:fun parseSelectedSkus: List&lt;String&gt;</ID>
     <ID>ReturnCount:Main.kt:fun resolveCatalogDirForTag: File?</ID>
     <ID>TooGenericExceptionCaught:Main.kt:e: Exception</ID>
-    <ID>TooManyFunctions:Main.kt:org.totschnig.playstoreapi.Main.kt</ID>
     <ID>UtilityClassWithPublicConstructor:Main.kt:Main</ID>
   </CurrentIssues>
 </SmellBaseline>
