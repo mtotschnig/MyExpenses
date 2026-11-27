@@ -28,7 +28,16 @@
     <string name="splittransaction_description">Uma transação única pode ser dividida em várias partes (categorias e transferências).</string>
     <string name="synchronization_title">Sincronização na nuvem</string>
     <string name="synchronization_description">Os dados podem ser sincronizados entre vários aparelhos.</string>
-    <string name="professional_benefit_1">Desbloqueia todos os recursos premium</string>
-    <string name="professional_benefit_2">Suporte por e-mail</string>
-    <string name="professional_benefit_3">Voto no roteiro de desenvolvimento</string>
+    <string name="professional_benefit_1">Interface Web, OCR recibos e Categorias</string>
+    <string name="professional_benefit_2">Gráficos históricos, Orçamentos e Portf.</string>
+    <string name="professional_benefit_3">Sincronização Cloud, CSV e adicionais</string>
+    <string name="professional_benefit_4">Sem anúncios + Suporte prioritário</string>
+    <string name="professional_description">Acesso completo: contas e planos ilimitados, sincronização cloud, OCR recibos, interface Web, orçamentos, gráficos, exportação PDF, árvore de categorias, sem anúncios e suporte prioritário.</string>
+    <string name="professional_title">Chave Profissional</string>
+    <string name="sku_premium_title">Chave de contribuição</string>
+    <string name="sku_premium_description">Licença única que desbloqueia contas ilimitadas, planos recorrentes, transações divididas, gráficos de pizza, impressão PDF e remove todos os anúncios.</string>
+    <string name="sku_extended_title">Chave estendida</string>
+    <string name="sku_extended_description">Inclui sincronização Cloud, importação/exportação CSV, contas e planos ilimitados, transações divididas, gráficos de pizza, impressão PDF e experiência sem anúncios.</string>
+    <string name="sku_premium2extended_title">Atualização de Contrib para Extended</string>
+    <string name="sku_premium2extended_description">Para proprietários da Chave Contrib: atualize sua licença para desbloquear a sincronização Cloud entre dispositivos e importação/exportação CSV.</string>
 </resources>

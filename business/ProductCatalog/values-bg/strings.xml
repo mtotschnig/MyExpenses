@@ -10,9 +10,6 @@
     <string name="ocr_description">Автоматично извличане на обща сума, дата и получател</string>
     <string name="webui_title">Уеб потребителски интерфейс</string>
     <string name="webui_description">Използвайте браузър на настолен компютър за да въвеждате данни</string>
-    <string name="professional_benefit_1">Отключете всички премиум възможности</string>
-    <string name="professional_benefit_2">Поддръжка по имейл</string>
-    <string name="professional_benefit_3">Право да гласувате на карта за развитие</string>
     <string name="accountsunlimited_title">Неограничен брой сметки</string>
     <string name="accountsunlimited_description">Отключване на възможността за създаване на повече от пет акаунта.</string>
     <string name="adfree_title">Без реклами</string>
@@ -31,4 +28,16 @@
     <string name="categorytree_title">Категории</string>
     <string name="csvimport_description">Усъвършенствано, с възможност за настройки, въвеждане от CSV (приложения за електронни таблици)</string>
     <string name="adfree_description">Без реклами.</string>
+    <string name="professional_benefit_1">Уеб интерфейс, Скенер за касови бележки</string>
+    <string name="professional_benefit_2">История, Бюджетиране и Портфолио</string>
+    <string name="professional_benefit_3">Облачна синхр., CSV и всички опции</string>
+    <string name="professional_benefit_4">Без реклами + Приоритетна поддръжка</string>
+    <string name="professional_description">Пълен достъп: неограничени сметки и планове, облачна синхр., скенер, уеб интерфейс, бюджетиране, графики, PDF експорт, дърво на категориите, без реклами и приоритетна поддръжка.</string>
+    <string name="professional_title">Професионален ключ</string>
+    <string name="sku_premium_title">ключ за Основен вариант</string>
+    <string name="sku_premium_description">Еднократен лиценз отключващ неограничени сметки, планове, разделени транзакции, кругови диаграми, PDF печат и премахване на реклами.</string>
+    <string name="sku_extended_title">ключ за Разширен вариант</string>
+    <string name="sku_extended_description">Включва облачна синхронизация, CSV импорт/експорт, неограничени сметки и планове, разделени транзакции, диаграми, PDF печат, управление на категории и без реклами.</string>
+    <string name="sku_premium2extended_title">Надграждане от Contrib към Extended</string>
+    <string name="sku_premium2extended_description">За собственици на ключ Contrib: надградете лиценза си за отключване на облачна синхронизация и CSV импорт/експорт.</string>
 </resources>

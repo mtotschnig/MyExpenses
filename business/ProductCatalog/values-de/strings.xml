@@ -10,9 +10,6 @@
     <string name="ocr_description">Betrag, Datum und Zahlungsempfänger automatisch extrahieren</string>
     <string name="webui_title">Web-Benutzeroberfläche</string>
     <string name="webui_description">Verwenden Sie Ihren Desktop-Browser für die Dateneingabe</string>
-    <string name="professional_benefit_1">Schalte alle Premium-Funktionen frei</string>
-    <string name="professional_benefit_2">E-Mail-Support</string>
-    <string name="professional_benefit_3">Stimmrecht zum Entwicklungsfahrplan</string>
     <string name="categorytree_title">Kategorienbaum</string>
     <string name="categorytree_description">Beliebig tiefe Kategorienhierarchie</string>
     <string name="accountsunlimited_title">Unbegrenzte Anzahl von Konten</string>
@@ -31,4 +28,16 @@
     <string name="synchronization_title">Cloud-Synchronisierung</string>
     <string name="distribution_description">Visualisieren Sie die statistische Verteilung der Buchungen pro Kategorie über verschiedene Perioden (Jahre, Monate, Wochen, Tage)</string>
     <string name="print_description">Drucken der Buchungsliste in eine PDF-Datei</string>
+    <string name="professional_benefit_1">Web-UI, Quittung scannen, Kategorienbaum</string>
+    <string name="professional_benefit_2">Verlauf, Budgetierung &amp; Portfolio</string>
+    <string name="professional_benefit_3">Cloud-Sync, CSV-Import &amp; alle Add-ons</string>
+    <string name="professional_benefit_4">Werbefrei + Prioritäts-E-Mail-Support</string>
+    <string name="professional_description">Rundum-Zugang: Unbegrenzte Konten &amp; Pläne, Cloud-Sync, Quittung scannen, Web-UI, Budgetierung, Kreis- &amp; Verlaufsdiagramme, PDF-Druck, Kategorienbaum, werbefrei &amp; Prioritäts-Support.</string>
+    <string name="professional_title">Professioneller Schlüssel</string>
+    <string name="sku_premium_title">Contrib-Schlüssel</string>
+    <string name="sku_premium_description">Einmalige Lizenz zur Freischaltung unbegrenzter Konten, Pläne, mehrteiliger Buchungen, Kreisdiagramme, PDF-Druck und Werbefreiheit.</string>
+    <string name="sku_extended_title">Erweiterungsschlüssel</string>
+    <string name="sku_extended_description">Beinhaltet Cloud-Sync, CSV-Import &amp; -Export, unbegrenzte Konten &amp; Pläne, mehrteilige Buchungen, Kreisdiagramme, PDF-Druck, Kategorienverwaltung &amp; Werbefreiheit.</string>
+    <string name="sku_premium2extended_title">Contrib zu Extended Upgrade</string>
+    <string name="sku_premium2extended_description">Für Besitzer eines Contrib-Schlüssels: Upgrade zur Freischaltung der Cloud-Synchronisierung über mehrere Geräte und des CSV-Tabellen-Imports/Exports.</string>
 </resources>

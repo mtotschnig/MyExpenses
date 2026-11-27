@@ -3,8 +3,6 @@
     <string name="splittemplate_title">Шаблон поділу</string>
     <string name="history_title">Історія</string>
     <string name="budget_title">Бюджетування</string>
-    <string name="professional_benefit_2">Сервіс підтримки</string>
-    <string name="professional_benefit_3">Дорожня карта розвитку</string>
     <string name="accountsunlimited_title">Необмежена кількість облікових записів</string>
     <string name="adfree_title">Без реклами</string>
     <string name="csvimport_title">Імпортування CSV</string>
@@ -27,8 +25,19 @@
     <string name="plansunlimited_description">Розблокуйте можливість створювати більше трьох планів для повторюваних транзакцій.</string>
     <string name="print_description">Друк списку транзакцій у PDF файл</string>
     <string name="splittransaction_description">Одну транзакцію можна розділити на кілька частин (категорії та перекази).</string>
-    <string name="professional_benefit_1">Розблокуйте всі преміум-функції</string>
     <string name="distribution_title">Кругова діаграма</string>
     <string name="synchronization_description">Дані можна синхронізувати між кількома пристроями.</string>
     <string name="distribution_description">Візуалізувати статистичний розподіл транзакцій по категоріях за різними періодами (роки, місяці, тижні, дні)</string>
+    <string name="professional_benefit_1">Веб-інтерфейс, Сканер чеків та Дерево</string>
+    <string name="professional_benefit_2">Історія, Бюджетування та Портфель</string>
+    <string name="professional_benefit_3">Хмарна синхронізація, CSV та всі опції</string>
+    <string name="professional_benefit_4">Без реклами + Пріоритетна підтримка</string>
+    <string name="professional_description">Повний доступ: необмежені рахунки та плани, хмарна синхр., сканер чеків, веб-інтерфейс, бюджетування, графіки, експорт PDF, дерево категорій, без реклами та пріоритетна підтримка.</string>
+    <string name="professional_title">Професійна версія</string>
+    <string name="sku_premium_title">Платна версія</string>
+    <string name="sku_premium_description">Одноразова ліцензія: необмежені рахунки, плани, розділені операції, кругові діаграми, друк PDF та відсутність реклами.</string>
+    <string name="sku_extended_title">Розширена платна версія</string>
+    <string name="sku_extended_description">Включає хмарну синхронізацію, імпорт/експорт CSV, необмежені рахунки та плани, розділені операції, кругові діаграми, друк PDF, керування категоріями та без реклами.</string>
+    <string name="sku_premium2extended_title">Оновлення з Contrib до Extended</string>
+    <string name="sku_premium2extended_description">Для власників ключа Contrib: оновіть ліцензію для розблокування міжпристройної хмарної синхронізації та імпорту/експорту CSV.</string>
 </resources>

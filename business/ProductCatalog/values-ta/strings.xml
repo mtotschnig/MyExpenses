@@ -7,8 +7,6 @@
     <string name="budget_title">வரவு செலவுத் திட்டம்</string>
     <string name="budget_description">ஆண்டு, மாதாந்திர அல்லது வாராந்திர வரவு செலவுத் திட்டங்களில் நீங்கள் எவ்வளவு செலவிட விரும்புகிறீர்கள் என்பதை வரையறுக்கவும்</string>
     <string name="ocr_title">ரசீது ஸ்கேன்</string>
-    <string name="professional_benefit_2">ஞ்சல் ஆதரவு</string>
-    <string name="professional_benefit_3">வளர்ச்சித் திட்டத்தில் வாக்களியுங்கள்</string>
     <string name="accountsunlimited_title">கணக்குகளுக்கு வரம்பில்லை</string>
     <string name="accountsunlimited_description">ஐந்துக்கும் மேற்பட்ட கணக்குகளை உருவாக்கும் திறனைத் திறக்கவும்.</string>
     <string name="adfree_title">விளம்பரங்கள் இல்லை</string>
@@ -18,7 +16,6 @@
     <string name="splittransaction_title">பிரிவு பரிவர்த்தனை</string>
     <string name="synchronization_title">மேகக்கணினி ஒத்திசைவு</string>
     <string name="webui_title">வலை பயனர் இடைமுகம்</string>
-    <string name="professional_benefit_1">பிரீமியம் அம்சங்களைத் திறக்கவும்</string>
     <string name="categorytree_title">வகை மரம்</string>
     <string name="categorytree_description">தன்னிச்சையாக ஆழமான வகை வரிசைமுறை</string>
     <string name="adfree_description">விளம்பரங்கள் இல்லை.</string>
@@ -31,4 +28,16 @@
     <string name="plansunlimited_description">தொடர்ச்சியான பரிவர்த்தனைகளுக்கு மூன்று திட்டங்களுக்கு மேல் உருவாக்கும் திறனைத் திறக்கவும்.</string>
     <string name="splittransaction_description">ஒரு பரிவர்த்தனையை பல பகுதிகளாக (வகைகள் மற்றும் இடமாற்றங்கள்) பிரிக்கலாம்.</string>
     <string name="webui_description">தரவு உள்ளீட்டிற்கு உங்கள் டெச்க்டாப் உலாவியைப் பயன்படுத்தவும்</string>
+    <string name="professional_title">நிபுணத்துவ திறவுகோல்</string>
+    <string name="professional_benefit_1">Web UI, OCR ரசீது ஸ்கேன் &amp; வகை மரம்</string>
+    <string name="professional_benefit_2">வரலாற்று வரைபடங்கள், பட்ஜெட் &amp; போர்ட்</string>
+    <string name="professional_benefit_3">கிளவுட் ஒத்திசைவு, CSV &amp; அனைத்து வசதி</string>
+    <string name="professional_benefit_4">விளம்பரமற்ற அனுபவம் + முன்னுரிமை</string>
+    <string name="professional_description">முழுமையான அணுகல்: வரம்பற்ற கணக்குகள் &amp; திட்டங்கள், கிளவுட் ஒத்திசைவு, OCR ரசீது ஸ்கேன், Web UI, பட்ஜெட், வரைபடங்கள், PDF ஏற்றுமதி, விளம்பரமற்றது &amp; ஆதரவு.</string>
+    <string name="sku_premium_title">பங்களிப்பு திறவுகோல்</string>
+    <string name="sku_premium_description">வரம்பற்ற கணக்குகள், திட்டங்கள், பிரிவு பரிவர்த்தனைகள், வரைபடங்கள், PDF அச்சிடுதல் மற்றும் விளம்பரங்களை அகற்றுவதற்கான ஒற்றை உரிமம்.</string>
+    <string name="sku_extended_title">விரிவாக்கப்பட்ட திறவுகோல்</string>
+    <string name="sku_extended_description">கிளவுட் ஒத்திசைவு, CSV இறக்குமதி/ஏற்றுமதி, வரம்பற்ற கணக்குகள் &amp; திட்டங்கள், பிரிவு பரிவர்த்தனைகள், வரைபடங்கள், PDF அச்சிடுதல், வகை மேலாண்மை &amp; விளம்பரமற்றது கொண்டது.</string>
+    <string name="sku_premium2extended_title">பங்களிப்பிலிருந்து விரிவாக்கப்பட்ட திறவுகோல் மேம்பாடு</string>
+    <string name="sku_premium2extended_description">பங்களிப்பு திறவுகோல் உரிமையாளர்களுக்கு: சாதனங்கள் முழுவதும் கிளவுட் ஒத்திசைவு மற்றும் CSV திறன்களைத் திறக்க உங்கள் உரிமத்தை மேம்படுத்தவும்.</string>
 </resources>

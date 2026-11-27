@@ -21,9 +21,6 @@
     <string name="splittransaction_title">Višedjelna transakcija</string>
     <string name="synchronization_title">Sinkronizacija u oblaku</string>
     <string name="synchronization_description">Podaci se mogu sinkronizirati na više uređaja.</string>
-    <string name="professional_benefit_1">Otključaj sve premium funkcije</string>
-    <string name="professional_benefit_2">E-mail podrška</string>
-    <string name="professional_benefit_3">Pravo glasa o planu razvoja</string>
     <string name="splittemplate_title">Predložak višedjelne transakcije</string>
     <string name="splittemplate_description">Neograničen broj predložaka i planova za višedjelne transakcije</string>
     <string name="budget_title">Budžetiranje</string>
@@ -31,4 +28,16 @@
     <string name="csvimport_title">CSV uvoz</string>
     <string name="distribution_description">Prikaži statističku distribuciju transakcija po kategorijama kroz razdoblja (godine, mjeseci, tjedni, dani)</string>
     <string name="splittransaction_description">Svaka transakcija se može podijeliti na više dijelova (kategorije i prijenosi).</string>
+    <string name="professional_benefit_1">Web sučelje, OCR skeniranje i Stablo</string>
+    <string name="professional_benefit_2">Grafikon povijesti, Proračun i Portfelj</string>
+    <string name="professional_benefit_3">Sinhronizacija u oblaku, CSV i opcije</string>
+    <string name="professional_benefit_4">Bez oglasa + Prioritetna podrška</string>
+    <string name="professional_description">Potpuni pristup: neograničeni računi i planovi, sinhronizacija u oblaku, OCR skeniranje, web sučelje, proračun, grafikoni, PDF izvoz, stablo kategorija, bez oglasa i prioritetna podrška.</string>
+    <string name="professional_title">Profesionalni ključ</string>
+    <string name="sku_premium_title">Ključ doprinositelja</string>
+    <string name="sku_premium_description">Jednokratna licenca koja otključava neograničene račune, planove, višedijelne transakcije, kružne dijagrame, PDF ispis i uklanja oglase.</string>
+    <string name="sku_extended_title">Prošireni ključ</string>
+    <string name="sku_extended_description">Uključuje sinhronizaciju u oblaku, CSV uvoz/izvoz, neograničene račune i planove, višedijelne transakcije, kružne dijagrame, PDF ispis, upravljanje kategorijama i bez oglasa.</string>
+    <string name="sku_premium2extended_title">Nadogradnja s Contrib na Extended</string>
+    <string name="sku_premium2extended_description">Za vlasnike ključa Contrib: nadogradite licencu za otključavanje sinhronizacije u oblaku i uvoza/izvoza CSV datoteka.</string>
 </resources>

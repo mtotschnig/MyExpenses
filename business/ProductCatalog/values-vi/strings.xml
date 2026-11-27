@@ -3,8 +3,6 @@
     <string name="splittemplate_title">Bản mẫu chia tách</string>
     <string name="history_title">Biểu đồ thời gian</string>
     <string name="budget_title">Ngân quỹ</string>
-    <string name="professional_benefit_2">Hỗ trợ qua email</string>
-    <string name="professional_benefit_3">Bỏ phiếu về phát triển ứng dụng</string>
     <string name="accountsunlimited_title">Số lượng không giới hạn các tài khoản</string>
     <string name="accountsunlimited_description">Mở khóa khả năng tạo nhiều hơn năm tài khoản.</string>
     <string name="adfree_title">Không quảng cáo</string>
@@ -14,5 +12,16 @@
     <string name="splittransaction_title">GD phân tách</string>
     <string name="synchronization_title">Đồng bộ hoá đám mây</string>
     <string name="ocr_title">Quét biên lai</string>
-    <string name="professional_benefit_1">Mở khóa tất cả các tính năng cao cấp</string>
+    <string name="professional_benefit_1">Giao diện Web, Quét hóa đơn OCR &amp; Cây</string>
+    <string name="professional_benefit_2">Biểu đồ lịch sử, Ngân sách &amp; Danh mục</string>
+    <string name="professional_benefit_3">Đồng bộ đám mây, CSV &amp; tất cả tính năng</string>
+    <string name="professional_benefit_4">Không quảng cáo + Hỗ trợ ưu tiên</string>
+    <string name="professional_description">Truy cập đầy đủ: tài khoản &amp; kế hoạch không giới hạn, đồng bộ đám mây, quét OCR, giao diện web, ngân sách, biểu đồ, xuất PDF, cây danh mục, không quảng cáo &amp; hỗ trợ ưu tiên.</string>
+    <string name="professional_title">Chìa khóa chuyên nghiệp</string>
+    <string name="sku_premium_title">Khóa đóng góp</string>
+    <string name="sku_premium_description">Giấy phép một lần mở khóa tài khoản không giới hạn, kế hoạch định kỳ, giao dịch chia tách, biểu đồ quạt, in PDF và xóa quảng cáo.</string>
+    <string name="sku_extended_title">Khóa mở rộng</string>
+    <string name="sku_extended_description">Bao gồm đồng bộ đám mây, nhập/xuất CSV, tài khoản &amp; kế hoạch không giới hạn, giao dịch chia tách, biểu đồ quạt, in PDF và xóa quảng cáo.</string>
+    <string name="sku_premium2extended_title">Nâng cấp từ Contrib lên Extended</string>
+    <string name="sku_premium2extended_description">Dành cho chủ sở hữu Chìa khóa Contrib: nâng cấp giấy phép để mở khóa đồng bộ đám mây đa thiết bị và nhập/xuất CSV.</string>
 </resources>

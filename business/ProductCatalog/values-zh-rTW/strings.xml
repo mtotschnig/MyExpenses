@@ -4,8 +4,6 @@
     <string name="splittransaction_description">單一交易可以分割成多個部分（類別和轉帳）。</string>
     <string name="synchronization_title">雲端同步</string>
     <string name="synchronization_description">資料可以在多個裝置之間同步。</string>
-    <string name="professional_benefit_1">解鎖所有進階功能</string>
-    <string name="professional_benefit_2">電子郵件支援</string>
     <string name="splittemplate_title">分割範本</string>
     <string name="splittemplate_description">無限數量的分帳交易範本和計劃</string>
     <string name="history_title">歷史圖表</string>
@@ -30,5 +28,16 @@
     <string name="print_title">列印</string>
     <string name="print_description">將交易清單列印成 PDF 檔案</string>
     <string name="splittransaction_title">分帳交易</string>
-    <string name="professional_benefit_3">對開發路線圖的投票權</string>
+    <string name="professional_benefit_1">Web 介面、OCR 發票掃描與類別樹</string>
+    <string name="professional_benefit_2">歷史演變圖表、預算管理與投資組合</string>
+    <string name="professional_benefit_3">包含雲端同步、CSV 匯入及所有附加功能</string>
+    <string name="professional_benefit_4">無廣告體驗與優先電子郵件支援</string>
+    <string name="professional_description">全功能體驗：無限帳戶與計劃、雲端同步、OCR 發票掃描、Web 桌面端、預算管理、統計圖表、PDF 匯出、類別樹、無廣告及優先支援。</string>
+    <string name="professional_title">專業版金鑰 (Professional Key)</string>
+    <string name="sku_premium_title">貢獻版金鑰 (Contrib Key)</string>
+    <string name="sku_premium_description">一次性買斷許可證：解鎖無限帳戶、定期計劃、分割交易、圓餅圖統計、PDF 列印並移除所有廣告。</string>
+    <string name="sku_extended_title">延伸版金鑰 (Extended Key)</string>
+    <string name="sku_extended_description">包含多裝置雲端同步、CSV 匯入與匯出、無限帳戶與計劃、分割交易、統計圖表、PDF 列印、類別管理及無廣告體驗。</string>
+    <string name="sku_premium2extended_title">Contrib 升級至 Extended</string>
+    <string name="sku_premium2extended_description">適用於 Contrib 金鑰用戶：升級您的許可證，以解鎖多裝置雲端同步與 CSV 電子表格匯入/匯出功能。</string>
 </resources>

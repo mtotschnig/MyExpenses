@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="professional_benefit_1">Deblocați toate funcțiile premium</string>
-    <string name="professional_benefit_2">Asistență prin e-mail</string>
-    <string name="professional_benefit_3">Foaia de parcurs de dezvoltare</string>
+    <string name="professional_benefit_1">Interfață Web, Scanare OCR &amp; Categorii</string>
+    <string name="professional_benefit_2">Grafice istorice, Buget &amp; Portofoliu</string>
+    <string name="professional_benefit_3">Sincronizare Cloud, CSV &amp; opțiuni</string>
+    <string name="professional_benefit_4">Fără reclame + Asistență prioritară</string>
+    <string name="professional_description">Acces complet: conturi și planuri nelimitate, sincronizare cloud, scanare OCR, interfață web, bugete, grafice, export PDF, arbore categorii, fără reclame și asistență prioritară.</string>
+    <string name="professional_title">Cheie profesională</string>
+    <string name="sku_premium_title">Cheie Contrib</string>
+    <string name="sku_premium_description">Licență unică: deblochează conturi nelimitate, planuri, tranzacții divizate, grafice circulare, imprimare PDF și elimină reclamele.</string>
+    <string name="sku_extended_title">Cheie Extinse</string>
+    <string name="sku_extended_description">Include sincronizare Cloud, import/export CSV, conturi și planuri nelimitate, tranzacții divizate, grafice circulare, imprimare PDF și fără reclame.</string>
+    <string name="sku_premium2extended_title">Actualizare de la Contrib la Extended</string>
+    <string name="sku_premium2extended_description">Pentru posesorii de Cheie Contrib: actualizați licența pentru a debloca sincronizarea Cloud și importul/exportul CSV.</string>
 </resources>

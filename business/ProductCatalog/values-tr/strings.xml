@@ -10,9 +10,6 @@
     <string name="ocr_description">Otomatik olarak meblağ, tarih ve alacaklı bilgilerini çıkar</string>
     <string name="webui_title">İnternet Kullanıcı Arayüzü</string>
     <string name="webui_description">Veri girişi için masaüstü İnternet tarayıcınızı kullanın</string>
-    <string name="professional_benefit_2">E-posta desteği</string>
-    <string name="professional_benefit_3">Geliştirme yol haritasına oy verin</string>
-    <string name="professional_benefit_1">Tüm ücretli özelliklerin kilidini açın</string>
     <string name="splittransaction_title">Bölünmüş muamele</string>
     <string name="categorytree_title">Kategori Ağacı</string>
     <string name="adfree_title">Reklamsız</string>
@@ -31,4 +28,16 @@
     <string name="print_title">Yazdır</string>
     <string name="print_description">Muamele listesini bir PDF dosyasına yazdırın</string>
     <string name="distribution_description">Değişik zaman dilimleri (sene, ay, hafta, gün) ile kategori başına muamelelerin istatistiki dağılımını görüntüleyin</string>
+    <string name="professional_benefit_1">Web Arayüzü, OCR Fiş Tarama &amp; Ağaç</string>
+    <string name="professional_benefit_2">Geçmiş Grafikleri, Bütçeleme &amp; Portföy</string>
+    <string name="professional_benefit_3">Bulut Senkron, CSV &amp; tüm eklentiler</string>
+    <string name="professional_benefit_4">Reklamsız + Öncelikli e-posta desteği</string>
+    <string name="professional_description">Tam erişim: sınırsız hesap &amp; plan, bulut senkronizasyon, OCR fiş tarama, web arayüzü, bütçeleme, grafikler, PDF aktarımı, kategori ağacı, reklamsız ve öncelikli destek.</string>
+    <string name="professional_title">Profesyonel Anahtar</string>
+    <string name="sku_premium_title">Katkı Anahtarı</string>
+    <string name="sku_premium_description">Sınırsız hesap, tekrarlanan planlar, bölünmüş muameleler, dilim grafikler, PDF yazdırma ve reklamsız kullanım sunan tek seferlik lisans.</string>
+    <string name="sku_extended_title">Genişletilmiş Anahtarı</string>
+    <string name="sku_extended_description">Bulut senkronizasyon, CSV içe/dışa aktarım, sınırsız hesap ve planlar, bölünmüş muameleler, dilim grafikler, PDF yazdırma, kategori yönetimi ve reklamsız kullanım içerir.</string>
+    <string name="sku_premium2extended_title">Contrib'den Extended'a Yükseltme</string>
+    <string name="sku_premium2extended_description">Contrib Anahtarı sahipleri için: Cihazlar arası bulut senkronizasyonu ve CSV içe/dışa aktarım özelliklerini açmak için lisansınızı yükseltin.</string>
 </resources>

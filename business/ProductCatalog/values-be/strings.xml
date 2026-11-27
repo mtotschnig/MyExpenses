@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="professional_title">Professional-ключ</string>
+    <string name="professional_benefit_1">Веб-інтэрфейс, Сканер чекаў і Дрэва кат.</string>
+    <string name="professional_benefit_2">Гісторыя, Бюджэтаванне і Партфель</string>
+    <string name="professional_benefit_3">Воблачная сінхр., CSV і ўсе функцыі</string>
+    <string name="professional_benefit_4">Без рэкламы + Прыарытэтная падтрымка</string>
+    <string name="professional_description">Поўны доступ: неабмежаваныя рахункі і планы, воблачная сінхранізацыя, сканер чекаў, веб-інтэрфейс, бюджэтаванне, графікі, экспарт PDF, без рэкламы і падтрымка.</string>
+    <string name="sku_premium_title">Contrib-ключ</string>
+    <string name="sku_premium_description">Аднойчы купленая ліцэнзія: неабмежаваныя рахункі, планы, падзеленыя транзакцыі, дыяграмы, друк PDF і адсутнасць рэкламы.</string>
+    <string name="sku_extended_title">Пашыраны ключ</string>
+    <string name="sku_extended_description">Уключае воблачную сінхранізацыю, імпарт/экспарт CSV, неабмежаваныя рахункі і планы, падзеленыя транзакцыі, графікі, друк PDF, без рэкламы і кіраванне катэгорыямі.</string>
+    <string name="sku_premium2extended_title">Абнаўленне з Contrib да Пашыранага</string>
+    <string name="sku_premium2extended_description">Для ўладальнікаў ключа Contrib: абнавіце ліцэнзію для разблакіроўкі воблачнай сінхранізацыі і імпарту/экспарту CSV.</string>
+</resources>

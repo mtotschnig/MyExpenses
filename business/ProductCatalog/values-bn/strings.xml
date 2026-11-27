@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="professional_benefit_1">ওয়েব ইউআই, ওসিআর স্ক্যান ও ক্যাটাগরি</string>
+    <string name="professional_benefit_2">হিস্ট্রি চার্ট, বাজেট ও পোর্টফোলিও</string>
+    <string name="professional_benefit_3">ক্লাউড সিঙ্ক, সিএসভি ও সব অ্যাড-অন</string>
+    <string name="professional_benefit_4">বিজ্ঞাপনমুক্ত ও অগ্রাধিকার সাপোর্ট</string>
+    <string name="professional_description">সম্পূর্ণ অ্যাক্সেস: আনলিমিটেড অ্যাকাউন্টস ও প্ল্যান, ক্লাউড সিঙ্ক, ওসিআর রসিদ স্ক্যান, ওয়েব ইউআই, বাজেট, চার্ট, পিডিএফ রপ্তানি, বিজ্ঞাপনমুক্ত ও সাপোর্ট।</string>
+    <string name="professional_title">প্রফেশনাল কী</string>
+    <string name="sku_premium_title">কনট্রিব কী</string>
+    <string name="sku_premium_description">এককালীন লাইসেন্স: আনলিমিটেড অ্যাকাউন্ট, প্ল্যান, স্প্লিট লেনদেন, পাই চার্ট, পিডিএফ প্রিন্ট এবং বিজ্ঞাপন মুক্ত করার সুবিধা।</string>
+    <string name="sku_extended_title">এক্সটেন্ডেড কী</string>
+    <string name="sku_extended_description">ডিভাইসজুড়ে ক্লাউড সিঙ্ক, সিএসভি ইমপোর্ট/এক্সপোর্ট, আনলিমিটেড অ্যাকাউন্ট ও প্ল্যান, স্প্লিট লেনদেন, চার্ট, পিডিএফ প্রিন্ট এবং বিজ্ঞাপন মুক্ত করার সুবিধা অন্তর্ভুক্ত।</string>
+    <string name="sku_premium2extended_title">Contrib থেকে Extended আপগ্রেড</string>
+    <string name="sku_premium2extended_description">Contrib কী ব্যবহারকারীদের জন্য: ডিভাইসজুড়ে ক্লাউড সিঙ্ক এবং সিএসভি ইমপোর্ট/এক্সপোর্ট আনলক করতে আপগ্রেড করুন।</string>
+</resources>

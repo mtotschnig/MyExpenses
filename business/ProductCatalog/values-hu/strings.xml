@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="professional_benefit_1">Nyissa ki az összes prémium funkciót</string>
-    <string name="professional_benefit_2">E-mailes támogatás</string>
-    <string name="professional_benefit_3">Szavazás a fejlesztési ütemtervről</string>
+    <string name="professional_benefit_1">Web-es felület, OCR beolvasás &amp; Fa</string>
+    <string name="professional_benefit_2">Előzmények, Költségvetés &amp; Portfólió</string>
+    <string name="professional_benefit_3">Felhő szinkron, CSV &amp; minden funkció</string>
+    <string name="professional_benefit_4">Hirdetésmentes + Prioritásos támogatás</string>
+    <string name="professional_description">Teljes hozzáférés: korlátlan számlák &amp; tervek, felhő szinkron, OCR beolvasás, web-es felület, költségvetés, grafikonok, PDF export, kategóriafa, hirdetésmentes &amp; prioritásos támogatás.</string>
+    <string name="professional_title">Szakmai kulcs</string>
+    <string name="sku_premium_title">Contrib Kulcs</string>
+    <string name="sku_premium_description">Egyszeri licenc: korlátlan számlák, tervek, osztott tranzakciók, tortadiagramok, PDF nyomtatás feloldása és hirdetésmentesség.</string>
+    <string name="sku_extended_title">Kiterjesztett Kulcs</string>
+    <string name="sku_extended_description">Tartalmazza: felhő szinkronizálás, CSV import/export, korlátlan számlák és tervek, osztott tranzakciók, tortadiagramok, PDF nyomtatás és hirdetésmentesség.</string>
+    <string name="sku_premium2extended_title">Frissítés Contrib-ról Extended-re</string>
+    <string name="sku_premium2extended_description">Contrib kulccsal rendelkezőknek: frissítse licencét a többeszközös felhő szinkronizálás és CSV import/export feloldásához.</string>
 </resources>

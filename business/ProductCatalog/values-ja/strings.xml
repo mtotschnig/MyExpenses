@@ -6,11 +6,8 @@
     <string name="history_description">財政状況が時間とともにどのように変化するかを理解</string>
     <string name="budget_title">予算作成</string>
     <string name="budget_description">年間、月次、または週次の予算でどれぐらい消費する予定があるかを定義</string>
-    <string name="professional_benefit_2">メールサポート</string>
-    <string name="professional_benefit_3">開発ロードマップ の投票権</string>
     <string name="ocr_title">レシートのスキャン</string>
     <string name="webui_description">データ入力にデスクトップブラウザを使用する</string>
-    <string name="professional_benefit_1">すべてのプレミアム機能のロックを解除する</string>
     <string name="ocr_description">金額、日付、受取人を自動的に抽出する</string>
     <string name="webui_title">ウェブユーザーインターフェイス</string>
     <string name="accountsunlimited_title">無制限の勘定数</string>
@@ -31,4 +28,16 @@
     <string name="splittransaction_title">取引を分割</string>
     <string name="synchronization_title">クラウド同期</string>
     <string name="splittransaction_description">一つの取引を複数の部分に分割できます (分類と振込)。</string>
+    <string name="professional_benefit_1">Web UI、レシートOCRスキャン、カテゴリツリー</string>
+    <string name="professional_benefit_2">履歴チャート、予算管理、ポートフォリオ</string>
+    <string name="professional_benefit_3">クラウド同期、CSVインポート、全機能</string>
+    <string name="professional_benefit_4">広告なし＋優先サポート</string>
+    <string name="professional_description">全機能アクセス：無制限の口座＆計画、クラウド同期、レシートOCRスキャン、Web UI、予算管理、チャート、PDF出力、カテゴリツリー、広告なし、優先サポート。</string>
+    <string name="professional_title">プロフェッショナルキー</string>
+    <string name="sku_premium_title">貢献キー</string>
+    <string name="sku_premium_description">買い切りライセンス：無制限の口座と計画、分割取引、円グラフ、PDF印刷、完全広告非表示機能をアンロック。</string>
+    <string name="sku_extended_title">拡張キー</string>
+    <string name="sku_extended_description">マルチデバイスクラウド同期、CSVインポート＆エクスポート、無制限の口座＆計画、分割取引、円グラフ、PDF印刷、カテゴリ管理、広告非表示機能を含む。</string>
+    <string name="sku_premium2extended_title">Contrib から Extended へのアップグレード</string>
+    <string name="sku_premium2extended_description">Contrib キー所有者向け：ライセンスをアップグレードして、クラウド同期および CSV インポート/エクスポート機能を解放します。</string>
 </resources>

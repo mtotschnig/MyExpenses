@@ -3,8 +3,6 @@
     <string name="history_title">График истории</string>
     <string name="history_description">Отслеживайте, как ваше финансовое положение меняется со временем</string>
     <string name="budget_title">Бюджетирование</string>
-    <string name="professional_benefit_2">Поддержка по эл. почте</string>
-    <string name="professional_benefit_3">Право голоса в определении плана развития</string>
     <string name="accountsunlimited_description">Открывает возможность создавать более пяти счетов.</string>
     <string name="accountsunlimited_title">Неограниченное количество счетов</string>
     <string name="adfree_title">Без рекламы</string>
@@ -26,9 +24,20 @@
     <string name="webui_description">Используйте браузер на компьютере для ввода данных</string>
     <string name="categorytree_description">Иерархия категорий произвольной глубины</string>
     <string name="splittransaction_description">Одна транзакция может быть разделена на несколько частей (по категориям и переводам).</string>
-    <string name="professional_benefit_1">Разблокировка всех премиум-функций</string>
     <string name="synchronization_description">Данные можно синхронизировать между несколькими устройствами.</string>
     <string name="distribution_description">Визуализация статистического распределения транзакций по категориям за различные периоды (годы, месяцы, недели, дни)</string>
     <string name="print_description">Печать списка транзакций в PDF-файл</string>
     <string name="splittemplate_title">Шаблон разделения</string>
+    <string name="professional_benefit_1">Веб-интерфейс, Сканер чеков и Дерево</string>
+    <string name="professional_benefit_2">История, Бюджетирование и Портфель</string>
+    <string name="professional_benefit_3">Облачная синхр., CSV и все надстройки</string>
+    <string name="professional_benefit_4">Без рекламы + Приоритетная поддержка</string>
+    <string name="professional_description">Полный доступ: неограниченные счета и планы, облачная синхр., сканер чеков, веб-интерфейс, бюджетирование, графики, экспорт PDF, дерево категорий, без рекламы и приоритетная поддержка.</string>
+    <string name="professional_title">Professional-ключ</string>
+    <string name="sku_premium_title">Contrib-ключ</string>
+    <string name="sku_premium_description">Бессрочная лицензия: неограниченные счета, планы, разделенные транзакции, круговые диаграммы, печать PDF и отсутствие рекламы.</string>
+    <string name="sku_extended_title">Расширенный ключ</string>
+    <string name="sku_extended_description">Включает облачную синхронизацию, импорт/экспорт CSV, неограниченные счета и планы, разделенные транзакции, диаграммы, печать PDF, управление категориями и отсутствие рекламы.</string>
+    <string name="sku_premium2extended_title">Обновление с Contrib до Extended</string>
+    <string name="sku_premium2extended_description">Для владельцев ключа Contrib: обновите лицензию для разблокировки облачной синхронизации между устройствами и импорта/экспорта CSV.</string>
 </resources>

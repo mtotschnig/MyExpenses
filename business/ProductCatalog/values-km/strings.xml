@@ -28,7 +28,16 @@
     <string name="splittransaction_description">ប្រតិបត្តិការតែមួយអាចបំបែកជាច្រើនផ្នែក (ចំណាត់ថ្នាក់ និងការផ្ទេរ)។</string>
     <string name="synchronization_title">ការធ្វើសមកាលកម្មពពក</string>
     <string name="synchronization_description">ទិន្នន័យអាចធ្វើសមកាលកម្មរវាងឧបករណ៍ជាច្រើន។</string>
-    <string name="professional_benefit_1">ដោះសោមុខងារពិសេសទាំងអស់។</string>
-    <string name="professional_benefit_2">ការគាំទ្រអ៊ីម៉ែល</string>
-    <string name="professional_benefit_3">ផែនទីអភិវឌ្ឍន៍</string>
+    <string name="professional_title">គន្លឹះវិជ្ជាជីវៈ</string>
+    <string name="professional_benefit_1">Web UI, ស្កែនវិក្កយបត្រ OCR &amp; ដើមឈើ</string>
+    <string name="professional_benefit_2">ក្រាហ្វប្រវត្តិ, ថវិកា &amp; ផលប័ត្រ</string>
+    <string name="professional_benefit_3">ការធ្វើសមកាលកម្ម Cloud &amp; មុខងារទាំងអស់</string>
+    <string name="professional_benefit_4">គ្មានពាណិជ្ជកម្ម + ការគាំទ្រអាទិភាព</string>
+    <string name="professional_description">ការចូលប្រើពេញលេញ៖ គណនីនិងផែនការមិនកំណត់, ការធ្វើសមកាលកម្ម Cloud, ស្កែនវិក្កយបត្រ OCR, Web UI, ថវិកា, ក្រាហ្វ, នាំចេញ PDF, គ្មានពាណិជ្ជកម្ម និងការគាំទ្រអាទិភាព។</string>
+    <string name="sku_premium_title">កូនសោកុងតឺន័រ</string>
+    <string name="sku_premium_description">អាជ្ញាប័ណ្ណទិញម្តាច់៖ បើកគណនីមិនកំណត់, ផែនការ, ប្រតិបត្តិការបំបែក, ក្រាហ្វ, បោះពុម្ព PDF និងលុបពាណិជ្ជកម្មទាំងអស់។</string>
+    <string name="sku_extended_title">កូនសោពង្រីក</string>
+    <string name="sku_extended_description">រួមបញ្ចូលការធ្វើសមកាលកម្ម Cloud, នាំចូល/នាំចេញ CSV, គណនីនិងផែនការមិនកំណត់, ប្រតិបត្តិការបំបែក, ក្រាហ្វ, បោះពុម្ព PDF, គ្រប់គ្រងប្រភេទ និងគ្មានពាណិជ្ជកម្ម។</string>
+    <string name="sku_premium2extended_title">ការអាប់ដេតពីកុងតឺន័រទៅកូនសោពង្រីក</string>
+    <string name="sku_premium2extended_description">សម្រាប់ម្ចាស់កូនសោកុងតឺន័រ៖ អាប់ដេតអាជ្ញាប័ណ្ណរបស់អ្នកដើម្បីបើកការធ្វើសមកាលកម្ម Cloud និងនាំចូល/នាំចេញ CSV។</string>
 </resources>

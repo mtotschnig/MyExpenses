@@ -45,6 +45,7 @@ flexbox = "3.0.0"
 fontdrawable = "39e8f63ce2"
 fragmentVersion = "1.9.1"
 googleApiClientAndroid = "2.9.2"
+googleApiServicesAndroidpublisher = "v3-rev20261112-2.9.2"
 googleApiServicesDrive = "v3-rev20260901-2.0.0"
 googleHttpClient = "2.2.0"
 gridlayout = "1.1.0"
@@ -195,6 +196,7 @@ email-intent-builder = { module = "de.cketti.mailto:email-intent-builder", versi
 flexbox = { module = "com.google.android.flexbox:flexbox", version.ref = "flexbox" }
 fontdrawable = { module = "com.github.mtotschnig:FontDrawable", version.ref = "fontdrawable" }
 google-api-client-android = { module = "com.google.api-client:google-api-client-android", version.ref = "googleApiClientAndroid" }
+google-api-services-androidpublisher = { module = "com.google.apis:google-api-services-androidpublisher", version.ref = "googleApiServicesAndroidpublisher" }
 google-api-services-drive = { module = "com.google.apis:google-api-services-drive", version.ref = "googleApiServicesDrive" }
 google-http-client-android = { module = "com.google.http-client:google-http-client-android", version.ref = "googleHttpClient" }
 google-http-client-gson = { module = "com.google.http-client:google-http-client-gson", version.ref = "googleHttpClient" }
@@ -207,6 +209,7 @@ jaxb-impl = { module = "com.sun.xml.bind:jaxb-impl", version.ref = "jaxbImpl" }
 junit = { module = "junit:junit", version.ref = "junitVersion" }
 junitparams = { module = "pl.pragmatists:JUnitParams", version.ref = "junitparams" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx-html = { module = "org.jetbrains.kotlinx:kotlinx-html", version.ref = "kotlinxHtml" }

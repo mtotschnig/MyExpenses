@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="professional_benefit_3">සංවර්ධන මාර්ග සිතියම මත ඡන්ද අයිතිය</string>
-    <string name="professional_benefit_2">විද්යුත් තැපැල් සහාය</string>
-    <string name="professional_benefit_1">සියලුම වාරික විශේෂාංග අගුළු හරින්න</string>
+    <string name="professional_title">වෘත්තීය යතුර</string>
+    <string name="professional_benefit_1">Web UI, OCR රසීදු ස්කෑන් &amp; කාණ්ඩ ගස</string>
+    <string name="professional_benefit_2">ඉතිහාස සටහන්, අයවැයකරණය &amp; කළඹ</string>
+    <string name="professional_benefit_3">Cloud සමමුහුර්තකරණය, CSV &amp; සියලු එකතු</string>
+    <string name="professional_benefit_4">දැන්වීම් රහිත + ප්‍රමුඛතා සහාය</string>
+    <string name="professional_description">සම්පූර්ණ ප්‍රවේශය: සීමාරහිත ගිණුම් සහ සැලසුම්, Cloud සමමුහුර්තකරණය, OCR රසීදු ස්කෑන්, Web UI, අයවැය, සටහන්, PDF අපනයනය, දැන්වීම් රහිත &amp; සහාය.</string>
+    <string name="sku_premium_title">සහදායක යතුර</string>
+    <string name="sku_premium_description">සීමාරහිත ගිණුම්, සැලසුම්, බෙදූ ගනුදෙනු, සටහන්, PDF මුද්‍රණය සහ සියලුම දැන්වීම් ඉවත් කිරීම අගුළු හරින එක්වරක් ලබාගන්නා බලපත්‍රය.</string>
+    <string name="sku_extended_title">දීර්ඝ කළ යතුර</string>
+    <string name="sku_extended_description">Cloud සමමුහුර්තකරණය, CSV ආනයනය/අපනයනය, සීමාරහිත ගිණුම් &amp; සැලසුම්, බෙදූ ගනුදෙනු, සටහන්, PDF මුද්‍රණය, කාණ්ඩ කළමනාකරණය &amp; දැන්වීම් රහිත භාවිතය ඇතුළත් වේ.</string>
+    <string name="sku_premium2extended_title">සහදායක යතුරේ සිට දීර්ඝ කළ යතුරට උත්ශ්‍රේණි කිරීම</string>
+    <string name="sku_premium2extended_description">සහදායක යතුරු හිමිකරුවන් සඳහා: Cloud සමමුහුර්තකරණය සහ CSV ආනයනය/අපනයනය සක්‍රිය කිරීමට ඔබේ බලපත්‍රය උත්ශ්‍රේණි කරන්න.</string>
 </resources>
