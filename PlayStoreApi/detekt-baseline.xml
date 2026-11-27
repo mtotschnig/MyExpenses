@@ -2,13 +2,11 @@
 <SmellBaseline>
   <ManuallySuppressedIssues/>
   <CurrentIssues>
-    <ID>CyclomaticComplexMethod:Main.kt:Main.Companion$fun mapFolderToPlayLocale: String</ID>
-    <ID>MaxLineLength:AndroidPublisherHelper.kt:AndroidPublisherHelper$HTTP_TRANSPORT</ID>
-    <ID>MaxLineLength:AndroidPublisherHelper.kt:AndroidPublisherHelper$val credential = ServiceAccountCredentials.getApplicationDefault().createScoped("https://www.googleapis.com/auth/androidpublisher")</ID>
-    <ID>NestedBlockDepth:Main.kt:Main.Companion$fun parseCatalog: Map&lt;String, Map&lt;String, String&gt;&gt;</ID>
-    <ID>NewLineAtEndOfFile:AndroidPublisherHelper.kt:org.totschnig.playstoreapi.AndroidPublisherHelper.kt</ID>
-    <ID>ReturnCount:Main.kt:Main.Companion$fun parseSelectedSkus: List&lt;String&gt;?</ID>
-    <ID>TooGenericExceptionCaught:Main.kt:Main.Companion$e: Exception</ID>
+    <ID>NestedBlockDepth:Main.kt:fun parseCatalog: Map&lt;String, Map&lt;String, String&gt;&gt;</ID>
+    <ID>ReturnCount:Main.kt:fun parseSelectedSkus: List&lt;String&gt;?</ID>
+    <ID>ReturnCount:Main.kt:fun resolveCatalogDirForTag: File?</ID>
+    <ID>TooGenericExceptionCaught:Main.kt:e: Exception</ID>
+    <ID>TooManyFunctions:Main.kt:org.totschnig.playstoreapi.Main.kt</ID>
     <ID>UtilityClassWithPublicConstructor:Main.kt:Main</ID>
   </CurrentIssues>
 </SmellBaseline>

@@ -19,7 +19,7 @@ object AndroidPublisherHelper {
             NetHttpTransport.Builder().build(),
             JSON_FACTORY,
             HttpCredentialsAdapter(credential)
-        ).setApplicationName(Main.APPLICATION_NAME)
+        ).setApplicationName(APPLICATION_NAME)
             .build()
     }
 }
