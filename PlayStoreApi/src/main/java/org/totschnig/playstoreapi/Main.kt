@@ -110,6 +110,13 @@ fun resolveCatalogDirForTag(catalogDir: File, tag: String): File? {
     return if (defaultDir.exists() && defaultDir.isDirectory) defaultDir else null
 }
 
+fun unescapeAndroidString(text: String): String =
+    text.replace("\\'", "'")
+        .replace("\\\"", "\"")
+        .replace("\\n", "\n")
+        .replace("\\@", "@")
+        .replace("\\?", "?")
+
 fun parseCatalog(
     catalogDir: File = locateCatalogDir(),
     enabledLanguages: List<String> = TARGET_LANGUAGES
@@ -132,14 +139,15 @@ fun parseCatalog(
                     for (i in 0 until stringNodes.length) {
                         val node = stringNodes.item(i) as Element
                         val name = node.getAttribute("name")
-                        val text = node.textContent.trim()
+                        val rawText = node.textContent.trim()
+                        val text = unescapeAndroidString(rawText)
                         if (name.isNotEmpty() && text.isNotEmpty()) {
                             map[name] = text
                         }
                     }
                 } catch (e: Exception) {
-                    println(
-                        "Warning: Failed to parse ${stringsXml.absolutePath} for tag '$tag': ${e.message}"
+                    error(
+                        "Fatal: Failed to parse ${stringsXml.absolutePath} for tag '$tag': ${e.message}"
                     )
                 }
             }
@@ -317,7 +325,7 @@ fun updateSubscriptions(
                     Subscription().setListings(listings)
                 ).also {
                     it.updateMask = "listings"
-                    it.regionsVersionVersion = "2022/02"
+                    it.regionsVersionVersion = "2026/01"
                 }.execute()
                 println("Subscription $sku updated successfully.")
             } catch (e: Exception) {
@@ -340,7 +348,9 @@ fun updateInAppProducts(
     targetSkus.forEach { sku ->
         val listings = buildOneTimeProductListings(sku, catalogData)
         if (listings.isEmpty()) {
-            println("Error updating one-time product $sku: no localized listings found in ProductCatalog.")
+            println(
+                "Error updating one-time product $sku: no localized listings found in ProductCatalog."
+            )
             failedSkus.add(sku)
             return@forEach
         }
@@ -356,7 +366,7 @@ fun updateInAppProducts(
             )
             oneTimeProducts.patch(PACKAGE_NAME, sku, content).also {
                 it.updateMask = "listings"
-                it.regionsVersionVersion = "2022/02"
+                it.regionsVersionVersion = "2026/01"
             }.execute()
             println("One-time product '$sku' updated successfully.")
         } catch (e: Exception) {
