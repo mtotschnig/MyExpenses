@@ -301,8 +301,11 @@ fun updateSubscriptions(
 ) {
     val service: AndroidPublisher = AndroidPublisherHelper.init()
     val subs = service.monetization().subscriptions()
-    val listings = buildSubscriptionListings(catalogData)
-
+val listings = buildSubscriptionListings(catalogData)
+    if (listings.isEmpty()) {
+        println("Skipping subscriptions: no localized listings found.")
+        return
+    }
     targetSubSkus.forEach { sku ->
         try {
             println(
