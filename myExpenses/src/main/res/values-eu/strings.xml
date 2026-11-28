@@ -598,4 +598,6 @@
     <string name="pref_summary_gms_document_scanner">Erabili Google Play Zerbitzuen dokumentu-eskanerra mozketa automatikoarekin eta testu-hobekuntzarekin</string>
     <string name="pick_image_intent_chooser_title">Eskaini beti aplikazio-hautatzailea</string>
     <string name="pref_title_gms_document_scanner">Erabili dokumentu-eskanerra</string>
+    <string name="search_fts_help_column">Gehitu aurrizkia bilaketa zutabe jakin batera mugatzeko (adib. payee:eroski, category:janaria, tag:lana). Erabilgarri: \'comment\' (oharrak), \'payee\' (kontrapartidea), \'category\' (kategoria), \'tag\' (etiketak), \'ref\' (erreferentzia zenbakia)</string>
+    <string name="search_fts_error_malformed">Bilaketa-operadore osatugabea edo parekatu gabeko komatxoak</string>
 </resources>

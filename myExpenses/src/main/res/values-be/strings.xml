@@ -1003,4 +1003,6 @@
     <string name="pref_summary_gms_document_scanner">Выкарыстоўваць сканер дакументаў сэрвісаў Google Play з аўтаматычным абрэзаннем і паляпшэннем тэксту</string>
     <string name="pick_image_intent_chooser_title">Заўсёды прапанаваць выбар праграмы</string>
     <string name="pref_title_gms_document_scanner">Выкарыстоўваць сканер дакументаў</string>
+    <string name="search_fts_help_column">Дадайце прэфікс, каб абмежаваць пошук пэўным слупком (напрыклад payee:еўраопт, category:ежа, tag:праца). Даступныя: \'comment\' (нататкі), \'payee\' (кантрагент), \'category\' (катэгорыя), \'tag\' (тэгі), \'ref\' (нумар спасылкі)</string>
+    <string name="search_fts_error_malformed">Няпоўны оператар пошуку або незакрытыя кавычкі</string>
 </resources>

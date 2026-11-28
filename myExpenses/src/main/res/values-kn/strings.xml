@@ -844,4 +844,6 @@
     <string name="pref_summary_gms_document_scanner">ಸ್ವಯಂಚಾಲಿತ ಕ್ರಾಪಿಂಗ್ ಮತ್ತು ಪಠ್ಯ ಸುಧಾರಣೆಯೊಂದಿಗೆ Google Play ಸೇವೆಗಳ ಡಾಕ್ಯುಮೆಂಟ್ ಸ್ಕ್ಯಾನರ್ ಬಳಸಿ</string>
     <string name="pick_image_intent_chooser_title">ಯಾವಾಗಲೂ ಅಪ್ಲಿಕೇಶನ್ ಆಯ್ಕೆದಾರರನ್ನು ನೀಡಿ</string>
     <string name="pref_title_gms_document_scanner">ದಾಖಲೆ ಸ್ಕ್ಯಾನರ್ ಬಳಸಿ</string>
+    <string name="search_fts_help_column">ನಿರ್ದಿಷ್ಟ ಕಾಲಮ್‌ಗೆ ಹುಡುಕಾಟವನ್ನು ನಿರ್ಬಂಧಿಸಲು ಪೂರ್ವಪ್ರತ್ಯಯವನ್ನು ಸೇರಿಸಿ (ಉದಾ. payee:dmart, category:ಆಹಾರ, tag:ಕೆಲಸ). ಲಭ್ಯವಿದೆ: \'comment\' (ಟಿಪ್ಪಣಿಗಳು), \'payee\' (ಪ್ರತಿಪಕ್ಷ), \'category\' (ವರ್ಗ), \'tag\' (ಟ್ಯಾಗ್‌ಗಳು), \'ref\' (ರೆಫ಼ರೆನ್ಸ್ ಸಂಖ್ಯೆ)</string>
+    <string name="search_fts_error_malformed">ಅಪೂರ್ಣ ಹುಡುಕಾಟ ಆಪರೇಟರ್ ಅಥವಾ ಹೊಂದಿಕೆಯಾಗದ ಉಲ್ಲೇಖಗಳು</string>
 </resources>

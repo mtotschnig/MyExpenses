@@ -874,4 +874,6 @@
     <string name="pref_summary_gms_document_scanner">ใช้เครื่องสแกนเอกสาร Google Play Services พร้อมการครอบตัดอัตโนมัติและการปรับปรุงข้อความ</string>
     <string name="pick_image_intent_chooser_title">เสนอตัวเลือกแอปเสมอ</string>
     <string name="pref_title_gms_document_scanner">ใช้เครื่องสแกนเอกสาร</string>
+    <string name="search_fts_help_column">เติมคำนำหน้าเพื่อจำกัดการค้นหาเฉพาะคอลัมน์ (เช่น payee:โลตัส, category:อาหาร, tag:งาน) คอลัมน์ที่ใช้ได้: \'comment\' (บันทึกช่วยจำ), \'payee\' (คู่สัญญา), \'category\' (หมวดหมู่), \'tag\' (แท็ก), \'ref\' (หมายเลขอ้างอิง)</string>
+    <string name="search_fts_error_malformed">ตัวดำเนินการค้นหาไม่สมบูรณ์ หรือเครื่องหมายอัญประกาศไม่จับคู่กัน</string>
 </resources>

@@ -1095,5 +1095,7 @@
     <string name="search_fts_help_or">кава OR чай: знаходить транзакції з кавою або чаєм</string>
     <string name="search_fts_help_phrase">\"кава та чай\": знаходить точну фразу «кава та чай»</string>
     <string name="search_fts_help_prefix">кав* : знаходить слова, що починаються на кав (наприклад, кава, кав\'ярня)</string>
+    <string name="search_fts_help_column">Використовуйте префікс, щоб обмежити пошук конкретним стовпцем (наприклад payee:сільпо, category:їжа, tag:робота). Доступні: \'comment\' (нотатки), \'payee\' (контрагент), \'category\' (категорія), \'tag\' (мітки), \'ref\' (номер посилання)</string>
+    <string name="search_fts_error_malformed">Неповний оператор пошуку або незакриті лапки</string>
     <string name="parent_category">Батьківська категорія</string>
 </resources>

@@ -360,4 +360,6 @@
     <string name="pref_summary_gms_document_scanner">ස්වයංක්‍රීය කැපීම සහ පෙළ වැඩිදියුණු කිරීම සමඟ Google Play සේවා ලේඛන ස්කෑනරය භාවිතා කරන්න</string>
     <string name="pick_image_intent_chooser_title">සෑම විටම යෙදුම් තේරීම ලබා දෙන්න</string>
     <string name="pref_title_gms_document_scanner">ලේඛන ස්කෑනරය භාවිතා කරන්න</string>
+    <string name="search_fts_help_column">විශේෂිත තීරුවකට සෙවීම සීමා කිරීමට පූර්වපදයක් එක් කරන්න (උදා. payee:cargills, category:කෑම, tag:වැඩ). තිබෙන ඒවා: \'comment\' (සටහන්), \'payee\' (අනෙක් පාර්ශවය), \'category\' (ප්‍රවර්ගය), \'tag\' (ටැග්), \'ref\' (යොමු අංකය)</string>
+    <string name="search_fts_error_malformed">අසම්පූර්ණ සෙවුම් මෙහෙයුම්කරු හෝ නොගැලපෙන උද්ධෘත ලකුණු</string>
 </resources>

@@ -967,4 +967,6 @@
     <string name="pref_summary_gms_document_scanner">使用具有自動剪裁和文字增強功能的 Google Play 服務文件掃描器</string>
     <string name="pick_image_intent_chooser_title">總是提供應用程式選擇器</string>
     <string name="pref_title_gms_document_scanner">使用文件掃描器</string>
+    <string name="search_fts_help_column">在搜尋詞前加上前綴以限定搜尋特定欄位（例如 payee:百佳, category:餐飲, tag:工作）。可用欄位：\'comment\'（備註）、\'payee\'（交易對象）、\'category\'（類別）、\'tag\'（標籤）、\'ref\'（參考編號）</string>
+    <string name="search_fts_error_malformed">搜尋運算子不完整或未配對的引號</string>
 </resources>

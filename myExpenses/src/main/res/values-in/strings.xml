@@ -955,4 +955,6 @@
     <string name="pref_summary_gms_document_scanner">Gunakan pemindai dokumen Layanan Google Play dengan pemotongan otomatis dan peningkatan teks</string>
     <string name="pick_image_intent_chooser_title">Selalu tawarkan pemilih aplikasi</string>
     <string name="pref_title_gms_document_scanner">Gunakan Pemindai Dokumen</string>
+    <string name="search_fts_help_column">Tambahkan awalan untuk membatasi pencarian ke kolom tertentu (mis. payee:indomaret, category:makanan, tag:kerja). Tersedia: \'comment\' (catatan), \'payee\' (pihak lawan), \'category\' (kategori), \'tag\' (tag), \'ref\' (nomor referensi)</string>
+    <string name="search_fts_error_malformed">Operator pencarian tidak lengkap atau tanda kutip tidak cocok</string>
 </resources>

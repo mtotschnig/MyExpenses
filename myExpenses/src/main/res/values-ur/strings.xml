@@ -770,4 +770,6 @@
     <string name="pref_summary_gms_document_scanner">خودکار کراپنگ اور ٹیکسٹ میں بہتری کے ساتھ گوگل پلے سروسز کا دستاویز اسکینر استعمال کریں</string>
     <string name="pick_image_intent_chooser_title">ہمیشہ ایپ انتخاب کنندہ کی پیشکش کریں</string>
     <string name="pref_title_gms_document_scanner">ڈاکیومنٹ اسکینر کا استعمال کریں</string>
+    <string name="search_fts_help_column">تلاش کو کسی مخصوص کالم تک محدود کرنے کے لیے سابقہ شامل کریں (مثلاً payee:امتیاز, category:کھانا, tag:کام)۔ دستیاب: \'comment\' (نوٹس), \'payee\' (دوسرا فریق), \'category\' (زمرہ), \'tag\' (ٹیگز), \'ref\' (حوالہ نمبر)</string>
+    <string name="search_fts_error_malformed">نامکمل تلاش کا آپریٹر یا غیر مطابق اقتباسات</string>
 </resources>
