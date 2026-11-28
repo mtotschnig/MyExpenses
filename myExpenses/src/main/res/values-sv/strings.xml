@@ -965,4 +965,33 @@
     <string name="search_fts_help_prefix">kaff* : hittar ord som börjar med kaff (t.ex. kaffe, kaffebar)</string>
     <string name="search_fts_help_column">Använd ett prefix för att begränsa sökningen till en viss kolumn (t.ex. payee:ica, category:mat, tag:arbete). Tillgängliga: \'comment\' (anteckningar), \'payee\' (motpart), \'category\' (kategori), \'tag\' (etiketter), \'ref\' (referensnummer)</string>
     <string name="search_fts_error_malformed">Ofullständig sökoperator eller oparade citattecken</string>
+    <string name="asset_quantity_at_price">%1$s @ %2$s</string>
+    <string name="asset_type_crypto">Kryptovaluta</string>
+    <string name="asset_type_security">Värdepapper</string>
+    <string name="asset_type_security_plural">Värdepapper</string>
+    <string name="dialog_title_warning_delete_closed_account">Ta bort stängt konto?</string>
+    <string name="help_floating_action_button">Flytande åtgärdsknapp</string>
+    <plurals name="import_trades_missing_assets_message">
+        <item quantity="one">%1$d rad hänvisar till okända tillgångar: %2$s.</item>
+        <item quantity="other">%1$d rader hänvisar till okända tillgångar: %2$s.</item>
+    </plurals>
+    <string name="important_upgrade_information_heading">Viktig information</string>
+    <string name="parent_category">Föräldrakategori</string>
+    <string name="parse_error_at_line">Fel på rad %1$d: %2$s</string>
+    <string name="premium_nudge_portfolio_message">Du kan hantera en portfölj gratis. Uppgradera för att hantera flera portföljer och låsa upp avancerade spårningsfunktioner (%1$s).</string>
+    <string name="remap_update_value_date">Uppdatera även värdedatum</string>
+    <string name="search_asset">Sök efter tillgång</string>
+    <string name="single_pane_view">Enkel vy</string>
+    <string name="split_pane_view">Delad vy</string>
+    <string name="trade_add_cost">Lägg till kostnad</string>
+    <string name="trade_deposit">Insättning</string>
+    <string name="trade_fee">Avgift</string>
+    <string name="trade_funding_external_description">Medel från källor som inte spåras i denna app</string>
+    <string name="trade_funding_portfolio">Portföljkontanter</string>
+    <string name="trade_funding_source">Finansieringskälla</string>
+    <string name="trade_matching_transaction_found">Matchande transaktion hittades på finansieringskontot. Välj för att länka:</string>
+    <string name="trade_quantity">Antal</string>
+    <string name="trade_target_asset">Tillgång</string>
+    <string name="trade_transfer">Överföring</string>
+    <string name="trade_withdraw">Uttag</string>
 </resources>
