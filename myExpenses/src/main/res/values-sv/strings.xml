@@ -956,6 +956,13 @@
     <string name="pref_summary_gms_document_scanner">Använd Google Play-tjänsters dokumentskanner med automatisk beskärning och textförbättring</string>
     <string name="pick_image_intent_chooser_title">Erbjud alltid appväljare</string>
     <string name="pref_title_gms_document_scanner">Använd dokumentskanner</string>
+    <string name="full_text_search">Fritextsökning</string>
+    <string name="search_full_text">Sök i alla fält</string>
+    <string name="search_fts_help_and">kaffe te : hittar transaktioner med både kaffe och te</string>
+    <string name="search_fts_help_not">kaffe -te : hittar transaktioner med kaffe, men utan te</string>
+    <string name="search_fts_help_or">kaffe OR te : hittar transaktioner med antingen kaffe eller te</string>
+    <string name="search_fts_help_phrase">\"kaffe och te\" : hittar den exakta frasen \"kaffe och te\"</string>
+    <string name="search_fts_help_prefix">kaff* : hittar ord som börjar med kaff (t.ex. kaffe, kaffebar)</string>
     <string name="search_fts_help_column">Använd ett prefix för att begränsa sökningen till en viss kolumn (t.ex. payee:ica, category:mat, tag:arbete). Tillgängliga: \'comment\' (anteckningar), \'payee\' (motpart), \'category\' (kategori), \'tag\' (etiketter), \'ref\' (referensnummer)</string>
     <string name="search_fts_error_malformed">Ofullständig sökoperator eller oparade citattecken</string>
 </resources>

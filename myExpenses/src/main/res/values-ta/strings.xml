@@ -1040,6 +1040,13 @@
     <string name="pref_summary_gms_document_scanner">தானியங்கி பயிர்செய்தல் மற்றும் உரை மேம்பாட்டுடன் கூகிள் প্লে சேவைகளின் ஆவண ஸ்கேனரைப் பயன்படுத்தவும்</string>
     <string name="pick_image_intent_chooser_title">எப்போதும் பயன்பாட்டுத் தேர்வியை வழங்கவும்</string>
     <string name="pref_title_gms_document_scanner">ஆவண ஸ்கேனரைப் பயன்படுத்தவும்</string>
+    <string name="full_text_search">முழு உரைத் தேடல்</string>
+    <string name="search_full_text">அனைத்துப் புலங்களிலும் தேடுக</string>
+    <string name="search_fts_help_and">காபி தேநீர் : காபி மற்றும் தேநீர் ஆகிய இரண்டும் உள்ள பரிவர்த்தனைகளைக் கண்டறியும்</string>
+    <string name="search_fts_help_not">காபி -தேநீர் : காபி உள்ள ஆனால் தேநீர் இல்லாத பரிவர்த்தனைகளைக் கண்டறியும்</string>
+    <string name="search_fts_help_or">காபி OR தேநீர் : காபி அல்லது தேநீர் உள்ள பரிவர்த்தனைகளைக் கண்டறியும்</string>
+    <string name="search_fts_help_phrase">\"காபி மற்றும் தேநீர்\" : சரியான \"காபி மற்றும் தேநீர்\" சொற்றொடரைக் கண்டறியும்</string>
+    <string name="search_fts_help_prefix">காபி* : காபி எனத் தொடங்கும் சொற்களைக் கண்டறியும் (எ.கா. காபி, காபிஷாப்)</string>
     <string name="search_fts_help_column">குறிப்பிட்ட நெடுவரிசைக்கு தேடலைக் கட்டுப்படுத்த முன்னொட்டைச் சேர்க்கவும் (எ.கா. payee:சரவணா, category:உணவு, tag:வேலை). கிடைக்கக்கூடியவை: \'comment\' (குறிப்புகள்), \'payee\' (எதிர்தரப்பினர்), \'category\' (வகை), \'tag\' (குறிச்சொற்கள்), \'ref\' (குறிப்பு எண்)</string>
     <string name="search_fts_error_malformed">முழுமையற்ற தேடல் இயக்கி அல்லது பொருந்தாத மேற்கோள் குறிகள்</string>
 </resources>

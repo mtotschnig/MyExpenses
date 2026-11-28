@@ -977,6 +977,13 @@
     <string name="pref_summary_gms_document_scanner">ប្រើម៉ាស៊ីនស្កេនឯកសារ Google Play Services ជាមួយនឹងការកាត់តដោយស្វ័យប្រវត្តិ និងការកែលម្អអត្ថបទ</string>
     <string name="pick_image_intent_chooser_title">ផ្តល់ជូនអ្នកជ្រើសរើសកម្មវិធីជានិច្ច</string>
     <string name="pref_title_gms_document_scanner">ប្រើម៉ាស៊ីនស្កេនឯកសារ</string>
+    <string name="full_text_search">ការស្វែងរកអត្ថបទពេញលេញ</string>
+    <string name="search_full_text">ស្វែងរកគ្រប់វាល</string>
+    <string name="search_fts_help_and">កាហ្វេ តែ : ស្វែងរកប្រតិបត្តិការដែលមានទាំងកាហ្វេ និងតែ</string>
+    <string name="search_fts_help_not">កាហ្វេ -តែ : ស្វែងរកប្រតិបត្តិការដែលមានកាហ្វេ ប៉ុន្តែគ្មានតែ</string>
+    <string name="search_fts_help_or">កាហ្វេ OR តែ : ស្វែងរកប្រតិបត្តិការដែលមានកាហ្វេ ឬតែ</string>
+    <string name="search_fts_help_phrase">\"កាហ្វេ និងតែ\" : ស្វែងរកឃ្លាពិតប្រាកដ \"កាហ្វេ និងតែ\"</string>
+    <string name="search_fts_help_prefix">កាហ្វេ* : ស្វែងរកពាក្យដែលចាប់ផ្តើមដោយ កាហ្វេ (ឧ. កាហ្វេ, ហាងកាហ្វេ)</string>
     <string name="search_fts_help_column">បន្ថែមបុព្វបទដើម្បីកម្រិតការស្វែងរកទៅកាន់ជួរឈរជាក់លាក់ (ឧ. payee:ឡាក់គី, category:អាហារ, tag:ការងារ)។ អាចប្រើបាន៖ \'comment\' (កំណត់ហេតុ), \'payee\' (ភាគីផ្ទុយ), \'category\' (ចំណាត់ថ្នាក់), \'tag\' (ស្លាក), \'ref\' (លេខ​យោង)</string>
     <string name="search_fts_error_malformed">ប្រតិបត្តិករស្វែងរកមិនពេញលេញ ឬសញ្ញាសម្រង់មិនស៊ីគ្នា</string>
 </resources>

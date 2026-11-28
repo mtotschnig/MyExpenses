@@ -887,6 +887,13 @@
     <string name="pref_summary_gms_document_scanner">Gunakan pengimbas dokumen Perkhidmatan Google Play dengan pemotongan automatik dan penambahbaikan teks</string>
     <string name="pick_image_intent_chooser_title">Sentiasa tawarkan pemilih aplikasi</string>
     <string name="pref_title_gms_document_scanner">Guna Pengimbas Dokumen</string>
+    <string name="full_text_search">Carian teks penuh</string>
+    <string name="search_full_text">Cari semua medan</string>
+    <string name="search_fts_help_and">kopi teh : mencari transaksi dengan kedua-dua kopi dan teh</string>
+    <string name="search_fts_help_not">kopi -teh : mencari transaksi dengan kopi, tetapi tanpa teh</string>
+    <string name="search_fts_help_or">kopi OR teh : mencari transaksi dengan kopi atau teh</string>
+    <string name="search_fts_help_phrase">\"kopi dan teh\" : mencari frasa tepat \"kopi dan teh\"</string>
+    <string name="search_fts_help_prefix">kop* : mencari perkataan yang bermula dengan kop (cth. kopi, kedai kopi)</string>
     <string name="search_fts_help_column">Tambah awalan untuk mengehadkan carian kepada lajur tertentu (cth. payee:mydin, category:makanan, tag:kerja). Tersedia: \'comment\' (nota), \'payee\' (pihak kaunter), \'category\' (kategori), \'tag\' (tag), \'ref\' (nombor rujukan)</string>
     <string name="search_fts_error_malformed">Operator carian tidak lengkap atau tanda petik tidak sepadan</string>
 </resources>
